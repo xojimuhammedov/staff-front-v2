@@ -38,9 +38,6 @@ jobs:
           host: 139.28.47.17
           username: ubuntu
           port: 6613
-          key: |
-            -----BEGIN OPENSSH PRIVATE KEY-----
-          b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACDvNUlLtZcLcCpBo7IKCb5b9/UDWV0nUJoS7O3O2J4ptQAAAKg6Jup+OibqfgAAAAtzc2gtZWQyNTUxOQAAACDvNUlLtZcLcCpBo7IKCb5b9/UDWV0nUJoS7O3O2J4ptQAAAEAZZsjRAzkoyNAddgZ0TsyDzx5t0FnKztx9XxN6I8Cns+81SUu1lwtwKkGjsgoJvlv39QNZXSdQmhLs7c7Ynim1AAAAInNhcGFyYWxpeWV2a2Ftb2xpZGRpbjEzMUBnbWFpbC5jb20BAgM=
-          -----END OPENSSH PRIVATE KEY-----
+          key: b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACDvNUlLtZcLcCpBo7IKCb5b9/UDWV0nUJoS7O3O2J4ptQAAAKg6Jup+OibqfgAAAAtzc2gtZWQyNTUxOQAAACDvNUlLtZcLcCpBo7IKCb5b9/UDWV0nUJoS7O3O2J4ptQAAAEAZZsjRAzkoyNAddgZ0TsyDzx5t0FnKztx9XxN6I8Cns+81SUu1lwtwKkGjsgoJvlv39QNZXSdQmhLs7c7Ynim1AAAAInNhcGFyYWxpeWV2a2Ftb2xpZGRpbjEzMUBnbWFpbC5jb20BAgM=
           source: "dist/*"
           target: /var/www/html
