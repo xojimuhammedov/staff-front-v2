@@ -1,0 +1,1 @@
+import{j as r,t as l,a as e}from"./index.e5d80a55.js";const c=({title:t,subtitle:a,className:s})=>r("div",{className:l(["flex flex-1 flex-col",s]),children:[e("h1",{className:"headers-core dark:text-text-title-dark mb-1 text-text-base",children:t}),e("p",{className:"dark:text-subtext-color-dark text-c-m text-text-subtle",children:a})]});export{c as L};

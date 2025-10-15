@@ -1,0 +1,5 @@
+import{j as p,t as e,a as t}from"./index.e5d80a55.js";const i=({disabled:s,checked:l,size:r="base",label:a,rootClassName:n,labelClassName:c,...f})=>{const o=["h-[18px] w-8 after:h-[16px] after:w-[16px]"],d=["h-4 w-7 after:h-3 after:w-3"];return p("label",{className:e(["relative inline-flex w-[fit-content] cursor-pointer items-center",n]),children:[t("input",{...f,type:"checkbox",value:"",disabled:s,checked:l,className:"peer sr-only"}),t("div",{className:e([`
+        peer rounded-full bg-bg-switch shadow-base after:absolute after:start-[2px] after:top-[2px] after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-bg-brand peer-checked:after:start-[-2px] peer-checked:after:translate-x-full  peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-bg-brand/40 
+        peer-disabled:bg-bg-disabled peer-disabled:outline-none peer-disabled:after:bg-text-disabled
+        rtl:peer-checked:after:-translate-x-full
+        `,r==="base"&&o,r==="small"&&d])}),a&&t("span",{className:e(["ml-2 text-c-m-p text-text-base",c]),children:a})]})};export{i as M};
