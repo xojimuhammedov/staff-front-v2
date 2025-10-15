@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Edit3, Plus, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
@@ -17,18 +17,23 @@ import { FilterTypeEnum } from 'enums/filter-type.enum';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import { paramsStrToObj } from 'utils/helper';
 
 
 const EmployeeList = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation()
   const [show, setShow] = useState(false)
+  const searchValue: any = paramsStrToObj(location.search)
   const [employeeId, setEmployeeId] = useState<any | null>(null)
 
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
-    params: {}
+    params: {
+      search: searchValue?.search
+    }
   });
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -204,10 +209,10 @@ const EmployeeList = () => {
           }
         />
       </TableProvider>
-      <ConfirmationModal 
-            title={t("Bu hodimni o'chirmoqchimisiz?")}
-            subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
-            open={show} setOpen={setShow} confirmationDelete={deleteItem} />
+      <ConfirmationModal
+        title={t("Bu hodimni o'chirmoqchimisiz?")}
+        subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+        open={show} setOpen={setShow} confirmationDelete={deleteItem} />
     </>
   );
 };
