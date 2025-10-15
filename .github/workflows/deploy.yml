@@ -41,6 +41,4 @@ jobs:
           SSH_SECRET_KEY: ${{ secrets.SSH_SECRET_KEY }}
           SSH_TARGET: ${{ secrets.SSH_TARGET }}
         run: |
-          echo "$SSH_SECRET_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          scp -P $SSH_PORT -i private_key.pem -r dist/* $SSH_USERNAME@$SSH_HOST:$SSH_TARGET
+          scp -P $SSH_PORT -i $SSH_SECRET_KEY -r dist/* $SSH_USERNAME@$SSH_HOST:$SSH_TARGET
