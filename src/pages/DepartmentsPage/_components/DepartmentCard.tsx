@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import {  Edit, Eye, Mail, MapPin, NotebookPen, Phone, Trash } from 'lucide-react';
+import {  Edit, Eye, Mail, MapPin, NotebookPen, Phone, Trash, Trash2 } from 'lucide-react';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyBadge from 'components/Atoms/MyBadge';
 
@@ -57,7 +57,8 @@ const DepartmentCard = ({item, setOpen, setDepartmentId, setShow}:any) => {
                     setOpen(true)
                     setDepartmentId(item?.id)
                 }}
-                variant='secondary' startIcon={<Trash color='red' />}></MyButton>
+                className={'[&_svg]:stroke-bg-[#E11D48]'}
+                variant='secondary' startIcon={<Trash2 color='red' />}></MyButton>
         </div>
     </div>
     );

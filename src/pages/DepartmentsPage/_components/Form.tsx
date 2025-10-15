@@ -1,5 +1,4 @@
 import { MyInput, MySelect } from 'components/Atoms/Form';
-import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';

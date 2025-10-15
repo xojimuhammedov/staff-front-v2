@@ -8,6 +8,22 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    },
+    "lint-staged": {
+      "*.{js,jsx}": [
+        "prettier --write",
+        "eslint --fix",
+        "git add"
+      ],
+      "*.{html,css,less,ejs}": [
+        "prettier --write",
+        "git add"
+      ]
+    },
     "lint": "eslint .",
     "lint:fix": "eslint --fix --ext .js,.jsx ./src",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
