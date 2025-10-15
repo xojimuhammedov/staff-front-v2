@@ -34,10 +34,11 @@ jobs:
       # 5️⃣ Serverga upload qilish (scp orqali)
       - name: Deploy to Ubuntu Server
         uses: appleboy/scp-action@v0.1.4
-        with:
-          host: 139.28.47.17
-          username: ubuntu
-          port: 6613
-          key: b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACDvNUlLtZcLcCpBo7IKCb5b9/UDWV0nUJoS7O3O2J4ptQAAAKg6Jup+OibqfgAAAAtzc2gtZWQyNTUxOQAAACDvNUlLtZcLcCpBo7IKCb5b9/UDWV0nUJoS7O3O2J4ptQAAAEAZZsjRAzkoyNAddgZ0TsyDzx5t0FnKztx9XxN6I8Cns+81SUu1lwtwKkGjsgoJvlv39QNZXSdQmhLs7c7Ynim1AAAAInNhcGFyYWxpeWV2a2Ftb2xpZGRpbjEzMUBnbWFpbC5jb20BAgM=
-          source: "dist/*"
-          target: /var/www/html
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_SECRET_KEY: ${{ secrets.SSH_SECRET_KEY }}
+          SSH_TARGET: ${{ secrets.SSH_TARGET }}
+        run: |
+          scp -P $SSH_PORT -i $SSH_SECRET_KEY -r dist/* $SSH_USERNAME@$SSH_HOST:$SSH_TARGET
