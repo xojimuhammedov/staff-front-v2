@@ -6,17 +6,17 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: 📦 Kodni yuklab olish
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🧰 Node.js o‘rnatish
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: 📥 Dependency o‘rnatish
         run: npm ci
@@ -24,12 +24,13 @@ jobs:
       - name: 🏗️ Build yaratish
         run: npm run build
 
-      # --- GitHub Pages Deploy ---
-      - name: 🚀 Deploy GitHub Pages’ga
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Kodni yuklash
+        uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./dist
+          name: dist
+          path: |
+            dist/**
+          if-no-files-found: error
 
       # 5️⃣ Serverga upload qilish (scp orqali)
       - name: Deploy to Ubuntu Server
@@ -42,3 +43,39 @@ jobs:
           SSH_TARGET: ${{ secrets.SSH_TARGET }}
         run: |
           scp -P $SSH_PORT -i $SSH_SECRET_KEY -r dist/* $SSH_USERNAME@$SSH_HOST:$SSH_TARGET
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    needs: quality
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    env:
+      REMOTE_PATH: ${{ secrets.SSH_TARGET }}
+      HOST: ${{ secrets.SSH_HOST }}
+      USERNAME: ${{ secrets.SSH_USERNAME }}
+      PORT: ${{ secrets.SSH_PORT }}
+      SSH_SECRET_KEY: ${{ secrets.SSH_SECRET_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Prepare SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_SECRET_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+
+      - name: Ensure remote directory exists
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -p "$PORT" "$USERNAME@$HOST" "mkdir -p '$REMOTE_PATH'"
+
+      - name: Sync build to server
+        run: |
+          rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519 -p $PORT" dist/ "$USERNAME@$HOST:$REMOTE_PATH/"
