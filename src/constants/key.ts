@@ -1,0 +1,17 @@
+export const KEYS = {
+  login: 'login',
+  getMe: 'getMe',
+  getAllListOrganization:"getAllListOrganization",
+  getAllListDepartment:"getAllListDepartment",
+  getListOrganizationSelf:"getListOrganizationSelf",
+  getListUsersManagment:"getListUsersManagment",
+  getUserRoles:"getUserRoles",
+  getEmployeeList:"getEmployeeList",
+  getVisitorList:"getVisitorList",
+  getPolicyList:"getPolicyList",
+  getUsersMe:"getUsersMe",
+  getPolicyResources:"getPolicyResources",
+  getPolicyGroups:"getPolicyGroups",
+  getEmployeeGroups:"getEmployeeGroups",
+  employeeBulk:"employeeBulk"
+};

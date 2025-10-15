@@ -1,0 +1,6 @@
+const DEFAULT_LIMIT = 10;
+const MAX_LIMIT = Number.MAX_SAFE_INTEGER;
+
+const DEFAULT_PAGE = 1;
+
+export { DEFAULT_PAGE, DEFAULT_LIMIT, MAX_LIMIT };

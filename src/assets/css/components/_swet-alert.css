@@ -1,0 +1,12 @@
+.swal2 {
+    &-modal {
+        padding: 0 !important;
+        border-radius: 1rem;
+    }
+    &-html {
+        &-container {
+            margin: 0 !important;
+            padding: 1.2rem !important;
+        }
+    }
+}

@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 16px;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  a {
+    font-family: 'Inter';
+  }
+
+  body {
+    font-family: 'Inter';
+  }
+
+  p,
+  button,
+  span,
+  div {
+    font-family: 'Inter';
+  }
+
+  /* NOTE imported from Figma 👉 https://www.figma.com/file/71ymV744Lh9WoMCtrsPdLT/Base-%E2%9C%A8?type=design&node-id=24-27&mode=dev  */
+  h1.headers-core {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: 500;
+    font-family: 'Inter';
+  }
+  h2.headers-core {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    font-family: 'Inter';
+  }
+  h3.headers-core {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    font-family: 'Inter';
+  }
+
+  h1.headers-web {
+    font-size: 4.5rem;
+    line-height: 5.5rem;
+    font-weight: 500;
+    font-family: 'Inter';
+  }
+  h2.headers-web {
+    font-size: 2rem;
+    line-height: 2.75rem;
+    font-weight: 500;
+    font-family: 'Inter';
+  }
+  h3.headers-web {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 500;
+    font-family: 'Inter';
+  }
+  h4.headers-web {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    font-family: 'Inter';
+  }
+
+  #react-select-2-input:focus {
+    box-shadow: none;
+  }
+}

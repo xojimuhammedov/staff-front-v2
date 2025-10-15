@@ -1,0 +1,13 @@
+#!/bin/bash
+
+dist_folder_path="$1"
+
+eval "$(ssh-agent -s)" &&
+ssh-add ~/.ssh/for_gitlab &&
+git pull origin master &&
+export PATH=$PATH:/root/.nvm/versions/node/v18.17.1/bin &&
+source /root/.nvm/nvm.sh &&
+nvm use 18.17.1 &&
+yarn &&
+yarn build &&
+cp -r dist/* $dist_folder_path

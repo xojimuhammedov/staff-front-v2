@@ -1,0 +1,290 @@
+/*
+ |--------------------------------------------------------------------------
+ | TailwindCSS Directives
+ |--------------------------------------------------------------------------
+ |
+ | Import TailwindCSS directives and swipe out at build-time with all of
+ | the styles it generates based on your configured design system.
+ |
+ | Please check this link for more details:
+ | https://tailwindcss.com/docs/installation#include-tailwind-in-your-css
+ |
+ */
+@import './_tailwind.css';
+
+/*
+   |--------------------------------------------------------------------------
+   | Fonts
+   |--------------------------------------------------------------------------
+   |
+   | Import all fonts used in the template, the font configuration can be
+   | seen in "tailwind.config.js".
+   |
+   | Please check this link for more details:
+   | https://tailwindcss.com/docs/theme
+   |
+   */
+@import './_public-sans.css';
+@import './_dm-sans.css';
+
+/*
+   |--------------------------------------------------------------------------
+   | 3rd Party Libraries
+   |--------------------------------------------------------------------------
+   |
+   | Import 3rd party library CSS files.
+   |
+   */
+@import 'dropzone/dist/dropzone.css';
+@import 'tom-select/dist/css/tom-select.css';
+@import 'zoom-vanilla.js/dist/zoom.css';
+@import 'toastify-js/src/toastify.css';
+@import 'highlight.js/styles/github.css';
+@import 'tippy.js/dist/tippy.css';
+@import 'tippy.js/themes/light.css';
+@import 'tippy.js/dist/svg-arrow.css';
+@import 'tippy.js/animations/shift-away.css';
+@import 'react-toastify/dist/ReactToastify.css';
+
+/*
+   |--------------------------------------------------------------------------
+   | Components
+   |--------------------------------------------------------------------------
+   |
+   | Import CSS components.
+   |
+   */
+@import './components/_global.css';
+@import './components/_hurricane.css';
+@import './components/_ravage.css';
+@import './components/_echo.css';
+@import './components/_hook.css';
+@import './components/_razor.css';
+@import './components/_havoc.css';
+@import './components/_dagger.css';
+@import './components/_shuriken.css';
+@import './components/_raze.css';
+@import './components/_exort.css';
+@import './components/_viper.css';
+@import './components/_zoom-in.css';
+@import './components/_image-fit.css';
+@import './components/_typing-dots.css';
+@import './components/_scrollbar-hidden.css';
+@import './components/_box.css';
+@import './components/_tippy.css';
+@import './components/_toastify.css';
+@import './components/_zoom-vanilla.css';
+@import './components/_tom-select.css';
+@import './components/_ckeditor.css';
+@import './components/_litepicker.css';
+@import './components/_full-calendar.css';
+@import './components/_tabulator.css';
+@import './components/_swet-alert.css';
+
+@import './components/_button.css';
+
+.rmdp-input {
+  padding: 20px 10px !important;
+  width: 100% !important;
+}
+
+.rmdp-container {
+  width: 100% !important;
+}
+
+.pagination-list .pagination-size {
+  margin-top: -195px;
+}
+
+.dark .dark-submit svg path {
+  stroke: #030712;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+  border-radius: 50px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.rmdp-input::placeholder {
+  font-size: 14px;
+}
+
+.print-color {
+  stroke: white !important;
+}
+
+.form-datepicker input {
+  box-shadow:
+    0px 2px 4px 0px rgba(3, 7, 18, 0.04),
+    0px 1px 2px -1px rgba(3, 7, 18, 0.08),
+    0px 0px 0px 1px rgba(3, 7, 18, 0.08);
+  border-width: 0px;
+  background-color: #f9fafb;
+  color: #030712;
+  appearance: none;
+  border-radius: 6px;
+  padding: 10px 12px;
+  padding-left: 38px;
+  width: 100%;
+  transition-duration: 0ms;
+  border: 1px solid #e0e1e2;
+}
+
+.form-datepicker .rounded-l-full {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-radius: 6px;
+}
+
+.form-datepicker .rounded-r-full {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-radius: 6px;
+}
+
+.form-datepicker input:hover {
+  background-color: #f3f4f6;
+}
+
+.form-datepicker input:focus {
+  box-shadow: 0px 0px 0px 4px rgba(247, 123, 69, 0.2);
+  --tw-ring-color: rgb(0 0 0) !important;
+  background-color: #f9fafb;
+  border: 1px solid black;
+}
+
+.form-datepicker .bottom-full {
+  bottom: 0 !important;
+}
+.dark .form-datepicker input {
+  background-color: #27282d !important;
+  border-color: #27282d !important;
+}
+.dark .form-datepicker .rounded-lg {
+  background-color: #27282d;
+  border-color: #27282d;
+}
+/* .form-datepicker .shadow-sm {
+  height: 315px;
+} */
+
+.form-datepicker .bg-blue-500 {
+  background-color: black !important;
+}
+
+.form-datepicker .h-full {
+  display: none;
+}
+
+.right-datepicker .block {
+  position: absolute;
+  right: 200px;
+}
+.right-datepickers .block {
+  position: absolute;
+  right: 260px;
+}
+
+.reports-datepicker .block {
+  position: absolute;
+  right: 200px;
+}
+.form-datepicker .grid-cols-7 button {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.form-datepicker .rounded-full {
+  border-radius: 6px;
+}
+
+.employee-reports .employee-dropdown {
+  width: 280px;
+}
+
+.dark input[type='checkbox']:checked {
+  background-size: 100% 100%;
+}
+
+.dark .dark-button {
+  background: var(
+    --buttons-button-neutral-dark,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(35, 38, 45, 0.05) 100%),
+    #262628
+  ) !important;
+  box-shadow: 0px 0px 0px 1px rgba(3, 7, 18, 0.08) !important;
+}
+
+.dark .prev-button {
+  background: var(
+    --buttons-button-neutral-dark,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(35, 38, 45, 0.05) 100%),
+    #262628
+  ) !important;
+  box-shadow: 0px 0px 0px 1px rgba(3, 7, 18, 0.08) !important;
+}
+
+.dark .dark-prev {
+  background-color: transparent !important;
+  color: var(--text-muted, #696e77) !important;
+}
+
+.department-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.navbar-menu-button {
+  display: none;
+}
+
+.ReactModal__Overlay {
+  z-index: 9999;
+  background: rgba(3, 7, 18, 0.5) !important;
+}
+
+.apexcharts-toolbar{
+  display: none !important;
+}
+
+
+@media (max-width: 1000px) {
+  .navbar-menu-button {
+    display: block;
+  }
+  .navbar-menu-list {
+    display: none;
+  }
+  .dashboard-page {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .dashboard-right,
+  .dashboard-left {
+    width: 100% !important;
+  }
+  .settings-sidebar{
+    max-width: 230px;
+    width: 100%;
+  }
+}

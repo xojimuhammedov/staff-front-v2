@@ -1,0 +1,57 @@
+@layer components{
+    .primary-button{
+        background:linear-gradient(180deg, rgb(var(--color-white) / 0.16) 0%, rgb(var(--color-white)/ 0.00) 100%), theme('colors.bg-brand');
+
+        &:hover{
+         /* background: linear-gradient(180deg, rgb(var(--color-white)/0.16) 0%, rgb(var(--color-white)/ 0.00) 100%), theme('colors.button-inverted-hover') */
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(129, 125, 125, 0) 100%), #313034;
+        }
+
+        &:focus{
+            background:  linear-gradient(180deg, rgb(var(--color-white)/0.16), rgb(var(--color-white)/ 0.00) 100%), theme('colors.button-inverted-pressed')
+        }
+
+        
+    }
+
+    .secondary{
+        background:linear-gradient(180deg, rgb(var(--color-text-base) / 0.00) 0%, rgb(var(--color-text-base) / 0.03), var(--color-white));
+
+        &:hover{
+         background: linear-gradient(180deg, rgba(3, 7, 18, 0.00) 0%, rgba(3, 7, 18, 0.03) 100%), theme('colors.button-neutral-hover');
+        }
+
+        &:focus{
+         background: linear-gradient(180deg, rgba(3, 7, 18, 0.00) 0%, rgba(3, 7, 18, 0.03) 100%), theme('colors.button-neutral-pressed');
+        }
+    }
+
+    .destructive{
+        background:linear-gradient(180deg, rgb(var(--color-white) / 0.16) 0%, rgb(var(--color-white) / 0.00) 100%), theme('colors.tag-red-icon');
+
+        &:hover{
+            background: linear-gradient(180deg, rgb(var(--color-white) / 0.16) 0%, rgb(var(--color-white) / 0.00) 100%) theme('colors.button-danger-hover');
+        }
+
+        &:focus{
+          background: linear-gradient(180deg, rgb(var(--color-white) / 0.16) 0%, rgb(var(--color-white) / 0.00) 100%) theme('colors.button-danger-pressed');
+        }
+    }
+
+    .ghost{
+     &:hover{
+     background:   linear-gradient(180deg, rgba(3, 7, 18, 0.00) 0%, rgba(3, 7, 18, 0.03) 100%), theme('colors.button-neutral-hover');
+     }
+
+     &:focus{
+        background:  linear-gradient(180deg, rgba(3, 7, 18, 0.00) 0%, rgba(3, 7, 18, 0.03) 100%), theme('colors.button-neutral-pressed');
+     }
+
+     
+
+    }
+
+    
+
+
+}

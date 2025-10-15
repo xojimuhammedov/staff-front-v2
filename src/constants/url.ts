@@ -1,0 +1,17 @@
+export const URLS = {
+  login: '/api/users-permissions/login',
+  getMe: '/api/v2/employees/me',
+  getAllListOrganization:"/api/v1/organizations",
+  getAllListDepartment:"/api/v1/departments",
+  getListOrganizationSelf:"/api/v1/organizations/self",
+  getListUsersManagment:"/api/v1/users",
+  getUserRoles:"/api/v1/users/roles",
+  getEmployeeList:"/api/v1/employees",
+  getVisitorList:"/api/v1/visitors",
+  getPolicyList:"/api/v1/policies",
+  getUsersMe:"/api/v1/users/me",
+  getPolicyResources:"/api/v1/policies/resources",
+  getPolicyGroups:"/api/v1/policies/groups",
+  getEmployeeGroups:"/api/v1/employee/groups",
+  employeeBulk:"/api/v1/employees/bulk"
+};
