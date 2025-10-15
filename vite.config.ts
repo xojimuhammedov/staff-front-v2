@@ -14,6 +14,7 @@ export default defineConfig({
     include: ['tailwind-config']
   },
   plugins: [react(), tsconfigPaths()],
+  base: '/staff-front-v2/',
   resolve: {
     alias: {
       'tailwind-config': path.resolve(__dirname, './tailwind.config.js')

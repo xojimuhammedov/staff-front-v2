@@ -1,0 +1,51 @@
+name: CI/CD + Server Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Kodni yuklab olish
+        uses: actions/checkout@v3
+
+      - name: 🧰 Node.js o‘rnatish
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📥 Dependency o‘rnatish
+        run: npm ci
+
+      - name: 🏗️ Build yaratish
+        run: npm run build
+
+      # --- GitHub Pages Deploy ---
+      - name: 🚀 Deploy GitHub Pages’ga
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./dist
+
+      # 5️⃣ Serverga upload qilish (scp orqali)
+      - name: Deploy to Ubuntu Server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: 139.28.47.17
+          username: ubuntu
+          port: 6613
+          key: |
+            -----BEGIN OPENSSH PRIVATE KEY-----
+          b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+          QyNTUxOQAAACDvNUlLtZcLcCpBo7IKCb5b9/UDWV0nUJoS7O3O2J4ptQAAAKg6Jup+Oibq
+          fgAAAAtzc2gtZWQyNTUxOQAAACDvNUlLtZcLcCpBo7IKCb5b9/UDWV0nUJoS7O3O2J4ptQ
+          AAAEAZZsjRAzkoyNAddgZ0TsyDzx5t0FnKztx9XxN6I8Cns+81SUu1lwtwKkGjsgoJvlv3
+          9QNZXSdQmhLs7c7Ynim1AAAAInNhcGFyYWxpeWV2a2Ftb2xpZGRpbjEzMUBnbWFpbC5jb2
+          0BAgM=
+          -----END OPENSSH PRIVATE KEY-----
+          source: "dist/*"
+          target: /var/www/html
