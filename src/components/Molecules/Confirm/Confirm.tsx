@@ -2,8 +2,6 @@ import React, { FC, ReactElement, useState } from "react";
 import { Eye, EyeOff, Lock, X } from "lucide-react";
 import MyButton from "../../Atoms/MyButton";
 import { useTranslation } from "react-i18next";
-import { MyInput } from "../../Atoms/Form";
-import { useForm } from "react-hook-form";
 
 interface ConfirmProps {
   icon?: string | ReactElement,
