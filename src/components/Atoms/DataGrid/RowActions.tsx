@@ -1,18 +1,14 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { DropdownItemWrapper } from '../MyDropdown';
-import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../interfaces/action.interface';
 import MyDropdownTwo from '../MyDropdown/MyDropdownTwo';
 import EllipsisVertical from 'assets/icons/EllipsisVertical';
+import storage from 'services/storage';
 
 interface RowActionProps {
   actions: IAction[];
+  allowedRoles?: string[];
   row: any;
-}
-
-enum FilterActionButtonTypeEnum {
-  reset,
-  apply
 }
 
 /**
@@ -26,9 +22,23 @@ enum FilterActionButtonTypeEnum {
  * - Supports internationalization for dynamically translating the export options and button label.
  * - Utilizes custom icons for visual representation of the file formats.
  */
-const RowActions = ({ actions = [], row }: RowActionProps) => {
-  const { t } = useTranslation();
+const RowActions = ({ actions = [], row, allowedRoles }: RowActionProps) => {
   const [open, setOpen] = useState(false);
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
+
+  if (allowedRoles && !allowedRoles.includes(userRole)) {
+    return null;
+  }
+
+  // 🔍 Har bir actionni filtrlash
+  const visibleActions = useMemo(() => {
+    return actions.filter(
+      (a) => !a.allowedRoles || a.allowedRoles.includes(userRole)
+    );
+  }, [actions, userRole]);
+
+  if (visibleActions?.length === 0) return null;
 
   return (
     <MyDropdownTwo
@@ -39,13 +49,12 @@ const RowActions = ({ actions = [], row }: RowActionProps) => {
         className: 'w-max',
         startIcon: <EllipsisVertical />
       }}>
-      {actions.map((btn, i) => (
+      {visibleActions?.map((btn, i) => (
         <DropdownItemWrapper
           className={`flex w-full items-center gap-2 text-${btn.type}`}
           key={i}
-          onClick={($e) => {
-            btn.action(row, $e);
-          }}>
+          onClick={($e) => btn.action(row, $e)}
+        >
           {btn.icon}
           <p>{btn.name}</p>
         </DropdownItemWrapper>

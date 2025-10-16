@@ -3,4 +3,5 @@ export interface IAction {
   icon?: any;
   name?: string;
   action: (item: any, $e: any) => void;
+  allowedRoles?: string[];
 }

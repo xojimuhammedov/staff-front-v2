@@ -136,20 +136,22 @@ const VisitorTable = () => {
             {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
                 type: 'primary',
-                name: t('Edit employee'),
+                name: t('Edit'),
                 action: (row, $e) => {
                     setShowEdit(true)
                     setVisitorId(row?.id)
-                }
+                },
+                allowedRoles: ['ADMIN', 'HR'],
             },
             {
                 icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
                 type: 'danger',
-                name: t('Delete employee'),
+                name: t('Delete'),
                 action: (row, $e) => {
                     setOpen(true)
                     setVisitorId(row?.id)
-                }
+                },
+                allowedRoles: ['ADMIN', 'HR'],
             }
         ],
         [t]
@@ -197,6 +199,7 @@ const VisitorTable = () => {
                             <MyButton
                                 startIcon={<Plus />}
                                 onClick={() => setShow(true)}
+                                allowedRoles={['ADMIN', "HR", "GUARD"]}
                                 variant="primary"
                                 className="[&_svg]:stroke-bg-white w-[160px] text-sm">
                                 {t('Create visitor')}
@@ -207,7 +210,7 @@ const VisitorTable = () => {
             </TableProvider>
             <Form show={show} setShow={setShow} refetch={refetch} />
             <ConfirmationModal
-                title={t("Bu tashkilotni o'chirmoqchimisiz?")}
+                title={t("Bu mehmonni o'chirmoqchimisiz?")}
                 subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
                 open={open} setOpen={setOpen} confirmationDelete={deleteItem} />
             <EditForm show={showEdit} setShow={setShowEdit} refetch={refetch} visitorId={visitorId} />

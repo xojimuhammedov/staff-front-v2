@@ -111,7 +111,7 @@ const GroupTable = () => {
             {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
                 type: 'primary',
-                name: t('Edit group'),
+                name: t('Edit'),
                 action: (row, $e) => {
                     // setShowEdit(true)
                     // setVisitorId(row?.id)
@@ -120,7 +120,7 @@ const GroupTable = () => {
             {
                 icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
                 type: 'danger',
-                name: t('Delete group'),
+                name: t('Delete'),
                 action: (row, $e) => {
                     setOpen(true)
                     setGroupId(row?.id)

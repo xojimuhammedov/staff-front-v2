@@ -40,12 +40,14 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
             <div className='flex items-center justify-between mt-4'>
                 <MyButton
                     variant='secondary'
+                    allowedRoles={['ADMIN']}
                     className={'w-[170px]'}
                     startIcon={<Eye />}
                 >{t("View")}</MyButton>
                 <MyButton
                     variant='secondary'
                     className={'w-[170px]'}
+                    allowedRoles={['ADMIN']}
                     onClick={() => {
                         setShow(true)
                         setOrganizationId(item?.id)
@@ -53,6 +55,7 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
                     startIcon={<Edit />}
                 >{t("Edit")}</MyButton>
                 <MyButton
+                    allowedRoles={['ADMIN']}
                     onClick={() => {
                         setOpen(true)
                         setOrganizationId(item?.id)

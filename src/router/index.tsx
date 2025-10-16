@@ -30,7 +30,7 @@ export const PrivateRoutes = [
   {
     path: '/',
     element: <DashboardPage />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD",], // kimlar ko‘ra oladi
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"], // kimlar ko‘ra oladi
   },
   {
     path: '/profile/edit',

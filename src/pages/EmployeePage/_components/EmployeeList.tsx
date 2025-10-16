@@ -131,19 +131,21 @@ const EmployeeList = () => {
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',
-        name: t('Edit employee'),
+        name: t('Edit'),
         action: (row, $e) => {
           navigate(`/employees/edit/${row.id}`);
-        }
+        },
+        allowedRoles: ['ADMIN', 'HR'],
       },
       {
         icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
         type: 'danger',
-        name: t('Delete employee'),
+        name: t('Delete'),
         action: (row, $e) => {
           setShow(true)
           setEmployeeId(row?.id)
-        }
+        },
+        allowedRoles: ['ADMIN', 'HR'],
       }
     ],
     [t]
@@ -200,6 +202,7 @@ const EmployeeList = () => {
                 onClick={() => {
                   navigate('/employees/create');
                 }}
+                allowedRoles={['ADMIN', "HR"]}
                 startIcon={<Plus />}
                 variant="primary"
                 className="[&_svg]:stroke-bg-white w-[200px] text-sm">

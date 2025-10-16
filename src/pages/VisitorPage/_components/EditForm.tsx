@@ -120,31 +120,31 @@ const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
                   {...register("firstName")}
                   error={Boolean(errors?.firstName?.message)}
                   helperText={t(`${errors?.firstName?.message}`)}
-                  label={t('Organization full name')}
+                  label={t('Visitor full name')}
                 />
                 <MyInput
                   {...register("lastName")}
                   error={Boolean(errors?.lastName?.message)}
                   helperText={t(`${errors?.lastName?.message}`)}
-                  label={t('Organization short name')}
+                  label={t('Visitor short name')}
                 />
                 <MyInput
                   {...register("middleName")}
                   error={Boolean(errors?.middleName?.message)}
                   helperText={t(`${errors?.middleName?.message}`)}
-                  label={t('Organization email')}
+                  label={t('Visitor email')}
                 />
                 <MyInput
                   {...register("workPlace")}
                   error={Boolean(errors?.workPlace?.message)}
                   helperText={t(`${errors?.workPlace?.message}`)}
-                  label={t('Organization address')}
+                  label={t('Visitor address')}
                 />
                 <MyInput
                   {...register("additionalDetails")}
                   error={Boolean(errors?.additionalDetails?.message)}
                   helperText={t(`${errors?.additionalDetails?.message}`)}
-                  label={t('Organization details')}
+                  label={t('Visitor details')}
                 />
                 <MyInput
                   {...register('phone')}

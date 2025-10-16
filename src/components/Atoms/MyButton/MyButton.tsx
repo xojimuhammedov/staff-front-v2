@@ -1,4 +1,5 @@
 import { Component, ReactElement, ReactNode, forwardRef } from 'react';
+import storage from 'services/storage';
 import { twMerge } from 'tailwind-merge';
 
 type Variant = 'primary' | 'secondary' | 'destructive' | 'ghost';
@@ -16,6 +17,7 @@ type ButtonProps<C extends React.ElementType> = PolymorphicComponentPropWithRef<
     size?: Size;
     rounded?: Rounded;
     className?: string[] | string;
+    allowedRoles?: string[]; 
   }
 > & { startIcon?: any; endIcon?: any; disabled?: boolean };
 
@@ -56,10 +58,18 @@ const MyButton: ButtonComponent = forwardRef(
       endIcon,
       disabled,
       className,
+      allowedRoles,
       ...props
     }: ButtonProps<C>,
     ref?: PolymorphicRef<C>
   ) => {
+    const userData: any = storage.get("userData")
+    const userRole = JSON.parse(userData)?.role
+
+    if (allowedRoles && !allowedRoles.includes(userRole)) {
+      return null;
+    }
+
     const Component = as || 'button';
 
     const base = ['h-8', !children && 'w-8'];

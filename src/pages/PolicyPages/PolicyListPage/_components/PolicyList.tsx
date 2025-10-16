@@ -106,7 +106,8 @@ const PolicyList = () => {
         name: t('Edit'),
         action: (row, $e) => {
           navigate(`/policy/edit/${row.id}`);
-        }
+        },
+        allowedRoles: ['ADMIN', 'HR'],
       },
       {
         icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
@@ -114,7 +115,8 @@ const PolicyList = () => {
         name: t('Delete'),
         action: (row, $e) => {
           handClickOpen(row?.id);
-        }
+        },
+        allowedRoles: ['ADMIN', 'HR'],
       }
     ],
     [t]
@@ -166,6 +168,7 @@ const PolicyList = () => {
                 <MyButton
                   onClick={() => navigate('/policy/create')}
                   startIcon={<Plus />}
+                  allowedRoles={['ADMIN', 'HR']}
                   variant="primary"
                   className="[&_svg]:stroke-bg-white w-[170px] text-sm">
                   {t('Create a policy')}

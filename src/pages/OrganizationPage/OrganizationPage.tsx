@@ -66,11 +66,12 @@ const OrganizationPage = () => {
           <MyButton
             startIcon={<Plus />}
             onClick={() => setShowModal(true)}
+            allowedRoles={['ADMIN']}
             variant="primary"
             className="[&_svg]:stroke-bg-white text-sm w-[200px] dark:text-text-base">
             {t('Add Organization')}
           </MyButton>
-          <MyButton variant='secondary'>{t("Filters")}</MyButton>
+          <MyButton allowedRoles={['ADMIN']} variant='secondary'>{t("Filters")}</MyButton>
         </div>
       </div>
       <MyDivider />
