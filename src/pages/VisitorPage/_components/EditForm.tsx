@@ -1,5 +1,5 @@
 import { MyInput } from 'components/Atoms/Form';
-import React, { useEffect, useMemo } from 'react';
+import  { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { KEYS } from 'constants/key';

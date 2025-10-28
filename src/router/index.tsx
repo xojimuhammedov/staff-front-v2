@@ -18,6 +18,8 @@ const PolicyGroupEdit = lazy(() => import('pages/PolicyPages/EditPolicyRulePage'
 const EmployeeGroup = lazy(() => import('pages/EmployeeGroup'))
 const EmployeeGroupCreate = lazy(() => import('pages/EmployeeGroup/_components/Create'))
 const EmployeeGroupEdit = lazy(() => import('pages/EmployeeGroup/_components/Edit'))
+const SettingsPage = lazy(() => import('pages/SettingsPage'))
+const DoorCreate = lazy(() => import('pages/SettingsPage/_components/SettingForms/DoorCreate'))
 
 export const PublicRoutes = [
   {
@@ -110,6 +112,16 @@ export const PrivateRoutes = [
   {
     path: '/employee-group/:id',
     element: <EmployeeGroupEdit />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: '/settings',
+    element: <SettingsPage />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: '/settings/door/create',
+    element: <DoorCreate />,
     roles: ["ADMIN", "HR"],
   }
 ];

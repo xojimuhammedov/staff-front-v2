@@ -42,7 +42,7 @@ const DepartmentList = ({ data, refetch, setShowModal, showModal }: any) => {
     });
     return (
         <>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
                 {
                     get(data, 'data')?.map((item: Department) => (
                         <DepartmentCard setDepartmentId={setDepartmentId} setShow={setShow} setOpen={setOpen} item={item} />
