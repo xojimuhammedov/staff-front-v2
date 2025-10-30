@@ -27,8 +27,8 @@ const Notifications = () => {
   const { t } = useTranslation();
 
   const { data, isLoading } = useGetAllQuery({
-    key: KEYS.getDevice,
-    url: URLS.getDevice,
+    key: KEYS.getDoorForDevices,
+    url: URLS.getDoorForDevices,
     params: {
       populate: '*'
     }
@@ -54,35 +54,10 @@ const Notifications = () => {
         )
       },
       {
-        key: 'checkType.name',
-        label: t('Using type'),
-        headerClassName: 'w-36'
-      },
-      {
-        key: 'deviceType.name',
-        label: t('Device type'),
-        headerClassName: 'w-36'
-      },
-      {
-        key: 'deviceModel.name',
-        label: t('Model'),
-        headerClassName: 'flex-1'
-      },
-      {
         key: 'ip',
         label: t('Ip address'),
         headerClassName: 'flex-1'
       },
-      // {
-      //   key: 'lastActive',
-      //   label: t('Last active'),
-      //   headerClassName: 'flex-1',
-      //   cellRender: (row) => (
-      //     <>
-      //       <p>{row.lastActive ?? '--'}</p>
-      //     </>
-      //   )
-      // }
     ],
     [t]
   );
@@ -100,29 +75,9 @@ const Notifications = () => {
     },
     {
       id: 3,
-      label: t('Using type'),
-      headerClassName: 'w-36'
-    },
-    {
-      id: 4,
-      label: t('Device type'),
-      headerClassName: 'w-36'
-    },
-    {
-      id: 5,
-      label: t('Model'),
-      headerClassName: 'flex-1'
-    },
-    {
-      id: 6,
       label: t('Ip address'),
       headerClassName: 'flex-1'
     },
-    // {
-    //   id: 7,
-    //   label: t('Last active'),
-    //   headerClassName: 'flex-1'
-    // }
   ];
 
   return (

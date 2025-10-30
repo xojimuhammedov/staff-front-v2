@@ -16,6 +16,7 @@ import DepartmentList from './_components/DepartmentList';
 import { paramsStrToObj } from 'utils/helper';
 import { useSearch } from 'hooks/useSearch';
 import { KeyTypeEnum } from 'enums/key-type.enum';
+import Loading from 'assets/icons/Loading';
 
 const DepartmentPage = () => {
   const { t } = useTranslation()
@@ -23,7 +24,7 @@ const DepartmentPage = () => {
   const searchValue: any = paramsStrToObj(location.search)
   const { search, setSearch, handleSearch } = useSearch();
 
-  const { data, refetch } = useGetAllQuery<{ data: Department[] }>({
+  const { data, refetch, isLoading } = useGetAllQuery<{ data: Department[] }>({
     key: KEYS.getAllListDepartment,
     url: URLS.getAllListDepartment,
     params: {
@@ -37,6 +38,14 @@ const DepartmentPage = () => {
       url: '#'
     }
   ];
+
+  if (isLoading) {
+    return (
+      <div className="absolute flex h-full w-full items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <PageContentWrapper paginationProps={<MyPagination total={get(data, 'total')} />} >

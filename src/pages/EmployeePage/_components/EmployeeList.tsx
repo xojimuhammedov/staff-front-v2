@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Edit3, Plus, Trash2 } from 'lucide-react';
+import { AreaChart, Edit3, Plus, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
@@ -120,14 +120,14 @@ const EmployeeList = () => {
 
   const rowActions: IAction[] = useMemo(
     () => [
-      // {
-      //   icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
-      //   type: 'primary',
-      //   name: t('Employee statistics'),
-      //   action: (row, $e) => {
-      //     navigate(`/employees/${row.id}`);
-      //   }
-      // },
+      {
+        icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
+        type: 'primary',
+        name: t('Details'),
+        action: (row, $e) => {
+          navigate(`/employees/about/${row.id}`);
+        }
+      },
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',

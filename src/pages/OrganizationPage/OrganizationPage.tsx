@@ -17,6 +17,7 @@ import { Organization } from './interface/organization.interface';
 import { useSearch } from 'hooks/useSearch';
 import { paramsStrToObj } from 'utils/helper';
 import OrganizationList from './_components/OrganizationList';
+import Loading from 'assets/icons/Loading';
 
 const OrganizationPage = () => {
   const { t } = useTranslation()
@@ -32,13 +33,21 @@ const OrganizationPage = () => {
     }
   ];
 
-  const { data, refetch } = useGetAllQuery<{ data: Organization[] }>({
+  const { data, refetch, isLoading } = useGetAllQuery<{ data: Organization[] }>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
     params: {
       search: searchValue.search
     }
   })
+
+  if (isLoading) {
+    return (
+      <div className="absolute flex h-full w-full items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <PageContentWrapper paginationProps={<MyPagination total={get(data, "total")} />}>

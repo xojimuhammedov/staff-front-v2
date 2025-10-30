@@ -1,28 +1,23 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { MyInput, MyTextarea } from 'components/Atoms/Form';
+import { MyInput } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { usePostQuery } from 'hooks/api';
-import { get } from 'lodash';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import storage from 'services/storage';
 import { object, string } from 'yup';
 
 function FormDoor({ handleClick }: any) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const userDataString: string | null = storage.get('userData');
-  const companyId: any = userDataString ? JSON.parse(userDataString) : {};
 
   const schema = object().shape({
     name: string().required(),
-    description: string()
   });
 
   const {
@@ -35,26 +30,20 @@ function FormDoor({ handleClick }: any) {
     resolver: yupResolver(schema)
   });
 
-  const { mutate: create, isLoading: isLoadingPost } = usePostQuery({
-    listKeyId: KEYS.getDoor,
+  const { mutate: create } = usePostQuery({
+    listKeyId: KEYS.getDoorGates,
     hideSuccessToast: true
   });
 
   const onSubmit = (data: any) => {
-    const submitData = {
-      ...data,
-      company: get(companyId, 'company.id')
-    };
     create(
       {
-        url: URLS.getDoor,
-        attributes: {
-          data: submitData
-        }
+        url: URLS.getDoorGates,
+        attributes: data
       },
       {
         onSuccess: (data) => {
-          navigate(`/settings/door/create?current-step=2&deviceId=${data?.data?.data?.id}`);
+          navigate(`/settings/door/create?current-step=2&doorId=${data?.data?.id}`);
           toast.success(t('Door created successfully!'));
         },
         onError: (e) => {
@@ -77,7 +66,7 @@ function FormDoor({ handleClick }: any) {
           />
         </div>
         <div className="flex items-center gap-4">
-          <MyButton onClick={handleClick} variant="primary">
+          <MyButton variant="primary">
             {t('Go to next step')}
           </MyButton>
         </div>
@@ -97,23 +86,6 @@ function FormDoor({ handleClick }: any) {
               error={Boolean(errors?.name?.message)}
               helperText={errors?.name?.message}
               placeholder={t('Enter door name')}
-            />
-          </div>
-        </div>
-        <div className="my-10 flex">
-          <div className="w-[50%]">
-            <LabelledCaption
-              title={t('Door description')}
-              subtitle={t('Short and easy-to-understand name')}
-            />
-          </div>
-          <div className="w-[50%]">
-            <MyTextarea
-              {...register('description')}
-              error={Boolean(errors?.description?.message)}
-              helperText={errors?.description?.message}
-              className="min-h-[180px]"
-              placeholder={t('Enter door description')}
             />
           </div>
         </div>

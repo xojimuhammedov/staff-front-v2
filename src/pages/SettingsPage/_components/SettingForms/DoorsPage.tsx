@@ -16,7 +16,6 @@ import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import storage from 'services/storage';
-import DeleteModal from './DeleteModal';
 
 type FilterType = {
   search: string;
@@ -33,29 +32,19 @@ type TItem = {
 const DoorsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [doorId, setDoorId] = useState();
-  const [open, setOpen] = useState(false);
   const location = useLocation();
   const page: any = paramsStrToObj(location.search);
-  const userDataString: string | null = storage.get('userData');
-  const companyId: any = userDataString ? JSON.parse(userDataString) : {};
 
   const { data, isLoading, refetch } = useGetAllQuery({
-    key: KEYS.getDeviceDoors,
-    url: URLS.getDeviceDoors,
+    key: KEYS.getDoorForDevices,
+    url: URLS.getDoorForDevices,
     params: {
       pagination: {
         pageSize: Number(page?.pageSize) || 10,
         page: Number(page?.page) || 1
       },
-      companyId: get(companyId, 'company.id')
     }
   });
-
-  const handClickOpen = (row: any) => {
-    setOpen(true);
-    setDoorId(row);
-  };
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -116,7 +105,6 @@ const DoorsPage = () => {
         type: 'danger',
         name: t('Delete'),
         action: (row, $e) => {
-          handClickOpen(row.id);
         }
       }
     ],
@@ -160,13 +148,6 @@ const DoorsPage = () => {
           }
         />
       </TableProvider>
-
-      <DeleteModal
-        show={open}
-        onClose={() => setOpen(false)}
-        doorId={doorId}
-        refetch={refetch}
-      />
     </div>
   );
 };

@@ -21,52 +21,6 @@ function FormDeviceEdit({ handleClick }: any) {
   const [deviceId, setDeviceId] = useState<any>();
   const [openModal, setOpenModal] = useState<any>(false);
   const [openEditModal, setOpenEditModal] = useState<any>(false);
-  // const [deviceData, setDeviceData] = useState();
-
-  const { data } = useGetAllQuery({
-    key: KEYS.getByIdDeviceDoors,
-    url: URLS.getByIdDeviceDoors,
-    params: {
-      populate: "deviceModel, deviceModel.brand, deviceType, checkType",
-      filter: {
-        door: {
-          id: id,
-        },
-      },
-    },
-  });
-
-  const { data: deviceData } = useGetOneQuery({
-    id: deviceId,
-    url: URLS.getByIdDeviceDoors,
-    params: {
-      params: {
-        populate: "deviceModel, deviceModel.brand, deviceType, checkType",
-      },
-    },
-    enabled: !!deviceId,
-  });
-
-  console.log(deviceData);
-
-  // useEffect(() => {
-  //   if (data && deviceId) {
-  //     const foundDeviceData = get(data, "data.data")?.find(
-  //       (evt: any) => evt?.id === Number(deviceId),
-  //     );
-  //     setDeviceData(foundDeviceData);
-  //   }
-  // }, [data, deviceId]);
-
-  const { mutate: deleteRequest } = useDeleteQuery({
-    listKeyId: KEYS.getByIdDeviceDoors,
-  });
-
-  const deleteItem = (id: any) => {
-    deleteRequest({
-      url: `${URLS.getByIdDeviceDoors}/${id}`,
-    });
-  };
 
   return (
     <>
@@ -97,33 +51,6 @@ function FormDeviceEdit({ handleClick }: any) {
             />
           </div>
           <div className="w-[50%]">
-            <div className="ml-3 flex flex-col gap-2">
-              {get(data, "data.data")?.map((evt: any, index: number) => (
-                <div key={index} className="flex items-center gap-4">
-                  <MyCheckbox
-                    checked
-                    label={
-                      evt?.deviceModel
-                        ? `${evt?.deviceModel?.brand?.name} ${evt?.deviceModel?.name}`
-                        : ""
-                    }
-                  />
-                  <div className="flex items-center ">
-                    <MyButton
-                      onClick={() => {
-                        setDeviceId(evt?.id);
-                        setOpenEditModal(true);
-                      }}
-                    >
-                      <Edit2 size={DEFAULT_ICON_SIZE} />
-                    </MyButton>
-                    <MyButton onClick={() => deleteItem(evt?.id)}>
-                      <Trash2 size={DEFAULT_ICON_SIZE} />
-                    </MyButton>
-                  </div>
-                </div>
-              ))}
-            </div>
             <MyButton
               onClick={() => setOpenModal(true)}
               startIcon={<Plus stroke="black" />}
@@ -170,7 +97,7 @@ function FormDeviceEdit({ handleClick }: any) {
               onClose={() => setOpenEditModal(false)}
               doorId={id}
               deviceId={deviceId}
-              deviceData={get(deviceData, "data.data")}
+              deviceData={[]}
             />
           ),
           className: "py-[10px]",

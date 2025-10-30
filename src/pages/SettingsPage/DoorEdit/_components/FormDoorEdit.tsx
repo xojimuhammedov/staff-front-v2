@@ -19,43 +19,15 @@ function FormDoorEdit({ handleClick }: any) {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { data, isLoading }: any = useGetAllQuery({
-    url: `${URLS.getByIdDoors}/${id}`,
-    key: KEYS.getByIdDoors,
-    params: {},
-  });
-
-  const {
-    handleSubmit,
-    reset,
-    register,
-    formState: { errors },
-  } = useForm({
-    defaultValues: useMemo(() => {
-      return {
-        name: get(data, "data.data.name"),
-        description: get(data, "data.data.description"),
-      };
-    }, [data]),
-    mode: "onChange",
-  });
-
-  useEffect(() => {
-    reset({
-      name: get(data, "data.data.name"),
-      description: get(data, "data.data.description"),
-    });
-  }, [data]);
-
   const { mutate: create } = usePutQuery({
-    listKeyId: KEYS.getByIdDoors,
+    listKeyId: KEYS.getDoorGates,
     hideSuccessToast: true,
   });
 
   const onSubmit = (data: any) => {
     create(
       {
-        url: `${URLS.getByIdDoors}/${id}`,
+        url: `${URLS.getDoorGates}/${id}`,
         attributes: {
           data: data,
         },
@@ -92,7 +64,7 @@ function FormDoorEdit({ handleClick }: any) {
         </div>
       </div>
       <MyDivider />
-      <form onSubmit={handleSubmit(onSubmit)} action="">
+      <form action="">
         <div className="my-10 flex">
           <div className="w-[50%]">
             <LabelledCaption
@@ -102,25 +74,7 @@ function FormDoorEdit({ handleClick }: any) {
           </div>
           <div className="w-[50%]">
             <MyInput
-              {...register("name")}
-              error={Boolean(errors?.name?.message)}
               placeholder={t("Enter door name")}
-            />
-          </div>
-        </div>
-        <div className="my-10 flex">
-          <div className="w-[50%]">
-            <LabelledCaption
-              title={t("Door description")}
-              subtitle={t("Short and easy-to-understand name")}
-            />
-          </div>
-          <div className="w-[50%]">
-            <MyTextarea
-              {...register("description")}
-              error={Boolean(errors?.description?.message)}
-              className="min-h-[180px]"
-              placeholder={t("Enter door description")}
             />
           </div>
         </div>

@@ -1,3 +1,4 @@
+import EmployeeDetails from 'pages/EmployeePage/EmployeeDetails';
 import { lazy } from 'react';
 
 const LoginPage = lazy(() => import('pages/LoginPage'))
@@ -123,6 +124,11 @@ export const PrivateRoutes = [
     path: '/settings/door/create',
     element: <DoorCreate />,
     roles: ["ADMIN", "HR"],
+  },
+  {
+    path:"/employees/about/:id",
+    element: <EmployeeDetails />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
   }
 ];
 

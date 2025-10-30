@@ -29,63 +29,12 @@ function EmployeeDragDrop() {
   const { t } = useTranslation();
   const [search, setSearch] = useState<any>("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
-  const firstName: any = paramsStrToObj(location?.search);
-  const [status, setStatus] = useState<any>();
   const [checkData, setCheckData] = useState<any>([]);
   const [check, setCheck] = useState<any>();
-  const userDataString: string | null = storage.get("userData");
-  const companyId: any = userDataString ? JSON.parse(userDataString) : {};
   const [dragDrop, setDragDrop] = useState<any>([]);
-  const navigate = useNavigate();
-  const socketEnv: any = config.API_ROOT;
-  const token = storage.get("accessToken");
   const { id } = useParams();
 
-  const { data: employeeData, isLoading } = useGetAllQuery({
-    key: KEYS.getEmployeeLeftRight,
-    url: URLS.getEmployeeLeftRight,
-    params: {
-      filters: {
-        door: id,
-        search: get(firstName, "search"),
-      },
-      pagination: {
-        pageSize: 10000,
-      },
-      populate: "employee, employee.empDeviceId",
-    },
-  });
-
   const handleSubmit = (evt: any) => {
-    evt.preventDefault();
-    const socket = io(socketEnv, {
-      extraHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    socket.emit("door-face-upload", {
-      employees: dragDrop,
-      door: [id],
-      func: "Create",
-      companyId: get(companyId, "company.id"),
-    });
-
-    socket.on("door-face-upload", (data: any) => {
-      setStatus(data);
-      {
-        data?.success ? navigate("/settings") : "";
-      }
-      {
-        data?.success
-          ? toast.success(t("Muvaffaqiyatli qo'shildi!"))
-          : toast.error(t("An error occurred!"));
-      }
-    });
-    {
-      status?.success ? navigate("/settings") : "";
-    }
   };
 
   const handleClickButton = () => {
@@ -152,7 +101,6 @@ function EmployeeDragDrop() {
                 label={t("Employees")}
                 onChange={(evt: any) => {
                   if (evt.target.checked) {
-                    setCheckData(get(employeeData, "data.data.left"));
                     setCheck(true);
                   }
                 }}
@@ -179,70 +127,6 @@ function EmployeeDragDrop() {
                 </MyButton>
               )}
             </div>
-            {isLoading ? (
-              <div className="absolute flex h-full w-full items-center justify-center">
-                <Loading />
-              </div>
-            ) : (
-              <>
-                {get(employeeData, "data.data.left")?.map(
-                  (evt: any, index: any) => {
-                    const isChecked = dragDrop.includes(evt?.id);
-                    return (
-                      <div
-                        className={`${
-                          dragDrop.find((item: any) => item.id === evt.id)
-                            ? "hidden"
-                            : "block"
-                        }`}
-                      >
-                        <div
-                          key={index}
-                          className={`flex w-full items-center gap-4 dark:border-dark-line border-b-2 bg-white dark:bg-bg-dark-bg px-[16px] py-[14px]`}
-                        >
-                          <MyCheckbox
-                            // checked={check}
-                            defaultChecked={check}
-                            onChange={(item) => {
-                              if (item.target.checked === true) {
-                                setCheckData((prev: any[]) => {
-                                  return [...prev, evt];
-                                });
-                              } else {
-                                setCheckData((prev: any[]) => {
-                                  return prev?.filter(
-                                    (item: any) => item.id !== evt.id,
-                                  );
-                                });
-                              }
-                            }}
-                            id={evt.id}
-                          />
-                          <div className="flex items-center gap-2">
-                            <MyAvatar
-                              imageUrl={
-                                evt.photoUrl
-                                  ? `${config.FILE_URL}${evt?.photoUrl}`
-                                  : AvatarIcon
-                              }
-                              size="medium"
-                            />
-                            <div className="flex flex-col">
-                              <h2 className="text-sm dark:text-text-title-dark font-normal text-black">
-                                {evt.firstName} {evt.lastName}
-                              </h2>
-                              <p className="text-subtle dark:text-text-title-dark text-xs font-normal">
-                                {evt.middleName}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  },
-                )}
-              </>
-            )}
           </div>
         </div>
         <div className="flex h-[600px] dark:border-dark-line w-1/2 flex-col gap-8 overflow-y-auto rounded-md border-2 border-solid border-gray-300 p-4 ">
@@ -274,42 +158,6 @@ function EmployeeDragDrop() {
               </div>
             </div>
           ))}
-          {isLoading ? (
-            <div className="absolute flex h-full w-full items-center justify-center">
-              <Loading />
-            </div>
-          ) : (
-            <>
-              {get(employeeData, "data.data.right")?.map(
-                (evt: any, index: any) => {
-                  return (
-                    <div
-                      id={index}
-                      className="flex w-full cursor-pointer items-center gap-8 dark:border-dark-line border-b-2 border-gray-200 pb-4"
-                      key={index}
-                    >
-                      <MyAvatar
-                        imageUrl={
-                          evt?.employee?.photoUrl
-                            ? `${config.FILE_URL}${evt?.employee?.photoUrl}`
-                            : AvatarIcon
-                        }
-                        size="medium"
-                      />
-                      <div className="flex flex-col">
-                        <h2 className="text-sm font-normal dark:text-text-title-dark text-black">
-                          {evt?.employee?.firstName} {evt?.employee?.lastName}
-                        </h2>
-                        <p className="text-subtle text-xs dark:text-text-title-dark font-normal">
-                          {evt?.employee?.middleName}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                },
-              )}
-            </>
-          )}
         </div>
       </div>
     </div>

@@ -1,52 +1,31 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { MyInput, MySelect } from 'components/Atoms/Form';
+import { MyInput } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery, usePostQuery } from 'hooks/api';
-import { get } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import {  usePostQuery } from 'hooks/api';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import storage from 'services/storage';
 import { object, string } from 'yup';
 import { paramsStrToObj } from 'utils/helper';
 
 function FormDeviceModal({ setOpenModal }: any) {
   const { t } = useTranslation();
-  const userDataString: string | null = storage.get('userData');
-  const companyId: any = userDataString ? JSON.parse(userDataString) : {};
-  const [device, setDevice] = useState<any>();
   const searchParams = useLocation();
-  const { data: getDeviceType } = useGetAllQuery({
-    key: KEYS.getDeviceType,
-    url: URLS.getDeviceType
-  });
-
   const doorId: any = paramsStrToObj(searchParams.search);
 
-  const { data: getCheck } = useGetAllQuery({
-    key: KEYS.getCheck,
-    url: URLS.getCheck
-  });
-
-  const { data: getDeviceModel } = useGetAllQuery({
-    key: KEYS.getDeviceModel,
-    url: URLS.getDeviceModel,
-    params: {}
-  });
-
-  const { mutate: create, isLoading: isLoadingPost } = usePostQuery({
-    listKeyId: KEYS.createDevice,
+  const { mutate: create } = usePostQuery({
+    listKeyId: KEYS.getDoorForDevices,
     hideSuccessToast: true
   });
 
   const schema = object().shape({
-    ip: string().required(),
+    ipAddress: string().required(),
     password: string().required(),
-    name: string().required()
+    name: string().required(),
+    login: string().required()
   });
 
   const {
@@ -60,70 +39,47 @@ function FormDeviceModal({ setOpenModal }: any) {
     resolver: yupResolver(schema)
   });
 
-  const handleChange = (key: any, value: any) => {
-    setDevice((prevState: any) => ({ ...prevState, [key]: value }));
-  };
-
   const onSubmit = (data: any) => {
     const submitData = {
-      ...device,
-      ...data,
-      company: get(companyId, 'company.id'),
-      door: doorId?.deviceId
-    };
+      gateId: Number(doorId?.doorId),
+      ...data
+    }
     create(
       {
-        url: URLS.createDevice,
-        attributes: {
-          data: submitData
-        }
+        url: URLS.getDoorForDevices,
+        attributes: submitData
       },
       {
-        onSuccess: (data: any) => {
+        onSuccess: () => {
           toast.success(t('Successfully created!'));
           setOpenModal(false);
           reset();
         },
         onError: (e: any) => {
           console.log(e);
-          if (e.response.data.error.message === 'This attribute must be unique') {
-            // toast.error('Bu ip address oldin ro`yhatdan o`tkazilgan');
-            toast.error(t('This IP address has been registered before'));
-          } else {
-            toast.error(t("The IP address was entered incorrectly!"));
-          }
+          // if (e.response.data.error.message === 'This attribute must be unique') {
+          //   // toast.error('Bu ip address oldin ro`yhatdan o`tkazilgan');
+          //   toast.error(t('This IP address has been registered before'));
+          // } else {
+          //   toast.error(t("The IP address was entered incorrectly!"));
+          // }
         }
       }
     );
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">
-      <MySelect
-        options={get(getDeviceType, 'data.data')?.map((evt: any) => {
-          return {
-            label: evt.name,
-            value: evt.id
-          };
-        })}
-        placeholder={t('Choose device type')}
-        onChange={(evt: any) => handleChange('deviceType', evt.value)}
-        label={t('Device type')}
-      />
-      <MySelect
-        options={get(getDeviceModel, 'data.data')?.map((evt: any) => {
-          return {
-            label: evt.name,
-            value: evt.id
-          };
-        })}
-        placeholder={t('Choose model type')}
-        label={t('Model type')}
-        onChange={(evt: any) => handleChange('deviceModel', evt.value)}
+      <MyInput
+        {...register('name')}
+        error={Boolean(errors?.name?.message)}
+        helperText={t(`${errors?.name?.message}`)}
+        placeholder={t('Enter device name')}
+        label={t('Name')}
       />
       <MyInput
-        {...register('ip')}
-        error={Boolean(errors?.ip?.message)}
-        helperText={t(`${errors?.ip?.message}`)}
+        {...register('ipAddress')}
+        error={Boolean(errors?.ipAddress?.message)}
+        helperText={t(`${errors?.ipAddress?.message}`)}
         placeholder={t('Enter ip address')}
         label={t('Ip address')}
       />
@@ -135,22 +91,11 @@ function FormDeviceModal({ setOpenModal }: any) {
         label={t('Password')}
       />
       <MyInput
-        {...register('name')}
-        error={Boolean(errors?.name?.message)}
-        helperText={t(`${errors?.name?.message}`)}
-        placeholder={t('Enter device name')}
-        label={t('Name')}
-      />
-      <MySelect
-        options={get(getCheck, 'data.data')?.map((evt: any) => {
-          return {
-            label: evt.name,
-            value: evt.id
-          };
-        })}
-        placeholder={t('Choose using type')}
-        onChange={(evt: any) => handleChange('checkType', evt.value)}
-        label={t('Using type')}
+        {...register('login')}
+        error={Boolean(errors?.login?.message)}
+        helperText={t(`${errors?.login?.message}`)}
+        placeholder={t('Enter device login')}
+        label={t('Login')}
       />
       <div className="flex items-center justify-end gap-4">
         <MyButton variant="primary">{t('Create a device')}</MyButton>

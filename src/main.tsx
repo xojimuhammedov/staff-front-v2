@@ -12,6 +12,7 @@ import { DarkLightProvider } from 'context/DarkLightContext';
 import Loading from 'assets/icons/Loading';
 import { NavigateParamsProvider } from 'context/NavigateRouteContext';
 const queryClient = new QueryClient();
+import { registerSW } from 'virtual:pwa-register'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
@@ -38,4 +39,16 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </Suspense>
   </BrowserRouter>
 );
- 
+
+
+const updateSW = registerSW({
+  onNeedRefresh() {
+    // yangi versiya mavjud bo'lsa xabar chiqarish
+    if (confirm("Yangi versiya mavjud. Yangilaysizmi?")) {
+      updateSW(true)
+    }
+  },
+  onOfflineReady() {
+    console.log('App offline rejimda ishlashga tayyor ✅')
+  },
+})

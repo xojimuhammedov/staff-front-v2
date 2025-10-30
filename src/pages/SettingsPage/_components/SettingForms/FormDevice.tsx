@@ -6,13 +6,8 @@ import { Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormDeviceModal from './FormDeviceModal';
-import { MyCheckbox } from 'components/Atoms/Form';
-import { useGetAllQuery } from 'hooks/api';
-import { KEYS } from 'constants/key';
-import { URLS } from 'constants/url';
 import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
-import { get } from 'lodash';
 
 function FormDevice({ handleClick }: any) {
   const { t } = useTranslation();
@@ -20,19 +15,6 @@ function FormDevice({ handleClick }: any) {
   const location = useLocation();
 
   const doorId: any = paramsStrToObj(location.search);
-
-  const { data } = useGetAllQuery({
-    key: KEYS.getByIdDeviceDoors,
-    url: URLS.getByIdDeviceDoors,
-    params: {
-      populate: 'deviceModel, deviceModel.brand, deviceType, checkType',
-      filters: {
-        door: {
-          id: doorId?.deviceId
-        }
-      }
-    }
-  });
 
   return (
     <>
@@ -59,7 +41,7 @@ function FormDevice({ handleClick }: any) {
             <LabelledCaption title={t('Choose device')} subtitle={t('Subtitle text')} />
           </div>
           <div className="w-[50%]">
-            <div className="ml-3 flex flex-col gap-2">
+            {/* <div className="ml-3 flex flex-col gap-2">
               {get(data, 'data.data')?.map((evt: any, index: number) => (
                 <div key={index} className="flex items-center gap-4">
                   <MyCheckbox
@@ -70,22 +52,9 @@ function FormDevice({ handleClick }: any) {
                         : ''
                     }
                   />
-                  {/* <div className="flex items-center ">
-                    <MyButton
-                      onClick={() => {
-                        setDeviceId(evt?.id);
-                        setOpenEditModal(true);
-                      }}>
-                      <Edit2 size={DEFAULT_ICON_SIZE} />
-                    </MyButton>
-                    <MyButton onClick={() => deleteItem(evt?.id)}>
-                      <Trash2 size={DEFAULT_ICON_SIZE} />
-                    </MyButton>
-                  </div> */}
                 </div>
               ))}
-            </div>
-            {/* {deviceData ? <MyCheckbox checked label={deviceData?.ip ?? ''} /> : ''} */}
+            </div> */}
             <MyButton onClick={() => setOpenModal(true)} startIcon={<Plus stroke="black" />}>
               {t('Connect device')}
             </MyButton>
