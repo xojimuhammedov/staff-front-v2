@@ -1,22 +1,16 @@
 import { MyInput } from 'components/Atoms/Form';
-import React from 'react';
+import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { object, string } from 'yup';
 import { useTranslation } from 'react-i18next';
 import { KEYS } from 'constants/key';
-import { usePostQuery } from 'hooks/api';
+import { usePutQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
+import { get } from 'lodash';
 
-const Form = ({ refetch, onClose, employeeId }: any) => {
+const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => {
     const { t } = useTranslation()
-    const schema = object().shape({
-        code: string().required(),
-        type: string().required(),
-        additionalDetails: string(),
-    });
 
     const {
         handleSubmit,
@@ -24,29 +18,42 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         reset,
         formState: { errors }
     } = useForm({
-        defaultValues: {},
-        mode: 'onChange',
-        resolver: yupResolver(schema)
+        defaultValues: useMemo(() => {
+            return {
+                code: get(data, 'data.code'),
+                type: get(data, 'data.type'),
+                additionalDetails: get(data, 'data.additionalDetails'),
+            };
+        }, [data]),
+        mode: 'onChange'
     });
 
-    const { mutate: create } = usePostQuery({
+    useEffect(() => {
+        reset({
+            code: get(data, 'data.code'),
+            type: get(data, 'data.type'),
+            additionalDetails: get(data, 'data.additionalDetails'),
+        });
+    }, [data]);
+
+    const { mutate: update } = usePutQuery({
         listKeyId: KEYS.credentials,
         hideSuccessToast: true
     });
 
     const onSubmit = (data: any) => {
         const submitData = {
-            employeeId: Number(employeeId),
+            employeeId: employeeId,
             ...data
         }
-        create(
+        update(
             {
-                url: URLS.credentials,
+                url: `${URLS.credentials}/${credentialId}`,
                 attributes: submitData
             },
             {
                 onSuccess: () => {
-                    toast.success(t('Successfully created!'));
+                    toast.success(t('Edit successfully!'));
                     reset();
                     refetch()
                     onClose()
@@ -59,7 +66,6 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         );
     };
 
-
     return (
         <div className='p-4'>
             <form onSubmit={handleSubmit(onSubmit)} action="">
@@ -68,13 +74,13 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                         {...register("type")}
                         error={Boolean(errors?.type?.message)}
                         helperText={t(`${errors?.type?.message}`)}
-                        label={t('Type')}
+                        label={t('Credential type')}
                     />
                     <MyInput
                         {...register("code")}
                         error={Boolean(errors?.code?.message)}
                         helperText={t(`${errors?.code?.message}`)}
-                        label={t('Code')}
+                        label={t('Credential code')}
                     />
                     <MyInput
                         {...register("additionalDetails")}
@@ -102,4 +108,4 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
     );
 }
 
-export default Form;
+export default EditForm;

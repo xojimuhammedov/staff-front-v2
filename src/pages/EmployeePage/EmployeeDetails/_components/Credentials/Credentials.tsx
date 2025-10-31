@@ -2,22 +2,31 @@ import Button from 'components/Atoms/MyButton';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery } from 'hooks/api';
+import { useGetAllQuery, useGetOneQuery } from 'hooks/api';
 import { Edit, Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import Form from './Create';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import EditForm from './Edit';
 
 const Credentials = () => {
     const { id } = useParams()
     const { t } = useTranslation()
     const [showModal, setShowModal] = useState(false)
+    const [show, setShow] = useState(false)
+    const [credentialId, setCredentialId] = useState(null)
     const { data, refetch }: any = useGetAllQuery({
         key: KEYS.getCredentialByEmployee,
         url: `${URLS.getCredentialByEmployee}/${id}`,
         params: {}
     })
+    const { data: getOne } = useGetOneQuery({
+        id: credentialId,
+        url: URLS.credentials,
+        params: {},
+        enabled: !!credentialId
+    });
     return (
         <>
             <div className='flex justify-end'> <Button startIcon={<Plus />} onClick={() => setShowModal(true)} className={'[&_svg]:stroke-bg-white'} variant='primary'>Add new type</Button></div>
@@ -32,7 +41,10 @@ const Credentials = () => {
                             </div>
                             <div className='flex items-center gap-2 mt-4'>
                                 <Button variant='secondary' className={'w-full font-medium'}>Inactive car</Button>
-                                <Button variant='secondary' startIcon={<Edit />}></Button>
+                                <Button variant='secondary' onClick={() => {
+                                    setCredentialId(item?.id)
+                                    setShow(true)
+                                }} startIcon={<Edit />}></Button>
                             </div>
                         </div>
                     ))
@@ -50,7 +62,24 @@ const Credentials = () => {
                     className: 'px-6'
                 }}
                 bodyProps={{
-                    children: <Form refetch={refetch} onClose={() => setShowModal(false)} />
+                    children: <Form refetch={refetch} onClose={() => setShowModal(false)} employeeId={id} />
+                }}
+            />
+            <MyModal
+                modalProps={{
+                    show: Boolean(show),
+                    onClose: () => {
+                        setShow(false)
+                    }
+                }}
+                headerProps={{
+                    children: <h2 className="text-xl font-semibold">{t('Edit credential')}</h2>,
+                    className: 'px-6'
+                }}
+                bodyProps={{
+                    children: <EditForm
+                        credentialId={credentialId}
+                        data={getOne} refetch={refetch} onClose={() => setShow(false)} employeeId={id} />
                 }}
             />
         </>

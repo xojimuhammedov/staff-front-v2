@@ -18,10 +18,7 @@ type MenuItem = {
   to: string;
   isSubMenu: boolean;
   subRoutes?: SubItem[];
-};
-
-type CustomDropdownMenuProps = {
-  menuItem: MenuItem;
+  allowedRoles?: any[]
 };
 
 const CustomDropdownMenu = ({ menuItem, setOpen }: any) => {
@@ -111,111 +108,62 @@ const NavMobileMenu = ({ setOpen }: any) => {
     {
       label: t('Dashboard'),
       to: '/',
-      isSubMenu: false
-    },
-    {
-      label: t('Attendances'),
-      to: '/attendances',
-      isSubMenu: true,
-      subRoutes: [
-        {
-          label: t('Attendances'),
-          to: '/attendances/list',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Attendance Reason'),
-          to: '/attendances/reasons',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Guests'),
-          to: '/attendances/guests',
-          icon: 'AppWindow'
-        }
-      ]
-    },
-    {
-      label: t('Monitoring'),
-      to: '/monitoring',
-      isSubMenu: true,
-      subRoutes: [
-        {
-          label: t('Applications monitoring'),
-          to: '/monitoring/applications',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Keystroke monitoring'),
-          to: '/monitoring/keystroke',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Screenshots monitoring'),
-          to: '/monitoring/screenshot',
-          icon: 'AppWindow'
-        }
-      ]
-    },
-    {
-      label: t('Reports'),
-      to: '/reports',
-      isSubMenu: true,
-      subRoutes: [
-        {
-          label: t('TimeSheet'),
-          to: '/reports/timesheet',
-          icon: 'Globe'
-        },
-        {
-          label: t('Attendance'),
-          to: '/reports/attendance',
-          icon: 'Globe'
-        },
-        {
-          label: t('Full Check In/Out'),
-          to: '/reports/report-history',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Early/Late Checks'),
-          to: '/reports/report-late',
-          icon: 'Server'
-        }
-      ]
+      isSubMenu: false,
+      allowedRoles: ['ADMIN', "HR", "DEPARTMENT_LEAD"]
     },
     {
       label: t('Organization'),
+      to: '/organization',
+      isSubMenu: false,
+      allowedRoles: ['ADMIN', "HR", "DEPARTMENT_LEAD"]
+    },
+    {
+      label: t('Department'),
+      to: '/department',
+      isSubMenu: false,
+      allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
+    },
+    {
+      label: t('Employees'),
       to: '/employees',
+      isSubMenu: false,
+      allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
+    },
+    {
+      label: t('Users'),
+      to: '/users',
+      isSubMenu: false,
+      allowedRoles: ['ADMIN']
+    },
+    {
+      label: t('Policy'),
+      to: '/policy',
       isSubMenu: true,
       subRoutes: [
         {
-          label: t('Employees'),
-          to: '/employees/list',
+          label: t('Policy list'),
+          to: '/policy',
           icon: 'AppWindow'
         },
         {
-          label: t('Departments'),
-          to: '/employees/departments',
+          label: t('Policy groups'),
+          to: '/policy/groups',
           icon: 'AppWindow'
         },
-        {
-          label: t('Work schedule'),
-          to: '/employees/policy',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Employees position'),
-          to: '/employees/job-position',
-          icon: 'AppWindow'
-        }
-      ]
+      ],
+      allowedRoles: ['ADMIN']
     },
-
     {
       label: t('Settings'),
       to: '/settings',
-      isSubMenu: false
+      isSubMenu: false,
+      allowedRoles: ['ADMIN']
+    },
+    {
+      label: t('Visitor'),
+      to: '/visitor',
+      isSubMenu: false,
+      allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
     }
   ];
 
