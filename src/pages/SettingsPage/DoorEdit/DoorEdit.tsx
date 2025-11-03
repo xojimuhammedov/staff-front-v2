@@ -25,7 +25,6 @@ interface SidebarMenu {
 function DoorEdit() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
   const sidebar_menu: SidebarMenu[] = [
     {
       title: t('Enter a door name and description'),
@@ -57,7 +56,6 @@ function DoorEdit() {
     const step = currentStep === sidebar_menu.length ? currentStep : currentStep + 1;
 
     searchParams.set('current-step', `${step}`);
-    // searchParams.set('current-rule', `${get(sidebar_menu[step - 1], 'items[0].path', '')}`);
     setSearchParams(searchParams);
   };
 

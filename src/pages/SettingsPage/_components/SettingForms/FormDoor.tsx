@@ -65,11 +65,11 @@ function FormDoor({ handleClick }: any) {
             subtitle={t('Enter a door name and description')}
           />
         </div>
-        <div className="flex items-center gap-4">
+        {/* <div className="flex items-center gap-4">
           <MyButton variant="primary">
             {t('Go to next step')}
           </MyButton>
-        </div>
+        </div> */}
       </div>
       <MyDivider />
       <form onSubmit={handleSubmit(onSubmit)} action="">

@@ -10,6 +10,7 @@ import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import MyBadge from 'components/Atoms/MyBadge';
+import Loading from 'assets/icons/Loading';
 
 type FilterType = {
   search: string;
@@ -29,22 +30,20 @@ const Notifications = () => {
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.getDoorForDevices,
     url: URLS.getDoorForDevices,
-    params: {
-      populate: '*'
-    }
+    params: {}
   });
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
       {
-        key: 'door.name',
+        key: 'gate.name',
         label: t('Door name'),
-        headerClassName: 'w-44'
+        headerClassName: 'sm:w-1/4 lg:flex-1'
       },
       {
         key: 'isActive',
         label: t('Status'),
-        headerClassName: 'w-44',
+        headerClassName: 'sm:w-1/4 lg:flex-1',
         cellRender: (row) => (
           <>
             <MyBadge variant={row.isActive ? 'green' : 'neutral'}>
@@ -54,9 +53,9 @@ const Notifications = () => {
         )
       },
       {
-        key: 'ip',
+        key: 'ipAddress',
         label: t('Ip address'),
-        headerClassName: 'flex-1'
+        headerClassName: 'sm:w-1/4 lg:flex-1'
       },
     ],
     [t]
@@ -66,19 +65,27 @@ const Notifications = () => {
     {
       id: 1,
       label: t('Door name'),
-      headerClassName: 'w-44'
+      headerClassName: 'sm:w-1/4 lg:flex-1'
     },
     {
       id: 2,
       label: t('Status'),
-      headerClassName: 'w-44'
+      headerClassName: 'sm:w-1/4 lg:flex-1'
     },
     {
       id: 3,
       label: t('Ip address'),
-      headerClassName: 'flex-1'
+      headerClassName: 'sm:w-1/4 lg:flex-1'
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="absolute flex h-full w-[calc(100%-350px)] items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -94,7 +101,7 @@ const Notifications = () => {
         values={{
           columns,
           filter: { search: '' },
-          rows: get(data, 'data.data', []),
+          rows: get(data, 'data', []),
           keyExtractor: 'id'
         }}>
         <DataGrid
@@ -104,7 +111,7 @@ const Notifications = () => {
           dataColumn={dataColumn}
           hasCheckbox={false}
           isLoading={isLoading}
-          pagination={get(data, 'data.meta.pagination', {})}
+        // pagination={get(data, 'data.meta.pagination', {})}
         />
       </TableProvider>
     </div>

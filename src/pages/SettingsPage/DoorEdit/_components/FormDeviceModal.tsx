@@ -4,7 +4,7 @@ import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import {  usePutQuery } from "hooks/api";
 import { get } from "lodash";
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -53,9 +53,8 @@ function FormDeviceEditModal({ deviceData, deviceId, doorId, onClose }: any) {
         },
       },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
           onClose();
-          // toast.success(t("Muvaffaqiyatli tahrirlandi!"));
           toast.success(t("Successfully edited!"));
         },
         onError: (e) => {

@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { Edit, Eye, Mail, MapPin, NotebookPen, Phone, Trash, Trash2 } from 'lucide-react';
+import { Edit, Eye, Mail, MapPin, NotebookPen, Phone, Trash2 } from 'lucide-react';
 import MyBadge from 'components/Atoms/MyBadge';
 import MyButton from 'components/Atoms/MyButton/MyButton';
+import React from 'react'
 
 const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) => {
     const { t } = useTranslation()
@@ -67,4 +68,4 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
     );
 }
 
-export default OrganizationCard;
+export default React.memo(OrganizationCard);

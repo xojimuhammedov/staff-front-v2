@@ -78,7 +78,7 @@ function FormDeviceEdit({ handleClick }: any) {
           className: "py-[10px]",
         }}
       />
-      <MyModal
+      {/* <MyModal
         modalProps={{
           show: Boolean(openEditModal),
           onClose: () => setOpenEditModal(false),
@@ -102,7 +102,7 @@ function FormDeviceEdit({ handleClick }: any) {
           ),
           className: "py-[10px]",
         }}
-      />
+      /> */}
     </>
   );
 }

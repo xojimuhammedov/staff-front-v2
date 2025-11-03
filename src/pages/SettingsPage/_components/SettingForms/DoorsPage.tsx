@@ -13,9 +13,9 @@ import { get } from 'lodash';
 import { IAction } from 'interfaces/action.interface';
 import { Edit3, Plus, Trash2, Eye } from 'lucide-react';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { paramsStrToObj } from 'utils/helper';
-import storage from 'services/storage';
+import { useNavigate } from 'react-router-dom';
+import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import Loading from 'assets/icons/Loading';
 
 type FilterType = {
   search: string;
@@ -32,18 +32,13 @@ type TItem = {
 const DoorsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
-  const page: any = paramsStrToObj(location.search);
+  const [doorId, setDoorId] = useState<string | null>(null);
+  const [show, setShow] = useState(false);
 
   const { data, isLoading, refetch } = useGetAllQuery({
-    key: KEYS.getDoorForDevices,
-    url: URLS.getDoorForDevices,
-    params: {
-      pagination: {
-        pageSize: Number(page?.pageSize) || 10,
-        page: Number(page?.page) || 1
-      },
-    }
+    key: KEYS.getDoorGates,
+    url: URLS.getDoorGates,
+    params: {}
   });
 
   const columns: DataGridColumnType[] = useMemo(
@@ -56,7 +51,8 @@ const DoorsPage = () => {
       },
       {
         key: 'countDevices',
-        label: t('Devices')
+        label: t('Devices'),
+        cellRender: (row) => <div className="dark:text-text-title-dark">{row?._count?.devices ?? '--'}</div>
       },
       {
         key: 'countOfAllowedEmps',
@@ -105,13 +101,43 @@ const DoorsPage = () => {
         type: 'danger',
         name: t('Delete'),
         action: (row, $e) => {
+          setDoorId(row?.id);
+          setShow(true);
         }
       }
     ],
     [t]
   );
+
+  const { mutate: deleteRequest } = useDeleteQuery({
+    listKeyId: KEYS.getDoorGates
+  });
+
+  const deleteItem = () => {
+    if (!doorId) return;
+    deleteRequest(
+      {
+        url: `${URLS.getDoorGates}/${doorId}`
+      },
+      {
+        onSuccess: () => {
+          refetch();
+          setShow(false);
+        }
+      }
+    );
+  };
+
+  if (isLoading) {
+    return (
+      <div className="absolute flex h-full w-[calc(100%-350px)] items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <>
       <div className={'flex justify-between'}>
         <LabelledCaption
           title={t('Doors')}
@@ -124,7 +150,7 @@ const DoorsPage = () => {
         values={{
           columns,
           filter: { search: '' },
-          rows: get(data, 'data.data.doorList', []),
+          rows: get(data, 'data', []),
           keyExtractor: 'id'
         }}>
         <DataGrid
@@ -133,7 +159,7 @@ const DoorsPage = () => {
           hasCheckbox={false}
           dataColumn={dataColumn}
           isLoading={isLoading}
-          pagination={get(data, 'data.data.pagination', {})}
+          // pagination={get(data, 'data.data.pagination', {})}
           rowActions={rowActions}
           hasButton={
             <>
@@ -148,7 +174,11 @@ const DoorsPage = () => {
           }
         />
       </TableProvider>
-    </div>
+      <ConfirmationModal
+        title={t("Bu xonani o'chirmoqchimisiz?")}
+        subTitle={t("Bu amalni qaytarib bo'lmaydi! Xona o'chiriladi va unga bog'langan barcha qurilmalar o'chiriladi.")}
+        open={show} setOpen={setShow} confirmationDelete={deleteItem} />
+    </>
   );
 };
 

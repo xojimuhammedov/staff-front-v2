@@ -89,4 +89,4 @@ const DepartmentList = ({ data, refetch, setShowModal, showModal }: any) => {
     );
 }
 
-export default DepartmentList;
+export default React.memo(DepartmentList);

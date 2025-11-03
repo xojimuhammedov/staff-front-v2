@@ -1,5 +1,4 @@
 import { MyInput } from 'components/Atoms/Form';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
@@ -9,6 +8,7 @@ import { usePostQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
+import React from 'react';
 
 const Form = ({ refetch, onClose, employeeId }: any) => {
     const { t } = useTranslation()
@@ -102,4 +102,4 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
     );
 }
 
-export default Form;
+export default React.memo(Form);

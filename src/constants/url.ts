@@ -17,5 +17,7 @@ export const URLS = {
   getDoorGates: "/api/v1/gates",
   getDoorForDevices: "/api/v1/devices",
   getCredentialByEmployee: "/api/v1/credentials/by-employee",
-  credentials:"/api/v1/credentials"
+  credentials:"/api/v1/credentials",
+  getGatesByIdDevices:"/api/v1/gates",
+  uploadPhotoByEmployee:"/api/v1/employees/upload-photo"
 };

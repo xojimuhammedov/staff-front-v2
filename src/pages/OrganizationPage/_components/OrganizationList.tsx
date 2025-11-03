@@ -93,4 +93,4 @@ const OrganizationList = ({ data, refetch, setShowModal, showModal }: any) => {
     );
 }
 
-export default OrganizationList;
+export default React.memo(OrganizationList);

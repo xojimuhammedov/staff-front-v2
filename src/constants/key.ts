@@ -17,5 +17,7 @@ export const KEYS = {
   getDoorGates: "getDoorGates",
   getDoorForDevices: "getDoorForDevices",
   getCredentialByEmployee: "getCredentialByEmployee",
-  credentials: "credentials"
+  credentials: "credentials",
+  getGatesByIdDevices: "getGatesByIdDevices",
+  uploadPhotoByEmployee: "uploadPhotoByEmployee"
 };

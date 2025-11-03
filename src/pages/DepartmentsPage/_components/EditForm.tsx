@@ -185,4 +185,4 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
   );
 }
 
-export default EditForm;
+export default React.memo(EditForm);

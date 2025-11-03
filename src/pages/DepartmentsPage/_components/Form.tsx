@@ -16,7 +16,6 @@ import { Organization } from 'pages/OrganizationPage/interface/organization.inte
 
 const Form = ({ refetch, onClose }: any) => {
     const { t } = useTranslation()
-
     const { data } = useGetAllQuery<any>({
         key: KEYS.getListOrganizationSelf,
         url: URLS.getListOrganizationSelf,

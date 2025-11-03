@@ -1,5 +1,5 @@
 import { MyInput } from 'components/Atoms/Form';
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { KEYS } from 'constants/key';
@@ -108,4 +108,4 @@ const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => 
     );
 }
 
-export default EditForm;
+export default React.memo(EditForm);

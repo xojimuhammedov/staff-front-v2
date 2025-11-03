@@ -1,23 +1,47 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { MyInput, MyTextarea } from "components/Atoms/Form";
+import { MyInput } from "components/Atoms/Form";
 import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import LabelledCaption from "components/Molecules/LabelledCaption";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
-import { useGetAllQuery, usePutQuery } from "hooks/api";
+import { useGetOneQuery, usePutQuery } from "hooks/api";
 import { get } from "lodash";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { object, string } from "yup";
 
 function FormDoorEdit({ handleClick }: any) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const { data } = useGetOneQuery({
+    id: id,
+    url: URLS.getDoorGates,
+    params: {},
+    enabled: !!id
+  })
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm({
+    defaultValues: useMemo(() => {
+      return {
+        name: get(data, 'data.name'),
+      };
+    }, [data]),
+    mode: 'onChange',
+  });
+
+  useEffect(() => {
+    reset({
+      name: get(data, 'data.name'),
+    });
+  }, [data]);
 
   const { mutate: create } = usePutQuery({
     listKeyId: KEYS.getDoorGates,
@@ -33,8 +57,7 @@ function FormDoorEdit({ handleClick }: any) {
         },
       },
       {
-        onSuccess: (data) => {
-          // toast.success(t('Door muvaffaqiyatli tahrirlandi!'));
+        onSuccess: () => {
           toast.success(t("Door successfully edited!"));
         },
         onError: (e) => {
@@ -64,7 +87,7 @@ function FormDoorEdit({ handleClick }: any) {
         </div>
       </div>
       <MyDivider />
-      <form action="">
+      <form onSubmit={handleSubmit(onSubmit)} action="">
         <div className="my-10 flex">
           <div className="w-[50%]">
             <LabelledCaption
@@ -75,6 +98,9 @@ function FormDoorEdit({ handleClick }: any) {
           <div className="w-[50%]">
             <MyInput
               placeholder={t("Enter door name")}
+              {...register('name')}
+              error={Boolean(errors?.name?.message)}
+              helperText={t(`${errors?.name?.message}`)}
             />
           </div>
         </div>

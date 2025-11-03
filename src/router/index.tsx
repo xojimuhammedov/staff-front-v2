@@ -21,6 +21,7 @@ const EmployeeGroupCreate = lazy(() => import('pages/EmployeeGroup/_components/C
 const EmployeeGroupEdit = lazy(() => import('pages/EmployeeGroup/_components/Edit'))
 const SettingsPage = lazy(() => import('pages/SettingsPage'))
 const DoorCreate = lazy(() => import('pages/SettingsPage/_components/SettingForms/DoorCreate'))
+const DoorEdit = lazy(() => import('pages/SettingsPage/DoorEdit/DoorEdit'))
 
 export const PublicRoutes = [
   {
@@ -126,9 +127,14 @@ export const PrivateRoutes = [
     roles: ["ADMIN", "HR"],
   },
   {
-    path:"/employees/about/:id",
+    path: "/employees/about/:id",
     element: <EmployeeDetails />,
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
+  },
+  {
+    path: '/settings/door/edit/:id',
+    element: <DoorEdit />,
+    roles: ["ADMIN", "HR"],
   }
 ];
 

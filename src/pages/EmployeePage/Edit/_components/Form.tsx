@@ -9,9 +9,6 @@ import { get } from 'lodash';
 import { UploadCloud } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { object, string } from 'yup';
-import * as yup from "yup";
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Department } from 'pages/DepartmentsPage/interface/department.interface';
@@ -19,31 +16,45 @@ import { ISelect } from 'interfaces/select.interface';
 import { toast } from 'react-toastify';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
+import { request } from 'services/request';
+import ImageCropModalContent from 'pages/EmployeePage/Create/_components/ImageCropModalContent';
 
 function Form() {
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
+  const [imageKey, setImageKey] = useState(null)
   const { id } = useParams()
   const navigate = useNavigate()
-  const [error, setError] = useState(false);
   const [preview, setPreview] = useState<any>();
   const { getProcessedImage, setImage, resetStates }: any = useImageCropContext();
   const handleDone = async (): Promise<void> => {
     const avatar = await getProcessedImage();
     if (avatar) {
       if (avatar instanceof Blob) {
-        const reader = new FileReader();
-        reader.readAsDataURL(avatar);
-        reader.onloadend = () => {
-          const base64data = reader.result as string;
-          setPreview(base64data);
-        };
+        try {
+          const formData = new FormData();
+          formData.append('file', avatar);
+
+          // 🧩 2. API'ga yuboramiz
+          const response = request.post(URLS.uploadPhotoByEmployee, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          })
+          response.then((res) => setImageKey(res?.data?.key))
+
+          const imageUrl = URL.createObjectURL(avatar);
+          setPreview(imageUrl);
+
+          resetStates();
+          setOpenModal(false);
+
+        } catch (error) {
+          console.error('❌ Error uploading avatar:', error);
+        }
       } else {
         console.error('Processed image is not a valid Blob.');
       }
-      resetStates();
-      setOpenModal(false);
-      setError(false);
     } else {
       console.error('Processed image is not available.');
     }
@@ -54,13 +65,8 @@ function Form() {
     const imageDataUrl = await readFile(file);
     setImage(imageDataUrl);
     setOpenModal(true);
-  };
-  const { data: getDepartment } = useGetAllQuery<any>({
-    key: KEYS.getAllListDepartment,
-    url: URLS.getAllListDepartment,
-    params: {}
-  })
 
+  }
   const { data } = useGetOneQuery({
     id: id,
     url: URLS.getEmployeeList,
@@ -72,16 +78,18 @@ function Form() {
     register,
     control,
     reset,
+    watch,
     formState: { errors }
   } = useForm({
     defaultValues: useMemo(() => {
       return {
         name: get(data, 'data.name'),
+        address: get(data, 'data.address'),
         email: get(data, 'data.email'),
         phone: get(data, 'data.phone'),
         additionalDetails: get(data, 'data.additionalDetails'),
-        address: get(data, 'data.address'),
-        departmentId: get(data, 'data.departmentId')
+        departmentId: get(data, 'data.departmentId'),
+        organizationId: get(data, 'data.organizationId')
       };
     }, [data]),
     mode: 'onChange',
@@ -94,7 +102,8 @@ function Form() {
       phone: get(data, 'data.phone'),
       additionalDetails: get(data, 'data.additionalDetails'),
       address: get(data, 'data.address'),
-      departmentId: get(data, 'data.departmentId')
+      departmentId: get(data, 'data.departmentId'),
+      organizationId: get(data, 'data.organizationId')
     });
   }, [data]);
 
@@ -107,7 +116,10 @@ function Form() {
     update(
       {
         url: `${URLS.getEmployeeList}/${id}`,
-        attributes: data
+        attributes: {
+          photo: imageKey,
+          ...data
+        }
       },
       {
         onSuccess: () => {
@@ -123,6 +135,20 @@ function Form() {
     );
   };
 
+  const { data: getOrganization } = useGetAllQuery<any>({
+    key: KEYS.getListOrganizationSelf,
+    url: URLS.getListOrganizationSelf,
+    params: {}
+  })
+
+  const { data: getDepartment } = useGetAllQuery<any>({
+    key: KEYS.getAllListDepartment,
+    url: URLS.getAllListDepartment,
+    params: {
+      organizationId: watch("organizationId")
+    }
+  })
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -132,31 +158,48 @@ function Form() {
               {...register("name")}
               error={Boolean(errors?.name?.message)}
               helperText={t(`${errors?.name?.message}`)}
-              label={t('User name')}
+              label={t('Employee name')}
             />
             <MyInput
               {...register("address")}
               error={Boolean(errors?.address?.message)}
               helperText={t(`${errors?.address?.message}`)}
-              label={t('User address')}
+              label={t('Employee address')}
             />
             <MyInput
               {...register("phone")}
               error={Boolean(errors?.phone?.message)}
               helperText={t(`${errors?.phone?.message}`)}
-              label={t('User phone number')}
+              label={t('Employee phone number')}
             />
             <MyInput
               {...register("email")}
               error={Boolean(errors?.email?.message)}
               helperText={t(`${errors?.email?.message}`)}
-              label={t('User email')}
+              label={t('Employee email')}
             />
             <MyInput
               {...register("additionalDetails")}
               error={Boolean(errors?.additionalDetails?.message)}
               helperText={t(`${errors?.additionalDetails?.message}`)}
-              label={t('User details')}
+              label={t('Employee details')}
+            />
+            <Controller
+              name="organizationId"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MySelect
+                  label={t("Select organization")}
+                  options={getOrganization?.map((evt: any) => ({
+                    label: evt.fullName,
+                    value: evt.id,
+                  }))}
+                  value={field.value as any}  // 👈 cast to any
+                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                  onBlur={field.onBlur}
+                  error={!!fieldState.error}
+                />
+              )}
             />
             <Controller
               name="departmentId"
@@ -197,7 +240,6 @@ function Form() {
               className="mt-6 flex h-[32px] cursor-pointer items-center justify-center gap-2 rounded-md border border-solid border-gray-300 px-[6px] py-[6px]  text-xs font-medium text-gray-700 shadow-sm dark:text-text-title-dark">
               <UploadCloud /> {t('Upload image')}
             </label>
-            {error && <p className="text-red-500">{t("Image is required")}</p>}
           </div>
         </div>
         <MyDivider />
@@ -218,10 +260,10 @@ function Form() {
         bodyProps={{
           children: (
             <>
-              {/* <ImageCropModalContent
+              <ImageCropModalContent
                 handleDone={handleDone}
                 handleClose={() => setOpenModal(false)}
-              /> */}
+              />
             </>
           )
         }}
@@ -229,5 +271,6 @@ function Form() {
     </>
   );
 }
+
 
 export default Form;

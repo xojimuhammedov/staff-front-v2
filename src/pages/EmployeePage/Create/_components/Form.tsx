@@ -20,34 +20,48 @@ import ImageCropModalContent from './ImageCropModalContent';
 import { toast } from 'react-toastify';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
+import { request } from 'services/request';
 
 function Form() {
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
+  const [imageKey, setImageKey] = useState(null)
   const navigate = useNavigate()
-  const [error, setError] = useState(false);
   const [preview, setPreview] = useState<any>();
   const { getProcessedImage, setImage, resetStates }: any = useImageCropContext();
   const handleDone = async (): Promise<void> => {
     const avatar = await getProcessedImage();
     if (avatar) {
       if (avatar instanceof Blob) {
-        const reader = new FileReader();
-        reader.readAsDataURL(avatar);
-        reader.onloadend = () => {
-          const base64data = reader.result as string;
-          setPreview(base64data);
-        };
+        try {
+          const formData = new FormData();
+          formData.append('file', avatar);
+
+          // 🧩 2. API'ga yuboramiz
+          const response = request.post(URLS.uploadPhotoByEmployee, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          })
+          response.then((res) => setImageKey(res?.data?.key))
+
+          const imageUrl = URL.createObjectURL(avatar);
+          setPreview(imageUrl);
+
+          resetStates();
+          setOpenModal(false);
+
+        } catch (error) {
+          console.error('❌ Error uploading avatar:', error);
+        }
       } else {
         console.error('Processed image is not a valid Blob.');
       }
-      resetStates();
-      setOpenModal(false);
-      setError(false);
     } else {
       console.error('Processed image is not available.');
     }
   };
+
 
   const handleFileChange = async ({ target: { files } }: any) => {
     const file = files && files[0];
@@ -69,14 +83,12 @@ function Form() {
     email: string(),
     departmentId: yup.number(),
     organizationId: yup.number(),
-    policyId: yup.number(),
     additionalDetails: string(),
   });
   const {
     handleSubmit,
     register,
     control,
-    reset,
     watch,
     formState: { errors }
   } = useForm({
@@ -94,7 +106,10 @@ function Form() {
     create(
       {
         url: URLS.getEmployeeList,
-        attributes: data
+        attributes: {
+          photo: imageKey,
+          ...data
+        }
       },
       {
         onSuccess: () => {
@@ -102,23 +117,12 @@ function Form() {
           navigate('/employees')
         },
         onError: (e: any) => {
-          console.log(e);
           toast.error(e?.response?.data?.error?.message)
         }
       }
     );
   };
 
-  const { data: employeegroup } = useGetAllQuery<any>({
-    key: KEYS.getEmployeeGroups,
-    url: URLS.getEmployeeGroups,
-    params: {
-      sort: "isDefault",
-      order: "desc",
-      limit: 100,
-      organizationId: watch("organizationId")
-    }
-  })
 
   const { data: getDepartment } = useGetAllQuery<any>({
     key: KEYS.getAllListDepartment,
@@ -131,7 +135,7 @@ function Form() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='w-2/3 flex justify-between'>
+        <div className='sm:w-full lg:w-2/3 flex gap-6 justify-between'>
           <div className='grid grid-cols-2 gap-4 w-3/4'>
             <MyInput
               {...register("name")}
@@ -197,23 +201,6 @@ function Form() {
                 />
               )}
             />
-            <Controller
-              name="policyId"
-              control={control}
-              render={({ field, fieldState }) => (
-                <MySelect
-                  label={t("Select group")}
-                  options={get(employeegroup, "data")?.map((evt: any) => ({
-                    label: evt.name,
-                    value: evt.id,
-                  }))}
-                  value={field.value as any}  // 👈 cast to any
-                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                  onBlur={field.onBlur}
-                  error={!!fieldState.error}
-                />
-              )}
-            />
           </div>
           <div className="cursor-pointer">
             <p className="font-inter text-base font-medium leading-5 dark:text-text-title-dark">
@@ -236,7 +223,6 @@ function Form() {
               className="mt-6 flex h-[32px] cursor-pointer items-center justify-center gap-2 rounded-md border border-solid border-gray-300 px-[6px] py-[6px]  text-xs font-medium text-gray-700 shadow-sm dark:text-text-title-dark">
               <UploadCloud /> {t('Upload image')}
             </label>
-            {error && <p className="text-red-500">{t("Image is required")}</p>}
           </div>
         </div>
         <MyDivider />
