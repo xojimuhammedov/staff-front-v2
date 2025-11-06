@@ -1,56 +1,128 @@
-import { MyCheckbox, MyInput } from 'components/Atoms/Form';
+import { MyCheckbox, MyInput, MySelect } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
-import config from 'configs';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery } from 'hooks/api';
+import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { get } from 'lodash';
 import { Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
-import AvatarIcon from 'assets/icons/avatar.png';
+import AvatarIcon from 'assets/icons/avatar.png'
 import MyAvatar from 'components/Atoms/MyAvatar';
-import { KeyTypeEnum } from 'enums/key-type.enum';
-import Loading from 'assets/icons/Loading';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-function EmployeeDragDrop({ doorId }: any) {
+interface EmployeeResponse {
+  data: Employee[];
+  limit: number;
+  page: number;
+  total: number;
+}
+
+interface Employee {
+  id: number;
+  name: string;
+  additionalDetails: string;
+  avatar: string;
+}
+
+function EmployeeDragDrop() {
   const { t } = useTranslation();
-  const [search, setSearch] = useState('');
-  const [check, setCheck] = useState<any>();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [dragDrop, setDragDrop] = useState<any>([]);
-  const [checkData, setCheckData] = useState<any>([]);
-  const { data, isLoading, refetch } = useGetAllQuery({
+  const navigate = useNavigate()
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectGates, setSelectGates] = useState<number[]>([]);
+  const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]); // yakuniy tanlanganlar
+  const { data } = useGetAllQuery<EmployeeResponse>({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
-    params: {
-    }
+    params: {}
   });
 
-  const handleSubmit = () => {
-  };
+  const { data: getDoor }: any = useGetAllQuery({
+    key: KEYS.getDoorGates,
+    url: URLS.getDoorGates,
+    params: {}
+  });
 
-  const handleSearch = () => {
-    if (search) {
-      searchParams.set('search', search);
+  const { mutate: create } = usePostQuery({
+    listKeyId: KEYS.devicesEmployeeAssign,
+    hideSuccessToast: true
+  });
+
+  const { handleSubmit } = useForm()
+
+  const handleSelectAll = () => {
+    if (selectedIds.length === (data?.data?.length ?? 0)) {
+      setSelectedIds([]);
     } else {
-      searchParams.delete('search');
+      const ids = data?.data?.map((emp) => emp.id) ?? [];
+      setSelectedIds(ids);
     }
-    setSearchParams(searchParams);
   };
 
-  const handleClickButton = () => {
-    setDragDrop(checkData);
+  const handleCheckboxChange = (id: number) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((empId) => empId !== id) : [...prev, id]
+    );
   };
 
-  const handleDelete = (idToRemove: any) => {
-    const updatedCheckData = dragDrop.filter((item: any) => item.id !== idToRemove);
-    setDragDrop(updatedCheckData);
-    setCheckData(updatedCheckData);
-    setCheck(false);
+  const handleAddSelected = () => {
+    setFinalSelectedIds((prev) => {
+      // yangi tanlangan id’larni eski listga qo‘shib, dublikatlarsiz qaytaradi
+      const merged = Array.from(new Set([...prev, ...selectedIds]));
+      return merged;
+    });
+    setSelectedIds([]); // vaqtinchalik tanlovni tozalasa ham bo‘ladi (agar xohlasang)
+  };
+
+  const handleRemoveFinal = (id: number) => {
+    setFinalSelectedIds((prev) => prev.filter((empId) => empId !== id));
+  };
+
+  const finalEmployees =
+    data?.data?.filter((emp) => finalSelectedIds.includes(emp.id)) ?? [];
+
+  const options =
+    getDoor?.data?.map((item: any) => ({
+      label: item.name,
+      value: item.id,
+    })) || [];
+
+  // value qiymatini options asosida topish
+  const value = options.filter((option: any) =>
+    selectGates.includes(option.value)
+  );
+
+  // onchange hodisasi
+  const handleChange = (selected: any) => {
+    const ids = selected.map((s: any) => s.value);
+    setSelectGates(ids);
+  };
+
+
+  const onSubmit = () => {
+    const submitData = {
+      employeeIds: selectedIds,
+      gateIds: selectGates
+    }
+    create(
+      {
+        url: URLS.devicesEmployeeAssign,
+        attributes: submitData
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Successfully created!'));
+          navigate('/settings')
+        },
+        onError: (e: any) => {
+          toast.error(e?.response?.data?.error?.message)
+        }
+      }
+    );
   };
 
   return (
@@ -58,6 +130,23 @@ function EmployeeDragDrop({ doorId }: any) {
       className={
         'mt-12 min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme'
       }>
+      <div className="mb-12 flex w-full items-start justify-between">
+        <LabelledCaption
+          className="flex-1"
+          title={t('Gates')}
+          subtitle={t('')}
+        />
+        <div className='w-[462px]'>
+          <MySelect
+            label={t("Foydali saytlar")}
+            isMulti
+            options={options}
+            value={value}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+      <MyDivider />
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
           <LabelledCaption
@@ -65,9 +154,6 @@ function EmployeeDragDrop({ doorId }: any) {
             subtitle={t('Create employees group and link to the door')}
           />
         </div>
-        <MyButton onClick={handleSubmit} type="submit" variant="secondary">
-          {t('Save changes')}
-        </MyButton>
       </div>
 
       <MyDivider />
@@ -75,14 +161,7 @@ function EmployeeDragDrop({ doorId }: any) {
         <div className="h-[600px] w-1/2 overflow-y-auto rounded-md border-2 border-solid border-gray-300 bg-gray-100 p-4 dark:border-dark-line dark:bg-bg-dark-theme">
           <div>
             <MyInput
-              onKeyUp={(event) => {
-                if (event.key === KeyTypeEnum.enter) {
-                  handleSearch();
-                } else {
-                  setSearch(get(event, 'target.value', ''));
-                }
-              }}
-              startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+              startIcon={<Search className="stroke-text-muted" />}
               placeholder={t('Search')}
             />
           </div>
@@ -90,54 +169,67 @@ function EmployeeDragDrop({ doorId }: any) {
             <div className="flex items-center justify-between sm:mx-1 lg:mx-4">
               <MyCheckbox
                 label={t('Employees')}
-                onChange={() => {
-                  setCheckData(get(data, 'data.data'));
-                  setCheck(true);
-                }}
+                checked={selectedIds?.length === data?.data?.length}
+                onChange={handleSelectAll}
+                id={(Math.random() * 10).toString()}
               />
-              {checkData?.length > 0 ? (
-                <MyButton
-                  onClick={handleClickButton}
-                  className={'font-medium sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm'}
-                  variant="secondary">
-                  {t('Add selected employees')}
-                </MyButton>
-              ) : (
-                <MyButton
-                  className={'font-medium sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm '}
-                  disabled
-                  variant="secondary">
-                  {t('Add selected employees')}
-                </MyButton>
-              )}
+              <MyButton
+                onClick={handleAddSelected}
+                disabled={selectedIds.length > 0 ? false : true}
+                className={'font-medium sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm'}
+                variant="secondary">
+                {t('Add selected employees')}
+              </MyButton>
+            </div>
+            <div className="flex flex-col gap-3">
+              {get(data, 'data')?.map((emp: Employee) => (
+                <div
+                  key={emp?.id}
+                  className="flex items-center p-4 border rounded-sm bg-white hover:bg-gray-50 transition"
+                >
+                  <MyCheckbox
+                    className="w-4 h-4 accent-black mr-3"
+                    checked={selectedIds.includes(emp?.id)}
+                    onChange={() => handleCheckboxChange(emp?.id)}
+                    label={emp?.name}
+                    id={emp?.id.toString()}
+                  />
+                  {/* <img
+                    src={emp.avatar}
+                    alt={emp.name}
+                    className="w-10 h-10 rounded-full object-cover mr-3"
+                  /> */}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-        <div className="flex h-[600px] w-1/2 flex-col gap-3 overflow-y-auto rounded-md border-2 border-solid border-gray-300 p-4 dark:border-dark-line">
-          {dragDrop?.map((evt: any, index: number) => (
-            <div className="flex w-full items-center justify-between gap-4 border-b-2 bg-white px-[16px] py-[14px] dark:border-dark-line">
-              <div className="flex items-center gap-3" key={index}>
+        <div className="flex h-[600px] w-1/2 flex-col gap-3 overflow-y-auto rounded-md border-2 border-solid border-gray-300 dark:border-dark-line">
+          <h3 className='bg-gray-100 p-4 text-[#030712]'>{t("Selected employees")}</h3>
+          {finalEmployees?.map((evt: Employee) => (
+            <div className="flex w-full items-center justify-between border-b-2 bg-white p-4 dark:border-dark-line">
+              <div className="flex items-center gap-3" key={evt?.id}>
                 <MyAvatar
-                  imageUrl={evt.photoUrl ? `${config.FILE_URL}${evt?.photoUrl}` : AvatarIcon}
+                  imageUrl={evt.avatar ?? AvatarIcon}
                   size="medium"
                 />
-                <div className="flex flex-col">
-                  <h2 className="text-sm font-normal text-black">
-                    {evt.firstName} {evt.lastName}
-                  </h2>
-                  <p className="text-subtle text-xs font-normal">{evt.middleName}</p>
-                </div>
+                <h2 className="text-sm font-normal text-black">
+                  {evt?.name}
+                </h2>
               </div>
               <div
-                onClick={() => {
-                  handleDelete(evt.id);
-                }}
+                onClick={() => handleRemoveFinal(evt.id)}
                 className="cursor-pointer">
                 <Trash2 color="#9CA3AF" />
               </div>
             </div>
           ))}
         </div>
+      </div>
+      <div className='flex justify-end mt-4'>
+        <MyButton onClick={handleSubmit(onSubmit)} type="submit" variant="secondary">
+          {t('Save changes')}
+        </MyButton>
       </div>
     </div>
   );

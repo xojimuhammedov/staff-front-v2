@@ -1,6 +1,4 @@
 import {
-  ComponentPropsWithoutRef,
-  FC,
   ReactNode,
   forwardRef,
   useEffect,
@@ -103,20 +101,6 @@ const MyDateRangePicker = forwardRef((props: FormInputProps, ref: FormInputRef) 
     document.addEventListener('click', handleClickOutside, true);
     return () => document.removeEventListener('click', handleClickOutside, true);
   }, []);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-  //       setIsOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener('mousedown', handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
 
   return (
     <div>

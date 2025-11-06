@@ -19,5 +19,10 @@ export const URLS = {
   getCredentialByEmployee: "/api/v1/credentials/by-employee",
   credentials:"/api/v1/credentials",
   getGatesByIdDevices:"/api/v1/gates",
-  uploadPhotoByEmployee:"/api/v1/employees/upload-photo"
+  uploadPhotoByEmployee:"/api/v1/employees/upload-photo",
+  devicesEmployeeAssign:"/api/v1/devices/assign-employees",
+  hikvisionEmployeeSync:"/api/v1/employee-sync",
+  attendacesForEmployee:"/api/v1/attendance",
+  employeeSchedulePlan:"/api/v1/employee-plans",
+  employeePlansAssign:"/api/v1/employee-plans/assign"
 };

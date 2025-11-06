@@ -17,6 +17,7 @@ import { FilterTypeEnum } from 'enums/filter-type.enum';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import MyAvatar from 'components/Atoms/MyAvatar';
 
 
 const EmployeeGroupTable = () => {
@@ -38,7 +39,7 @@ const EmployeeGroupTable = () => {
         headerClassName: 'w-1/2',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
-            {/* <MyAvatar size="medium" imageUrl={row?.photoBase64} /> */}
+            <MyAvatar size="medium" imageUrl={`${import.meta.env.VITE_APP_URL}storage/${row?.photo}`} />
             {row?.name}
           </div>
         )
@@ -193,10 +194,10 @@ const EmployeeGroupTable = () => {
           }
         />
       </TableProvider>
-      <ConfirmationModal 
-            title={t("Bu hodimni o'chirmoqchimisiz?")}
-            subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
-            open={show} setOpen={setShow} confirmationDelete={deleteItem} />
+      <ConfirmationModal
+        title={t("Bu hodimni o'chirmoqchimisiz?")}
+        subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+        open={show} setOpen={setShow} confirmationDelete={deleteItem} />
     </>
   );
 };

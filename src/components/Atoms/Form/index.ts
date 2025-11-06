@@ -4,7 +4,6 @@ import MyTextarea from './MyTextArea';
 import MySelect from './MySelect';
 import MySwitch from './MySwitch';
 import MyRadioGroup from './MyRadioGroup';
-import MyFilePond from './MyFilePond';
 import MyDateRangePicker from './MyDateRangePicker';
 
 export {
@@ -14,6 +13,5 @@ export {
   MySelect,
   MySwitch,
   MyRadioGroup,
-  MyFilePond,
   MyDateRangePicker
 };

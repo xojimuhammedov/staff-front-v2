@@ -63,38 +63,7 @@ const PolicyList = () => {
   ];
 
   const filter: IFilter[] = useMemo(
-    () => [
-      {
-        label: t('State'),
-        key: 'online',
-        type: FilterTypeEnum.multiselect,
-        value: [],
-        options: [
-          { value: 'yes', label: t('Online') },
-          { value: 'no', label: t('Offline') }
-        ]
-      },
-      {
-        label: t('Deleted'),
-        key: 'deleted',
-        type: FilterTypeEnum.multiselect,
-        value: [],
-        options: [
-          { value: 'yes', label: t('Not deleted') },
-          { value: 'no', label: t('Deleted') }
-        ]
-      },
-      {
-        label: t('Monitored'),
-        key: 'monitored',
-        type: FilterTypeEnum.multiselect,
-        value: [],
-        options: [
-          { value: 'yes', label: t('Monitored') },
-          { value: 'no', label: t('Not monitored') }
-        ]
-      }
-    ],
+    () => [],
     [t]
   );
 

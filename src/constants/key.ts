@@ -19,5 +19,10 @@ export const KEYS = {
   getCredentialByEmployee: "getCredentialByEmployee",
   credentials: "credentials",
   getGatesByIdDevices: "getGatesByIdDevices",
-  uploadPhotoByEmployee: "uploadPhotoByEmployee"
+  uploadPhotoByEmployee: "uploadPhotoByEmployee",
+  devicesEmployeeAssign: "devicesEmployeeAssign",
+  hikvisionEmployeeSync: "hikvisionEmployeeSync",
+  attendacesForEmployee: "attendacesForEmployee",
+  employeeSchedulePlan: "employeeSchedulePlan",
+  employeePlansAssign:"employeePlansAssign"
 };

@@ -22,6 +22,10 @@ const EmployeeGroupEdit = lazy(() => import('pages/EmployeeGroup/_components/Edi
 const SettingsPage = lazy(() => import('pages/SettingsPage'))
 const DoorCreate = lazy(() => import('pages/SettingsPage/_components/SettingForms/DoorCreate'))
 const DoorEdit = lazy(() => import('pages/SettingsPage/DoorEdit/DoorEdit'))
+const HikvisionDoorByEmployee = lazy(() => import('pages/SettingsPage/_components/SettingForms/MainGate'))
+const Attendances = lazy(() => import('pages/Attendances'))
+const WorkSchedule = lazy(() => import('pages/WorkSchedule'))
+const CreateSchedulePage = lazy(() => import('pages/WorkSchedule/CreateSchedulePage'))
 
 export const PublicRoutes = [
   {
@@ -134,6 +138,26 @@ export const PrivateRoutes = [
   {
     path: '/settings/door/edit/:id',
     element: <DoorEdit />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: "/settings/maingate/:id",
+    element: <HikvisionDoorByEmployee />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: "/attendances",
+    element: <Attendances />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: '/workschedule',
+    element: <WorkSchedule />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: '/workschedule/create',
+    element: <CreateSchedulePage />,
     roles: ["ADMIN", "HR"],
   }
 ];

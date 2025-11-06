@@ -1,13 +1,12 @@
 import MyDivider from 'components/Atoms/MyDivider';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import Stepper from './Stepper';
 import FormDevice from './FormDevice';
 import FormDoor from './FormDoor';
 import EmployeeDragDrop from './EmployeeDragDrop';
-import { paramsStrToObj } from 'utils/helper';
 
 interface SidebarItem {
   icon: string;
@@ -25,8 +24,6 @@ interface SidebarMenu {
 function DoorCreate() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
-  const doorId: any = paramsStrToObj(location.search);
   const sidebar_menu: SidebarMenu[] = [
     {
       title: t('Enter a door name and description'),
@@ -73,7 +70,7 @@ function DoorCreate() {
         {currentStep === 2 ? (
           <FormDevice handleClick={handleClick} />
         ) : currentStep === 3 ? (
-          <EmployeeDragDrop doorId={doorId} />
+          <EmployeeDragDrop />
         ) : (
           <FormDoor handleClick={handleClick} />
         )}

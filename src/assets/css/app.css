@@ -36,14 +36,14 @@
    |
    */
 @import 'dropzone/dist/dropzone.css';
-@import 'tom-select/dist/css/tom-select.css';
-@import 'zoom-vanilla.js/dist/zoom.css';
+/* @import 'tom-select/dist/css/tom-select.css'; */
+/* @import 'zoom-vanilla.js/dist/zoom.css'; */
 @import 'toastify-js/src/toastify.css';
 @import 'highlight.js/styles/github.css';
-@import 'tippy.js/dist/tippy.css';
+/* @import 'tippy.js/dist/tippy.css';
 @import 'tippy.js/themes/light.css';
 @import 'tippy.js/dist/svg-arrow.css';
-@import 'tippy.js/animations/shift-away.css';
+@import 'tippy.js/animations/shift-away.css'; */
 @import 'react-toastify/dist/ReactToastify.css';
 
 /*

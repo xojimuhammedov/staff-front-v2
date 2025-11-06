@@ -159,7 +159,6 @@ const DoorsPage = () => {
           hasCheckbox={false}
           dataColumn={dataColumn}
           isLoading={isLoading}
-          // pagination={get(data, 'data.data.pagination', {})}
           rowActions={rowActions}
           hasButton={
             <>
@@ -167,7 +166,7 @@ const DoorsPage = () => {
                 onClick={() => navigate('/settings/door/create')}
                 startIcon={<Plus />}
                 variant="primary"
-                className="[&_svg]:stroke-bg-white w-[210px]">
+                className="[&_svg]:stroke-bg-white w-[160px]">
                 {t('Add new door')}
               </MyButton>
             </>
