@@ -1,11 +1,11 @@
 import TableProvider from 'providers/TableProvider/TableProvider';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IEmployee } from 'interfaces/employee/employee.interface';
-import { useGetAllQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -16,15 +16,18 @@ import { paramsStrToObj } from 'utils/helper';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit3, Plus, Trash2 } from 'lucide-react';
 import MyButton from 'components/Atoms/MyButton/MyButton';
+import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 
 
 const WorkScheduleList = () => {
   const { t } = useTranslation();
   const location = useLocation()
   const navigate = useNavigate()
+  const [show, setShow] = useState(false)
+  const [scheduleId, setScheduleId] = useState(null)
   const searchValue: any = paramsStrToObj(location.search)
 
-  const { data, isLoading } = useGetAllQuery({
+  const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.employeeSchedulePlan,
     url: URLS.employeeSchedulePlan,
     params: {
@@ -119,12 +122,32 @@ const WorkScheduleList = () => {
         type: 'danger',
         name: t('Delete'),
         action: (row, $e) => {
+          setShow(true)
+          setScheduleId(row?.id)
         },
         allowedRoles: ['ADMIN', 'HR'],
       }
     ],
     [t]
   );
+
+  const { mutate: deleteRequest } = useDeleteQuery({
+    listKeyId: KEYS.employeeSchedulePlan
+  });
+
+  const deleteItem = () => {
+    deleteRequest(
+      {
+        url: `${URLS.employeeSchedulePlan}/${scheduleId}`
+      },
+      {
+        onSuccess: () => {
+          refetch();
+          setShow(false)
+        }
+      }
+    );
+  };
 
   if (isLoading) {
     return (
@@ -167,6 +190,10 @@ const WorkScheduleList = () => {
           }
         />
       </TableProvider>
+      <ConfirmationModal
+        title={t("Bu ish vaqtini o'chirmoqchimisiz?")}
+        subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+        open={show} setOpen={setShow} confirmationDelete={deleteItem} />
     </>
   );
 };

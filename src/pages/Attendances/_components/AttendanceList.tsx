@@ -14,6 +14,7 @@ import { IFilter } from 'interfaces/filter.interface';
 import { IAction } from 'interfaces/action.interface';
 import { paramsStrToObj } from 'utils/helper';
 import MyAvatar from 'components/Atoms/MyAvatar';
+import MyBadge from 'components/Atoms/MyBadge';
 
 
 const AttendanceList = () => {
@@ -32,7 +33,7 @@ const AttendanceList = () => {
     () => [
       {
         key: 'fullName',
-        label: t('Employees'),
+        label: t('Employee name'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
@@ -45,14 +46,28 @@ const AttendanceList = () => {
         key: 'department',
         label: t('Department'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <div className="department-text">{row?.department?.shortName ?? '--'}</div>
+        cellRender: (row) => <div className="department-text">{row?.employee?.department?.fullName ?? '--'}</div>
       },
       {
         key: 'phone',
         label: t('Phone Number'),
         headerClassName: 'w-1/3',
         cellRender: (row) => <>{row?.employee?.phone ?? '--'}</>
-      }
+      },
+      {
+        key: 'isActive',
+        label: t('Status'),
+        headerClassName: 'w-1/3',
+        cellRender: (row) => {
+          if (row?.arrivalStatus) {
+            return (
+              <MyBadge variant={row?.status === "LATE" ? "orange" : 'green'}>
+                {row?.arrivalStatus}
+              </MyBadge>
+            );
+          } else return '--';
+        }
+      },
     ],
     [t]
   );
@@ -60,7 +75,7 @@ const AttendanceList = () => {
   const dataColumn = [
     {
       id: 1,
-      label: t('Employees'),
+      label: t('Employee name'),
       headerClassName: 'w-1/3'
     },
     {
@@ -71,6 +86,11 @@ const AttendanceList = () => {
     {
       id: 3,
       label: t('Phone Number'),
+      headerClassName: 'w-1/3'
+    },
+    {
+      id: 4,
+      label: t('Status'),
       headerClassName: 'w-1/3'
     }
   ];

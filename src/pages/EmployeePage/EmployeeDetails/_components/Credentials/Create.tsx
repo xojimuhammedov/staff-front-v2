@@ -1,14 +1,16 @@
-import { MyInput } from 'components/Atoms/Form';
-import { useForm } from 'react-hook-form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
+import * as yup from "yup";
 import { useTranslation } from 'react-i18next';
 import { KEYS } from 'constants/key';
-import { usePostQuery } from 'hooks/api';
+import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import React from 'react';
+import { ISelect } from 'interfaces/select.interface';
 
 const Form = ({ refetch, onClose, employeeId }: any) => {
     const { t } = useTranslation()
@@ -16,12 +18,19 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         code: string().required(),
         type: string().required(),
         additionalDetails: string(),
+        organizationId: yup.number(),
     });
 
+    const { data } = useGetAllQuery<any>({
+        key: KEYS.getListOrganizationSelf,
+        url: URLS.getListOrganizationSelf,
+        params: {}
+    })
     const {
         handleSubmit,
         register,
         reset,
+        control,
         formState: { errors }
     } = useForm({
         defaultValues: {},
@@ -81,6 +90,23 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                         error={Boolean(errors?.additionalDetails?.message)}
                         helperText={t(`${errors?.additionalDetails?.message}`)}
                         label={t('Details...')}
+                    />
+                    <Controller
+                        name="organizationId"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <MySelect
+                                label={t("Select organization")}
+                                options={data?.map((evt: any) => ({
+                                    label: evt.fullName,
+                                    value: evt.id,
+                                }))}
+                                value={field.value as any}  // 👈 cast to any
+                                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                onBlur={field.onBlur}
+                                error={!!fieldState.error}
+                            />
+                        )}
                     />
                 </div>
                 <div className="mt-2 flex w-full justify-end gap-4">

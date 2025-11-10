@@ -1,21 +1,29 @@
-import { MyInput } from 'components/Atoms/Form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
 import React, { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { KEYS } from 'constants/key';
-import { usePutQuery } from 'hooks/api';
+import { useGetAllQuery, usePutQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { get } from 'lodash';
+import { ISelect } from 'interfaces/select.interface';
 
 const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => {
     const { t } = useTranslation()
+
+    const { data: getOrganization } = useGetAllQuery<any>({
+        key: KEYS.getListOrganizationSelf,
+        url: URLS.getListOrganizationSelf,
+        params: {}
+    })
 
     const {
         handleSubmit,
         register,
         reset,
+        control,
         formState: { errors }
     } = useForm({
         defaultValues: useMemo(() => {
@@ -23,6 +31,7 @@ const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => 
                 code: get(data, 'data.code'),
                 type: get(data, 'data.type'),
                 additionalDetails: get(data, 'data.additionalDetails'),
+                organizationId: get(data, 'data.organizationId'),
             };
         }, [data]),
         mode: 'onChange'
@@ -33,6 +42,7 @@ const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => 
             code: get(data, 'data.code'),
             type: get(data, 'data.type'),
             additionalDetails: get(data, 'data.additionalDetails'),
+            organizationId: get(data, 'data.organizationId'),
         });
     }, [data]);
 
@@ -87,6 +97,23 @@ const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => 
                         error={Boolean(errors?.additionalDetails?.message)}
                         helperText={t(`${errors?.additionalDetails?.message}`)}
                         label={t('Details...')}
+                    />
+                    <Controller
+                        name="organizationId"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <MySelect
+                                label={t("Select organization")}
+                                options={getOrganization?.map((evt: any) => ({
+                                    label: evt.fullName,
+                                    value: evt.id,
+                                }))}
+                                value={field.value as any}  // 👈 cast to any
+                                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                onBlur={field.onBlur}
+                                error={!!fieldState.error}
+                            />
+                        )}
                     />
                 </div>
                 <div className="mt-2 flex w-full justify-end gap-4">

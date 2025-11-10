@@ -1,4 +1,4 @@
-import { ReactNode, FC } from 'react';
+import { ReactNode, FC, memo } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface MyBadgeProps {
@@ -44,4 +44,4 @@ const MyBadge: FC<MyBadgeProps> = ({ children, variant, className }) => {
   );
 };
 
-export default MyBadge;
+export default memo(MyBadge);

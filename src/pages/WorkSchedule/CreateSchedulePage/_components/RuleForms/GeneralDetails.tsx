@@ -61,7 +61,6 @@ const GeneralDetails = () => {
       },
       {
         onSuccess: (data) => {
-          console.log(data)
           navigate(`/workschedule/create?current-step=1&current-rule=employee-groups&schedule=${data?.data?.id}`);
           toast.success(t('Successfully created!'));
         },
@@ -72,9 +71,6 @@ const GeneralDetails = () => {
       }
     );
   };
-
-  console.log(errors)
-
 
   return (
     <>

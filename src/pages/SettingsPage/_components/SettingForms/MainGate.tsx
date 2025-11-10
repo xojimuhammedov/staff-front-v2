@@ -12,7 +12,6 @@ import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useParams } from 'react-router-dom';
-import { useSocket } from 'context/SocketProvicer';
 
 type FilterType = {
   search: string;
@@ -29,7 +28,6 @@ type TItem = {
 function MainGate() {
   const { t } = useTranslation();
   const { id } = useParams()
-  const socket = useSocket();
 
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.hikvisionEmployeeSync,
@@ -47,12 +45,22 @@ function MainGate() {
         headerClassName: 'flex-1',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
-            {row?.gate?.name}
+            {row?.employee?.name}
           </div>
         )
       },
       {
-        key: 'isActive',
+        key: 'organization',
+        label: t('Organization name'),
+        headerClassName: 'flex-1',
+        cellRender: (row) => (
+          <div className="flex items-center gap-4 dark:text-text-title-dark">
+            {row?.organization?.fullName}
+          </div>
+        )
+      },
+      {
+        key: 'status',
         label: t('Status'),
         cellRender: (row) => {
           if (row?.status) {
@@ -76,23 +84,14 @@ function MainGate() {
     },
     {
       id: 2,
+      label: t('Organization name'),
+      headerClassName: 'flex-1'
+    },
+    {
+      id: 3,
       label: t('Status')
     },
   ];
-
-  useEffect(() => {
-    if (!socket) return;
-
-    const handleNewEmployee = (data: any) => {
-      console.log("Serverdan yangi employee:", data);
-    };
-
-    socket.on("sync", handleNewEmployee);
-
-    return () => {
-      socket.off("sync", handleNewEmployee);
-    };
-  }, [socket]);
 
   return (
     <PageContentWrapper>

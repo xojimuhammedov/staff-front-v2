@@ -42,7 +42,7 @@ const SidebarMenu: FC<SidebarMenuProps> = ({ menu, menuIndex }) => {
           return (
             <li
               className={twMerge(
-                'flex items-center justify-between rounded-m px-xs py-3xs dark:bg-bg-darkBg ',
+                'fle.  x items-center justify-between rounded-m px-xs py-3xs dark:bg-bg-darkBg ',
                 selected === path ? 'bg-bg-subtle' : ''
               )}>
               <div

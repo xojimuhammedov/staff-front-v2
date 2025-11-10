@@ -8,7 +8,7 @@ const Attendances = () => {
     const { t } = useTranslation();
     const breadCrumbs = [
         {
-            label: t('Employees'),
+            label: t('Attendances'),
             url: '#'
         }
     ];
@@ -16,7 +16,7 @@ const Attendances = () => {
         <PageContentWrapper>
             <div className="flex flex-col">
                 <h1 className="headers-core dark:text-text-title-dark text-text-base">
-                    {t('Employees')}
+                    {t('Attendances')}
                 </h1>
                 <MyBreadCrumb items={breadCrumbs} />
             </div>

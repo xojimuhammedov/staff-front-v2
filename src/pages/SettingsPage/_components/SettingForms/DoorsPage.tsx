@@ -55,8 +55,9 @@ const DoorsPage = () => {
         cellRender: (row) => <div className="dark:text-text-title-dark">{row?._count?.devices ?? '--'}</div>
       },
       {
-        key: 'countOfAllowedEmps',
-        label: t('Allowed employees')
+        key: 'actions',
+        label: t('Allowed employees'),
+        cellRender: (row) => <div className="dark:text-text-title-dark">{row?._count?.actions ?? '--'}</div>
       }
     ],
     [t]

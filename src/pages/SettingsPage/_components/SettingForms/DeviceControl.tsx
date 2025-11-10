@@ -36,8 +36,8 @@ const Notifications = () => {
   const columns: DataGridColumnType[] = useMemo(
     () => [
       {
-        key: 'gate.name',
-        label: t('Door name'),
+        key: 'name',
+        label: t('Device name'),
         headerClassName: 'sm:w-1/4 lg:flex-1'
       },
       {
@@ -64,7 +64,7 @@ const Notifications = () => {
   const dataColumn = [
     {
       id: 1,
-      label: t('Door name'),
+      label: t('Device name'),
       headerClassName: 'sm:w-1/4 lg:flex-1'
     },
     {

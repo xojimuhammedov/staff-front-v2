@@ -22,7 +22,7 @@ export const URLS = {
   uploadPhotoByEmployee:"/api/v1/employees/upload-photo",
   devicesEmployeeAssign:"/api/v1/devices/assign-employees",
   hikvisionEmployeeSync:"/api/v1/employee-sync",
-  attendacesForEmployee:"/api/v1/attendance",
+  attendacesForEmployee:"/api/v1/attendances",
   employeeSchedulePlan:"/api/v1/employee-plans",
   employeePlansAssign:"/api/v1/employee-plans/assign"
 };

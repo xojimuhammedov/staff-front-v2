@@ -13,10 +13,6 @@ import Loading from 'assets/icons/Loading';
 import { NavigateParamsProvider } from 'context/NavigateRouteContext';
 const queryClient = new QueryClient();
 import { registerSW } from 'virtual:pwa-register'
-import { SocketProvider } from 'context/SocketProvicer';
-
-const token = localStorage.getItem("accessToken") || "";
-const socketURL = import.meta.env.VITE_APP_URL;
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
@@ -33,9 +29,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <ImageCropProvider>
               <SearchParamsProvider>
                 <NavigateParamsProvider>
-                  <SocketProvider token={token} url={socketURL}>
-                    <AppRoutes />
-                  </SocketProvider>
+                  <AppRoutes />
                 </NavigateParamsProvider>
               </SearchParamsProvider>
             </ImageCropProvider>
