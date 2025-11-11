@@ -1,28 +1,38 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { MyInput } from 'components/Atoms/Form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { usePostQuery } from 'hooks/api';
-import { useForm } from 'react-hook-form';
+import { useGetAllQuery, usePostQuery } from 'hooks/api';
+import { ISelect } from 'interfaces/select.interface';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string } from 'yup';
+import * as yup from "yup";
 
-function FormDoor({ handleClick }: any) {
+function FormDoor() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const { data } = useGetAllQuery<any>({
+    key: KEYS.getListOrganizationSelf,
+    url: URLS.getListOrganizationSelf,
+    params: {}
+  })
+
   const schema = object().shape({
     name: string().required(),
+    organizationId: yup.number(),
   });
 
   const {
     handleSubmit,
     register,
+    control,
     formState: { errors }
   } = useForm({
     defaultValues: {},
@@ -86,6 +96,32 @@ function FormDoor({ handleClick }: any) {
               error={Boolean(errors?.name?.message)}
               helperText={errors?.name?.message}
               placeholder={t('Enter door name')}
+            />
+          </div>
+        </div>
+        <div className="my-10 flex">
+          <div className="w-[50%]">
+            <LabelledCaption
+              title={t('Door name')}
+              subtitle={t('Short and easy-to-understand name')}
+            />
+          </div>
+          <div className="w-[50%]">
+            <Controller
+              name="organizationId"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MySelect
+                  options={data?.map((evt: any) => ({
+                    label: evt.fullName,
+                    value: evt.id,
+                  }))}
+                  value={field.value as any}  // 👈 cast to any
+                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                  onBlur={field.onBlur}
+                  error={!!fieldState.error}
+                />
+              )}
             />
           </div>
         </div>

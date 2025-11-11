@@ -11,9 +11,10 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AvatarIcon from 'assets/icons/avatar.png'
 import MyAvatar from 'components/Atoms/MyAvatar';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { ISelect } from 'interfaces/select.interface';
 
 interface EmployeeResponse {
   data: Employee[];
@@ -41,6 +42,12 @@ function EmployeeDragDrop() {
     params: {}
   });
 
+  const { data: getOrganization } = useGetAllQuery<any>({
+    key: KEYS.getListOrganizationSelf,
+    url: URLS.getListOrganizationSelf,
+    params: {}
+  })
+
   const { data: getDoor }: any = useGetAllQuery({
     key: KEYS.getDoorGates,
     url: URLS.getDoorGates,
@@ -52,7 +59,7 @@ function EmployeeDragDrop() {
     hideSuccessToast: true
   });
 
-  const { handleSubmit } = useForm()
+  const { handleSubmit, control, } = useForm()
 
   const handleSelectAll = () => {
     if (selectedIds.length === (data?.data?.length ?? 0)) {
@@ -103,10 +110,11 @@ function EmployeeDragDrop() {
   };
 
 
-  const onSubmit = () => {
+  const onSubmit = (data: any) => {
     const submitData = {
-      employeeIds: selectedIds,
-      gateIds: selectGates
+      employeeIds: finalSelectedIds,
+      gateIds: selectGates,
+      ...data
     }
     create(
       {
@@ -138,11 +146,35 @@ function EmployeeDragDrop() {
         />
         <div className='w-[462px]'>
           <MySelect
-            label={t("Foydali saytlar")}
             isMulti
             options={options}
             value={value}
             onChange={handleChange}
+          />
+        </div>
+      </div>
+      <div className="mb-12 flex w-full items-start justify-between">
+        <LabelledCaption
+          className="flex-1"
+          title={t('Select organization')}
+          subtitle={t('')}
+        />
+        <div className='w-[462px]'>
+          <Controller
+            name="organizationId"
+            control={control}
+            render={({ field, fieldState }) => (
+              <MySelect
+                options={getOrganization?.map((evt: any) => ({
+                  label: evt.fullName,
+                  value: evt.id,
+                }))}
+                value={field.value as any}  // 👈 cast to any
+                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                onBlur={field.onBlur}
+                error={!!fieldState.error}
+              />
+            )}
           />
         </div>
       </div>

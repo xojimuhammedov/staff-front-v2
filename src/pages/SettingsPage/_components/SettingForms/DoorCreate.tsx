@@ -72,7 +72,7 @@ function DoorCreate() {
         ) : currentStep === 3 ? (
           <EmployeeDragDrop />
         ) : (
-          <FormDoor handleClick={handleClick} />
+          <FormDoor />
         )}
       </div>
     </PageContentWrapper>
