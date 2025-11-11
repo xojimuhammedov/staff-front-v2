@@ -18,6 +18,7 @@ import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import MyAvatar from 'components/Atoms/MyAvatar';
+import config from 'configs';
 
 
 const EmployeeGroupTable = () => {
@@ -39,7 +40,7 @@ const EmployeeGroupTable = () => {
         headerClassName: 'w-1/2',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
-            <MyAvatar size="medium" imageUrl={`${import.meta.env.VITE_APP_URL}storage/${row?.photo}`} />
+            <MyAvatar size="medium" imageUrl={`${config.FILE_URL}storage/${row?.photo}`} />
             {row?.name}
           </div>
         )

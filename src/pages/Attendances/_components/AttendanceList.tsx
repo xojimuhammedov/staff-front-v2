@@ -15,6 +15,7 @@ import { IAction } from 'interfaces/action.interface';
 import { paramsStrToObj } from 'utils/helper';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import MyBadge from 'components/Atoms/MyBadge';
+import config from 'configs';
 
 
 const AttendanceList = () => {
@@ -37,7 +38,7 @@ const AttendanceList = () => {
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
-            <MyAvatar size="medium" imageUrl={`${import.meta.env.VITE_APP_URL}storage/${row?.employee?.photo}`} />
+            <MyAvatar size="medium" imageUrl={`${config.FILE_URL}storage/${row?.employee?.photo}`} />
             {row?.employee?.name}
           </div>
         )
