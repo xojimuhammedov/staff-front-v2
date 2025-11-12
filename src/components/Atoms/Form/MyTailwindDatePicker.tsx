@@ -8,7 +8,7 @@ interface MyTailwindPickerProps
   extends Omit<React.ComponentPropsWithoutRef<'input'>, 'size' | 'className'> {
   rounded?: boolean;
   size?: 'small' | 'base';
-  control: Control<any>;
+  control?: Control<any>;
   error?: boolean;
   fullWidth?: boolean;
   className?: string;
@@ -28,8 +28,6 @@ interface MyTailwindPickerProps
   useRange?: boolean;
   asSingle?: boolean;
 }
-
-type FormInputRef = React.ComponentPropsWithRef<'input'>['ref'];
 
 /**
  * `MyInput` is a customizable input component that extends the standard HTML input. It provides additional
@@ -80,60 +78,60 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
     ref
   ) => {
 
-  const requiredLabelStyles = `before:absolute before:right-[-10px] before:top-0 before:text-text-error before:content-['*']`;
-  const helperTextErrorStyles = 'text-text-error';
+    const requiredLabelStyles = `before:absolute before:right-[-10px] before:top-0 before:text-text-error before:content-['*']`;
+    const helperTextErrorStyles = 'text-text-error';
 
-  return (
-    <div className="w-full">
-      {label && (
-        <label
-          className={twMerge([
-            'relative mb-1.5 inline-block text-c-m-p text-text-base dark:text-text-title-dark',
-            rest.required && requiredLabelStyles
-          ])}
-          htmlFor={name}>
-          {label}
-          {labelExtractInfo && (
-            <span className="ml-1 text-c-m-p text-text-muted">({labelExtractInfo})</span>
-          )}
-        </label>
-      )}
-      <Controller
+    return (
+      <div className="w-full">
+        {label && (
+          <label
+            className={twMerge([
+              'relative mb-1.5 inline-block text-c-m-p text-text-base dark:text-text-title-dark',
+              rest.required && requiredLabelStyles
+            ])}
+            htmlFor={name}>
+            {label}
+            {labelExtractInfo && (
+              <span className="ml-1 text-c-m-p text-text-muted">({labelExtractInfo})</span>
+            )}
+          </label>
+        )}
+        <Controller
           name={name || ''}
           control={control}
           render={({ field }) => {
             return (
               <div className="relative">
-              {startIcon && (
-                <div className="absolute left-[12px] top-1/4 [&>svg]:h-5 [&>svg]:w-5">
-                  {startIcon}
-                </div>
-              )}
-              {endIcon && (
-                <div className="absolute right-2.5 top-2/4 -translate-y-2/4 [&>svg]:h-5 [&>svg]:w-5">
-                  {endIcon}
-                </div>
-              )}
+                {startIcon && (
+                  <div className="absolute left-[12px] top-1/4 [&>svg]:h-5 [&>svg]:w-5">
+                    {startIcon}
+                  </div>
+                )}
+                {endIcon && (
+                  <div className="absolute right-2.5 top-2/4 -translate-y-2/4 [&>svg]:h-5 [&>svg]:w-5">
+                    {endIcon}
+                  </div>
+                )}
 
-              <Datepicker
-                {...rest}
-                containerClassName="form-datepicker w-full tailwind-datepicker-button"
-                inputClassName="datepicker dark:text-text-title-dark text-c-m text-text-base"
-                placeholder={placeholder}
-                useRange={useRange}
-                asSingle={asSingle}
-                value={field.value}
-                onChange={field.onChange}
-              />
-            </div>
+                <Datepicker
+                  {...rest}
+                  containerClassName="form-datepicker w-full tailwind-datepicker-button"
+                  inputClassName="datepicker dark:text-text-title-dark text-c-m text-text-base"
+                  placeholder={placeholder}
+                  useRange={useRange}
+                  asSingle={asSingle}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </div>
             )
           }}
         />
-      {helperText && (
-        <p className={twMerge(['mt-xs text-c-xs', error && helperTextErrorStyles])}>{helperText}</p>
-      )}
-    </div>
-  );
-});
+        {helperText && (
+          <p className={twMerge(['mt-xs text-c-xs', error && helperTextErrorStyles])}>{helperText}</p>
+        )}
+      </div>
+    );
+  });
 
 export default MyTailwindPicker;

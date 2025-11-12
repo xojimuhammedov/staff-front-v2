@@ -17,9 +17,9 @@ const cutText = (text: string, length: number) => {
   }
 };
 
-const formatDate = (date: string, format: string) => {
-  return dayjs(date).format(format);
-};
+// const formatDate = (date: string, format: string) => {
+//   return dayjs(date).format(format);
+// };
 
 const capitalizeFirstLetter = (string: string) => {
   if (string) {
@@ -145,7 +145,7 @@ const stringToHTML = (arg: string) => {
   return DOM.body.childNodes[0] as HTMLElement;
 };
 
-const slideUp = (el: HTMLElement, duration = 300, callback = (el: HTMLElement) => {}) => {
+const slideUp = (el: HTMLElement, duration = 300, callback = (el: HTMLElement) => { }) => {
   el.style.transitionProperty = 'height, margin, padding';
   el.style.transitionDuration = duration + 'ms';
   el.style.height = el.offsetHeight + 'px';
@@ -170,7 +170,7 @@ const slideUp = (el: HTMLElement, duration = 300, callback = (el: HTMLElement) =
   }, duration);
 };
 
-const slideDown = (el: HTMLElement, duration = 300, callback = (el: HTMLElement) => {}) => {
+const slideDown = (el: HTMLElement, duration = 300, callback = (el: HTMLElement) => { }) => {
   el.style.removeProperty('display');
   let display = window.getComputedStyle(el).display;
   if (display === 'none') display = 'block';
@@ -221,6 +221,38 @@ const paramsStrToObj = (paramsStr: string = '') => {
   return params;
 };
 
+const getTimeDifference = (startTime: string, endTime: string): string => {
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+
+  // Vaqt farqini millisekundlarda hisoblaymiz
+  const diffMs = Math.abs(end.getTime() - start.getTime());
+
+  // Millisekundlarni soat va daqiqalarga aylantiramiz
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+  // Format: hh:mm
+  const formattedHours = String(diffHours).padStart(2);
+  const formattedMinutes = String(diffMinutes).padStart(2);
+
+  return `${formattedHours} h ${formattedMinutes} min`;
+}
+
+function formatDate(date?: Date | string | null): string {
+  if (!date) return ''; // Agar undefined yoki null bo‘lsa, bo‘sh satr qaytaradi
+
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return ''; // Agar noto‘g‘ri sana bo‘lsa (invalid date)
+
+  console.log(date)
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
 export {
   cutText,
   formatDate,
@@ -237,5 +269,6 @@ export {
   slideUp,
   slideDown,
   paramsStrToObj,
-  timeLine
+  timeLine,
+  getTimeDifference
 };

@@ -1,5 +1,5 @@
 import TableProvider from 'providers/TableProvider/TableProvider';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
@@ -12,22 +12,28 @@ import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
 import { IFilter } from 'interfaces/filter.interface';
 import { IAction } from 'interfaces/action.interface';
-import { paramsStrToObj } from 'utils/helper';
+import { getTimeDifference, paramsStrToObj } from 'utils/helper';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import MyBadge from 'components/Atoms/MyBadge';
 import config from 'configs';
+import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
+import { Calendar } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
 
 
 const AttendanceList = () => {
   const { t } = useTranslation();
   const location = useLocation()
   const searchValue: any = paramsStrToObj(location.search)
+  const { control, watch } = useForm()
 
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.attendacesForEmployee,
     url: URLS.attendacesForEmployee,
     params: {
-      search: searchValue?.search
+      search: searchValue?.search,
+      date: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD")
     }
   });
   const columns: DataGridColumnType[] = useMemo(
@@ -50,24 +56,38 @@ const AttendanceList = () => {
         cellRender: (row) => <div className="department-text">{row?.employee?.department?.fullName ?? '--'}</div>
       },
       {
-        key: 'phone',
-        label: t('Phone Number'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.employee?.phone ?? '--'}</>
-      },
-      {
         key: 'isActive',
-        label: t('Status'),
+        label: t('Come status'),
         headerClassName: 'w-1/3',
         cellRender: (row) => {
           if (row?.arrivalStatus) {
             return (
-              <MyBadge variant={row?.status === "LATE" ? "orange" : 'green'}>
+              <MyBadge variant={row?.arrivalStatus === "LATE" ? "orange" : 'green'}>
                 {row?.arrivalStatus}
               </MyBadge>
             );
           } else return '--';
         }
+      },
+      {
+        key: 'isActive',
+        label: t('Left status'),
+        headerClassName: 'w-1/3',
+        cellRender: (row) => {
+          if (row?.goneStatus) {
+            return (
+              <MyBadge variant={row?.goneStatus === "EARLY" ? "orange" : 'green'}>
+                {row?.goneStatus}
+              </MyBadge>
+            );
+          } else return '--';
+        }
+      },
+      {
+        key: 'workonTime',
+        label: t('Work on time'),
+        headerClassName: 'w-1/3',
+        cellRender: (row) => <div className="department-text">{getTimeDifference(row.startTime, row.endTime)}</div>
       },
     ],
     [t]
@@ -86,12 +106,17 @@ const AttendanceList = () => {
     },
     {
       id: 3,
-      label: t('Phone Number'),
+      label: t('Come status'),
       headerClassName: 'w-1/3'
     },
     {
       id: 4,
-      label: t('Status'),
+      label: t('Left status'),
+      headerClassName: 'w-1/3'
+    },
+    {
+      id: 5,
+      label: t('Work on time'),
       headerClassName: 'w-1/3'
     }
   ];
@@ -134,6 +159,20 @@ const AttendanceList = () => {
           rowActions={rowActions}
           pagination={data}
           hasButton={false}
+          hasDatePicker={
+            <>
+              <div className="w-[140px]">
+                <MyTailwindPicker
+                  useRange={false}
+                  name='date'
+                  asSingle={true}
+                  control={control}
+                  placeholder={t('Today')}
+                  startIcon={<Calendar stroke="#9096A1" />}
+                />
+              </div>
+            </>
+          }
         />
       </TableProvider>
     </>

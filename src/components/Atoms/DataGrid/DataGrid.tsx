@@ -7,7 +7,6 @@ import DataGridCell from './DataGridCell';
 import FirstCapitalLetter from '../FirstCapitalLetter';
 import SocialCell from './SocialCell';
 import ExportButton from './ExportButton';
-import CustomizeColumnsButton from './CustomizeColumnsButton';
 import MyDivider from '../MyDivider';
 import { Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

@@ -3,26 +3,16 @@ import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import LabelledCaption from "components/Molecules/LabelledCaption";
 import config from "configs";
-import { KEYS } from "constants/key";
-import { URLS } from "constants/url";
-import { useGetAllQuery } from "hooks/api";
 import { get } from "lodash";
 import { Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  useLocation,
-  useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
 import AvatarIcon from "assets/icons/avatar.png";
 import MyAvatar from "components/Atoms/MyAvatar";
-import { io } from "socket.io-client";
-import storage from "services/storage";
-import { toast } from "react-toastify";
-import Loading from "assets/icons/Loading";
-import { paramsStrToObj } from "utils/helper";
 import { KeyTypeEnum } from "enums/key-type.enum";
 
 function EmployeeDragDrop() {
@@ -32,10 +22,7 @@ function EmployeeDragDrop() {
   const [checkData, setCheckData] = useState<any>([]);
   const [check, setCheck] = useState<any>();
   const [dragDrop, setDragDrop] = useState<any>([]);
-  const { id } = useParams();
 
-  const handleSubmit = (evt: any) => {
-  };
 
   const handleClickButton = () => {
     setDragDrop(checkData);
@@ -72,7 +59,7 @@ function EmployeeDragDrop() {
             subtitle={t("Create employees group and link to the door")}
           />
         </div>
-        <MyButton onClick={handleSubmit} type="submit" variant="secondary">
+        <MyButton type="submit" variant="secondary">
           {t("Save changes")}
         </MyButton>
       </div>
