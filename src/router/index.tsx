@@ -26,6 +26,7 @@ const HikvisionDoorByEmployee = lazy(() => import('pages/SettingsPage/_component
 const Attendances = lazy(() => import('pages/Attendances'))
 const WorkSchedule = lazy(() => import('pages/WorkSchedule'))
 const CreateSchedulePage = lazy(() => import('pages/WorkSchedule/CreateSchedulePage'))
+const EditSchedulePage = lazy(() => import('pages/WorkSchedule/EditSchedulePage'))
 
 export const PublicRoutes = [
   {
@@ -158,6 +159,11 @@ export const PrivateRoutes = [
   {
     path: '/workschedule/create',
     element: <CreateSchedulePage />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: '/workschedule/edit/:id',
+    element: <EditSchedulePage />,
     roles: ["ADMIN", "HR"],
   }
 ];

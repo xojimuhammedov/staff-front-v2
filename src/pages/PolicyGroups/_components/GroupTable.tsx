@@ -63,59 +63,17 @@ const GroupTable = () => {
     ];
 
     const filter: IFilter[] = useMemo(
-        () => [
-            {
-                label: t('State'),
-                key: 'online',
-                type: FilterTypeEnum.multiselect,
-                value: [],
-                options: [
-                    { value: 'yes', label: t('Online') },
-                    { value: 'no', label: t('Offline') }
-                ]
-            },
-            {
-                label: t('Deleted'),
-                key: 'deleted',
-                type: FilterTypeEnum.multiselect,
-                value: [],
-                options: [
-                    { value: 'yes', label: t('Not deleted') },
-                    { value: 'no', label: t('Deleted') }
-                ]
-            },
-            {
-                label: t('Monitored'),
-                key: 'monitored',
-                type: FilterTypeEnum.multiselect,
-                value: [],
-                options: [
-                    { value: 'yes', label: t('Monitored') },
-                    { value: 'no', label: t('Not monitored') }
-                ]
-            }
-        ],
+        () => [],
         [t]
     );
 
     const rowActions: IAction[] = useMemo(
         () => [
-            // {
-            //   icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
-            //   type: 'primary',
-            //   name: t('Employee statistics'),
-            //   action: (row, $e) => {
-            //     navigate(`/employees/${row.id}`);
-            //   }
-            // },
             {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
                 type: 'primary',
                 name: t('Edit'),
-                action: (row, $e) => {
-                    // setShowEdit(true)
-                    // setVisitorId(row?.id)
-                }
+                action: (row, $e) => {}
             },
             {
                 icon: <Trash2 size={DEFAULT_ICON_SIZE} />,

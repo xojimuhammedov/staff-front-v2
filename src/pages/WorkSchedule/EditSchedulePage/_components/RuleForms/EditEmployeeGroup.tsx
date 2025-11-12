@@ -8,21 +8,24 @@ import { useGetAllQuery, useGetOneQuery, usePostQuery } from 'hooks/api';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { paramsStrToObj } from 'utils/helper';
 
 const EditEmployeeGroup = () => {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const { t } = useTranslation()
-    const { id }: any = useParams();
+    const scheduleId = useParams()
     const navigate = useNavigate()
 
-    const { data: getOnePolicy } = useGetOneQuery({
-        id: id,
-        url: URLS.getPolicyList,
+    const { data: getOneSchedule } = useGetOneQuery({
+        id: scheduleId?.id,
+        url: URLS.employeeSchedulePlan,
         params: {},
-        enabled: !!id
+        enabled: !!scheduleId?.id
     })
+
+    console.log(selectedIds)
 
     const { data } = useGetAllQuery<any>({
         key: KEYS.getEmployeeList,
@@ -39,24 +42,24 @@ const EditEmployeeGroup = () => {
     });
 
     const { mutate: create } = usePostQuery({
-        listKeyId: KEYS.employeeBulk,
+        listKeyId: KEYS.employeePlansAssign,
         hideSuccessToast: true
     });
 
     const onSubmit = () => {
         const submitData = {
-            policyId: Number(id),
+            employeePlanId: Number(scheduleId?.id),
             employeeIds: selectedIds,
         }
         create(
             {
-                url: URLS.employeeBulk,
+                url: URLS.employeePlansAssign,
                 attributes: submitData
             },
             {
                 onSuccess: () => {
                     toast.success(t('Successfully updated!'));
-                    navigate('/policy')
+                    navigate('/workschedule')
                 },
                 onError: (e: any) => {
                     console.log(e);
@@ -67,11 +70,11 @@ const EditEmployeeGroup = () => {
     };
 
     useEffect(() => {
-        if (getOnePolicy?.data?.employees?.length) {
-            const ids = getOnePolicy?.data?.employees?.map((item: any) => item.id);
+        if (getOneSchedule?.data?.Employee?.length) {
+            const ids = getOneSchedule?.data?.Employee?.map((item: any) => item.id);
             setSelectedIds(ids);
         }
-    }, [getOnePolicy?.data]);
+    }, [getOneSchedule?.data]);
 
     // Barcha IDlarni olish
     const allIds = data?.data?.map((item: any) => item?.id) || [];
@@ -130,7 +133,7 @@ const EditEmployeeGroup = () => {
             </div>
             <div className="flex justify-end mt-4">
                 <MyButton type="submit" variant="primary">
-                    {t('Create')}
+                    {t('Update')}
                 </MyButton>
             </div>
         </form>

@@ -114,6 +114,7 @@ const WorkScheduleList = () => {
         type: 'primary',
         name: t('Edit'),
         action: (row, $e) => {
+          navigate(`/workschedule/edit/${row?.id}`)
         },
         allowedRoles: ['ADMIN', 'HR'],
       },

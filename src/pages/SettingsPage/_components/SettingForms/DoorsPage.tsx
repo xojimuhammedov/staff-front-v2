@@ -93,9 +93,7 @@ const DoorsPage = () => {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',
         name: t('Edit'),
-        action: (row, $e) => {
-          navigate(`/settings/door/edit/${row?.id}`);
-        }
+        action: (row, $e) => {}
       },
       {
         icon: <Trash2 size={DEFAULT_ICON_SIZE} />,

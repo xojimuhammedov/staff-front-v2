@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MyCheckbox, MyInput, MySelect } from 'components/Atoms/Form';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
+import Button from 'components/Atoms/MyButton';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import MyModal from 'components/Atoms/MyModal';
@@ -165,12 +166,13 @@ const Create = () => {
                                 startIcon={<Search className="stroke-text-muted" />}
                                 placeholder={t('Search')}
                             />
-                            <div
+                            <Button
                                 onClick={() => setShow(true)}
-                                // startIcon={<Plus color='#fff' />}
-                                className={'font-medium w-[190px] [&_svg]:stroke-bg-white sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm '}>
+                                startIcon={<Plus />}
+                                variant="primary"
+                                className="[&_svg]:stroke-bg-white w-[200px] text-sm">
                                 {t('Add resources')}
-                            </div>
+                            </Button>
                         </div>
                         <div className='flex flex-col gap-2 mt-8'>
                             {
@@ -227,6 +229,13 @@ const Create = () => {
                         </>
                     ),
                     className: "py-4"
+                }}
+                footerProps={{
+                    children: (
+                        <div className='flex w-full justify-end'>
+                            <MyButton onClick={() => setShow(false)} variant='primary'>Done</MyButton>
+                        </div>
+                    )
                 }}
             />
         </PageContentWrapper>

@@ -77,7 +77,7 @@ const DepartmentPage = () => {
             className="[&_svg]:stroke-bg-white text-sm w-[200px] dark:text-text-base">
             {t('Add department')}
           </MyButton>
-          <MyButton allowedRoles={['ADMIN', "HR"]} variant='secondary'>{t("Filters")}</MyButton>
+          {/* <MyButton allowedRoles={['ADMIN', "HR"]} variant='secondary'>{t("Filters")}</MyButton> */}
         </div>
       </div>
       <MyDivider />
