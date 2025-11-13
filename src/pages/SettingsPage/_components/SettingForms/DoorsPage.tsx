@@ -57,7 +57,7 @@ const DoorsPage = () => {
       {
         key: 'actions',
         label: t('Allowed employees'),
-        cellRender: (row) => <div className="dark:text-text-title-dark">{row?._count?.actions ?? '--'}</div>
+        cellRender: (row) => <div className="dark:text-text-title-dark">{row?._count?.gateEmployees ?? '--'}</div>
       }
     ],
     [t]
@@ -85,7 +85,7 @@ const DoorsPage = () => {
         icon: <Eye size={DEFAULT_ICON_SIZE} />,
         type: 'primary',
         name: t('View door'),
-        action: (row, $e) => {
+        action: (row) => {
           navigate(`/settings/maingate/${row.id}`);
         }
       },
@@ -99,7 +99,7 @@ const DoorsPage = () => {
         icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
         type: 'danger',
         name: t('Delete'),
-        action: (row, $e) => {
+        action: (row) => {
           setDoorId(row?.id);
           setShow(true);
         }

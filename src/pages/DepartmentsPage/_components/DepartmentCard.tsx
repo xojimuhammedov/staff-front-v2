@@ -15,7 +15,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow }: any) => {
             <div className='grid grid-cols-2 gap-2 my-4'>
                 <div className='rounded-lg bg-[#F9FAFB] p-3'>
                     <h5 className='text-sm'>{t("Departments")}</h5>
-                    <h3 className='text-2xl font-inter font-bold dark:text-text-title-dark'>{item?._count?.children}</h3>
+                    <h3 className='text-2xl font-inter font-bold dark:text-text-title-dark'>{item?._count?.childrens}</h3>
                 </div>
                 <div className='rounded-lg bg-[#F9FAFB] p-3'>
                     <h5 className='text-sm'>{t("Employees")}</h5>
