@@ -1,5 +1,5 @@
 export interface Department {
-    id: number;
+    id: string;
     fullName: string;
     address:string;
     phone:string;

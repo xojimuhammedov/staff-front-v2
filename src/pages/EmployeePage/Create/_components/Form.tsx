@@ -81,8 +81,8 @@ function Form() {
     address: string(),
     phone: string(),
     email: string(),
-    departmentId: yup.number(),
-    organizationId: yup.number(),
+    departmentId: string(),
+    organizationId: string(),
     additionalDetails: string(),
   });
   const {
@@ -178,7 +178,7 @@ function Form() {
                     value: evt.id,
                   }))}
                   value={field.value as any}  // 👈 cast to any
-                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                  onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
                 />
@@ -195,7 +195,7 @@ function Form() {
                     value: evt.id,
                   }))}
                   value={field.value as any}  // 👈 cast to any
-                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                  onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
                 />

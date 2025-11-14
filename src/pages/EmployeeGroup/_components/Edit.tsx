@@ -84,7 +84,7 @@ const EmployeeGroupEdit = () => {
         hideSuccessToast: true
     });
 
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
     useEffect(() => {
         if (employeeGroup?.data?.employees?.length) {
@@ -130,7 +130,7 @@ const EmployeeGroupEdit = () => {
     };
 
     // Bitta checkbox o‘zgarganda
-    const handleSelectOne = (id: number, checked: boolean) => {
+    const handleSelectOne = (id: string, checked: boolean) => {
         if (checked) {
             setSelectedIds((prev) => [...prev, id]);
         } else {
@@ -204,7 +204,7 @@ const EmployeeGroupEdit = () => {
                                     }))}
                                     placeholder='Select organization'
                                     value={field.value as any}  // 👈 cast to any
-                                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                    onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                                     onBlur={field.onBlur}
                                     error={!!fieldState.error}
                                     required
@@ -231,7 +231,7 @@ const EmployeeGroupEdit = () => {
                                     }))}
                                     placeholder='Select policy'
                                     value={field.value as any}  // 👈 cast to any
-                                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                    onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                                     onBlur={field.onBlur}
                                     error={!!fieldState.error}
                                     required

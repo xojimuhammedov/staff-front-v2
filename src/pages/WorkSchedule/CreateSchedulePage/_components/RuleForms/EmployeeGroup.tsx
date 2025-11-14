@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import { paramsStrToObj } from 'utils/helper';
 
 const EmployeeGroup = () => {
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const { t } = useTranslation()
     const location = useLocation()
     const navigate = useNavigate()
@@ -41,7 +41,7 @@ const EmployeeGroup = () => {
 
     const onSubmit = () => {
         const submitData = {
-            employeePlanId: Number(scheduleId?.schedule),
+            employeePlanId: scheduleId?.schedule,
             employeeIds: selectedIds,
         }
         create(
@@ -76,7 +76,7 @@ const EmployeeGroup = () => {
     };
 
     // Bitta checkbox o‘zgarganda
-    const handleSelectOne = (id: number, checked: boolean) => {
+    const handleSelectOne = (id: string, checked: boolean) => {
         if (checked) {
             setSelectedIds((prev) => [...prev, id]);
         } else {

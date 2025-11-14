@@ -11,7 +11,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { object, string } from 'yup';
-import * as yup from "yup";
 
 const Form = ({ refetch, open, setOpen }: any) => {
   const { t } = useTranslation()
@@ -37,7 +36,7 @@ const Form = ({ refetch, open, setOpen }: any) => {
     username: string().required(),
     password: string().required(),
     role: string().required(),
-    organizationId: yup.number(),
+    organizationId: string(),
   });
 
   const {
@@ -135,7 +134,7 @@ const Form = ({ refetch, open, setOpen }: any) => {
                       value: evt.id,
                     }))}
                     value={field.value as any}  // 👈 cast to any
-                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                    onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                     onBlur={field.onBlur}
                     error={!!fieldState.error}
                   />

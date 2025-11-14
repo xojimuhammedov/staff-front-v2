@@ -28,7 +28,7 @@ const Create = () => {
     const [inputValue, setInputValue] = useState('');
     const [socialList, setSocialList] = useState<string[]>([]);
 
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const breadCrumbs = [
         {
             label: t('Policy Groups'),
@@ -47,7 +47,7 @@ const Create = () => {
         params: {}
     })
 
-    const handleCheckboxChange = (id: number, checked: boolean) => {
+    const handleCheckboxChange = (id: string, checked: boolean) => {
         if (checked) {
             // ✅ Agar check bo'lsa, id ni qo'shamiz (lekin dublikat bo'lmasin)
             setSelectedIds((prev) => [...new Set([...prev, id])]);
@@ -65,7 +65,7 @@ const Create = () => {
     const schema = object().shape({
         name: string().required(),
         type: string().required(),
-        organizationId: yup.number().required(),
+        organizationId: string().required(),
     });
 
     const {
@@ -145,7 +145,7 @@ const Create = () => {
                                         value: evt.id,
                                     }))}
                                     value={field.value as any}  // 👈 cast to any
-                                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                    onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                                     onBlur={field.onBlur}
                                     error={!!fieldState.error}
                                     required

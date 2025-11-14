@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const EditEmployeeGroup = () => {
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const { t } = useTranslation()
     const { id }: any = useParams();
     const navigate = useNavigate()
@@ -45,7 +45,7 @@ const EditEmployeeGroup = () => {
 
     const onSubmit = () => {
         const submitData = {
-            policyId: Number(id),
+            policyId: id,
             employeeIds: selectedIds,
         }
         create(
@@ -86,7 +86,7 @@ const EditEmployeeGroup = () => {
     };
 
     // Bitta checkbox o‘zgarganda
-    const handleSelectOne = (id: number, checked: boolean) => {
+    const handleSelectOne = (id: string, checked: boolean) => {
         if (checked) {
             setSelectedIds((prev) => [...prev, id]);
         } else {

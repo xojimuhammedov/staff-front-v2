@@ -29,8 +29,8 @@ const Form = ({ refetch, onClose }: any) => {
         address: string(),
         additionalDetails: string(),
         phone: string(),
-        organizationId: yup.number().required(),
-        parentId: yup.number()
+        organizationId: string().required(),
+        parentId: string()
     });
 
     const {
@@ -136,7 +136,7 @@ const Form = ({ refetch, onClose }: any) => {
                                     value: evt.id,
                                 }))}
                                 value={field.value as any}  // 👈 cast to any
-                                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                                 onBlur={field.onBlur}
                                 error={!!fieldState.error}
                                 required
@@ -154,7 +154,7 @@ const Form = ({ refetch, onClose }: any) => {
                                     value: evt.id,
                                 }))}
                                 value={field.value as any}  // 👈 cast to any
-                                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                                 onBlur={field.onBlur}
                                 error={!!fieldState.error}
                             />

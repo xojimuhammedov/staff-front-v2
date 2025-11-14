@@ -20,8 +20,8 @@ import MyModal from 'components/Atoms/MyModal';
 
 interface OptionItem {
   type: string;
-  useful: number[];
-  unuseful: number[];
+  useful: string[];
+  unuseful: string[];
 }
 
 const GeneralDetails = () => {
@@ -99,7 +99,7 @@ const GeneralDetails = () => {
     });
   }, [getOnePolicy]);
 
-  const handleChange = (type: string, field: "useful" | "unuseful", values: number[]) => {
+  const handleChange = (type: string, field: "useful" | "unuseful", values: string[]) => {
     setOptions((prev) =>
       prev.map((item) =>
         item.type === type ? { ...item, [field]: values } : item
@@ -181,7 +181,7 @@ const GeneralDetails = () => {
                 }))}
                 placeholder='Select organization'
                 value={field.value as any}  // 👈 cast to any
-                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
                 required
