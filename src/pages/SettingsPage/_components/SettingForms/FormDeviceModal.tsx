@@ -3,10 +3,10 @@ import { MyInput } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { usePostQuery } from 'hooks/api';
+import {  usePostQuery } from 'hooks/api';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string } from 'yup';
 import { paramsStrToObj } from 'utils/helper';
@@ -41,7 +41,7 @@ function FormDeviceModal({ setOpenModal }: any) {
 
   const onSubmit = (data: any) => {
     const submitData = {
-      gateId: doorId?.doorId,
+      gateId: Number(doorId?.doorId),
       ...data
     }
     create(

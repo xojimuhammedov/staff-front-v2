@@ -37,7 +37,7 @@ function FormDevice({ setOpenModal, doorId }: any) {
 
   const onSubmit = (data: any) => {
     const submitData = {
-      gateId: doorId,
+      gateId: Number(doorId),
       ...data
     }
     create(

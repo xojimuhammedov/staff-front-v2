@@ -109,7 +109,7 @@ const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => 
                                     value: evt.id,
                                 }))}
                                 value={field.value as any}  // 👈 cast to any
-                                onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                                 onBlur={field.onBlur}
                                 error={!!fieldState.error}
                             />

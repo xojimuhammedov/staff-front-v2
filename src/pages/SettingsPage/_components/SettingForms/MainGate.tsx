@@ -33,7 +33,7 @@ function MainGate() {
     key: KEYS.hikvisionEmployeeSync,
     url: URLS.hikvisionEmployeeSync,
     params: {
-      gateId: id
+      gateId: Number(id)
     }
   })
 

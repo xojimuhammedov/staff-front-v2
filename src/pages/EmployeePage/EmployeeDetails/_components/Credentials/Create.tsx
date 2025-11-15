@@ -18,7 +18,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         code: string().required(),
         type: string().required(),
         additionalDetails: string(),
-        organizationId: string(),
+        organizationId: yup.number(),
     });
 
     const { data } = useGetAllQuery<any>({
@@ -45,7 +45,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
 
     const onSubmit = (data: any) => {
         const submitData = {
-            employeeId: employeeId,
+            employeeId: Number(employeeId),
             ...data
         }
         create(
@@ -102,7 +102,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                                     value: evt.id,
                                 }))}
                                 value={field.value as any}  // 👈 cast to any
-                                onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                                 onBlur={field.onBlur}
                                 error={!!fieldState.error}
                             />

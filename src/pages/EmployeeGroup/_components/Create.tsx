@@ -20,7 +20,7 @@ import { object, string } from 'yup';
 import * as yup from "yup";
 
 const EmployeeGroupCreate = () => {
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const { t } = useTranslation()
     const navigate = useNavigate()
 
@@ -52,8 +52,8 @@ const EmployeeGroupCreate = () => {
     const schema = object().shape({
         name: string().required(),
         description: string(),
-        organizationId: string(),
-        policyId: string(),
+        organizationId: yup.number(),
+        policyId: yup.number(),
     });
     const {
         handleSubmit,
@@ -109,7 +109,7 @@ const EmployeeGroupCreate = () => {
     };
 
     // Bitta checkbox o‘zgarganda
-    const handleSelectOne = (id: string, checked: boolean) => {
+    const handleSelectOne = (id: number, checked: boolean) => {
         if (checked) {
             setSelectedIds((prev) => [...prev, id]);
         } else {
@@ -183,7 +183,7 @@ const EmployeeGroupCreate = () => {
                                     }))}
                                     placeholder='Select organization'
                                     value={field.value as any}  // 👈 cast to any
-                                    onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                                     onBlur={field.onBlur}
                                     error={!!fieldState.error}
                                     required
@@ -210,7 +210,7 @@ const EmployeeGroupCreate = () => {
                                     }))}
                                     placeholder='Select policy'
                                     value={field.value as any}  // 👈 cast to any
-                                    onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                                     onBlur={field.onBlur}
                                     error={!!fieldState.error}
                                     required

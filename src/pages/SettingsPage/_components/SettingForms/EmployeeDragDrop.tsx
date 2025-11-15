@@ -24,7 +24,7 @@ interface EmployeeResponse {
 }
 
 interface Employee {
-  id: string;
+  id: number;
   name: string;
   additionalDetails: string;
   avatar: string;
@@ -33,9 +33,9 @@ interface Employee {
 function EmployeeDragDrop() {
   const { t } = useTranslation();
   const navigate = useNavigate()
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [selectGates, setSelectGates] = useState<string[]>([]);
-  const [finalSelectedIds, setFinalSelectedIds] = useState<string[]>([]); // yakuniy tanlanganlar
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectGates, setSelectGates] = useState<number[]>([]);
+  const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]); // yakuniy tanlanganlar
   const { data } = useGetAllQuery<EmployeeResponse>({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
@@ -70,7 +70,7 @@ function EmployeeDragDrop() {
     }
   };
 
-  const handleCheckboxChange = (id: string) => {
+  const handleCheckboxChange = (id: number) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((empId) => empId !== id) : [...prev, id]
     );
@@ -85,7 +85,7 @@ function EmployeeDragDrop() {
     setSelectedIds([]); // vaqtinchalik tanlovni tozalasa ham bo‘ladi (agar xohlasang)
   };
 
-  const handleRemoveFinal = (id: string) => {
+  const handleRemoveFinal = (id: number) => {
     setFinalSelectedIds((prev) => prev.filter((empId) => empId !== id));
   };
 
@@ -170,7 +170,7 @@ function EmployeeDragDrop() {
                   value: evt.id,
                 }))}
                 value={field.value as any}  // 👈 cast to any
-                onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
               />
@@ -224,7 +224,7 @@ function EmployeeDragDrop() {
                     checked={selectedIds.includes(emp?.id)}
                     onChange={() => handleCheckboxChange(emp?.id)}
                     label={emp?.name}
-                    id={emp?.id}
+                    id={emp?.id.toString()}
                   />
                   {/* <img
                     src={emp.avatar}
