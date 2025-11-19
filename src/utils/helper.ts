@@ -221,23 +221,26 @@ const paramsStrToObj = (paramsStr: string = '') => {
   return params;
 };
 
-const getTimeDifference = (startTime: string, endTime: string): string => {
+const getTimeDifference = (startTime: string, endTime?: string | null): string => {
   const start = new Date(startTime);
-  const end = new Date(endTime);
+
+  // endTime bo‘lmasa — hozirgi vaqtni olamiz
+  const end = endTime ? new Date(endTime) : new Date();
 
   // Vaqt farqini millisekundlarda hisoblaymiz
   const diffMs = Math.abs(end.getTime() - start.getTime());
 
   // Millisekundlarni soat va daqiqalarga aylantiramiz
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-  const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+  const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60))
 
   // Format: hh:mm
   const formattedHours = String(diffHours).padStart(2);
   const formattedMinutes = String(diffMinutes).padStart(2);
 
   return `${formattedHours} h ${formattedMinutes} min`;
-}
+};
+
 
 function formatDate(date?: Date | string | null): string {
   if (!date) return ''; // Agar undefined yoki null bo‘lsa, bo‘sh satr qaytaradi
@@ -250,7 +253,7 @@ function formatDate(date?: Date | string | null): string {
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
 
-  return `${year}-${month}-${day}`;
+  return `${year}-${month}-${day}`
 }
 
 export {

@@ -21,6 +21,8 @@ import { paramsStrToObj } from 'utils/helper';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import config from 'configs';
 
+import AvatarIcon from '../../../assets/icons/avatar.jpg'
+
 
 const EmployeeList = () => {
   const { t } = useTranslation();
@@ -45,7 +47,7 @@ const EmployeeList = () => {
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
-            <MyAvatar size="medium" imageUrl={`${config.FILE_URL}storage/${row?.photo}`} />
+            <MyAvatar size="medium" imageUrl={AvatarIcon} />
             {row?.name}
           </div>
         )

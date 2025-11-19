@@ -43,6 +43,7 @@ const EmployeeGroup = () => {
         const submitData = {
             employeePlanId: Number(scheduleId?.schedule),
             employeeIds: selectedIds,
+            organizationId: 1
         }
         create(
             {

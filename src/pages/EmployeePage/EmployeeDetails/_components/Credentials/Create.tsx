@@ -11,6 +11,7 @@ import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import React from 'react';
 import { ISelect } from 'interfaces/select.interface';
+import credentialTypeData from 'configs/type';
 
 const Form = ({ refetch, onClose, employeeId }: any) => {
     const { t } = useTranslation()
@@ -73,11 +74,22 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         <div className='p-4'>
             <form onSubmit={handleSubmit(onSubmit)} action="">
                 <div className='grid grid-cols-2 gap-4'>
-                    <MyInput
-                        {...register("type")}
-                        error={Boolean(errors?.type?.message)}
-                        helperText={t(`${errors?.type?.message}`)}
-                        label={t('Type')}
+                    <Controller
+                        name="type"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <MySelect
+                                label={t("Select type")}
+                                options={credentialTypeData?.map((evt: any) => ({
+                                    label: evt.label,
+                                    value: evt.value,
+                                }))}
+                                value={field.value as any}  // 👈 cast to any
+                                onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                                onBlur={field.onBlur}
+                                error={!!fieldState.error}
+                            />
+                        )}
                     />
                     <MyInput
                         {...register("code")}

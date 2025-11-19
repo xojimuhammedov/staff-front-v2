@@ -17,8 +17,8 @@ import { Organization } from 'pages/OrganizationPage/interface/organization.inte
 const Form = ({ refetch, onClose }: any) => {
     const { t } = useTranslation()
     const { data } = useGetAllQuery<any>({
-        key: KEYS.getListOrganizationSelf,
-        url: URLS.getListOrganizationSelf,
+        key: KEYS.getAllListOrganization,
+        url: URLS.getAllListOrganization,
         params: {}
     })
 
@@ -131,7 +131,7 @@ const Form = ({ refetch, onClose }: any) => {
                         render={({ field, fieldState }) => (
                             <MySelect
                                 label={t("Select organization")}
-                                options={data?.map((evt: Organization) => ({
+                                options={data?.data?.map((evt: Organization) => ({
                                     label: evt.fullName,
                                     value: evt.id,
                                 }))}

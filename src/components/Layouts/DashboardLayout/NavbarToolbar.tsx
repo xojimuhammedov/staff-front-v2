@@ -94,11 +94,11 @@ const NavbarToolbar = ({ setLoading }: any) => {
           ))}
         </ul>
       )} */}
-      <div
+      {/* <div
         onClick={() => toggleTheme()}
         className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-xl shadow-base">
         {darkLight === 'dark' ? <Sun stroke="#696E77" /> : <MoonSvg />}
-      </div>
+      </div> */}
       <ProfileWidget />
     </div>
   );

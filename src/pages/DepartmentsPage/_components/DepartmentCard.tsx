@@ -3,9 +3,11 @@ import { Edit, Eye, Mail, MapPin, NotebookPen, Phone, Trash2 } from 'lucide-reac
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyBadge from 'components/Atoms/MyBadge';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow }: any) => {
+const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, action }: any) => {
     const { t } = useTranslation()
+    const navigate = useNavigate()
     return (
         <div className='bg-white border border-gray-200 rounded-lg shadow-sm p-4 gap-2'>
             <div className='flex items-center justify-between'>
@@ -38,32 +40,37 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow }: any) => {
                 <NotebookPen width={'16px'} />
                 <p>{item?.additionalDetails}</p>
             </div>
-            <div className='flex items-center justify-between mt-4'>
-                <MyButton
-                    variant='secondary'
-                    allowedRoles={['ADMIN', "HR"]}
-                    className={'w-[170px]'}
-                    startIcon={<Eye />}
-                >{t("View")}</MyButton>
-                <MyButton
-                    variant='secondary'
-                    allowedRoles={['ADMIN', "HR"]}
-                    className={'w-[170px]'}
-                    onClick={() => {
-                        setShow(true)
-                        setDepartmentId(item?.id)
-                    }}
-                    startIcon={<Edit />}
-                >{t("Edit")}</MyButton>
-                <MyButton
-                    allowedRoles={['ADMIN', "HR"]}
-                    onClick={() => {
-                        setOpen(true)
-                        setDepartmentId(item?.id)
-                    }}
-                    className={'[&_svg]:stroke-bg-[#E11D48]'}
-                    variant='secondary' startIcon={<Trash2 color='red' />}></MyButton>
-            </div>
+            {
+                action && (
+                    <div className='flex items-center justify-between mt-4'>
+                        <MyButton
+                            variant='secondary'
+                            allowedRoles={['ADMIN', "HR"]}
+                            className={'w-[170px]'}
+                            onClick={() => navigate(`/view?departmentId=${item?.id}`)}
+                            startIcon={<Eye />}
+                        >{t("View")}</MyButton>
+                        <MyButton
+                            variant='secondary'
+                            allowedRoles={['ADMIN', "HR"]}
+                            className={'w-[170px]'}
+                            onClick={() => {
+                                setShow(true)
+                                setDepartmentId(item?.id)
+                            }}
+                            startIcon={<Edit />}
+                        >{t("Edit")}</MyButton>
+                        <MyButton
+                            allowedRoles={['ADMIN', "HR"]}
+                            onClick={() => {
+                                setOpen(true)
+                                setDepartmentId(item?.id)
+                            }}
+                            className={'[&_svg]:stroke-bg-[#E11D48]'}
+                            variant='secondary' startIcon={<Trash2 color='red' />}></MyButton>
+                    </div>
+                )
+            }
         </div>
     );
 }

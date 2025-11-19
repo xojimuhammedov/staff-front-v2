@@ -23,8 +23,8 @@ const EditForm = ({refetch, open, setOpen, userId}:any) => {
     });
 
     const {data} = useGetAllQuery<any>({
-        key:KEYS.getListOrganizationSelf,
-        url:URLS.getListOrganizationSelf,
+        key:KEYS.getAllListOrganization,
+        url:URLS.getAllListOrganization,
         params:{}
     })
 
@@ -153,7 +153,7 @@ const EditForm = ({refetch, open, setOpen, userId}:any) => {
                             render={({ field, fieldState }) => (
                                 <MySelect
                                     label={t("Select organization")}
-                                    options={data?.map((evt: Organization) => ({
+                                    options={data?.data?.map((evt: Organization) => ({
                                     label: evt.fullName,
                                     value: evt.id,
                                     }))}

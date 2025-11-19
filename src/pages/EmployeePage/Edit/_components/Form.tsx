@@ -136,8 +136,8 @@ function Form() {
   };
 
   const { data: getOrganization } = useGetAllQuery<any>({
-    key: KEYS.getListOrganizationSelf,
-    url: URLS.getListOrganizationSelf,
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
     params: {}
   })
 
@@ -190,7 +190,7 @@ function Form() {
               render={({ field, fieldState }) => (
                 <MySelect
                   label={t("Select organization")}
-                  options={getOrganization?.map((evt: any) => ({
+                  options={getOrganization?.data?.map((evt: any) => ({
                     label: evt.fullName,
                     value: evt.id,
                   }))}

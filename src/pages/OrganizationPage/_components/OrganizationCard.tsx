@@ -3,14 +3,16 @@ import { Edit, Eye, Mail, MapPin, NotebookPen, Phone, Trash2 } from 'lucide-reac
 import MyBadge from 'components/Atoms/MyBadge';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) => {
     const { t } = useTranslation()
+    const navigate = useNavigate()
     return (
         <div className='bg-white border border-gray-200 rounded-lg shadow-sm p-4 gap-2'>
             <div className='flex items-center justify-between'>
                 <h3 className='text-xl font-inter font-medium dark:text-text-title-dark'>{item?.fullName}</h3>
-                <MyBadge variant='green'>{t("Active")}</MyBadge>
+                <MyBadge variant='green'>{item?.isActive ? "Active" : "isActive"}</MyBadge>
             </div>
             <div className='grid grid-cols-2 gap-2 my-4'>
                 <div className='rounded-lg bg-[#F9FAFB] p-3'>
@@ -43,6 +45,7 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
                     variant='secondary'
                     allowedRoles={['ADMIN']}
                     className={'w-[170px]'}
+                    onClick={() => navigate(`/view?organizationId=${item?.id}`)}
                     startIcon={<Eye />}
                 >{t("View")}</MyButton>
                 <MyButton

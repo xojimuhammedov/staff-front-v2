@@ -4,7 +4,7 @@ import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { get } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
@@ -14,6 +14,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
 import { ISelect } from 'interfaces/select.interface';
 import MyTimePicker from 'components/Atoms/Form/MyTimePicker';
+import weekDay from 'configs/weekday';
 
 
 const GeneralDetails = () => {
@@ -21,8 +22,8 @@ const GeneralDetails = () => {
   const { id }: any = useParams();
   const navigate = useNavigate()
   const { data } = useGetAllQuery<any>({
-    key: KEYS.getListOrganizationSelf,
-    url: URLS.getListOrganizationSelf,
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
     params: {}
   })
 
@@ -32,6 +33,13 @@ const GeneralDetails = () => {
     params: {},
     enabled: !!id
   })
+  const [workingWeekDays, setWorkingWeekDays] = useState<string[]>([]);
+
+  const handleChangeWorking = (value: string) => {
+    setWorkingWeekDays((prevDays: string[]) =>
+      prevDays.includes(value) ? prevDays.filter((day) => day !== value) : [...prevDays, value]
+    )
+  };
 
   const {
     handleSubmit,
@@ -133,43 +141,63 @@ const GeneralDetails = () => {
           title={t('Schedule details')}
           subtitle={t('Short and easy-to-understand name')}
         />
-        <div className="grid grid-cols-2 gap-4 w-[462px]">
-          <Controller
-            name="startTime"
-            control={control}
-            render={({ field, fieldState }) => (
-              <MyTimePicker
-                {...field}
-                label="Start work time"
-                error={!!fieldState.error}
-                helperText={fieldState.error?.message}
-              />
-            )}
-          />
-          <Controller
-            name="endTime"
-            control={control}
-            render={({ field, fieldState }) => (
-              <MyTimePicker
-                {...field}
-                label={t("End work time")}
-                error={!!fieldState.error}
-                helperText={fieldState.error?.message}
-              />
-            )}
-          />
-          <Controller
-            name="extraTime"
-            control={control}
-            render={({ field, fieldState }) => (
-              <MyTimePicker
-                {...field}
-                label={t("Extra time")}
-                error={!!fieldState.error}
-                helperText={fieldState.error?.message}
-              />
-            )}
-          />
+        <div className='flex flex-col gap-4'>
+          <div className="grid grid-cols-2 gap-4 w-[462px]">
+            <Controller
+              name="startTime"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MyTimePicker
+                  {...field}
+                  label="Start work time"
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
+              )}
+            />
+            <Controller
+              name="endTime"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MyTimePicker
+                  {...field}
+                  label={t("End work time")}
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
+              )}
+            />
+            <Controller
+              name="extraTime"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MyTimePicker
+                  {...field}
+                  label={t("Extra time")}
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
+              )}
+            />
+          </div>
+          <div>
+            <h4 className="text-xl font-medium dark:text-text-title-dark">
+              {t('Working week types')}
+            </h4>
+            <div className="mb-4 mt-6 grid grid-cols-3 gap-8">
+              {weekDay?.map((evt: any, index: number) => (
+                <MyCheckbox
+                  onChange={() => handleChangeWorking(evt.value)}
+                  key={index}
+                  label={evt.label}
+                  value={evt.value}
+                  checked={workingWeekDays?.includes(evt.value)}
+                  id={`${evt.id + 20}`}
+                  defaultChecked
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -185,7 +213,7 @@ const GeneralDetails = () => {
             control={control}
             render={({ field, fieldState }) => (
               <MySelect
-                options={data?.map((evt: Organization) => ({
+                options={data?.data?.map((evt: Organization) => ({
                   label: evt.fullName,
                   value: evt.id,
                 }))}

@@ -19,8 +19,8 @@ function FormDoor() {
   const navigate = useNavigate();
 
   const { data } = useGetAllQuery<any>({
-    key: KEYS.getListOrganizationSelf,
-    url: URLS.getListOrganizationSelf,
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
     params: {}
   })
 
@@ -112,7 +112,7 @@ function FormDoor() {
               control={control}
               render={({ field, fieldState }) => (
                 <MySelect
-                  options={data?.map((evt: any) => ({
+                  options={data?.data?.map((evt: any) => ({
                     label: evt.fullName,
                     value: evt.id,
                   }))}

@@ -28,6 +28,8 @@ const WorkSchedule = lazy(() => import('pages/WorkSchedule'))
 const CreateSchedulePage = lazy(() => import('pages/WorkSchedule/CreateSchedulePage'))
 const EditSchedulePage = lazy(() => import('pages/WorkSchedule/EditSchedulePage'))
 
+const ViewDepartment = lazy(() => import('pages/ViewDepartment'))
+
 export const PublicRoutes = [
   {
     path: '/login',
@@ -49,6 +51,11 @@ export const PrivateRoutes = [
   {
     path: '/organization',
     element: <OrganizationPage />,
+    roles: ["ADMIN"],
+  },
+  {
+    path: '/view',
+    element: <ViewDepartment />,
     roles: ["ADMIN"],
   },
   {

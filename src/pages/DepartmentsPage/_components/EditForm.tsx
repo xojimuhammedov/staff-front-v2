@@ -15,8 +15,8 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
   const { t } = useTranslation()
 
   const { data: getOrganization } = useGetAllQuery<any>({
-    key: KEYS.getListOrganizationSelf,
-    url: URLS.getListOrganizationSelf,
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
     params: {}
   })
 
@@ -136,7 +136,7 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
             render={({ field, fieldState }) => (
               <MySelect
                 label={t("Select organization")}
-                options={getOrganization?.map((evt: any) => ({
+                options={getOrganization?.data?.map((evt: any) => ({
                   label: evt.fullName,
                   value: evt.id,
                 }))}

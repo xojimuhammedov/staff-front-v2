@@ -20,6 +20,10 @@ import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { Calendar } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
+import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
+import ReasonModal from './ReasonModal';
+
+import AvatarIcon from '../../../assets/icons/avatar.jpg'
 
 
 const AttendanceList = () => {
@@ -28,7 +32,7 @@ const AttendanceList = () => {
   const searchValue: any = paramsStrToObj(location.search)
   const { control, watch } = useForm()
 
-  const { data, isLoading } = useGetAllQuery({
+  const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.attendacesForEmployee,
     url: URLS.attendacesForEmployee,
     params: {
@@ -44,17 +48,17 @@ const AttendanceList = () => {
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
-            <MyAvatar size="medium" imageUrl={`${config.FILE_URL}storage/${row?.employee?.photo}`} />
+            <MyAvatar size="medium" imageUrl={AvatarIcon} />
             {row?.employee?.name}
           </div>
         )
       },
-      {
-        key: 'department',
-        label: t('Department'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => <div className="department-text">{row?.employee?.department?.fullName ?? '--'}</div>
-      },
+      // {
+      //   key: 'department',
+      //   label: t('Department'),
+      //   headerClassName: 'w-1/3',
+      //   cellRender: (row) => <div className="department-text">{row?.employee?.department?.fullName ?? '--'}</div>
+      // },
       {
         key: 'isActive',
         label: t('Come status'),
@@ -86,9 +90,15 @@ const AttendanceList = () => {
       {
         key: 'workonTime',
         label: t('Work on time'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'w-1/4',
         cellRender: (row) => <div className="department-text">{getTimeDifference(row.startTime, row.endTime)}</div>
       },
+      {
+        key: "reason",
+        label: t("Reason"),
+        headerClassName: 'w-1/3',
+        cellRender: (row) => <ReasonModal row={row} refetch={refetch} />
+      }
     ],
     [t]
   );
@@ -99,11 +109,11 @@ const AttendanceList = () => {
       label: t('Employee name'),
       headerClassName: 'w-1/3'
     },
-    {
-      id: 2,
-      label: t('Department'),
-      headerClassName: 'w-1/3'
-    },
+    // {
+    //   id: 2,
+    //   label: t('Department'),
+    //   headerClassName: 'w-1/3'
+    // },
     {
       id: 3,
       label: t('Come status'),
@@ -117,6 +127,11 @@ const AttendanceList = () => {
     {
       id: 5,
       label: t('Work on time'),
+      headerClassName: 'w-1/4'
+    },
+    {
+      id: 6,
+      label: t('Reason'),
       headerClassName: 'w-1/3'
     }
   ];

@@ -85,8 +85,8 @@ const GeneralDetails = () => {
   });
 
   const { data } = useGetAllQuery<any>({
-    key: KEYS.getListOrganizationSelf,
-    url: URLS.getListOrganizationSelf,
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
     params: {}
   })
 
@@ -167,7 +167,7 @@ const GeneralDetails = () => {
               control={control}
               render={({ field, fieldState }) => (
                 <MySelect
-                  options={data?.map((evt: Organization) => ({
+                  options={data?.data?.map((evt: Organization) => ({
                     label: evt.fullName,
                     value: evt.id,
                   }))}

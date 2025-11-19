@@ -25,8 +25,6 @@ const EditEmployeeGroup = () => {
         enabled: !!scheduleId?.id
     })
 
-    console.log(selectedIds)
-
     const { data } = useGetAllQuery<any>({
         key: KEYS.getEmployeeList,
         url: URLS.getEmployeeList,
@@ -50,6 +48,7 @@ const EditEmployeeGroup = () => {
         const submitData = {
             employeePlanId: Number(scheduleId?.id),
             employeeIds: selectedIds,
+            organizationId: 1
         }
         create(
             {
