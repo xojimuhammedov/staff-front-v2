@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import PersonalInfoCard from './_components/PersonalCard';
 import LineChart from 'components/Molecules/LineChart';
 import Productivity from './_components/Productivity';
+import PolicyInfo from './_components/PolicyInfo';
 
 
 
@@ -19,8 +20,6 @@ function EmployeeView() {
         params: {},
         enabled: !!id
     })
-
-    console.log(data)
     return (
         <div>
             <Details
@@ -29,9 +28,17 @@ function EmployeeView() {
                 position={get(data, 'data.additionalDetails')}
                 department={get(data, 'data.department')}
             />
-            <div className='flex gap-8 items-center'>
+            <div className='flex gap-8 mt-8 items-center'>
                 <PersonalInfoCard data={get(data, 'data')} />
                 <Productivity />
+            </div>
+            <div className='grid grid-cols-2 gap-8 mt-4'>
+                <PolicyInfo name="Useful Apps" color='bg-[#FBC02D]' />
+                <PolicyInfo name="Unproductive Apps" color="bg-[#E11D48]" />
+            </div>
+            <div className='grid grid-cols-2 gap-8 mt-4'>
+                <PolicyInfo name="Useful Websites" color='bg-[#FBC02D]' />
+                <PolicyInfo name="Unproductive Sites" color="bg-[#E11D48]" />
             </div>
         </div>
     );

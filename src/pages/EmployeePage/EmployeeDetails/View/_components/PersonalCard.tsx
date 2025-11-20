@@ -49,7 +49,7 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
     ];
 
     return (
-        <div className="bg-[#FFF8E1] p-6 shadow-xl w-2/5 mt-8 rounded-lg border border-gray-100">
+        <div className="bg-[#FFF8E1] p-6 shadow-lg w-2/5 rounded-lg border border-gray-100">
             <h2 className="text-lg font-semibold mb-6 text-gray-800">
                 Personal Information
             </h2>

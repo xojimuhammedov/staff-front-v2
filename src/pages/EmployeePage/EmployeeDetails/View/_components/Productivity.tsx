@@ -3,7 +3,7 @@ import React from 'react';
 
 const Productivity = () => {
     return (
-        <div className='w-3/5 bg-white p-6 shadow-xl rounded-lg'>
+        <div className='w-3/5 bg-white p-6 shadow-lg rounded-lg'>
             <h2 className="text-lg font-semibold mb-6 text-gray-800">
                 Weekly Activity
             </h2>

@@ -25,7 +25,7 @@ const SidebarMenu: FC<SidebarMenuProps> = ({ menu, sidebar_menu_type }) => {
     const { title, items } = menu;
     const { searchParams, handleClick }: any = useSearchParamsContext();
 
-    const selected = searchParams.get('current-setting') || 'details';
+    const selected = searchParams.get('current-setting') || 'view';
 
     const [openMenu, setOpenMenu] = useState<boolean>(sidebar_menu_type === 'simple' ? true : false);
 
