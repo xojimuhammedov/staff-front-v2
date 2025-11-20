@@ -263,6 +263,10 @@
   background: rgba(3, 7, 18, 0.5) !important;
 }
 
+.apexcharts-toolbar{
+  display: none !important;
+}
+
 
 @media (max-width: 1000px) {
   .navbar-menu-button {

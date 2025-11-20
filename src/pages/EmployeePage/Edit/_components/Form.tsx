@@ -4,7 +4,7 @@ import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useImageCropContext } from 'context/ImageCropProvider';
 import { readFile } from 'helpers/cropImage';
-import { useGetAllQuery, useGetOneQuery, usePostQuery, usePutQuery } from 'hooks/api';
+import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
 import { get } from 'lodash';
 import { UploadCloud } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
@@ -18,6 +18,7 @@ import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import { request } from 'services/request';
 import ImageCropModalContent from 'pages/EmployeePage/Create/_components/ImageCropModalContent';
+import config from 'configs';
 
 function Form() {
   const { t } = useTranslation();
@@ -65,8 +66,7 @@ function Form() {
     const imageDataUrl = await readFile(file);
     setImage(imageDataUrl);
     setOpenModal(true);
-
-  }
+  };
   const { data } = useGetOneQuery({
     id: id,
     url: URLS.getEmployeeList,
@@ -78,7 +78,6 @@ function Form() {
     register,
     control,
     reset,
-    watch,
     formState: { errors }
   } = useForm({
     defaultValues: useMemo(() => {
@@ -89,7 +88,8 @@ function Form() {
         phone: get(data, 'data.phone'),
         additionalDetails: get(data, 'data.additionalDetails'),
         departmentId: get(data, 'data.departmentId'),
-        organizationId: get(data, 'data.organizationId')
+        photo: get(data, 'data.photo'),
+        // organizationId: get(data, 'data.organizationId')
       };
     }, [data]),
     mode: 'onChange',
@@ -103,7 +103,8 @@ function Form() {
       additionalDetails: get(data, 'data.additionalDetails'),
       address: get(data, 'data.address'),
       departmentId: get(data, 'data.departmentId'),
-      organizationId: get(data, 'data.organizationId')
+      photo: get(data, 'data.photo'),
+      // organizationId: get(data, 'data.organizationId')
     });
   }, [data]);
 
@@ -113,13 +114,14 @@ function Form() {
   });
 
   const onSubmit = (data: any) => {
+    const submitData = data.photo ? { ...data } : {
+      ...data,
+      photo: imageKey,
+    }
     update(
       {
         url: `${URLS.getEmployeeList}/${id}`,
-        attributes: {
-          photo: imageKey,
-          ...data
-        }
+        attributes: submitData
       },
       {
         onSuccess: () => {
@@ -135,19 +137,17 @@ function Form() {
     );
   };
 
-  const { data: getOrganization } = useGetAllQuery<any>({
-    key: KEYS.getAllListOrganization,
-    url: URLS.getAllListOrganization,
-    params: {},
-    hideErrorMsg: true
-  })
+  // const { data: getOrganization } = useGetAllQuery<any>({
+  //   key: KEYS.getAllListOrganization,
+  //   url: URLS.getAllListOrganization,
+  //   params: {},
+  //   hideErrorMsg: true
+  // })
 
   const { data: getDepartment } = useGetAllQuery<any>({
     key: KEYS.getAllListDepartment,
     url: URLS.getAllListDepartment,
-    params: {
-      organizationId: watch("organizationId")
-    }
+    params: {}
   })
 
   return (
@@ -185,7 +185,7 @@ function Form() {
               helperText={t(`${errors?.additionalDetails?.message}`)}
               label={t('Employee details')}
             />
-            <Controller
+            {/* <Controller
               name="organizationId"
               control={control}
               render={({ field, fieldState }) => (
@@ -202,7 +202,7 @@ function Form() {
                   allowedRoles={["ADMIN"]}
                 />
               )}
-            />
+            /> */}
             <Controller
               name="departmentId"
               control={control}
@@ -228,7 +228,7 @@ function Form() {
             </p>
             <div className="mt-2 flex h-[160px] w-[150px] items-center justify-center border-2 bg-[#F9FAFB]">
               <label className="cursor-pointer">
-                <img className="h-[160px] w-[150px] object-cover" src={preview} />
+                <img className="h-[160px] w-[150px] object-cover" src={preview ?? `${config.FILE_URL}api/storage/${get(data, 'data.photo')}`} />
               </label>
             </div>
             <input

@@ -13,6 +13,7 @@ import Loading from 'assets/icons/Loading';
 import { NavigateParamsProvider } from 'context/NavigateRouteContext';
 const queryClient = new QueryClient();
 import { registerSW } from 'virtual:pwa-register'
+import 'i18n'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>

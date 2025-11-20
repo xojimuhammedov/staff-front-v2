@@ -63,7 +63,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
 
   return (
     <div ref={dropdownRef} className="ml-auto flex flex-row items-center gap-5">
-      {/* <div className="flex  cursor-pointer items-center justify-center rounded-xl shadow-base">
+      <div className="flex  cursor-pointer items-center justify-center rounded-xl shadow-base">
         <div
           onClick={(event) => {
             toggleDropdown();
@@ -77,8 +77,8 @@ const NavbarToolbar = ({ setLoading }: any) => {
           />
           <p className="font-medium dark:text-subtext-color-dark">{languageTitle}</p>
         </div>
-      </div> */}
-      {/* {isOpen && (
+      </div>
+      {isOpen && (
         <ul className="shadow-gray-150 absolute	top-14 flex w-28  flex-col items-baseline bg-white shadow-md dark:bg-bg-dark-bg dark:bg-bg-dark-bg">
           {i18nData?.map((evt: any, index: number) => (
             <li
@@ -93,7 +93,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
             </li>
           ))}
         </ul>
-      )} */}
+      )}
       {/* <div
         onClick={() => toggleTheme()}
         className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-xl shadow-base">

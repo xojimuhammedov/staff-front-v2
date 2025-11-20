@@ -49,7 +49,7 @@ const MyAvatar: FC<MyAvatarProps> = ({
 
   const smallStyles = ['w-8 h-8'];
   const mediumStyles = ['w-10 h-10'];
-  const largeStyles = ['w-16 h-16'];
+  const largeStyles = ['w-24 h-24'];
 
   const circleStyles = ['rounded-full'];
   const squareStyles = ['rounded-m'];

@@ -1,12 +1,14 @@
 import { lazy, LazyExoticComponent, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-const Credentials = lazy(() => import('./Credentials/Credentials'))
+const Credentials = lazy(() => import('../Credentials/Credentials'))
+const EmployeeView = lazy(() => import('../View'))
 
-type RulesType = 'details' | 'details';
+type RulesType = 'details' | 'view';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
     details: Credentials,
+    view: EmployeeView
 };
 
 

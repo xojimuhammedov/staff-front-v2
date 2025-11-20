@@ -30,13 +30,13 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
                 {
                     icon: 'User',
                     name: t('Employee details'),
-                    path: 'details',
+                    path: 'view',
                     isSwitch: false
                 },
                 {
                     icon: 'CarTaxiFront',
-                    name: t('Cars and Cards'),
-                    path: 'cars',
+                    name: t('Employee credentials'),
+                    path: 'details',
                     isSwitch: false
                 },
                 {

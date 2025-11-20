@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Sidebar from './_components/Sidebar/Sidebar';
 import Button from 'components/Atoms/MyButton';
 import { useNavigate } from 'react-router-dom';
-import {  ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import MainContent from './_components/MainContent';
 
 const EmployeeDetails = () => {
