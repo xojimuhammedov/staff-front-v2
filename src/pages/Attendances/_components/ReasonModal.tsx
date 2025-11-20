@@ -42,11 +42,15 @@ function ReasonModal({ row, refetch }: any) {
 
     return (
         <>
-            {row?.arrivalStatus === "LATE" && (
-                <MyButton variant="secondary" onClick={() => setOpen(true)} >
+            {
+                row?.reason ? <MyButton variant="secondary">
                     {t('Sababli')}
+                </MyButton> : <MyButton variant="secondary"
+                    disabled={row?.arrivalStatus === "LATE" ? false : true}
+                    onClick={() => setOpen(true)} >
+                    {t('Reason')}
                 </MyButton>
-            )}
+            }
 
             <MyModal
                 modalProps={{
@@ -68,7 +72,6 @@ function ReasonModal({ row, refetch }: any) {
                                     </MyButton>
                                     <MyButton
                                         onClick={() => setOpen(false)}
-                                        
                                         variant="secondary">
                                         {t('Close')}
                                     </MyButton>

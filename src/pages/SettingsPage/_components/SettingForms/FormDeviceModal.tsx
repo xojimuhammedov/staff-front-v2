@@ -21,12 +21,12 @@ const checkType = [
   {
     id: 2,
     label: "Check in",
-    value: "CHECK IN"
+    value: "ENTRY"
   },
   {
     id: 3,
     label: "Check out",
-    value: "CHECK ON"
+    value: "EXIT"
   }
 ]
 
@@ -125,14 +125,14 @@ function FormDeviceModal({ setOpenModal }: any) {
         render={({ field }) => (
           <div className='flex items-center justify-between'>
             {checkType?.map((evt: any, index: number) => {
-              const isChecked = field.value === evt.label;
+              const isChecked = field.value === evt.value;
               return (
                 <MyCheckbox
                   key={index}
                   label={evt.label}
                   id={`${evt.id + 20}`}
                   checked={isChecked}
-                  onChange={() => field.onChange(evt.label)}
+                  onChange={() => field.onChange(evt.value)}
                 />
               );
             })}
