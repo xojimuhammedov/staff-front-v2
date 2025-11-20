@@ -38,6 +38,7 @@ const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
         pinfl: get(data, 'data.data.pinfl'),
         passportNumber: get(data, 'data.data.passportNumber'),
         additionalDetails: get(data, 'data.data.additionalDetails'),
+        organizationId: get(data, 'data.data.organizationId'),
         phone: get(data, 'data.data.phone'),
         birthday: {
           startDate: get(data, 'data.data.birthday')
@@ -63,7 +64,8 @@ const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
         startDate: get(data, 'data.data.birthday')
           ? dayjs(get(data, 'data.data.birthday')).format("YYYY-MM-DD")
           : null, endDate: null
-      }
+      },
+      organizationId: get(data, 'data.data.organizationId'),
     });
   }, [data]);
 

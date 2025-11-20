@@ -49,7 +49,7 @@ const FiltersButton = ({ filters = [] }: FiltersButtonProps) => {
   }, [JSON.stringify(filters)]);
 
   const apply = (data: any, type: FilterActionButtonTypeEnum) => {
-    for(const [key, value] of Object.entries(data)) {
+    for (const [key, value] of Object.entries(data)) {
       if (!(value === null || isEmpty(value)) && type === FilterActionButtonTypeEnum.apply) {
         searchParams.set(key, value);
       } else {
@@ -90,6 +90,7 @@ const FiltersButton = ({ filters = [] }: FiltersButtonProps) => {
                 value={getValues(filter.key)}
                 label={filter.label}
                 options={filter.options || []}
+                allowedRoles={["ADMIN", "HR"]}
               ></MySelect>
             </>}
             {filter.type === FilterTypeEnum.multiselect && <>
@@ -102,6 +103,7 @@ const FiltersButton = ({ filters = [] }: FiltersButtonProps) => {
                 label={filter.label}
                 isMulti={true}
                 options={filter.options || []}
+                allowedRoles={["ADMIN", "HR"]}
               ></MySelect>
             </>}
           </DropdownItemWrapper>

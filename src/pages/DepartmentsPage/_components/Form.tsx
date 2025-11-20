@@ -13,13 +13,17 @@ import { get } from 'lodash';
 import { ISelect } from 'interfaces/select.interface';
 import { Department } from '../interface/department.interface';
 import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
+import storage from 'services/storage';
 
 const Form = ({ refetch, onClose }: any) => {
     const { t } = useTranslation()
+    const userData: any = storage.get("userData")
+    const userRole = JSON.parse(userData)?.role
     const { data } = useGetAllQuery<any>({
         key: KEYS.getAllListOrganization,
         url: URLS.getAllListOrganization,
-        params: {}
+        hideErrorMsg: true,
+        params: {},
     })
 
     const schema = object().shape({
@@ -29,7 +33,11 @@ const Form = ({ refetch, onClose }: any) => {
         address: string(),
         additionalDetails: string(),
         phone: string(),
-        organizationId: yup.number().required(),
+        organizationId: yup
+            .number()
+            .when('$role', (role: any, schema) =>
+                role === 'ADMIN' ? schema.required() : schema.optional()
+            ),
         parentId: yup.number()
     });
 
@@ -41,11 +49,9 @@ const Form = ({ refetch, onClose }: any) => {
         watch,
         formState: { errors }
     } = useForm({
-        defaultValues: {
-            phone: undefined
-        },
         mode: 'onChange',
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        context: { role: userRole }
     });
 
     const { mutate: create } = usePostQuery({
@@ -139,6 +145,7 @@ const Form = ({ refetch, onClose }: any) => {
                                 onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                                 onBlur={field.onBlur}
                                 error={!!fieldState.error}
+                                allowedRoles={['ADMIN']}
                                 required
                             />
                         )}
@@ -157,6 +164,7 @@ const Form = ({ refetch, onClose }: any) => {
                                 onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                                 onBlur={field.onBlur}
                                 error={!!fieldState.error}
+                                allowedRoles={['ADMIN', "HR", "DEPARTMENT_LEAD"]}
                             />
                         )}
                     />

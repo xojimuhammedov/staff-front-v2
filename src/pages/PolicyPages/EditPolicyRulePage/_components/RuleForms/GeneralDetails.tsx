@@ -43,9 +43,10 @@ const GeneralDetails = () => {
     },
   ]);
   const { data } = useGetAllQuery<any>({
-    key: KEYS.getListOrganizationSelf,
-    url: URLS.getListOrganizationSelf,
-    params: {}
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
+    params: {},
+    hideErrorMsg: true
   })
 
   const { data: getOnePolicy, refetch } = useGetOneQuery({
@@ -175,7 +176,7 @@ const GeneralDetails = () => {
             control={control}
             render={({ field, fieldState }) => (
               <MySelect
-                options={data?.map((evt: Organization) => ({
+                options={data?.data?.map((evt: Organization) => ({
                   label: evt.fullName,
                   value: evt.id,
                 }))}
@@ -184,6 +185,7 @@ const GeneralDetails = () => {
                 onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
+                allowedRoles={["ADMIN"]}
                 required
               />
             )}
@@ -346,6 +348,7 @@ const GeneralDetails = () => {
                   <>
                     <MySelect
                       label={t("Foydali saytlar")}
+                      allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
                       isMulti
                       options={selectOptions}
                       value={selectOptions.filter((opt: any) =>
@@ -362,6 +365,7 @@ const GeneralDetails = () => {
 
                     <MySelect
                       label={t("Foydasiz saytlar")}
+                      allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
                       isMulti
                       options={selectOptions}
                       value={selectOptions.filter((opt: any) =>

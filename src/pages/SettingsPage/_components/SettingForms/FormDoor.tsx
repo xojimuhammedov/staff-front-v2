@@ -21,7 +21,8 @@ function FormDoor() {
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
-    params: {}
+    params: {},
+    hideErrorMsg: true
   })
 
   const schema = object().shape({
@@ -120,6 +121,7 @@ function FormDoor() {
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
+                  allowedRoles={["ADMIN"]}
                 />
               )}
             />

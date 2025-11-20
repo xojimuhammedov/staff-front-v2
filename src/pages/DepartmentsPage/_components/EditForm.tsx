@@ -16,8 +16,9 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
 
   const { data: getOrganization } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
-    url: URLS.getAllListOrganization,
-    params: {}
+    url: KEYS.getAllListOrganization,
+    hideErrorMsg: true,
+    params: {},
   })
 
   const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({
@@ -45,7 +46,7 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
         parentId: get(data, 'data.parentId')
       };
     }, [data]),
-    mode: 'onChange'
+    mode: 'onChange',
   });
 
   useEffect(() => {
@@ -144,6 +145,7 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
                 onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
+                allowedRoles={['ADMIN']}
                 required
               />
             )}
@@ -162,6 +164,7 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
                 onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
+                allowedRoles={['ADMIN', "HR", "DEPARTMENT_LEAD"]}
               />
             )}
           />

@@ -16,12 +16,22 @@ import { ISelect } from 'interfaces/select.interface';
 import * as yup from "yup";
 import MyTimePicker from 'components/Atoms/Form/MyTimePicker';
 import weekDay from 'configs/weekday';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import storage from 'services/storage';
 
 const GeneralDetails = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
   const [workingWeekDays, setWorkingWeekDays] = useState<string[]>([]);
+
+  const { data } = useGetAllQuery<any>({
+    key: KEYS.getAllListOrganization,
+    url: KEYS.getAllListOrganization,
+    hideErrorMsg: true,
+    params: {},
+  })
 
   const schema = object().shape({
     name: string().required(),
@@ -29,7 +39,11 @@ const GeneralDetails = () => {
     startTime: string(),
     endTime: string(),
     extraTime: string(),
-    organizationId: yup.number(),
+    organizationId: yup
+      .number()
+      .when('$role', (role: any, schema) =>
+        role === 'ADMIN' ? schema.required() : schema.optional()
+      ),
   });
 
   const handleChangeWorking = (value: string) => {
@@ -45,18 +59,9 @@ const GeneralDetails = () => {
     control,
     formState: { errors }
   } = useForm<any>({
-    defaultValues: {
-      weekdays: "Mon,Fri",
-    },
     mode: 'onChange',
     resolver: yupResolver(schema)
   });
-
-  const { data } = useGetAllQuery<any>({
-    key: KEYS.getAllListOrganization,
-    url: URLS.getAllListOrganization,
-    params: {}
-  })
 
   const { mutate: create } = usePostQuery({
     listKeyId: KEYS.employeeSchedulePlan,
@@ -188,33 +193,38 @@ const GeneralDetails = () => {
           </div>
         </div>
 
-        <div className="mb-12 flex w-full items-start justify-between">
-          <LabelledCaption
-            className="flex-1"
-            title={t('Organization')}
-            subtitle={t('')}
-          />
-          <div className='w-[462px]'>
-            <Controller
-              name="organizationId"
-              control={control}
-              render={({ field, fieldState }) => (
-                <MySelect
-                  options={data?.data?.map((evt: Organization) => ({
-                    label: evt.fullName,
-                    value: evt.id,
-                  }))}
-                  placeholder='Select organization'
-                  value={field.value as any}  // 👈 cast to any
-                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                  onBlur={field.onBlur}
-                  error={!!fieldState.error}
-                  required
+        {
+          userRole === "ADMIN" && (
+            <div className="mb-12 flex w-full items-start justify-between">
+              <LabelledCaption
+                className="flex-1"
+                title={t('Organization')}
+                subtitle={t('')}
+              />
+              <div className='w-[462px]'>
+                <Controller
+                  name="organizationId"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <MySelect
+                      options={data?.data?.map((evt: Organization) => ({
+                        label: evt.fullName,
+                        value: evt.id,
+                      }))}
+                      placeholder='Select organization'
+                      value={field.value as any}  // 👈 cast to any
+                      onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                      onBlur={field.onBlur}
+                      error={!!fieldState.error}
+                      allowedRoles={["ADMIN"]}
+                      required
+                    />
+                  )}
                 />
-              )}
-            />
-          </div>
-        </div>
+              </div>
+            </div>
+          )
+        }
         <MyDivider />
         <div className="flex justify-end mt-4">
           <MyButton type="submit" variant="primary">

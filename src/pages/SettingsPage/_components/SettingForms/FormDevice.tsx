@@ -19,11 +19,11 @@ function FormDevice({ handleClick }: any) {
 
   const doorId: any = paramsStrToObj(location.search);
 
-  const { data } = useGetAllQuery({
-    key: KEYS.getGatesByIdDevices,
-    url: `${URLS.getGatesByIdDevices}/${doorId?.doorId}/devices`,
-    params: {}
-  });
+  // const { data } = useGetAllQuery({
+  //   key: KEYS.getGatesByIdDevices,
+  //   url: `${URLS.getGatesByIdDevices}/${doorId?.doorId}/devices`,
+  //   params: {}
+  // });
 
 
   return (

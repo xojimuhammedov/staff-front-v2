@@ -77,6 +77,7 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
               }
               setSearchParams(searchParams);
             }}
+            allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
             value={Number(searchParams.get('pageSize')) || DEFAULT_LIMIT}
           />
         </div>

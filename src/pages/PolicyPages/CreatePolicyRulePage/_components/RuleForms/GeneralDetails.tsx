@@ -18,6 +18,7 @@ import { Organization } from 'pages/OrganizationPage/interface/organization.inte
 import { ISelect } from 'interfaces/select.interface';
 import * as yup from "yup";
 import MyModal from 'components/Atoms/MyModal';
+import storage from 'services/storage';
 
 interface OptionItem {
   type: string;
@@ -28,6 +29,8 @@ interface OptionItem {
 const GeneralDetails = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
   const [show, setShow] = useState(false)
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState<OptionItem[]>([
@@ -62,7 +65,11 @@ const GeneralDetails = () => {
   const schema = object().shape({
     title: string().required(),
     description: string(),
-    organizationId: yup.number(),
+    organizationId: yup
+      .number()
+      .when('$role', (role: any, schema) =>
+        role === 'ADMIN' ? schema.required() : schema.optional()
+      ),
     screenshotInterval: yup.number(),
   });
 
@@ -81,13 +88,15 @@ const GeneralDetails = () => {
       screenshotCaptureAll: false,
     },
     mode: 'onChange',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    context: { role: userRole }
   });
 
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
-    params: {}
+    params: {},
+    hideErrorMsg: true
   })
 
   const { mutate: create, isLoading } = usePostQuery({
@@ -107,7 +116,6 @@ const GeneralDetails = () => {
       },
       {
         onSuccess: (data) => {
-          console.log(data)
           navigate(`/policy/create?current-step=1&current-rule=employee-groups&policyId=${data?.data?.id}`);
           toast.success(t('Successfully created!'));
         },
@@ -176,6 +184,7 @@ const GeneralDetails = () => {
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
+                  allowedRoles={["ADMIN"]}
                   required
                 />
               )}
@@ -337,6 +346,7 @@ const GeneralDetails = () => {
                     <>
                       <MySelect
                         label={t("Foydali saytlar")}
+                        allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
                         isMulti
                         options={selectOptions}
                         value={selectOptions.filter((opt: any) =>
@@ -353,6 +363,7 @@ const GeneralDetails = () => {
 
                       <MySelect
                         label={t("Foydasiz saytlar")}
+                        allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
                         isMulti
                         options={selectOptions}
                         value={selectOptions.filter((opt: any) =>

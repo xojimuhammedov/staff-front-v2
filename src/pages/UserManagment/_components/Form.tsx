@@ -10,11 +10,14 @@ import { Organization } from 'pages/OrganizationPage/interface/organization.inte
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import storage from 'services/storage';
 import { object, string } from 'yup';
 import * as yup from "yup";
 
 const Form = ({ refetch, open, setOpen }: any) => {
   const { t } = useTranslation()
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
 
   const { mutate: create } = usePostQuery({
     listKeyId: KEYS.getListUsersManagment,
@@ -37,7 +40,11 @@ const Form = ({ refetch, open, setOpen }: any) => {
     username: string().required(),
     password: string().required(),
     role: string().required(),
-    organizationId: yup.number(),
+    organizationId: yup
+      .number()
+      .when('$role', (role: any, schema) =>
+        role === 'ADMIN' ? schema.required() : schema.optional()
+      ),
   });
 
   const {
@@ -49,7 +56,8 @@ const Form = ({ refetch, open, setOpen }: any) => {
   } = useForm({
     defaultValues: {},
     mode: 'onChange',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    context: { role: userRole }
   });
 
   const onSubmit = (data: any) => {
@@ -121,6 +129,7 @@ const Form = ({ refetch, open, setOpen }: any) => {
                     onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                     onBlur={field.onBlur}
                     error={!!fieldState.error}
+                    allowedRoles={["ADMIN"]}
                   />
                 )}
               />
@@ -138,6 +147,7 @@ const Form = ({ refetch, open, setOpen }: any) => {
                     onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                     onBlur={field.onBlur}
                     error={!!fieldState.error}
+                    allowedRoles={["ADMIN"]}
                   />
                 )}
               />

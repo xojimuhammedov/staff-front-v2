@@ -1,10 +1,10 @@
-import { MyInput } from 'components/Atoms/Form';
-import { useForm } from 'react-hook-form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
 import { useTranslation } from 'react-i18next';
 import { KEYS } from 'constants/key';
-import { usePostQuery } from 'hooks/api';
+import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
@@ -12,8 +12,21 @@ import MyModal from 'components/Atoms/MyModal';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { Calendar } from 'lucide-react';
 import dayjs from 'dayjs';
+import { ISelect } from 'interfaces/select.interface';
+import * as yup from "yup";
+import storage from 'services/storage';
 
 const Form = ({ refetch, setShow, show }: any) => {
+
+    const userData: any = storage.get("userData")
+    const userRole = JSON.parse(userData)?.role
+
+    const { data } = useGetAllQuery<any>({
+        key: KEYS.getAllListOrganization,
+        url: URLS.getAllListOrganization,
+        params: {},
+        hideErrorMsg: true
+    })
 
     const { t } = useTranslation()
     const schema = object().shape({
@@ -26,6 +39,11 @@ const Form = ({ refetch, setShow, show }: any) => {
         pinfl: string(),
         workPlace: string(),
         passportNumber: string(),
+        organizationId: yup
+            .number()
+            .when('$role', (role: any, schema) =>
+                role === 'ADMIN' ? schema.required() : schema.optional()
+            ),
     });
 
     const {
@@ -39,7 +57,8 @@ const Form = ({ refetch, setShow, show }: any) => {
             birthday: { startDate: null, endDate: null }
         },
         mode: 'onChange',
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        context: { role: userRole }
     });
 
     const { mutate: create } = usePostQuery({
@@ -152,6 +171,24 @@ const Form = ({ refetch, setShow, show }: any) => {
                                         helperText={t(`${errors?.passportNumber?.message}`)}
                                         type="tel"
                                         label={t('Passport Number')}
+                                    />
+                                    <Controller
+                                        name="organizationId"
+                                        control={control}
+                                        render={({ field, fieldState }) => (
+                                            <MySelect
+                                                label={t("Select organization")}
+                                                options={data?.data?.map((evt: any) => ({
+                                                    label: evt.fullName,
+                                                    value: evt.id,
+                                                }))}
+                                                value={field.value as any}  // 👈 cast to any
+                                                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                                onBlur={field.onBlur}
+                                                error={!!fieldState.error}
+                                                allowedRoles={["ADMIN"]}
+                                            />
+                                        )}
                                     />
                                 </div>
                                 <div className="mt-2 flex w-full justify-end gap-4">

@@ -19,12 +19,12 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         code: string().required(),
         type: string().required(),
         additionalDetails: string(),
-        organizationId: yup.number(),
+        organizationId: yup.number().required(),
     });
 
     const { data } = useGetAllQuery<any>({
-        key: KEYS.getListOrganizationSelf,
-        url: URLS.getListOrganizationSelf,
+        key: KEYS.getAllListOrganization,
+        url: URLS.getAllListOrganization,
         params: {}
     })
     const {
@@ -88,6 +88,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                                 onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                                 onBlur={field.onBlur}
                                 error={!!fieldState.error}
+                                allowedRoles={["ADMIN", "HR"]}
                             />
                         )}
                     />
@@ -109,7 +110,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                         render={({ field, fieldState }) => (
                             <MySelect
                                 label={t("Select organization")}
-                                options={data?.map((evt: any) => ({
+                                options={data?.data?.map((evt: any) => ({
                                     label: evt.fullName,
                                     value: evt.id,
                                 }))}
@@ -117,6 +118,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                                 onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                                 onBlur={field.onBlur}
                                 error={!!fieldState.error}
+                                allowedRoles={["ADMIN"]}
                             />
                         )}
                     />

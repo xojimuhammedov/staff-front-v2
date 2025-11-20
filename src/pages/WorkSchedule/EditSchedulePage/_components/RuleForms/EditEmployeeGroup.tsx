@@ -10,7 +10,6 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { paramsStrToObj } from 'utils/helper';
 
 const EditEmployeeGroup = () => {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -48,7 +47,6 @@ const EditEmployeeGroup = () => {
         const submitData = {
             employeePlanId: Number(scheduleId?.id),
             employeeIds: selectedIds,
-            organizationId: 1
         }
         create(
             {
@@ -69,8 +67,8 @@ const EditEmployeeGroup = () => {
     };
 
     useEffect(() => {
-        if (getOneSchedule?.data?.Employee?.length) {
-            const ids = getOneSchedule?.data?.Employee?.map((item: any) => item.id);
+        if (getOneSchedule?.data?.employees?.length) {
+            const ids = getOneSchedule?.data?.employees?.map((item: any) => item.id);
             setSelectedIds(ids);
         }
     }, [getOneSchedule?.data]);

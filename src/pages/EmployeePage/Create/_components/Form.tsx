@@ -21,9 +21,12 @@ import { toast } from 'react-toastify';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import { request } from 'services/request';
+import storage from 'services/storage';
 
 function Form() {
   const { t } = useTranslation();
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
   const [openModal, setOpenModal] = useState(false);
   const [imageKey, setImageKey] = useState(null)
   const navigate = useNavigate()
@@ -62,7 +65,6 @@ function Form() {
     }
   };
 
-
   const handleFileChange = async ({ target: { files } }: any) => {
     const file = files && files[0];
     const imageDataUrl = await readFile(file);
@@ -73,7 +75,8 @@ function Form() {
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
-    params: {}
+    params: {},
+    hideErrorMsg: true
   })
 
   const schema = object().shape({
@@ -81,8 +84,16 @@ function Form() {
     address: string(),
     phone: string(),
     email: string(),
-    departmentId: yup.number(),
-    organizationId: yup.number(),
+    departmentId: yup
+      .number()
+      .when('$role', (role: any, schema) =>
+        role === 'ADMIN' || "HR" ? schema.required() : schema.optional()
+      ),
+    organizationId: yup
+      .number()
+      .when('$role', (role: any, schema) =>
+        role === 'ADMIN' ? schema.required() : schema.optional()
+      ),
     additionalDetails: string(),
   });
   const {
@@ -94,7 +105,8 @@ function Form() {
   } = useForm({
     defaultValues: {},
     mode: 'onChange',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    context: { role: userRole }
   });
 
   const { mutate: create } = usePostQuery({
@@ -181,6 +193,7 @@ function Form() {
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
+                  allowedRoles={["ADMIN"]}
                 />
               )}
             />
@@ -198,6 +211,7 @@ function Form() {
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
+                  allowedRoles={["ADMIN", "HR"]}
                 />
               )}
             />

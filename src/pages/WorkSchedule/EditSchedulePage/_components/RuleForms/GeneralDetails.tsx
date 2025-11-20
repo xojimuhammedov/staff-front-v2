@@ -15,16 +15,18 @@ import { Organization } from 'pages/OrganizationPage/interface/organization.inte
 import { ISelect } from 'interfaces/select.interface';
 import MyTimePicker from 'components/Atoms/Form/MyTimePicker';
 import weekDay from 'configs/weekday';
-
+import storage from 'services/storage';
 
 const GeneralDetails = () => {
   const { t } = useTranslation();
   const { id }: any = useParams();
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
   const navigate = useNavigate()
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
-    params: {}
+    params: {},
   })
 
   const { data: getOneSchedule, refetch } = useGetOneQuery({
@@ -36,10 +38,16 @@ const GeneralDetails = () => {
   const [workingWeekDays, setWorkingWeekDays] = useState<string[]>([]);
 
   const handleChangeWorking = (value: string) => {
-    setWorkingWeekDays((prevDays: string[]) =>
+    setWorkingWeekDays((prevDays) =>
       prevDays.includes(value) ? prevDays.filter((day) => day !== value) : [...prevDays, value]
-    )
+    );
   };
+
+  useEffect(() => {
+    if (getOneSchedule?.data?.weekdays) {
+      setWorkingWeekDays(getOneSchedule?.data?.weekdays);
+    }
+  }, [getOneSchedule?.data]);
 
   const {
     handleSubmit,
@@ -81,7 +89,10 @@ const GeneralDetails = () => {
     update(
       {
         url: `${URLS.employeeSchedulePlan}/${id}`,
-        attributes: data
+        attributes: {
+          weekdays: workingWeekDays,
+          ...data
+        }
       },
       {
         onSuccess: () => {
@@ -187,11 +198,11 @@ const GeneralDetails = () => {
             <div className="mb-4 mt-6 grid grid-cols-3 gap-8">
               {weekDay?.map((evt: any, index: number) => (
                 <MyCheckbox
-                  onChange={() => handleChangeWorking(evt.value)}
+                  onChange={() => handleChangeWorking(evt.label)}
                   key={index}
                   label={evt.label}
-                  value={evt.value}
-                  checked={workingWeekDays?.includes(evt.value)}
+                  value={evt.label}
+                  checked={workingWeekDays?.includes(evt.label)}
                   id={`${evt.id + 20}`}
                   defaultChecked
                 />
@@ -201,33 +212,38 @@ const GeneralDetails = () => {
         </div>
       </div>
 
-      <div className="mb-12 flex w-full items-start justify-between">
-        <LabelledCaption
-          className="flex-1"
-          title={t('Organization')}
-          subtitle={t('')}
-        />
-        <div className='w-[462px]'>
-          <Controller
-            name="organizationId"
-            control={control}
-            render={({ field, fieldState }) => (
-              <MySelect
-                options={data?.data?.map((evt: Organization) => ({
-                  label: evt.fullName,
-                  value: evt.id,
-                }))}
-                placeholder='Select organization'
-                value={field.value as any}  // 👈 cast to any
-                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                onBlur={field.onBlur}
-                error={!!fieldState.error}
-                required
+      {
+        userRole === "ADMIN" && (
+          <div className="mb-12 flex w-full items-start justify-between">
+            <LabelledCaption
+              className="flex-1"
+              title={t('Organization')}
+              subtitle={t('')}
+            />
+            <div className='w-[462px]'>
+              <Controller
+                name="organizationId"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <MySelect
+                    options={data?.data?.map((evt: Organization) => ({
+                      label: evt.fullName,
+                      value: evt.id,
+                    }))}
+                    placeholder='Select organization'
+                    value={field.value as any}  // 👈 cast to any
+                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                    onBlur={field.onBlur}
+                    error={!!fieldState.error}
+                    allowedRoles={["ADMIN"]}
+                    required
+                  />
+                )}
               />
-            )}
-          />
-        </div>
-      </div>
+            </div>
+          </div>
+        )
+      }
 
 
       <div className="flex justify-end mt-4">

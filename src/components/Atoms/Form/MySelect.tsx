@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { ISelect } from '../../../interfaces/select.interface';
+import storage from 'services/storage';
 
 interface FormSelectProps {
   required?: boolean;
@@ -24,6 +25,7 @@ interface FormSelectProps {
   isClearable?: boolean;
   onChange?: (item: ISelect | ISelect[] | string | string[] | number | number[]) => void;
   onBlur?: () => void;
+  allowedRoles: string[]
 }
 
 const ICON_SIZE = 20;
@@ -89,8 +91,16 @@ function MySelect(props: FormSelectProps) {
     rootClassName,
     labelExtractInfo,
     isClearable,
+    allowedRoles,
     ...computedProps
   } = props;
+
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
+
+  if (allowedRoles && !allowedRoles.includes(userRole)) {
+    return null;
+  }
 
   const [selectedValue, setSelectedValue] = useState<ISelect | ISelect[] | null>(null);
 

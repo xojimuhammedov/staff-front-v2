@@ -45,7 +45,8 @@ function EmployeeDragDrop() {
   const { data: getOrganization } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
-    params: {}
+    params: {},
+    hideErrorMsg: true
   })
 
   const { data: getDoor }: any = useGetAllQuery({
@@ -150,6 +151,7 @@ function EmployeeDragDrop() {
             options={options}
             value={value}
             onChange={handleChange}
+            allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
           />
         </div>
       </div>
@@ -173,6 +175,7 @@ function EmployeeDragDrop() {
                 onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
+                allowedRoles={["ADMIN"]}
               />
             )}
           />
