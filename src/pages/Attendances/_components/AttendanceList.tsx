@@ -60,7 +60,7 @@ const AttendanceList = () => {
       //   cellRender: (row) => <div className="department-text">{row?.employee?.department?.fullName ?? '--'}</div>
       // },
       {
-        key: 'isActive',
+        key: 'arrivalStatus',
         label: t('Come status'),
         headerClassName: 'w-1/3',
         cellRender: (row) => {
@@ -74,7 +74,7 @@ const AttendanceList = () => {
         }
       },
       {
-        key: 'isActive',
+        key: 'goneStatus',
         label: t('Left status'),
         headerClassName: 'w-1/3',
         cellRender: (row) => {

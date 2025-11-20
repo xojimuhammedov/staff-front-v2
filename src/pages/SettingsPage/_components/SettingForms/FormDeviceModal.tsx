@@ -1,15 +1,34 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { MyInput } from 'components/Atoms/Form';
+import { MyCheckbox, MyInput } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import {  usePostQuery } from 'hooks/api';
-import { useForm } from 'react-hook-form';
+import { usePostQuery } from 'hooks/api';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {  useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string } from 'yup';
 import { paramsStrToObj } from 'utils/helper';
+import MyCheckboxGroup from 'components/Atoms/Form/MyCheckboxGroup';
+
+const checkType = [
+  {
+    id: 1,
+    label: "Both",
+    value: "BOTH"
+  },
+  {
+    id: 2,
+    label: "Check in",
+    value: "CHECK IN"
+  },
+  {
+    id: 3,
+    label: "Check out",
+    value: "CHECK ON"
+  }
+]
 
 function FormDeviceModal({ setOpenModal }: any) {
   const { t } = useTranslation();
@@ -25,14 +44,16 @@ function FormDeviceModal({ setOpenModal }: any) {
     ipAddress: string().required(),
     password: string().required(),
     name: string().required(),
-    login: string().required()
+    login: string().required(),
+    entryType: string().required()
   });
 
   const {
     handleSubmit,
     register,
     reset,
-    formState: { errors }
+    formState: { errors },
+    control,
   } = useForm({
     defaultValues: {},
     mode: 'onChange',
@@ -96,6 +117,27 @@ function FormDeviceModal({ setOpenModal }: any) {
         helperText={t(`${errors?.login?.message}`)}
         placeholder={t('Enter device login')}
         label={t('Login')}
+      />
+      <Controller
+        name="entryType"
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <div className='flex items-center justify-between'>
+            {checkType?.map((evt: any, index: number) => {
+              const isChecked = field.value === evt.label;
+              return (
+                <MyCheckbox
+                  key={index}
+                  label={evt.label}
+                  id={`${evt.id + 20}`}
+                  checked={isChecked}
+                  onChange={() => field.onChange(evt.label)}
+                />
+              );
+            })}
+          </div>
+        )}
       />
       <div className="flex items-center justify-end gap-4">
         <MyButton variant="primary">{t('Create a device')}</MyButton>
