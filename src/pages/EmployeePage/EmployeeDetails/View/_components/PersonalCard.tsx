@@ -2,6 +2,12 @@ import React from 'react';
 import IconByName from 'assets/icons/IconByName';
 import { useTranslation } from 'react-i18next';
 
+interface Schedule {
+    startTime: string,
+    endTime: string,
+    weekdays: string
+}
+
 interface PersonalInfoData {
     phone: string;
     carPlateNumber: string;
@@ -9,6 +15,7 @@ interface PersonalInfoData {
     address: string;
     department: any;
     todayActiveTime: string;
+    plan: Schedule,
 }
 
 interface PersonalInfoProps {
@@ -17,6 +24,13 @@ interface PersonalInfoProps {
 
 const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
     const { t } = useTranslation()
+    const formatWeekdaysRange = (weekdaysString: string) => {
+        if (!weekdaysString) return '-';
+        const days = weekdaysString.split(',').map(d => d.trim());
+        return days.length > 1
+            ? `${days[0]} - ${days[days?.length - 1]}`
+            : days[0] || '-';
+    };
     const infoItems = [
         {
             label: t("PHONE"),
@@ -32,7 +46,7 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
         },
         {
             label: t("WORK SCHEDULE"),
-            value: 'Mon - Fri, 9:00 AM - 6:00 PM',
+            value: `${formatWeekdaysRange(data?.plan?.weekdays)}, ${data?.plan?.startTime} - ${data?.plan?.endTime}`,
             Icon: 'Clock',
             iconColor: 'text-orange-500'
         },
