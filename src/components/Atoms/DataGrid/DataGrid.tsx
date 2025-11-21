@@ -288,7 +288,7 @@ const DataGrid = forwardRef(
                               onClick={(e) => e.stopPropagation()}
                               className={twMerge(
                                 headerCellGeneralStyle,
-                                'flex h-12 w-12 flex-none items-center justify-center px-[16px] py-[14px] text-text-base '
+                                'flex h-12 w-12 flex-none items-center justify-center px-[16px] py-[14px] text-text-base'
                               )}>
                               <MyCheckbox
                                 checked={selectedItems.includes(
@@ -302,7 +302,7 @@ const DataGrid = forwardRef(
                             <div
                               className={twMerge(
                                 headerCellGeneralStyle,
-                                'flex h-12 w-12 flex-none items-center justify-center px-[16px] py-[14px] text-text-base '
+                                'flex h-12 w-12 flex-none items-center justify-center px-[16px] py-[14px] text-text-base'
                               )}>
                               {/* {i + 1} */}
                               {pagination?.page * pagination?.total + i + 1 - pagination?.total}

@@ -66,7 +66,7 @@ const AttendanceList = () => {
         cellRender: (row) => {
           if (row?.arrivalStatus) {
             return (
-              <MyBadge variant={row?.arrivalStatus === "LATE" ? "orange" : 'green'}>
+              <MyBadge variant={row?.arrivalStatus === "LATE" ? "orange" : row.arrivalStatus === "ABSENT" ? "red" : 'green'}>
                 {row?.arrivalStatus}
               </MyBadge>
             );
@@ -91,7 +91,13 @@ const AttendanceList = () => {
         key: 'workonTime',
         label: t('Work on time'),
         headerClassName: 'w-1/4',
-        cellRender: (row) => <div className="department-text">{getTimeDifference(row.startTime, row.endTime)}</div>
+        cellRender: (row) => {
+          if (row?.startTime) {
+            return (
+              <div className="department-text">{getTimeDifference(row?.startTime, row?.endTime)}</div>
+            )
+          } else return "--"
+        }
       },
       {
         key: "reason",
