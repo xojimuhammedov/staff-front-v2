@@ -1,13 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { MyCheckbox, MyInput, MySelect, MyTextarea } from 'components/Atoms/Form';
+import { MyCheckbox } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery, usePostQuery, usePutQuery } from 'hooks/api';
-import { ISelect } from 'interfaces/select.interface';
-import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -103,8 +101,8 @@ const EmployeeGroup = () => {
                         <MyCheckbox checked={isAllSelected}
                             onChange={(checked) => handleSelectAll(checked)} label='Employee' />
                     </div>
-                    <div>Department</div>
-                    <div>Phone</div>
+                    <div>{t("Department")}</div>
+                    <div>{t("Phone")}</div>
                 </div>
                 <MyDivider />
                 {

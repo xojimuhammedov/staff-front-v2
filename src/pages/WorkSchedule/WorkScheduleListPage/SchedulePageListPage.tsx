@@ -4,11 +4,11 @@ import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyDivider from 'components/Atoms/MyDivider';
 import PolicyList from './_components/SchedulList';
 
-const PolicyPageListPage = () => {
+const SchedulePageListPage = () => {
   const { t } = useTranslation();
   const breadCrumbs = [
     {
-      label: t('Policy'),
+      label: t('Schedule'),
       url: '#'
     }
   ];
@@ -17,7 +17,7 @@ const PolicyPageListPage = () => {
     <PageContentWrapper>
       <div className="flex flex-col">
         <h1 className="headers-core dark:text-text-title-dark text-text-base">
-          {t('Policy')}
+          {t('Schedule')}
         </h1>
         <MyBreadCrumb items={breadCrumbs} />
       </div>
@@ -27,4 +27,4 @@ const PolicyPageListPage = () => {
   );
 };
 
-export default PolicyPageListPage;
+export default SchedulePageListPage;

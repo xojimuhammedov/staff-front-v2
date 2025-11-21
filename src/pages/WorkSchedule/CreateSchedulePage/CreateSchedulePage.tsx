@@ -58,7 +58,7 @@ const CreateSchedulePage = () => {
   return (
     <PageContentWrapper>
       <div className="flex items-center justify-between">
-        <MyBreadCrumb pageTitle={t('Create policy rule')} items={breadCrumbs} />
+        <MyBreadCrumb pageTitle={t('Create schedule rule')} items={breadCrumbs} />
       </div>
       <MyDivider />
       <div className="flex gap-6">

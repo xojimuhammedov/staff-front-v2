@@ -235,7 +235,7 @@ const Create = () => {
                 footerProps={{
                     children: (
                         <div className='flex w-full justify-end'>
-                            <MyButton onClick={() => setShow(false)} variant='primary'>Done</MyButton>
+                            <MyButton onClick={() => setShow(false)} variant='primary'>{t("Done")}</MyButton>
                         </div>
                     )
                 }}

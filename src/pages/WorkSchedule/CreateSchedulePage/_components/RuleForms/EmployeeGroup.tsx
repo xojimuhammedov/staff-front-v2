@@ -99,8 +99,8 @@ const EmployeeGroup = () => {
                         <MyCheckbox checked={isAllSelected}
                             onChange={(checked) => handleSelectAll(checked)} label='Employee' />
                     </div>
-                    <div>Department</div>
-                    <div>Phone</div>
+                    <div>{t("Department")}</div>
+                    <div>{t("Phone")}</div>
                 </div>
                 <MyDivider />
                 {

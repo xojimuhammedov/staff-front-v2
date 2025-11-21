@@ -23,7 +23,7 @@ const EmployeeDetails = () => {
                 <MyBreadCrumb pageTitle={t('Controlled employees')} items={breadCrumbs} />
             </div>
             <MyDivider />
-            <Button onClick={() => navigate('/employees')} variant='secondary' startIcon={<ArrowLeft />} >Back to employees list</Button>
+            <Button onClick={() => navigate('/employees')} variant='secondary' startIcon={<ArrowLeft />} >{t("Back to employees list")}</Button>
             <MyDivider />
             <div className="flex gap-6">
                 <Sidebar sidebar_menu_type="simple" />

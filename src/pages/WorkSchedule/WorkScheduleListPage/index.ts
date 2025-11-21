@@ -1,3 +1,3 @@
-import PolicyPageListPage from './PolicyPageListPage';
+import SchedulePageListPage from './SchedulePageListPage';
 
-export default PolicyPageListPage;
+export default SchedulePageListPage;

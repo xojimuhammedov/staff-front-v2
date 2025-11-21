@@ -45,7 +45,7 @@ const CreatePolicyRulePage = () => {
       items: [
         {
           icon: 'Settings2',
-          name: t('Schedule and Politics details'),
+          name: t('Politics details'),
           path: 'general-details',
           isSwitch: false,
           disabled: false,

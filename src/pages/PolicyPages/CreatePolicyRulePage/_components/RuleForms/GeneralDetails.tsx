@@ -207,7 +207,7 @@ const GeneralDetails = () => {
                   checked={field.value}
                   onChange={field.onChange}
                   className='w-full'
-                  label='Screenshots of the display'
+                  label={t("Screenshots of the display")}
                   iconButton={{
                     icon: (
                       <Settings2 />
@@ -225,7 +225,7 @@ const GeneralDetails = () => {
                   checked={field.value}
                   onChange={field.onChange}
                   className='w-full'
-                  label='Web visiting'
+                  label={t("Web visiting")}
                   iconButton={{
                     icon: (
                       <Settings2 />
@@ -246,7 +246,7 @@ const GeneralDetails = () => {
                   checked={field.value}
                   onChange={field.onChange}
                   className='w-full'
-                  label='Active Window'
+                  label={t("Active Window")}
                   iconButton={{
                     icon: (
                       <Settings2 />
@@ -295,7 +295,7 @@ const GeneralDetails = () => {
                         checked={field.value}
                         onChange={field.onChange}
                         className='w-full cursor-pointer'
-                        label='Screenshots of the screenshotCaptureAll'
+                        label={t("Screenshots of the screenshotCaptureAll")}
                         iconButton={null}
                       />
                     )}
@@ -308,7 +308,7 @@ const GeneralDetails = () => {
                         checked={field.value}
                         onChange={field.onChange}
                         className='w-full'
-                        label='Screenshots of the screenshotIsGrayscale'
+                        label={t("Screenshots of the screenshotIsGrayscale")}
                         iconButton={null}
                       />
                     )}

@@ -46,8 +46,8 @@ const EmployeeList = () => {
         label: t('Employees'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
-            <MyAvatar size="medium" imageUrl={`${config.FILE_URL}api/storage/${row?.photo}`} />
+          <div className="flex items-center w-full gap-4 dark:text-text-title-dark">
+            <MyAvatar size="medium" imageUrl={row?.photo ? `${config.FILE_URL}api/storage/${row?.photo}`: AvatarIcon} />
             {row?.name}
           </div>
         )

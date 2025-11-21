@@ -1,8 +1,10 @@
 import policyEmployeeData from 'configs/policy';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 const PolicyInfo = ({ name, color }: { name: string, color: string }) => {
+    const {t} = useTranslation()
     return (
         <div className="w-full bg-white rounded-lg shadow-lg p-6 font-sans">
             {/* Header */}
@@ -40,7 +42,7 @@ const PolicyInfo = ({ name, color }: { name: string, color: string }) => {
             {/* Total Useful Time */}
             <div className="mt-4 pt-2 border-t border-gray-200">
                 <div className="flex justify-between items-center">
-                    <span className="text-gray-600 font-medium">Total Useful Time</span>
+                    <span className="text-gray-600 font-medium">{t("Total Useful Time")}</span>
                     <span className="text-lg font-bold text-gray-800">100%</span>
                 </div>
             </div>

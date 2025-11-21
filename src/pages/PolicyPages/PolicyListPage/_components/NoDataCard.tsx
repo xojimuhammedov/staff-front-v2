@@ -12,17 +12,17 @@ function NoDataCard() {
     <div className="flex flex-col items-center justify-center gap-4">
       <NoDataIcon />
       <h2 className="text-xl font-medium leading-8  text-text-base">
-        {t('You have not created any schedule yet')}
+        {t('You have not created any policy yet')}
       </h2>
       <p className="text-base font-normal leading-8">
-        {t("Click the 'Creat schedule' button and create a work schedule")}
+        {t("Click the 'Creat policy' button")}
       </p>
       <MyButton
         onClick={() => navigate('/policy/create')}
         variant="primary"
         className="[&_svg]:stroke-bg-white  text-sm"
         startIcon={<Plus />}>
-        {t('Create a work schedule')}
+        {t('Create a policy')}
       </MyButton>
     </div>
   );

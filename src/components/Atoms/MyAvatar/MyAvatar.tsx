@@ -74,7 +74,7 @@ const MyAvatar: FC<MyAvatarProps> = ({
           <img
             className={twMerge(
               [shape === 'circle' && circleStyles, shape === 'square' && squareStyles],
-              'max-w-max sm:h-8 min-[320px]:w-8 min-[320px]:h-8 sm:w-8 lg:h-10 lg:w-10'
+              'max-w-full object-cover sm:h-8 min-[320px]:w-8 min-[320px]:h-8 sm:w-8 lg:h-10 lg:w-10'
             )}
             src={imageUrl}
             {...rest}

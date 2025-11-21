@@ -9,7 +9,7 @@ const EditPolicyRulePage = () => {
   const { t } = useTranslation();
   const breadCrumbs = [
     {
-      label: t('Security Policy'),
+      label: t('Schedule'),
       url: '#'
     },
     {
@@ -21,7 +21,7 @@ const EditPolicyRulePage = () => {
   return (
     <PageContentWrapper>
       <div className="flex items-center justify-between">
-        <MyBreadCrumb pageTitle={t('Edit policy rule')} items={breadCrumbs} />
+        <MyBreadCrumb pageTitle={t('Edit schedule')} items={breadCrumbs} />
       </div>
       <MyDivider />
       <div className="flex gap-6">

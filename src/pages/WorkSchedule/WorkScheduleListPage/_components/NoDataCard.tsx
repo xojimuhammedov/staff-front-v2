@@ -15,7 +15,7 @@ function NoDataCard() {
         {t('You have not created any schedule yet')}
       </h2>
       <p className="text-base font-normal leading-8">
-        {t("Click the 'Creat schedule' button and create a work schedule")}
+        {t("Click the 'Creat schedule' button")}
       </p>
       <MyButton
         onClick={() => navigate('/policy/create')}

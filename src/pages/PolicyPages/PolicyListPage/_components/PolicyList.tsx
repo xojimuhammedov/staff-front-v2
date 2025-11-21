@@ -9,15 +9,13 @@ import { useMemo, useState } from 'react';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useTranslation } from 'react-i18next';
 import { IEmployee } from 'interfaces/employee/employee.interface';
-import { FilterTypeEnum } from 'enums/filter-type.enum';
 import NoDataCard from './NoDataCard';
 import { IAction } from '../../../../interfaces/action.interface';
 import { Edit3, Plus, Trash2 } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import Loading from 'assets/icons/Loading';
-import DeleteModal from './DeleteModal';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 
 const PolicyList = () => {
