@@ -93,7 +93,9 @@ const DoorsPage = () => {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',
         name: t('Edit'),
-        action: (row, $e) => {}
+        action: (row, $e) => {
+          navigate(`/settings/door/edit/${row?.id}`)
+        }
       },
       {
         icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
@@ -165,7 +167,7 @@ const DoorsPage = () => {
                 onClick={() => navigate('/settings/door/create')}
                 startIcon={<Plus />}
                 variant="primary"
-                className="[&_svg]:stroke-bg-white w-[160px]">
+                className="[&_svg]:stroke-bg-white w-[170px]">
                 {t('Add new door')}
               </MyButton>
             </>

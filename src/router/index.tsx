@@ -18,7 +18,7 @@ const PolicyGroupCreate = lazy(() => import('pages/PolicyGroups/_components/Crea
 const PolicyGroupEdit = lazy(() => import('pages/PolicyPages/EditPolicyRulePage'))
 const SettingsPage = lazy(() => import('pages/SettingsPage'))
 const DoorCreate = lazy(() => import('pages/SettingsPage/_components/SettingForms/DoorCreate'))
-const DoorEdit = lazy(() => import('pages/SettingsPage/DoorEdit/DoorEdit'))
+const DoorEdit = lazy(() => import('pages/SettingsPage/DoorEdit'))
 const HikvisionDoorByEmployee = lazy(() => import('pages/SettingsPage/_components/SettingForms/MainGate'))
 const Attendances = lazy(() => import('pages/Attendances'))
 const WorkSchedule = lazy(() => import('pages/WorkSchedule'))

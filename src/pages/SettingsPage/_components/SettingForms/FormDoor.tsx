@@ -27,7 +27,7 @@ function FormDoor() {
 
   const schema = object().shape({
     name: string().required(),
-    organizationId: yup.number(),
+    organizationId: yup.number().required(),
   });
 
   const {

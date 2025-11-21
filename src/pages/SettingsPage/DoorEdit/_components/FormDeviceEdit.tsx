@@ -2,25 +2,16 @@ import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import MyModal from "components/Atoms/MyModal";
 import LabelledCaption from "components/Molecules/LabelledCaption";
-import { Edit2, Plus, Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MyCheckbox } from "components/Atoms/Form";
-import { useGetAllQuery, useDeleteQuery, useGetOneQuery } from "hooks/api";
 import { useParams } from "react-router-dom";
-import { KEYS } from "constants/key";
-import { URLS } from "constants/url";
-import { get } from "lodash";
-import { DEFAULT_ICON_SIZE } from "constants/ui.constants";
-import FormDeviceEditModal from "./FormDeviceModal";
 import FormDevice from "./FormDevice";
 
 function FormDeviceEdit({ handleClick }: any) {
   const { t } = useTranslation();
   const { id }: any = useParams();
-  const [deviceId, setDeviceId] = useState<any>();
   const [openModal, setOpenModal] = useState<any>(false);
-  const [openEditModal, setOpenEditModal] = useState<any>(false);
 
   return (
     <>
@@ -53,8 +44,7 @@ function FormDeviceEdit({ handleClick }: any) {
           <div className="w-[50%]">
             <MyButton
               onClick={() => setOpenModal(true)}
-              startIcon={<Plus stroke="black" />}
-            >
+              startIcon={<Plus stroke="black" />}>
               {t("Connect device")}
             </MyButton>
           </div>
@@ -78,31 +68,6 @@ function FormDeviceEdit({ handleClick }: any) {
           className: "py-[10px]",
         }}
       />
-      {/* <MyModal
-        modalProps={{
-          show: Boolean(openEditModal),
-          onClose: () => setOpenEditModal(false),
-          size: "md",
-        }}
-        headerProps={{
-          children: (
-            <h2 className="text-20 leading-32 font-inter tracking-tight text-black">
-              {t("Create new permit")}
-            </h2>
-          ),
-        }}
-        bodyProps={{
-          children: (
-            <FormDeviceEditModal
-              onClose={() => setOpenEditModal(false)}
-              doorId={id}
-              deviceId={deviceId}
-              deviceData={[]}
-            />
-          ),
-          className: "py-[10px]",
-        }}
-      /> */}
     </>
   );
 }

@@ -151,7 +151,7 @@ function EmployeeDragDrop() {
             options={options}
             value={value}
             onChange={handleChange}
-            allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
+            allowedRoles={["ADMIN"]}
           />
         </div>
       </div>
@@ -229,11 +229,6 @@ function EmployeeDragDrop() {
                     label={emp?.name}
                     id={emp?.id.toString()}
                   />
-                  {/* <img
-                    src={emp.avatar}
-                    alt={emp.name}
-                    className="w-10 h-10 rounded-full object-cover mr-3"
-                  /> */}
                 </div>
               ))}
             </div>

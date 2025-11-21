@@ -5,37 +5,64 @@ import LabelledCaption from "components/Molecules/LabelledCaption";
 import config from "configs";
 import { get } from "lodash";
 import { Search, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
 import AvatarIcon from "assets/icons/avatar.png";
 import MyAvatar from "components/Atoms/MyAvatar";
 import { KeyTypeEnum } from "enums/key-type.enum";
+import { useGetAllQuery, useGetOneQuery, usePostQuery } from "hooks/api";
+import { URLS } from "constants/url";
+import { KEYS } from "constants/key";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+
+interface EmployeeResponse {
+  data: Employee[];
+  limit: number;
+  page: number;
+  total: number;
+}
+
+interface Employee {
+  id: number;
+  name: string;
+  additionalDetails: string;
+  photo: string;
+}
 
 function EmployeeDragDrop() {
   const { t } = useTranslation();
+  const { id } = useParams()
+  const navigate = useNavigate()
   const [search, setSearch] = useState<any>("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [checkData, setCheckData] = useState<any>([]);
-  const [check, setCheck] = useState<any>();
-  const [dragDrop, setDragDrop] = useState<any>([]);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]); // yakuniy tanlanganlar
 
+  const { mutate: create } = usePostQuery({
+    listKeyId: KEYS.devicesEmployeeAssign,
+    hideSuccessToast: true
+  });
 
-  const handleClickButton = () => {
-    setDragDrop(checkData);
-  };
+  const { data: employeeList } = useGetAllQuery<EmployeeResponse>({
+    key: KEYS.getEmployeeList,
+    url: URLS.getEmployeeList,
+    params: {}
+  });
 
-  const handleDelete = (idToRemove: any) => {
-    const updatedCheckData = dragDrop.filter(
-      (item: any) => item.id !== idToRemove,
-    );
-    setDragDrop(updatedCheckData);
-    setCheckData(updatedCheckData);
-    setCheck(false);
-  };
+  const { data } = useGetOneQuery({
+    id: id,
+    url: URLS.getDoorGates,
+    params: {},
+    enabled: !!id
+  })
+
+  const { handleSubmit } = useForm()
 
   const handleSearch = () => {
     if (search) {
@@ -44,6 +71,73 @@ function EmployeeDragDrop() {
       searchParams.delete("search");
     }
     setSearchParams(searchParams);
+  };
+
+  useEffect(() => {
+    if (!data?.data?.employees || !Array.isArray(data?.data?.employees)) return;
+
+    const newIds = data?.data?.employees
+      ?.map((emp: any) => emp.id)
+      .filter((id: number | null | undefined) => typeof id === 'number');
+
+    if (newIds.length > 0) {
+      setFinalSelectedIds(prev => Array.from(new Set([...prev, ...newIds])));
+    }
+  }, [data?.data?.employees]);
+
+  const handleSelectAll = () => {
+    if (selectedIds.length === (data?.data?.length ?? 0)) {
+      setSelectedIds([]);
+    } else {
+      const ids = data?.data?.map((emp: any) => emp.id) ?? [];
+      setSelectedIds(ids);
+    }
+  };
+
+  const handleCheckboxChange = (id: number) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((empId) => empId !== id) : [...prev, id]
+    );
+  };
+
+  const handleAddSelected = () => {
+    setFinalSelectedIds((prev) => {
+      const merged = Array.from(new Set([...prev, ...selectedIds]));
+      return merged;
+    });
+    setSelectedIds([]);
+  };
+
+  const handleRemoveFinal = (id: number) => {
+    setFinalSelectedIds((prev) => prev.filter((empId) => empId !== id));
+  };
+
+  const finalEmployees =
+    employeeList?.data?.filter((emp: Employee) => finalSelectedIds.includes(emp.id)) ?? [];
+  const notSelectedEmployees =
+    employeeList?.data?.filter((emp: Employee) => !finalSelectedIds.includes(emp.id)) ?? [];
+
+  const onSubmit = () => {
+    const submitData = {
+      employeeIds: finalSelectedIds,
+      gateIds: [Number(id)],
+      organizationId: get(data, 'data.organizationId')
+    }
+    create(
+      {
+        url: URLS.devicesEmployeeAssign,
+        attributes: submitData
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Successfully created!'));
+          navigate('/settings')
+        },
+        onError: (e: any) => {
+          toast.error(e?.response?.data?.error?.message)
+        }
+      }
+    );
   };
 
   return (
@@ -59,7 +153,7 @@ function EmployeeDragDrop() {
             subtitle={t("Create employees group and link to the door")}
           />
         </div>
-        <MyButton type="submit" variant="secondary">
+        <MyButton type="submit" onClick={handleSubmit(onSubmit)} variant="secondary">
           {t("Save changes")}
         </MyButton>
       </div>
@@ -85,61 +179,58 @@ function EmployeeDragDrop() {
           <div className="mt-4 flex w-full flex-col gap-4">
             <div className="lg:mx-4 sm:mx-1 flex items-center justify-between">
               <MyCheckbox
-                label={t("Employees")}
-                onChange={(evt: any) => {
-                  if (evt.target.checked) {
-                    setCheck(true);
-                  }
-                }}
+                label={t('Employees')}
+                // checked={selectedIds?.length === data?.data?.length}
+                onChange={handleSelectAll}
+                id={(Math.random() * 10).toString()}
               />
-              {checkData?.length > 0 ? (
-                <MyButton
-                  onClick={handleClickButton}
-                  className={
-                    "font-medium sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm"
-                  }
-                  variant="secondary"
+              <MyButton
+                onClick={handleAddSelected}
+                disabled={selectedIds.length > 0 ? false : true}
+                className={'font-medium sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm'}
+                variant="secondary">
+                {t('Add selected employees')}
+              </MyButton>
+            </div>
+            <div className="flex flex-col gap-3">
+              {notSelectedEmployees?.map((emp: Employee) => (
+                <div
+                  key={emp?.id}
+                  className="flex items-center p-4 border rounded-sm bg-white hover:bg-gray-50 transition"
                 >
-                  {t("Add selected employees")}
-                </MyButton>
-              ) : (
-                <MyButton
-                  className={
-                    "font-medium sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm"
-                  }
-                  disabled
-                  variant="secondary"
-                >
-                  {t("Add selected employees")}
-                </MyButton>
-              )}
+                  <MyCheckbox
+                    className="w-4 h-4 accent-black mr-3"
+                    checked={selectedIds.includes(emp?.id)}
+                    onChange={() => handleCheckboxChange(emp?.id)}
+                    label={emp?.name}
+                    id={emp?.id.toString()}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
         <div className="flex h-[600px] dark:border-dark-line w-1/2 flex-col gap-8 overflow-y-auto rounded-md border-2 border-solid border-gray-300 p-4 ">
-          {dragDrop?.map((evt: any, index: number) => (
+          {finalEmployees?.map((evt: any, index: number) => (
             <div className="flex w-full items-center justify-between gap-4 pb-4 dark:border-dark-line border-b-2 bg-white dark:bg-bg-dark-bg">
               <div className="flex items-center gap-3" key={index} id={evt.id}>
                 <MyAvatar
                   imageUrl={
-                    evt.photoUrl
-                      ? `${config.FILE_URL}${evt?.photoUrl}`
+                    evt.photo
+                      ? `${config.FILE_URL}api/storage/${evt?.photo}`
                       : AvatarIcon
                   }
                   size="medium"
                 />
                 <div className="flex flex-col">
                   <h2 className="text-sm font-normal dark:text-text-title-dark text-black">
-                    {evt.firstName} {evt.lastName}
+                    {evt?.name}
                   </h2>
-                  <p className="text-subtle text-xs dark:text-text-title-dark font-normal">
-                    {evt.middleName}
-                  </p>
                 </div>
               </div>
               <div
-                onClick={() => handleDelete(evt.id)}
                 className="cursor-pointer"
+                onClick={() => handleRemoveFinal(evt.id)}
               >
                 <Trash2 color="#9CA3AF" />
               </div>

@@ -10,7 +10,6 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string } from 'yup';
 import { paramsStrToObj } from 'utils/helper';
-import MyCheckboxGroup from 'components/Atoms/Form/MyCheckboxGroup';
 
 const checkType = [
   {

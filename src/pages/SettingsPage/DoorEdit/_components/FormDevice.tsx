@@ -1,13 +1,31 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { MyInput, MySelect } from "components/Atoms/Form";
+import { MyCheckbox, MyInput, MySelect } from "components/Atoms/Form";
 import MyButton from "components/Atoms/MyButton/MyButton";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import { usePostQuery } from "hooks/api";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { object, string } from "yup";
+
+const checkType = [
+  {
+    id: 1,
+    label: "Both",
+    value: "BOTH"
+  },
+  {
+    id: 2,
+    label: "Check in",
+    value: "ENTRY"
+  },
+  {
+    id: 3,
+    label: "Check out",
+    value: "EXIT"
+  }
+]
 
 function FormDevice({ setOpenModal, doorId }: any) {
   const { t } = useTranslation();
@@ -16,7 +34,9 @@ function FormDevice({ setOpenModal, doorId }: any) {
     ipAddress: string().required(),
     password: string().required(),
     name: string().required(),
-    login: string().required()
+    login: string().required(),
+    entryType: string().required()
+    
   });
 
   const { mutate: create } = usePostQuery({
@@ -28,6 +48,7 @@ function FormDevice({ setOpenModal, doorId }: any) {
     handleSubmit,
     register,
     reset,
+    control,
     formState: { errors }
   } = useForm({
     defaultValues: {},
@@ -70,8 +91,7 @@ function FormDevice({ setOpenModal, doorId }: any) {
     <form
       className="flex flex-col gap-4"
       action=""
-      onSubmit={handleSubmit(onSubmit)}
-    >
+      onSubmit={handleSubmit(onSubmit)}>
       <MyInput
         {...register('name')}
         error={Boolean(errors?.name?.message)}
@@ -99,6 +119,27 @@ function FormDevice({ setOpenModal, doorId }: any) {
         helperText={t(`${errors?.password?.message}`)}
         placeholder={t('Enter password')}
         label={t('Password')}
+      />
+      <Controller
+        name="entryType"
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <div className='flex items-center justify-between'>
+            {checkType?.map((evt: any, index: number) => {
+              const isChecked = field.value === evt.value;
+              return (
+                <MyCheckbox
+                  key={index}
+                  label={evt.label}
+                  id={`${evt.id + 20}`}
+                  checked={isChecked}
+                  onChange={() => field.onChange(evt.value)}
+                />
+              );
+            })}
+          </div>
+        )}
       />
       <div className="flex items-center justify-end gap-4">
         <MyButton variant="primary">{t("Create")}</MyButton>
