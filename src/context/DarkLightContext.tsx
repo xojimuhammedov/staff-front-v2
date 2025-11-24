@@ -1,31 +1,52 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-const DarkModeContext = createContext({});
+interface DarkModeContextType {
+  darkMode: boolean;
+  toggleTheme: () => void;
+}
 
-const DarkLightProvider = ({ children }: any) => {
-  const [darkMode, setDarkMode] = useState(() => {
-    const initialTheme = localStorage.getItem('theme');
-    return initialTheme ? initialTheme : 'light';
+const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
+
+interface DarkLightProviderProps {
+  children: ReactNode;
+}
+
+const DarkLightProvider = ({ children }: DarkLightProviderProps) => {
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('theme');
+    // Agar localStorage'da mavjud bo'lmasa, system preference bo'yicha aniqlaymiz
+    if (saved === 'dark' || saved === 'light') {
+      return saved === 'dark';
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  function toggleTheme() {
-    setDarkMode((prevTheme) => {
-      const newTheme = prevTheme === 'light' ? 'dark' : 'light';
-      localStorage.setItem('theme', newTheme);
+  const toggleTheme = () => {
+    setDarkMode(prev => {
+      const newTheme = !prev;
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
       return newTheme;
     });
-  }
+  };
 
+  // Faqat darkMode o'zgarganda HTML ga class qo'shamiz
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setDarkMode(savedTheme);
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.setAttribute('data-theme', 'light');
     }
   }, [darkMode]);
 
+  // Sahifa yuklanganda localStorage'dan to'g'ri o'qish (bir marta!)
   useEffect(() => {
-    document.body.style.backgroundColor = darkMode === 'dark' ? '#18181A' : 'white';
-  }, [darkMode]);
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') setDarkMode(true);
+    else if (saved === 'light') setDarkMode(false);
+    // agar yo'q bo'lsa — system preference bo'yicha qoldiramiz
+  }, []);
 
   return (
     <DarkModeContext.Provider value={{ darkMode, toggleTheme }}>
@@ -34,7 +55,7 @@ const DarkLightProvider = ({ children }: any) => {
   );
 };
 
-const useDarkMode = () => {
+const useDarkMode = (): DarkModeContextType => {
   const context = useContext(DarkModeContext);
   if (!context) {
     throw new Error('useDarkMode must be used within a DarkLightProvider');

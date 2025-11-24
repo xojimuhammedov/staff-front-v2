@@ -130,18 +130,6 @@ const PolicyList = () => {
             dataColumn={dataColumn}
             hasExport={false}
             hasCheckbox={false}
-            hasButton={
-              <>
-                <MyButton
-                  onClick={() => navigate('/policy/create')}
-                  startIcon={<Plus />}
-                  allowedRoles={['ADMIN', 'HR']}
-                  variant="primary"
-                  className="[&_svg]:stroke-bg-white w-[170px] text-sm">
-                  {t('Create a policy')}
-                </MyButton>
-              </>
-            }
             hasAction={false}
             hasFilters={false}
             pagination={data}

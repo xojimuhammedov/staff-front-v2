@@ -1,11 +1,18 @@
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
-import MyDivider from 'components/Atoms/MyDivider';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useTranslation } from 'react-i18next';
 import AttendanceList from './_components/AttendanceList';
+import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
+import { useForm } from 'react-hook-form';
+import { Calendar, Search } from 'lucide-react';
+import { useSearch } from 'hooks/useSearch';
+import { MyInput } from 'components/Atoms/Form';
+import { KeyTypeEnum } from 'enums/key-type.enum';
 
 const Attendances = () => {
     const { t } = useTranslation();
+    const { control, watch }: any = useForm()
+    const { search, setSearch, handleSearch } = useSearch();
     const breadCrumbs = [
         {
             label: t('Attendances'),
@@ -14,14 +21,40 @@ const Attendances = () => {
     ];
     return (
         <PageContentWrapper>
-            <div className="flex flex-col">
-                <h1 className="headers-core dark:text-text-title-dark text-text-base">
-                    {t('Attendances')}
-                </h1>
-                <MyBreadCrumb items={breadCrumbs} />
+            <div className='flex justify-between items-center'>
+                <div className="flex flex-col">
+                    <h1 className="headers-core dark:text-text-title-dark text-text-base">
+                        {t('Attendances')}
+                    </h1>
+                    <MyBreadCrumb items={breadCrumbs} />
+                </div>
+                <div className='flex items-center gap-4'>
+                    <MyInput
+                        onKeyUp={(event) => {
+                            if (event.key === KeyTypeEnum.enter) {
+                                handleSearch();
+                            } else {
+                                setSearch((event.target as HTMLInputElement).value);
+                            }
+                        }}
+                        defaultValue={search}
+                        startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+                        className="dark:bg-bg-input-dark"
+                        placeholder={t('Search...')}
+                    />
+                    <div className="w-[200px]">
+                        <MyTailwindPicker
+                            useRange={false}
+                            name='date'
+                            asSingle={true}
+                            control={control}
+                            placeholder={t('Today')}
+                            startIcon={<Calendar stroke="#9096A1" />}
+                        />
+                    </div>
+                </div>
             </div>
-            <MyDivider />
-            <AttendanceList />
+            <AttendanceList watch={watch} />
         </PageContentWrapper>
     );
 }

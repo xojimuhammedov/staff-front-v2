@@ -83,6 +83,24 @@
 
 @import './components/_button.css';
 
+html {
+  background-color: white;
+  color: #111;
+}
+
+/* Dark mode */
+html.dark,
+html[data-theme="dark"] {
+  background-color: #18181A;
+  color: #e0e0e0;
+}
+
+/* Yoki Tailwind CSS ishlatayotgan bo'lsangiz */
+.dark {
+  background-color: #18181A;
+  color: #e0e0e0;
+}
+
 .rmdp-input {
   padding: 20px 10px !important;
   width: 100% !important;
@@ -174,14 +192,17 @@
 .form-datepicker .bottom-full {
   bottom: 0 !important;
 }
+
 .dark .form-datepicker input {
   background-color: #27282d !important;
   border-color: #27282d !important;
 }
+
 .dark .form-datepicker .rounded-lg {
   background-color: #27282d;
   border-color: #27282d;
 }
+
 /* .form-datepicker .shadow-sm {
   height: 315px;
 } */
@@ -198,6 +219,7 @@
   position: absolute;
   right: 200px;
 }
+
 .right-datepickers .block {
   position: absolute;
   right: 260px;
@@ -207,6 +229,7 @@
   position: absolute;
   right: 200px;
 }
+
 .form-datepicker .grid-cols-7 button {
   width: 2.2rem;
   height: 2.2rem;
@@ -225,20 +248,16 @@
 }
 
 .dark .dark-button {
-  background: var(
-    --buttons-button-neutral-dark,
-    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(35, 38, 45, 0.05) 100%),
-    #262628
-  ) !important;
+  background: var(--buttons-button-neutral-dark,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(35, 38, 45, 0.05) 100%),
+      #262628) !important;
   box-shadow: 0px 0px 0px 1px rgba(3, 7, 18, 0.08) !important;
 }
 
 .dark .prev-button {
-  background: var(
-    --buttons-button-neutral-dark,
-    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(35, 38, 45, 0.05) 100%),
-    #262628
-  ) !important;
+  background: var(--buttons-button-neutral-dark,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(35, 38, 45, 0.05) 100%),
+      #262628) !important;
   box-shadow: 0px 0px 0px 1px rgba(3, 7, 18, 0.08) !important;
 }
 
@@ -263,7 +282,7 @@
   background: rgba(3, 7, 18, 0.5) !important;
 }
 
-.apexcharts-toolbar{
+.apexcharts-toolbar {
   display: none !important;
 }
 
@@ -272,18 +291,22 @@
   .navbar-menu-button {
     display: block;
   }
+
   .navbar-menu-list {
     display: none;
   }
+
   .dashboard-page {
     flex-direction: column;
     gap: 20px;
   }
+
   .dashboard-right,
   .dashboard-left {
     width: 100% !important;
   }
-  .settings-sidebar{
+
+  .settings-sidebar {
     max-width: 230px;
     width: 100%;
   }

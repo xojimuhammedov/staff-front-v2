@@ -7,6 +7,9 @@ import MainContent from './_components/MainContent';
 import { useLocation } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 
+type MenuType = 'simple' | 'open-close';
+
+
 interface SidebarItem {
   icon: string;
   name: string;
@@ -62,7 +65,7 @@ const CreateSchedulePage = () => {
       </div>
       <MyDivider />
       <div className="flex gap-6">
-        <Sidebar menus={sidebar_menu} />
+        <Sidebar sidebar_menu_type="simple" menus={sidebar_menu} />
         <MainContent />
       </div>
     </PageContentWrapper>

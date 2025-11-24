@@ -144,6 +144,13 @@ const DoorsPage = () => {
           title={t('Doors')}
           subtitle={t('System notifications for selected employees')}
         />
+        <MyButton
+          onClick={() => navigate('/settings/door/create')}
+          startIcon={<Plus />}
+          variant="primary"
+          className="[&_svg]:stroke-bg-white w-[170px]">
+          {t('Add new door')}
+        </MyButton>
       </div>
 
       <MyDivider />
@@ -161,17 +168,6 @@ const DoorsPage = () => {
           dataColumn={dataColumn}
           isLoading={isLoading}
           rowActions={rowActions}
-          hasButton={
-            <>
-              <MyButton
-                onClick={() => navigate('/settings/door/create')}
-                startIcon={<Plus />}
-                variant="primary"
-                className="[&_svg]:stroke-bg-white w-[170px]">
-                {t('Add new door')}
-              </MyButton>
-            </>
-          }
         />
       </TableProvider>
       <ConfirmationModal

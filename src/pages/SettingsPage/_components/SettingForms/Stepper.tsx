@@ -1,26 +1,6 @@
-import React, { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { useTranslation } from 'react-i18next';
-
-interface SidebarMenu {
-  title: string;
-  stepper_title: string;
-  items: SidebarItem[];
-}
-
-interface StepperProps {
-  steps: SidebarMenu[];
-}
-
-interface SidebarItem {
-  icon: string;
-  name: string;
-  path: string;
-  isSwitch: boolean;
-}
 
 const Stepper = ({ steps, currentStep, complete }: any | boolean) => {
-  const { t } = useTranslation();
 
   return (
     <>

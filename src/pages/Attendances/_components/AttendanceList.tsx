@@ -26,11 +26,10 @@ import ReasonModal from './ReasonModal';
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 
 
-const AttendanceList = () => {
+const AttendanceList = ({ watch }: any) => {
   const { t } = useTranslation();
   const location = useLocation()
   const searchValue: any = paramsStrToObj(location.search)
-  const { control, watch } = useForm()
 
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.attendacesForEmployee,
@@ -53,12 +52,6 @@ const AttendanceList = () => {
           </div>
         )
       },
-      // {
-      //   key: 'department',
-      //   label: t('Department'),
-      //   headerClassName: 'w-1/3',
-      //   cellRender: (row) => <div className="department-text">{row?.employee?.department?.fullName ?? '--'}</div>
-      // },
       {
         key: 'arrivalStatus',
         label: t('Come status'),
@@ -100,9 +93,21 @@ const AttendanceList = () => {
         }
       },
       {
+        key: 'startTime',
+        label: t('Arrival time'),
+        headerClassName: 'w-1/4',
+        cellRender: (row) => {
+          if (row?.startTime) {
+            return (
+              <div className="department-text">{dayjs(row?.startTime).format("hh:mm")}</div>
+            )
+          } else return "--"
+        }
+      },
+      {
         key: "reason",
         label: t("Reason"),
-        headerClassName: 'w-1/3',
+        headerClassName: 'w-1/4',
         cellRender: (row) => <ReasonModal row={row} refetch={refetch} />
       }
     ],
@@ -137,8 +142,13 @@ const AttendanceList = () => {
     },
     {
       id: 6,
+      label: t('Arrival time'),
+      headerClassName: 'w-1/4'
+    },
+    {
+      id: 7,
       label: t('Reason'),
-      headerClassName: 'w-1/3'
+      headerClassName: 'w-1/4'
     }
   ];
 
@@ -180,20 +190,7 @@ const AttendanceList = () => {
           rowActions={rowActions}
           pagination={data}
           hasButton={false}
-          hasDatePicker={
-            <>
-              <div className="w-[140px]">
-                <MyTailwindPicker
-                  useRange={false}
-                  name='date'
-                  asSingle={true}
-                  control={control}
-                  placeholder={t('Today')}
-                  startIcon={<Calendar stroke="#9096A1" />}
-                />
-              </div>
-            </>
-          }
+          hasSearch={false}
         />
       </TableProvider>
     </>

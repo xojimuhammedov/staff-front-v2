@@ -46,7 +46,7 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
   ];
 
   return (
-    <div className="h-max w-[320px] rounded-m bg-bg-base p-m shadow-base">
+    <div className="h-max w-[320px] rounded-m bg-bg-base p-m shadow-base dark:bg-bg-dark-bg">
       {sidebar_menu.map((menu: any, i: number) => (
         <SidebarMenu menu={menu} menuIndex={i} />
       ))}

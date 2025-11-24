@@ -111,7 +111,6 @@ const Notifications = () => {
           dataColumn={dataColumn}
           hasCheckbox={false}
           isLoading={isLoading}
-        // pagination={get(data, 'data.meta.pagination', {})}
         />
       </TableProvider>
     </div>

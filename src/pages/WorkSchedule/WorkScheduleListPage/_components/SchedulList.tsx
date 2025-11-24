@@ -170,6 +170,7 @@ const WorkScheduleList = () => {
         <DataGrid
           isLoading={isLoading}
           hasAction={false}
+          hasSearch={false}
           hasCustomizeColumns={true}
           hasFilters={false}
           dataColumn={dataColumn}
@@ -177,18 +178,6 @@ const WorkScheduleList = () => {
           hasCheckbox={false}
           rowActions={rowActions}
           pagination={data}
-          hasButton={
-            <>
-              <MyButton
-                onClick={() => navigate('/workschedule/create')}
-                startIcon={<Plus />}
-                allowedRoles={['ADMIN', 'HR']}
-                variant="primary"
-                className="[&_svg]:stroke-bg-white w-[170px] text-sm">
-                {t('Create a schedule')}
-              </MyButton>
-            </>
-          }
         />
       </TableProvider>
       <ConfirmationModal

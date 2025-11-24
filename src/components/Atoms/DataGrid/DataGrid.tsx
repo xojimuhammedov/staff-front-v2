@@ -75,7 +75,7 @@ const DataGrid = forwardRef(
     hasAction = false,
     hasFilters = false,
     dataColumn = [],
-    hasSearch = true,
+    hasSearch = false,
     isLoading = false,
     actions = [],
     rowActions = [],
@@ -203,12 +203,12 @@ const DataGrid = forwardRef(
                 />
               )}
               <div className="flex flex-row items-center gap-4">
-                {hasAction && <ActionSelectButton actions={actions} items={selectedItems} />}
-                {hasDatePicker}
+                {/* {hasAction && <ActionSelectButton actions={actions} items={selectedItems} />} */}
+                {/* {hasDatePicker} */}
                 {/* {hasCustomizeColumns && <CustomizeColumnsButton />} */}
-                {hasFilters && <FiltersButton filters={filter} />}
-                {hasExport && <ExportButton />}
-                {hasButton}
+                {/* {hasFilters && <FiltersButton filters={filter} />} */}
+                {/* {hasExport && <ExportButton />} */}
+                {/* {hasButton} */}
               </div>
             </div>
             <MyDivider />
@@ -218,7 +218,7 @@ const DataGrid = forwardRef(
           <>
             <div ref={ref}>
               <div className="grid-header item-center flex border-b border-border-base dark:border-dark-line dark:bg-bg-darkBg">
-                {hasCheckbox && (
+                {/* {hasCheckbox && (
                   <div
                     className={twMerge(
                       headerCellGeneralStyle,
@@ -226,7 +226,7 @@ const DataGrid = forwardRef(
                     )}>
                     <MyCheckbox checked={allSelected} onChange={handleSelectAll} />
                   </div>
-                )}
+                )} */}
                 {hasOrderColumn && (
                   <div
                     className={twMerge(
@@ -283,7 +283,7 @@ const DataGrid = forwardRef(
                             'data-grid-row  flex items-center odd:bg-bg-subtle dark:odd:bg-[#1B1B1F]',
                             rowClassName
                           ])}>
-                          {hasCheckbox && (
+                          {/* {hasCheckbox && (
                             <div
                               onClick={(e) => e.stopPropagation()}
                               className={twMerge(
@@ -297,7 +297,7 @@ const DataGrid = forwardRef(
                                 onChange={($e) => handleSelectOne(row)}
                               />
                             </div>
-                          )}
+                          )} */}
                           {hasOrderColumn && (
                             <div
                               className={twMerge(

@@ -1,11 +1,9 @@
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import { KEYS } from 'constants/key';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { URLS } from 'constants/url';
-import { FilterTypeEnum } from 'enums/filter-type.enum';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { IAction } from 'interfaces/action.interface';
 import { IEmployee } from 'interfaces/employee/employee.interface';
@@ -19,7 +17,6 @@ import { useNavigate } from 'react-router-dom';
 
 const GroupTable = () => {
     const { t } = useTranslation()
-    const navigate = useNavigate()
     const [open, setOpen] = useState(false)
     const [groupId, setGroupId] = useState(null)
     const { data, isLoading, refetch } = useGetAllQuery({
@@ -73,7 +70,7 @@ const GroupTable = () => {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
                 type: 'primary',
                 name: t('Edit'),
-                action: (row, $e) => {}
+                action: (row, $e) => { }
             },
             {
                 icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
@@ -124,17 +121,6 @@ const GroupTable = () => {
                     hasCheckbox={false}
                     rowActions={rowActions}
                     pagination={data}
-                    hasButton={
-                        <>
-                            <MyButton
-                                startIcon={<Plus />}
-                                variant="primary"
-                                onClick={() => navigate('/policy/groups/create')}
-                                className="[&_svg]:stroke-bg-white w-[160px] text-sm">
-                                {t('Create group')}
-                            </MyButton>
-                        </>
-                    }
                 />
             </TableProvider>
             <ConfirmationModal

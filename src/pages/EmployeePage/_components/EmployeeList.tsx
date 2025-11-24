@@ -47,7 +47,7 @@ const EmployeeList = () => {
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center w-full gap-4 dark:text-text-title-dark">
-            <MyAvatar size="medium" imageUrl={row?.photo ? `${config.FILE_URL}api/storage/${row?.photo}`: AvatarIcon} />
+            <MyAvatar size="medium" imageUrl={row?.photo ? `${config.FILE_URL}api/storage/${row?.photo}` : AvatarIcon} />
             {row?.name}
           </div>
         )
@@ -192,28 +192,12 @@ const EmployeeList = () => {
         }}>
         <DataGrid
           isLoading={isLoading}
-          hasAction={false}
           hasCustomizeColumns={true}
           hasFilters={false}
           dataColumn={dataColumn}
           hasExport={false}
-          hasCheckbox={false}
           rowActions={rowActions}
           pagination={data}
-          hasButton={
-            <>
-              <MyButton
-                onClick={() => {
-                  navigate('/employees/create');
-                }}
-                allowedRoles={['ADMIN', "HR"]}
-                startIcon={<Plus />}
-                variant="primary"
-                className="[&_svg]:stroke-bg-white w-[200px] text-sm">
-                {t('Create an employee')}
-              </MyButton>
-            </>
-          }
         />
       </TableProvider>
       <ConfirmationModal

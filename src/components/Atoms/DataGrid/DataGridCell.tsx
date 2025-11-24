@@ -20,7 +20,7 @@ const DataGridCell: FC<DataGridCellProps> = ({ className, children, align }) => 
   return (
     <div
       className={twMerge(
-        'py-[14px] text-c-m text-text-base sm:px-[5px] sm:text-[10px] lg:px-[16px] lg:text-sm',
+        'py-[14px] text-c-m text-text-base sm:px-[5px] sm:text-[10px] lg:px-[16px] lg:text-sm dark:text-text-title-dark',
         className,
         align === 'right' && 'text-right',
         align === 'center' && 'text-center'

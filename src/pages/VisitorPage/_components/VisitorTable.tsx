@@ -18,9 +18,8 @@ import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import Form from './Form';
 import EditForm from './EditForm';
 
-const VisitorTable = () => {
+const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { t } = useTranslation();
-    const [show, setShow] = useState(false)
     const [showEdit, setShowEdit] = useState(false)
     const [open, setOpen] = useState(false)
     const [visitorId, setVisitorId] = useState(null)
@@ -89,50 +88,12 @@ const VisitorTable = () => {
 
     const filter: IFilter[] = useMemo(
         () => [
-            {
-                label: t('State'),
-                key: 'online',
-                type: FilterTypeEnum.multiselect,
-                value: [],
-                options: [
-                    { value: 'yes', label: t('Online') },
-                    { value: 'no', label: t('Offline') }
-                ]
-            },
-            {
-                label: t('Deleted'),
-                key: 'deleted',
-                type: FilterTypeEnum.multiselect,
-                value: [],
-                options: [
-                    { value: 'yes', label: t('Not deleted') },
-                    { value: 'no', label: t('Deleted') }
-                ]
-            },
-            {
-                label: t('Monitored'),
-                key: 'monitored',
-                type: FilterTypeEnum.multiselect,
-                value: [],
-                options: [
-                    { value: 'yes', label: t('Monitored') },
-                    { value: 'no', label: t('Not monitored') }
-                ]
-            }
         ],
         [t]
     );
 
     const rowActions: IAction[] = useMemo(
         () => [
-            // {
-            //   icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
-            //   type: 'primary',
-            //   name: t('Employee statistics'),
-            //   action: (row, $e) => {
-            //     navigate(`/employees/${row.id}`);
-            //   }
-            // },
             {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
                 type: 'primary',
@@ -194,18 +155,6 @@ const VisitorTable = () => {
                     hasCheckbox={false}
                     rowActions={rowActions}
                     pagination={data}
-                    hasButton={
-                        <>
-                            <MyButton
-                                startIcon={<Plus />}
-                                onClick={() => setShow(true)}
-                                allowedRoles={['ADMIN', "HR", "GUARD"]}
-                                variant="primary"
-                                className="[&_svg]:stroke-bg-white w-[160px] text-sm">
-                                {t('Create visitor')}
-                            </MyButton>
-                        </>
-                    }
                 />
             </TableProvider>
             <Form show={show} setShow={setShow} refetch={refetch} />

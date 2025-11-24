@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 const GeneralDetails = lazy(() => import('./RuleForms/GeneralDetails'));
 const EmployeeGroup = lazy(() => import('./RuleForms/EmployeeGroup'))
 
-type RulesType = 'general-details'| 'employee-groups';
+type RulesType = 'general-details' | 'employee-groups';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
   'general-details': GeneralDetails,

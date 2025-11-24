@@ -51,38 +51,38 @@ const OrganizationPage = () => {
 
   return (
     <PageContentWrapper paginationProps={<MyPagination total={get(data, "total")} />}>
-      <div className="flex flex-col">
-        <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('Organization')}</h1>
-        <MyBreadCrumb items={breadCrumbs} />
-      </div>
-
-      <MyDivider />
       <div className='flex items-center justify-between'>
-        <MyInput
-          onKeyUp={(event) => {
-            if (event.key === KeyTypeEnum.enter) {
-              handleSearch();
-            } else {
-              setSearch((event.target as HTMLInputElement).value);
-            }
-          }}
-          defaultValue={search}
-          startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
-          className="w-[300px] dark:bg-bg-input-dark"
-          placeholder={t('Search...')}
-        />
+        <div className="flex flex-col">
+          <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('Organization')}</h1>
+          <MyBreadCrumb items={breadCrumbs} />
+        </div>
         <div className='flex items-center gap-4'>
-          <MyButton
-            startIcon={<Plus />}
-            onClick={() => setShowModal(true)}
-            allowedRoles={['ADMIN']}
-            variant="primary"
-            className="[&_svg]:stroke-bg-white text-sm w-[180px] dark:text-text-base">
-            {t('Add Organization')}
-          </MyButton>
-          {/* <MyButton allowedRoles={['ADMIN']} variant='secondary'>{t("Filters")}</MyButton> */}
+          <MyInput
+            onKeyUp={(event) => {
+              if (event.key === KeyTypeEnum.enter) {
+                handleSearch();
+              } else {
+                setSearch((event.target as HTMLInputElement).value);
+              }
+            }}
+            defaultValue={search}
+            startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+            className="w-[300px] dark:bg-bg-input-dark"
+            placeholder={t('Search...')}
+          />
+          <div className='flex items-center gap-4'>
+            <MyButton
+              startIcon={<Plus />}
+              onClick={() => setShowModal(true)}
+              allowedRoles={['ADMIN']}
+              variant="primary"
+              className="[&_svg]:stroke-bg-white text-sm w-[180px] dark:text-text-base">
+              {t('Add Organization')}
+            </MyButton>
+          </div>
         </div>
       </div>
+
       <MyDivider />
       <OrganizationList data={data} refetch={refetch} setShowModal={setShowModal} showModal={showModal} />
     </PageContentWrapper>
