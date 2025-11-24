@@ -46,7 +46,7 @@ function ReasonModal({ row, refetch }: any) {
                 row?.reason ? <MyButton variant="secondary">
                     {t('Sababli')}
                 </MyButton> : <MyButton variant="secondary"
-                    disabled={row?.arrivalStatus === "LATE" ? false : true}
+                    disabled={row?.arrivalStatus === "LATE" || "ABSENT" ? false : true}
                     onClick={() => setOpen(true)} >
                     {t('Reason')}
                 </MyButton>

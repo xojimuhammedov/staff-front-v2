@@ -1,9 +1,8 @@
 import IconByName from 'assets/icons/IconByName';
-import clsx from 'clsx';
 import { get } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { icons } from 'lucide-react';
 
@@ -33,75 +32,58 @@ const CustomDropdownMenu = ({ menuItem, setOpen }: any) => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  const toggleDropdown = (e: any) => {
+    e.preventDefault();
+    setIsOpen(prev => !prev);
   };
 
   const handleOptionClick = () => {
     setIsOpen(false);
+    setOpen(false);
   };
 
   return (
     <div className="relative h-[100%]" ref={dropdownRef}>
-      <NavLink
-        onClick={(event) => {
-          toggleDropdown();
-          event.preventDefault();
-        }}
-        className={({ isActive }) =>
-          clsx([
-            'flex h-full items-center px-[12px]  text-s-p dark:text-subtext-color-dark',
-            isActive && 'text-text-base'
-          ])
-        }
-        to={menuItem.to}>
+      <button
+        onClick={toggleDropdown}
+        className="flex h-full items-center px-[12px] text-s-p dark:text-subtext-color-dark"
+      >
         {menuItem.label}
+
         <IconByName
-          name={'ChevronDown'}
+          name="ChevronDown"
           className={twMerge(
-            'ml-[6px] h-4 w-4 cursor-pointer text-text-subtle transition-all duration-300',
+            'ml-[6px] h-4 w-4 transition-all duration-300',
             isOpen ? '-rotate-180' : '',
             window.location.pathname.includes(menuItem.to) ? 'text-bg-brand' : ''
           )}
         />
-      </NavLink>
+      </button>
 
       {isOpen && (
-        <ul className="shadow-gray-150 absolute z-50 w-52 bg-white shadow-md dark:bg-bg-dark-bg">
-          {get(menuItem, 'subRoutes', []).map((i: SubItem, index: number) => {
-            return (
-              <li key={index} onClick={() => handleOptionClick()}>
-                <NavLink
-                  onClick={() => setOpen(false)}
-                  className={({ isActive }) =>
-                    clsx([
-                      'flex items-center rounded-m p-3 text-s-p font-normal dark:text-subtext-color-dark',
-                      isActive && 'text-text-base'
-                    ])
-                  }
-                  to={i.to}>
-                  {/* <IconByName
-                    name={i.icon}
-                    className={'mr-2 h-5 w-5 cursor-pointer text-text-subtle'}
-                  /> */}
-                  {i.label}
-                </NavLink>
-              </li>
-            );
-          })}
+        <ul className="absolute z-50 w-52 bg-white shadow-md dark:bg-bg-dark-bg">
+          {get(menuItem, 'subRoutes', []).map((i: SubItem, index: number) => (
+            <li key={index} className="p-0 m-0">
+              <Link
+                to={i.to}
+                onClick={handleOptionClick}
+                className="flex items-center rounded-m p-3 text-s-p dark:text-subtext-color-dark"
+              >
+                {i.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       )}
     </div>
   );
 };
 
-const NavMobileMenu = ({ setOpen }: any) => {
+
+const NavMobileMenu = ({ setOpenModal }: any) => {
   const { t } = useTranslation();
 
   const menuItems: MenuItem[] = [
@@ -175,31 +157,21 @@ const NavMobileMenu = ({ setOpen }: any) => {
 
   return (
     <ul className="flex flex-col gap-5">
-      {menuItems.map((menuItem, i) => {
-        return (
-          <li key={i} className="flex h-full items-center">
-            {menuItem.isSubMenu ? (
-              <>
-                <CustomDropdownMenu setOpen={setOpen} menuItem={menuItem} />
-              </>
-            ) : (
-              <>
-                <NavLink
-                  onClick={() => setOpen(false)}
-                  className={({ isActive }) =>
-                    clsx([
-                      'flex h-full items-center px-[12px] text-s-p dark:text-subtext-color-dark',
-                      isActive && 'text-text-base'
-                    ])
-                  }
-                  to={menuItem.to}>
-                  {menuItem.label}
-                </NavLink>
-              </>
-            )}
-          </li>
-        );
-      })}
+      {menuItems.map((menuItem, i) => (
+        <li key={i} className="flex h-full items-center">
+          {menuItem.isSubMenu ? (
+            <CustomDropdownMenu setOpen={setOpenModal} menuItem={menuItem} />
+          ) : (
+            <Link
+              to={menuItem.to}
+              onClick={() => setOpenModal(false)}
+              className="flex h-full items-center px-[12px] text-s-p dark:text-subtext-color-dark"
+            >
+              {menuItem.label}
+            </Link>
+          )}
+        </li>
+      ))}
     </ul>
   );
 };
