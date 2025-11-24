@@ -18,7 +18,6 @@ const ViewPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [paramsId] = useSearchParams()
-    const organizationId = paramsId.get("organizationId")
     const departmentId = paramsId.get("departmentId")
 
     const breadCrumbs = [
@@ -32,7 +31,6 @@ const ViewPage = () => {
         key: KEYS.getAllListDepartment,
         url: URLS.getAllListDepartment,
         params: {
-            organizationId: organizationId,
             parentId: departmentId
         }
     })
@@ -46,17 +44,18 @@ const ViewPage = () => {
     }
     return (
         <PageContentWrapper>
-            <div className="flex flex-col">
-                <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('Department')}</h1>
-                <MyBreadCrumb items={breadCrumbs} />
+            <div className="flex items-center justify-between">
+                <div className="flex flex-col">
+                    <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('Department')}</h1>
+                    <MyBreadCrumb items={breadCrumbs} />
+                </div>
+                <MyButton
+                    onClick={() => navigate('/department')}
+                    variant="secondary"
+                    startIcon={<ArrowLeft />}>
+                    {t('Back to department list')}
+                </MyButton>
             </div>
-            <MyDivider />
-            <MyButton
-                onClick={() => navigate('/department')}
-                variant="secondary"
-                startIcon={<ArrowLeft />}>
-                {t('Back to department list')}
-            </MyButton>
             <MyDivider />
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
                 {

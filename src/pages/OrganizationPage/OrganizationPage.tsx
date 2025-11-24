@@ -67,7 +67,7 @@ const OrganizationPage = () => {
             }}
             defaultValue={search}
             startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
-            className="w-[300px] dark:bg-bg-input-dark"
+            className="dark:bg-bg-input-dark"
             placeholder={t('Search...')}
           />
           <div className='flex items-center gap-4'>

@@ -27,7 +27,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
   const { i18n } = useTranslation();
   const darkLight = storage.get('theme');
   const [isOpen, setIsOpen] = useState(false);
-  const { toggleTheme, darkMode }: any = useDarkMode();
+  const { darkMode, toggleTheme } = useDarkMode();
   const handleLanguage = (value: string) => {
     setLoading(true); // Loading state true qilib qo'yiladi
 

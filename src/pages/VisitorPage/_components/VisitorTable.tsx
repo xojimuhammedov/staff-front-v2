@@ -147,12 +147,8 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
                 }}>
                 <DataGrid
                     isLoading={isLoading}
-                    hasAction={false}
                     hasCustomizeColumns={true}
-                    hasFilters={false}
                     dataColumn={dataColumn}
-                    hasExport={false}
-                    hasCheckbox={false}
                     rowActions={rowActions}
                     pagination={data}
                 />

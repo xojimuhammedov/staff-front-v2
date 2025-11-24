@@ -4,7 +4,7 @@ import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { usePutQuery } from 'hooks/api';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -43,13 +43,15 @@ function ReasonModal({ row, refetch }: any) {
     return (
         <>
             {
-                row?.reason ? <MyButton variant="secondary">
-                    {t('Sababli')}
-                </MyButton> : <MyButton variant="secondary"
-                    disabled={row?.arrivalStatus === "LATE" || "ABSENT" ? false : true}
-                    onClick={() => setOpen(true)} >
-                    {t('Reason')}
-                </MyButton>
+                row?.reason ?
+                    <MyButton variant="secondary">
+                        {t('Sababli')}
+                    </MyButton> :
+                    <MyButton variant="secondary"
+                        disabled={!(row?.arrivalStatus === "ABSENT" || row?.arrivalStatus === "LATE")}
+                        onClick={() => setOpen(true)}>
+                        {t('Reason')}
+                    </MyButton>
             }
 
             <MyModal
@@ -59,7 +61,7 @@ function ReasonModal({ row, refetch }: any) {
                     size: 'md'
                 }}
                 headerProps={{
-                    children: <h2 className="text-gray-800">{t('Reasonably')}</h2>
+                    children: <h2 className="dark:text-text-title-dark">{t('Reasonably')}</h2>
                 }}
                 bodyProps={{
                     children: (
@@ -86,4 +88,4 @@ function ReasonModal({ row, refetch }: any) {
     );
 }
 
-export default ReasonModal;
+export default React.memo(ReasonModal);

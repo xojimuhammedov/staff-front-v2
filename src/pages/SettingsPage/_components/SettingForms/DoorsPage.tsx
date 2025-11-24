@@ -1,4 +1,3 @@
-import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { useTranslation } from 'react-i18next';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
@@ -153,7 +152,6 @@ const DoorsPage = () => {
         </MyButton>
       </div>
 
-      <MyDivider />
       <TableProvider<TItem, FilterType>
         values={{
           columns,
@@ -163,8 +161,6 @@ const DoorsPage = () => {
         }}>
         <DataGrid
           hasCustomizeColumns={false}
-          hasExport={false}
-          hasCheckbox={false}
           dataColumn={dataColumn}
           isLoading={isLoading}
           rowActions={rowActions}

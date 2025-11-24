@@ -55,7 +55,7 @@ const AttendanceList = ({ watch }: any) => {
       {
         key: 'arrivalStatus',
         label: t('Come status'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'w-1/4',
         cellRender: (row) => {
           if (row?.arrivalStatus) {
             return (
@@ -69,7 +69,7 @@ const AttendanceList = ({ watch }: any) => {
       {
         key: 'goneStatus',
         label: t('Left status'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'w-1/4',
         cellRender: (row) => {
           if (row?.goneStatus) {
             return (
@@ -99,7 +99,7 @@ const AttendanceList = ({ watch }: any) => {
         cellRender: (row) => {
           if (row?.startTime) {
             return (
-              <div className="department-text">{dayjs(row?.startTime).format("hh:mm")}</div>
+              <div className="department-text">{dayjs(row?.startTime).format("HH:mm")}</div>
             )
           } else return "--"
         }
@@ -120,20 +120,15 @@ const AttendanceList = ({ watch }: any) => {
       label: t('Employee name'),
       headerClassName: 'w-1/3'
     },
-    // {
-    //   id: 2,
-    //   label: t('Department'),
-    //   headerClassName: 'w-1/3'
-    // },
     {
       id: 3,
       label: t('Come status'),
-      headerClassName: 'w-1/3'
+      headerClassName: 'w-1/4'
     },
     {
       id: 4,
       label: t('Left status'),
-      headerClassName: 'w-1/3'
+      headerClassName: 'w-1/4'
     },
     {
       id: 5,
@@ -183,14 +178,9 @@ const AttendanceList = ({ watch }: any) => {
           isLoading={isLoading}
           hasAction={false}
           hasCustomizeColumns={true}
-          hasFilters={false}
           dataColumn={dataColumn}
-          hasExport={false}
-          hasCheckbox={false}
           rowActions={rowActions}
           pagination={data}
-          hasButton={false}
-          hasSearch={false}
         />
       </TableProvider>
     </>

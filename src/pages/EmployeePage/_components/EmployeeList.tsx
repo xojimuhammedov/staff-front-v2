@@ -36,7 +36,8 @@ const EmployeeList = () => {
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
     params: {
-      search: searchValue?.search
+      search: searchValue?.search,
+      departmentId: searchValue?.subdepartmentId
     }
   });
   const columns: DataGridColumnType[] = useMemo(
@@ -193,9 +194,7 @@ const EmployeeList = () => {
         <DataGrid
           isLoading={isLoading}
           hasCustomizeColumns={true}
-          hasFilters={false}
           dataColumn={dataColumn}
-          hasExport={false}
           rowActions={rowActions}
           pagination={data}
         />

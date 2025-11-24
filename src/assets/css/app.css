@@ -83,23 +83,6 @@
 
 @import './components/_button.css';
 
-html {
-  background-color: white;
-  color: #111;
-}
-
-/* Dark mode */
-html.dark,
-html[data-theme="dark"] {
-  background-color: #18181A;
-  color: #e0e0e0;
-}
-
-/* Yoki Tailwind CSS ishlatayotgan bo'lsangiz */
-.dark {
-  background-color: #18181A;
-  color: #e0e0e0;
-}
 
 .rmdp-input {
   padding: 20px 10px !important;

@@ -17,24 +17,34 @@ import { paramsStrToObj } from 'utils/helper';
 import { useSearch } from 'hooks/useSearch';
 import { KeyTypeEnum } from 'enums/key-type.enum';
 import Loading from 'assets/icons/Loading';
+import { useLocation } from 'react-router-dom';
+
+interface searchValue {
+  page?: string,
+  search?: string,
+  organizationId?: string,
+  subdepartmentId?: string
+}
 
 const DepartmentPage = () => {
   const { t } = useTranslation()
   const [showModal, setShowModal] = useState(false);
-  const searchValue: any = paramsStrToObj(location.search)
+  const location = useLocation()
+  const searchValue: searchValue = paramsStrToObj(location.search)
   const { search, setSearch, handleSearch } = useSearch();
-
   const { data, refetch, isLoading } = useGetAllQuery<{ data: Department[] }>({
     key: KEYS.getAllListDepartment,
     url: URLS.getAllListDepartment,
     params: {
-      search: searchValue.search
+      search: searchValue.search,
+      organizationId: searchValue.organizationId,
+      parentId: searchValue.subdepartmentId
     }
   })
 
   const breadCrumbs = [
     {
-      label: t('Department'),
+      label: searchValue.subdepartmentId ? t("Sub Department") : t("Department"),
       url: '#'
     }
   ];
@@ -51,7 +61,7 @@ const DepartmentPage = () => {
     <PageContentWrapper paginationProps={<MyPagination total={get(data, 'total')} />} >
       <div className='flex items-center justify-between'>
         <div className="flex flex-col">
-          <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('Department')}</h1>
+          <h1 className="headers-core dark:text-text-title-dark text-text-base">{searchValue?.subdepartmentId ? t("Sub Department") : t("Department")}</h1>
           <MyBreadCrumb items={breadCrumbs} />
         </div>
         <div className='flex items-center gap-4'>
@@ -65,7 +75,7 @@ const DepartmentPage = () => {
             }}
             defaultValue={search}
             startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
-            className="w-[300px] dark:bg-bg-input-dark"
+            className="dark:bg-bg-input-dark"
             placeholder={t('Search...')}
           />
           <div className='flex items-center gap-4'>
@@ -77,12 +87,11 @@ const DepartmentPage = () => {
               className="[&_svg]:stroke-bg-white text-sm w-[180px] dark:text-text-base">
               {t('Add department')}
             </MyButton>
-            {/* <MyButton allowedRoles={['ADMIN', "HR"]} variant='secondary'>{t("Filters")}</MyButton> */}
           </div>
         </div>
       </div>
       <MyDivider />
-      <DepartmentList data={data} refetch={refetch} showModal={showModal} setShowModal={setShowModal} />
+      <DepartmentList data={data} refetch={refetch} showModal={showModal} setShowModal={setShowModal} parentId={searchValue?.subdepartmentId} />
     </PageContentWrapper>
   );
 }

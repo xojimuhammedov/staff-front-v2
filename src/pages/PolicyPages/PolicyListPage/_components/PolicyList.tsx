@@ -128,10 +128,6 @@ const PolicyList = () => {
             isLoading={isLoading}
             rowActions={rowActions}
             dataColumn={dataColumn}
-            hasExport={false}
-            hasCheckbox={false}
-            hasAction={false}
-            hasFilters={false}
             pagination={data}
           />
         </TableProvider>

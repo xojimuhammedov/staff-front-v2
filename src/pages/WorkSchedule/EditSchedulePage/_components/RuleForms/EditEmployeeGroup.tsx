@@ -109,8 +109,8 @@ const EditEmployeeGroup = () => {
                         <MyCheckbox checked={isAllSelected}
                             onChange={(checked) => handleSelectAll(checked)} label='Employee' />
                     </div>
-                    <div>Department</div>
-                    <div>Phone</div>
+                    <div className='dark:text-text-title-dark'>{t("Department")}</div>
+                    <div className='dark:text-text-title-dark'>{t("Phone")}</div>
                 </div>
                 <MyDivider />
                 {
@@ -122,8 +122,8 @@ const EditEmployeeGroup = () => {
                                     checked={selectedIds.includes(item?.id)}
                                     onChange={(checked) => handleSelectOne(item?.id, checked)} />
                             </div>
-                            <div>{item?.department?.shortName}</div>
-                            <div>{item?.phone}</div>
+                            <div className='dark:text-text-title-dark'>{item?.department?.shortName}</div>
+                            <div className='dark:text-text-title-dark'>{item?.phone}</div>
                         </div>
                     ))
                 }

@@ -113,12 +113,8 @@ const GroupTable = () => {
                 }}>
                 <DataGrid
                     isLoading={isLoading}
-                    hasAction={false}
                     hasCustomizeColumns={true}
-                    hasFilters={false}
                     dataColumn={dataColumn}
-                    hasExport={false}
-                    hasCheckbox={false}
                     rowActions={rowActions}
                     pagination={data}
                 />

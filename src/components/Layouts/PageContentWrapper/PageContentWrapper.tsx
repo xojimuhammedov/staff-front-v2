@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 interface PageContentWrapperProps extends Omit<ComponentPropsWithoutRef<'div'>, 'className'> {
   children: ReactNode | ReactNode[];
   className?: string | string[];
-  paginationProps?:ReactNode
+  paginationProps?: ReactNode
 }
 
 const PageContentWrapper: FC<PageContentWrapperProps> = ({ children, className, id, paginationProps, ...rest }) => {
@@ -13,10 +13,10 @@ const PageContentWrapper: FC<PageContentWrapperProps> = ({ children, className, 
       <div
         id="table-container"
         style={{ width: 'calc(100% - 40px)' }}
-        className={' absolute -top-5'}>
+        className={'absolute dark:bg-bg-dark-bg'}>
         <div
           className={twMerge([
-            'mt-12 min-h-[500px] rounded-m p-4 shadow-base dark:bg-bg-dark-theme',
+            'mt-8 min-h-[500px] rounded-m p-4 shadow-base dark:bg-bg-dark-bg',
             className
           ])}
           {...rest}>
@@ -24,7 +24,6 @@ const PageContentWrapper: FC<PageContentWrapperProps> = ({ children, className, 
         </div>
         {paginationProps}
       </div>
-      
     </div>
   );
 };

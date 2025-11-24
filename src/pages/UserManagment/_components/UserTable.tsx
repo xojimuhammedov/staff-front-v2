@@ -153,12 +153,8 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
         }}>
         <DataGrid
           isLoading={isLoading}
-          hasAction={false}
           hasCustomizeColumns={true}
-          hasFilters={false}
           dataColumn={dataColumn}
-          hasExport={false}
-          hasCheckbox={false}
           rowActions={rowActions}
           pagination={get(data, 'meta')}
         />

@@ -141,33 +141,33 @@ const DataGrid = forwardRef(
       setSearchParams(searchParams);
     };
 
-    const handleSelectAll = ($e: any) => {
-      if (rows instanceof Array) {
-        let tmpSelectedItems = [...selectedItems];
-        const rowIds = rows.map((row) => get(row, 'id', get(row, '_id')));
-        if (get($e, 'target.checked')) {
-          rowIds.forEach((id) => {
-            if (!tmpSelectedItems.includes(id)) {
-              tmpSelectedItems.push(id);
-            }
-          });
-        } else {
-          tmpSelectedItems = tmpSelectedItems.filter((id) => !rowIds.includes(id));
-        }
-        setSelectedItems(tmpSelectedItems);
-      }
-    };
+    // const handleSelectAll = ($e: any) => {
+    //   if (rows instanceof Array) {
+    //     let tmpSelectedItems = [...selectedItems];
+    //     const rowIds = rows.map((row) => get(row, 'id', get(row, '_id')));
+    //     if (get($e, 'target.checked')) {
+    //       rowIds.forEach((id) => {
+    //         if (!tmpSelectedItems.includes(id)) {
+    //           tmpSelectedItems.push(id);
+    //         }
+    //       });
+    //     } else {
+    //       tmpSelectedItems = tmpSelectedItems.filter((id) => !rowIds.includes(id));
+    //     }
+    //     setSelectedItems(tmpSelectedItems);
+    //   }
+    // };
 
-    const handleSelectOne = (item: any) => {
-      let tmpSelectedItems = [...selectedItems];
-      const itemId = get(item, 'id', get(item, '_id'));
-      if (!tmpSelectedItems.includes(itemId)) {
-        tmpSelectedItems.push(itemId);
-      } else {
-        tmpSelectedItems = tmpSelectedItems.filter((id) => id !== itemId);
-      }
-      setSelectedItems(tmpSelectedItems);
-    };
+    // const handleSelectOne = (item: any) => {
+    //   let tmpSelectedItems = [...selectedItems];
+    //   const itemId = get(item, 'id', get(item, '_id'));
+    //   if (!tmpSelectedItems.includes(itemId)) {
+    //     tmpSelectedItems.push(itemId);
+    //   } else {
+    //     tmpSelectedItems = tmpSelectedItems.filter((id) => id !== itemId);
+    //   }
+    //   setSelectedItems(tmpSelectedItems);
+    // };
 
     const isAllSelected = () => {
       if (rows instanceof Array && !isEmpty(rows)) {
