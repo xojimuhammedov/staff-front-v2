@@ -27,7 +27,7 @@ const checkType = [
   }
 ]
 
-function FormDevice({ setOpenModal, doorId }: any) {
+function FormDevice({ setOpenModal, doorId, refetch }: any) {
   const { t } = useTranslation();
 
   const schema = object().shape({
@@ -36,7 +36,7 @@ function FormDevice({ setOpenModal, doorId }: any) {
     name: string().required(),
     login: string().required(),
     entryType: string().required()
-    
+
   });
 
   const { mutate: create } = usePostQuery({
@@ -71,6 +71,7 @@ function FormDevice({ setOpenModal, doorId }: any) {
           toast.success(t('Successfully created!'));
           setOpenModal(false);
           reset();
+          refetch()
         },
         onError: (e: any) => {
           console.log(e);

@@ -21,9 +21,8 @@ const EmployeeDetails = () => {
         <PageContentWrapper>
             <div className="flex items-center justify-between">
                 <MyBreadCrumb pageTitle={t('Controlled employees')} items={breadCrumbs} />
+                <Button onClick={() => navigate('/employees')} variant='secondary' startIcon={<ArrowLeft />} >{t("Back to employees list")}</Button>
             </div>
-            <MyDivider />
-            <Button onClick={() => navigate('/employees')} variant='secondary' startIcon={<ArrowLeft />} >{t("Back to employees list")}</Button>
             <MyDivider />
             <div className="flex gap-6">
                 <Sidebar sidebar_menu_type="simple" />

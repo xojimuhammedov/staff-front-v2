@@ -4,9 +4,13 @@ import { useTranslation } from 'react-i18next';
 import MyDivider from 'components/Atoms/MyDivider';
 import Sidebar from './_components/Sidebar/Sidebar';
 import MainContent from './_components/MainContent';
+import MyButton from 'components/Atoms/MyButton/MyButton';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const EditPolicyRulePage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate()
   const breadCrumbs = [
     {
       label: t('Schedule'),
@@ -22,6 +26,12 @@ const EditPolicyRulePage = () => {
     <PageContentWrapper>
       <div className="flex items-center justify-between">
         <MyBreadCrumb pageTitle={t('Edit schedule')} items={breadCrumbs} />
+        <MyButton
+          onClick={() => navigate('/workschedule')}
+          variant="secondary"
+          startIcon={<ArrowLeft />}>
+          {t('Back to schedule list')}
+        </MyButton>
       </div>
       <MyDivider />
       <div className="flex gap-6">

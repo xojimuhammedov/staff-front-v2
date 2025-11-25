@@ -5,13 +5,27 @@ import LabelledCaption from "components/Molecules/LabelledCaption";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import FormDevice from "./FormDevice";
+import { paramsStrToObj } from "utils/helper";
+import { useGetAllQuery } from "hooks/api";
+import { KEYS } from "constants/key";
+import { URLS } from "constants/url";
+import { get } from "lodash";
+import { MyCheckbox } from "components/Atoms/Form";
 
 function FormDeviceEdit({ handleClick }: any) {
   const { t } = useTranslation();
   const { id }: any = useParams();
   const [openModal, setOpenModal] = useState<any>(false);
+
+  const { data, refetch }: any = useGetAllQuery({
+    key: KEYS.getGatesByIdDevices,
+    url: `${URLS.getGatesByIdDevices}/${id}/devices`,
+    params: {
+      gateId: id
+    }
+  });
 
   return (
     <>
@@ -34,6 +48,8 @@ function FormDeviceEdit({ handleClick }: any) {
           </div>
         </div>
         <MyDivider />
+
+
         <div className="my-10 flex">
           <div className="w-[50%]">
             <LabelledCaption
@@ -42,6 +58,29 @@ function FormDeviceEdit({ handleClick }: any) {
             />
           </div>
           <div className="w-[50%]">
+            <div className="ml-3 flex flex-col gap-2">
+              {get(data, "devices")?.map((evt: any, index: number) => (
+                <div key={index} className="flex items-center gap-4">
+                  <MyCheckbox
+                    checked
+                    label={`${evt?.name} ${evt?.name}`}
+                  />
+                  {/* <div className="flex items-center ">
+                    <MyButton
+                      onClick={() => {
+                        setDeviceId(evt?.id);
+                        setOpenEditModal(true);
+                      }}
+                    >
+                      <Edit2 size={DEFAULT_ICON_SIZE} />
+                    </MyButton>
+                    <MyButton onClick={() => deleteItem(evt?.id)}>
+                      <Trash2 size={DEFAULT_ICON_SIZE} />
+                    </MyButton>
+                  </div> */}
+                </div>
+              ))}
+            </div>
             <MyButton
               onClick={() => setOpenModal(true)}
               startIcon={<Plus stroke="black" />}>
@@ -64,7 +103,7 @@ function FormDeviceEdit({ handleClick }: any) {
           ),
         }}
         bodyProps={{
-          children: <FormDevice doorId={id} setOpenModal={setOpenModal} />,
+          children: <FormDevice doorId={id} setOpenModal={setOpenModal} refetch={refetch} />,
           className: "py-[10px]",
         }}
       />

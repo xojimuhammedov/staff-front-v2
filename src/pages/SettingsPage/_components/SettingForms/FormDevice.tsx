@@ -11,6 +11,8 @@ import { paramsStrToObj } from 'utils/helper';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery } from 'hooks/api';
+import { MyCheckbox } from 'components/Atoms/Form';
+import { get } from 'lodash';
 
 function FormDevice({ handleClick }: any) {
   const { t } = useTranslation();
@@ -19,9 +21,9 @@ function FormDevice({ handleClick }: any) {
 
   const doorId: any = paramsStrToObj(location.search);
 
-  const { data } = useGetAllQuery({
+  const { data }: any = useGetAllQuery({
     key: KEYS.getGatesByIdDevices,
-    url: URLS.getGatesByIdDevices,
+    url: `${URLS.getGatesByIdDevices}/${doorId.doorId}/devices`,
     params: {
       gateId: Number(doorId?.doorId)
     }
@@ -53,20 +55,29 @@ function FormDevice({ handleClick }: any) {
             <LabelledCaption title={t('Choose device')} subtitle={t('Subtitle text')} />
           </div>
           <div className="w-[50%]">
-            {/* <div className="ml-3 flex flex-col gap-2">
-              {get(data, 'data.data')?.map((evt: any, index: number) => (
+            <div className="ml-3 flex flex-col gap-2">
+              {get(data, "devices")?.map((evt: any, index: number) => (
                 <div key={index} className="flex items-center gap-4">
                   <MyCheckbox
                     checked
-                    label={
-                      evt?.deviceModel
-                        ? `${evt?.deviceModel?.brand?.name} ${evt?.deviceModel?.name}`
-                        : ''
-                    }
+                    label={`${evt?.name} ${evt?.name}`}
                   />
+                  {/* <div className="flex items-center ">
+                    <MyButton
+                      onClick={() => {
+                        setDeviceId(evt?.id);
+                        setOpenEditModal(true);
+                      }}
+                    >
+                      <Edit2 size={DEFAULT_ICON_SIZE} />
+                    </MyButton>
+                    <MyButton onClick={() => deleteItem(evt?.id)}>
+                      <Trash2 size={DEFAULT_ICON_SIZE} />
+                    </MyButton>
+                  </div> */}
                 </div>
               ))}
-            </div> */}
+            </div>
             <MyButton onClick={() => setOpenModal(true)} startIcon={<Plus stroke="black" />}>
               {t('Connect device')}
             </MyButton>

@@ -49,11 +49,10 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
       return {
         name: get(getOne, 'data.name'),
         username: get(getOne, 'data.username'),
-        password: get(getOne, 'data.password'),
         role: get(getOne, 'data.role'),
         organizationId: get(getOne, 'data.organizationId'),
       };
-    }, [getOne]),
+    }, [getOne?.data]),
     mode: 'onChange',
   });
 
@@ -61,11 +60,10 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
     reset({
       name: get(getOne, 'data.name'),
       username: get(getOne, 'data.username'),
-      password: get(getOne, 'data.password'),
       role: get(getOne, 'data.role'),
       organizationId: get(getOne, 'data.organizationId'),
     });
-  }, [getOne]);
+  }, [getOne?.data]);
 
   const onSubmit = (data: any) => {
     update(
@@ -115,12 +113,6 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
                 error={Boolean(errors?.username?.message)}
                 helperText={t(`${errors?.username?.message}`)}
                 label={t('Username')}
-              />
-              <MyInput
-                {...register('password')}
-                error={Boolean(errors?.password?.message)}
-                helperText={t(`${errors?.password?.message}`)}
-                label={t('Password')}
               />
               <Controller
                 name="role"
