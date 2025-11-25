@@ -16,13 +16,8 @@ import { getTimeDifference, paramsStrToObj } from 'utils/helper';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import MyBadge from 'components/Atoms/MyBadge';
 import config from 'configs';
-import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
-import { Calendar } from 'lucide-react';
-import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import ReasonModal from './ReasonModal';
-
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 
 

@@ -33,7 +33,8 @@ const EmployeeList = ({ searchValue }: any) => {
     url: URLS.getEmployeeList,
     params: {
       search: searchValue?.search,
-      departmentId: searchValue?.subdepartmentId
+      departmentId: searchValue?.subdepartmentId,
+      // organizationId: searchValue?.organizationId
     }
   });
   const columns: DataGridColumnType[] = useMemo(

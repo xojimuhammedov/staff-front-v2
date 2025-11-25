@@ -5,12 +5,15 @@ import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types
 import { useMemo } from 'react';
 import TableProvider from 'providers/TableProvider/TableProvider';
 import DataGrid from 'components/Atoms/DataGrid';
-import { useGetAllQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import MyBadge from 'components/Atoms/MyBadge';
 import Loading from 'assets/icons/Loading';
+import { IAction } from 'interfaces/action.interface';
+import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
+import { Trash2 } from 'lucide-react';
 
 type FilterType = {
   search: string;
@@ -27,11 +30,28 @@ type TItem = {
 const Notifications = () => {
   const { t } = useTranslation();
 
-  const { data, isLoading } = useGetAllQuery({
+  const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.getDoorForDevices,
     url: URLS.getDoorForDevices,
     params: {}
   });
+
+  const { mutate: deleteRequest } = useDeleteQuery({
+    listKeyId: KEYS.getDoorForDevices
+  });
+
+  const deleteItem = (id: number) => {
+    deleteRequest(
+      {
+        url: `${URLS.getDoorForDevices}/${id}`
+      },
+      {
+        onSuccess: () => {
+          refetch();
+        }
+      }
+    );
+  };
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -79,6 +99,20 @@ const Notifications = () => {
     },
   ];
 
+  const rowActions: IAction[] = useMemo(
+    () => [
+      {
+        icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
+        type: 'danger',
+        name: t('Delete'),
+        action: (row) => {
+          deleteItem(row?.id)
+        }
+      }
+    ],
+    [t]
+  );
+
   if (isLoading) {
     return (
       <div className="absolute flex h-full w-[calc(100%-350px)] items-center justify-center">
@@ -108,6 +142,7 @@ const Notifications = () => {
           hasCustomizeColumns={false}
           hasExport={false}
           hasSearch={false}
+          rowActions={rowActions}
           dataColumn={dataColumn}
           hasCheckbox={false}
           isLoading={isLoading}

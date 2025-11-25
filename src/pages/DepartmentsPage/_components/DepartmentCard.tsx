@@ -3,11 +3,24 @@ import { Edit, Eye, Mail, MapPin, NotebookPen, Phone, Trash2 } from 'lucide-reac
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyBadge from 'components/Atoms/MyBadge';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, parentId }: any) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams();
+    const handleViewClick = (item: any) => {
+        const params = new URLSearchParams(searchParams);
+
+        // Har doim subdepartmentId ni qo‘shib/qayta yozamiz
+        params.set('subdepartmentId', item.id);
+
+        // Qaysi route ga borishni aniqlaymiz
+        const hasChildren = item._count?.childrens > 0;
+        const targetPath = hasChildren ? '/department' : '/employees';
+
+        navigate(`${targetPath}?${params.toString()}`);
+    };
     return (
         <div className='dark:bg-bg-dark-bg border border-gray-200 rounded-lg shadow-sm p-4 gap-2'>
             <div className='flex items-center justify-between'>
@@ -42,14 +55,14 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, parentId }: a
             </div>
             <div className='flex items-center justify-between mt-4'>
                 <MyButton
-                    variant='secondary'
-                    allowedRoles={['ADMIN', "HR"]}
-                    className={'w-[170px]'}
-                    onClick={() => {
-                        parentId ? navigate(`/employees?subdepartmentId=${item?.id}`) : navigate(`/department?subdepartmentId=${item?.id}`)
-                    }}
+                    variant="secondary"
+                    allowedRoles={['ADMIN', 'HR']}
+                    className="w-[170px]"
+                    onClick={() => handleViewClick(item)}
                     startIcon={<Eye />}
-                >{t("View")}</MyButton>
+                >
+                    {t("View")}
+                </MyButton>
                 <MyButton
                     variant='secondary'
                     allowedRoles={['ADMIN', "HR"]}
@@ -69,7 +82,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, parentId }: a
                     className={'[&_svg]:stroke-bg-[#E11D48]'}
                     variant='secondary' startIcon={<Trash2 color='red' />}></MyButton>
             </div>
-        </div>
+        </div >
     );
 }
 
