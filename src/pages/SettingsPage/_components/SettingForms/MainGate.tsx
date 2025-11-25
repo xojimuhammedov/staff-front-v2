@@ -11,7 +11,8 @@ import TableProvider from 'providers/TableProvider/TableProvider';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { paramsStrToObj } from 'utils/helper';
 
 type FilterType = {
   search: string;
@@ -25,15 +26,24 @@ type TItem = {
   id: string;
 };
 
+type SearchValue = {
+  page?: string,
+  pageSize?: string
+}
+
 function MainGate() {
   const { t } = useTranslation();
   const { id } = useParams()
+  const location = useLocation()
+  const searchValue: SearchValue = paramsStrToObj(location?.search)
 
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.hikvisionEmployeeSync,
     url: URLS.hikvisionEmployeeSync,
     params: {
-      gateId: Number(id)
+      gateId: Number(id),
+      page: searchValue?.page || 1,
+      limit: searchValue?.pageSize || 10
     }
   })
 

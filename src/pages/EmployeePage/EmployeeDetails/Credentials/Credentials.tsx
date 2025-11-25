@@ -2,7 +2,7 @@ import Button from 'components/Atoms/MyButton';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery, useGetOneQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery, useGetOneQuery } from 'hooks/api';
 import { Edit, Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import Form from './Create';
@@ -27,6 +27,24 @@ const Credentials = () => {
         params: {},
         enabled: !!credentialId
     });
+
+    const { mutate: deleteRequest } = useDeleteQuery({
+        listKeyId: KEYS.credentials
+    });
+
+    const deleteItem = (id: number) => {
+        deleteRequest(
+            {
+                url: `${URLS.credentials}/${id}`
+            },
+            {
+                onSuccess: () => {
+                    refetch();
+                }
+            }
+        );
+    };
+
     return (
         <>
             <div className='flex justify-end'> <Button startIcon={<Plus />} onClick={() => setShowModal(true)} className={'[&_svg]:stroke-bg-white'} variant='primary'>Add new type</Button></div>
@@ -40,7 +58,7 @@ const Credentials = () => {
                                 <b className='text-sm'>{item?.type}</b>
                             </div>
                             <div className='flex items-center gap-2 mt-4'>
-                                <Button variant='secondary' className={'w-full font-medium'}>Inactive car</Button>
+                                <Button variant='destructive' onClick={() => deleteItem(item?.id)} className={'w-full font-medium'}>Delete</Button>
                                 <Button variant='secondary' onClick={() => {
                                     setCredentialId(item?.id)
                                     setShow(true)

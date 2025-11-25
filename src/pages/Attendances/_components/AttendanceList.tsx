@@ -150,8 +150,7 @@ const AttendanceList = ({ watch }: any) => {
   const filter: IFilter[] = useMemo(
     () => [],
     [t]
-  );
-
+  )
   const rowActions: IAction[] = useMemo(
     () => [],
     [t]

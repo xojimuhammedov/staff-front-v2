@@ -1,5 +1,6 @@
 import { MyTextarea } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
+import MyDivider from 'components/Atoms/MyDivider';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
@@ -44,7 +45,7 @@ function ReasonModal({ row, refetch }: any) {
         <>
             {
                 row?.reason ?
-                    <MyButton variant="secondary">
+                    <MyButton onClick={() => setOpen(true)} variant="secondary">
                         {t('Sababli')}
                     </MyButton> :
                     <MyButton variant="secondary"
@@ -66,19 +67,40 @@ function ReasonModal({ row, refetch }: any) {
                 bodyProps={{
                     children: (
                         <>
-                            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">
-                                <MyTextarea label={t('Note')}  {...register('reason')} />
-                                <div className="mt-2 flex items-center justify-end gap-4">
-                                    <MyButton variant="primary" type="submit">
-                                        {t('Save changes')}
-                                    </MyButton>
-                                    <MyButton
-                                        onClick={() => setOpen(false)}
-                                        variant="secondary">
-                                        {t('Close')}
-                                    </MyButton>
-                                </div>
-                            </form>
+                            {
+                                row?.reason ? (
+                                    <>
+                                        <p>{t('Reason')}</p>
+                                        <h2 className="mt-2 text-base font-medium leading-7">
+                                            {row?.reason}
+                                        </h2>
+                                        <MyDivider />
+                                        <div className="mt-6 flex items-center justify-end gap-4">
+                                            <MyButton
+                                                onClick={() => setOpen(false)}
+                                                className={'w-[98px]'}
+                                                variant="secondary">
+                                                {t('Close')}
+                                            </MyButton>
+                                        </div>
+
+                                    </>
+                                ) : (
+                                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">
+                                        <MyTextarea label={t('Note')}  {...register('reason')} />
+                                        <div className="mt-2 flex items-center justify-end gap-4">
+                                            <MyButton variant="primary" type="submit">
+                                                {t('Save changes')}
+                                            </MyButton>
+                                            <MyButton
+                                                onClick={() => setOpen(false)}
+                                                variant="secondary">
+                                                {t('Close')}
+                                            </MyButton>
+                                        </div>
+                                    </form>
+                                )
+                            }
                         </>
                     ),
                     className: 'py-[10px]'

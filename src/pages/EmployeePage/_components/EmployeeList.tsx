@@ -17,19 +17,15 @@ import { FilterTypeEnum } from 'enums/filter-type.enum';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
-import { paramsStrToObj } from 'utils/helper';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import config from 'configs';
 
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 
-
-const EmployeeList = () => {
+const EmployeeList = ({ searchValue }: any) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation()
   const [show, setShow] = useState(false)
-  const searchValue: any = paramsStrToObj(location.search)
   const [employeeId, setEmployeeId] = useState<any | null>(null)
 
   const { data, isLoading, refetch } = useGetAllQuery({
@@ -89,36 +85,6 @@ const EmployeeList = () => {
 
   const filter: IFilter[] = useMemo(
     () => [
-      {
-        label: t('State'),
-        key: 'online',
-        type: FilterTypeEnum.multiselect,
-        value: [],
-        options: [
-          { value: 'yes', label: t('Online') },
-          { value: 'no', label: t('Offline') }
-        ]
-      },
-      {
-        label: t('Deleted'),
-        key: 'deleted',
-        type: FilterTypeEnum.multiselect,
-        value: [],
-        options: [
-          { value: 'yes', label: t('Not deleted') },
-          { value: 'no', label: t('Deleted') }
-        ]
-      },
-      {
-        label: t('Monitored'),
-        key: 'monitored',
-        type: FilterTypeEnum.multiselect,
-        value: [],
-        options: [
-          { value: 'yes', label: t('Monitored') },
-          { value: 'no', label: t('Not monitored') }
-        ]
-      }
     ],
     [t]
   );

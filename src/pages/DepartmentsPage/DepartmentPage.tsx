@@ -6,7 +6,7 @@ import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useTranslation } from 'react-i18next';
-import { Plus, Search } from 'lucide-react';
+import { ArrowLeft, Plus, Search } from 'lucide-react';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyDivider from 'components/Atoms/MyDivider';
 import { MyInput } from 'components/Atoms/Form';
@@ -17,7 +17,7 @@ import { paramsStrToObj } from 'utils/helper';
 import { useSearch } from 'hooks/useSearch';
 import { KeyTypeEnum } from 'enums/key-type.enum';
 import Loading from 'assets/icons/Loading';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface searchValue {
   page?: string,
@@ -28,6 +28,7 @@ interface searchValue {
 
 const DepartmentPage = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false);
   const location = useLocation()
   const searchValue: searchValue = paramsStrToObj(location.search)
@@ -87,6 +88,17 @@ const DepartmentPage = () => {
               className="[&_svg]:stroke-bg-white text-sm w-[180px] dark:text-text-base">
               {t('Add department')}
             </MyButton>
+            {
+              searchValue.subdepartmentId && (
+                <MyButton
+                  onClick={() => navigate('/department')}
+                  className={'w-[220px]'}
+                  variant="secondary"
+                  startIcon={<ArrowLeft />}>
+                  {t('Back to department list')}
+                </MyButton>
+              )
+            }
           </div>
         </div>
       </div>
