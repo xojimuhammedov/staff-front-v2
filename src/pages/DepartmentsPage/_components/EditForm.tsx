@@ -16,7 +16,7 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
 
   const { data: getOrganization } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
-    url: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
     hideErrorMsg: true,
     params: {},
   })
@@ -63,7 +63,7 @@ const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
   }, [data]);
 
   const { mutate: update } = usePutQuery({
-    listKeyId: KEYS.getAllListOrganization,
+    listKeyId: KEYS.getAllListDepartment,
     hideSuccessToast: true
   });
 

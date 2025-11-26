@@ -11,7 +11,7 @@ import { KEYS } from 'constants/key';
 import { Department } from '../interface/department.interface';
 import { useTranslation } from 'react-i18next';
 
-const DepartmentList = ({ data, refetch, setShowModal, showModal, parentId }: any) => {
+const DepartmentList = ({ data, refetch, setShowModal, showModal }: any) => {
     const { t } = useTranslation()
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
@@ -45,7 +45,7 @@ const DepartmentList = ({ data, refetch, setShowModal, showModal, parentId }: an
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
                 {
                     get(data, 'data')?.map((item: Department) => (
-                        <DepartmentCard setDepartmentId={setDepartmentId} setShow={setShow} action={true} setOpen={setOpen} item={item} parentId={parentId} />
+                        <DepartmentCard setDepartmentId={setDepartmentId} setShow={setShow} action={true} setOpen={setOpen} item={item} />
                     ))
                 }
             </div>

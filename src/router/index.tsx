@@ -53,7 +53,7 @@ export const PrivateRoutes = [
   {
     path: '/view',
     element: <ViewDepartment />,
-    roles: ["ADMIN"],
+    roles: ["ADMIN", "HR"],
   },
   {
     path: '/department',

@@ -3,23 +3,25 @@ import { Edit, Eye, Mail, MapPin, NotebookPen, Phone, Trash2 } from 'lucide-reac
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyBadge from 'components/Atoms/MyBadge';
 import React from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
-const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, parentId }: any) => {
+const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow }: any) => {
     const { t } = useTranslation()
-    const navigate = useNavigate()
+    const location = useLocation();
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+
     const handleViewClick = (item: any) => {
-        const params = new URLSearchParams(searchParams);
+        const currentSetting = searchParams.get('current-setting');
 
-        // Har doim subdepartmentId ni qo‘shib/qayta yozamiz
-        params.set('subdepartmentId', item.id);
-
-        // Qaysi route ga borishni aniqlaymiz
-        const hasChildren = item._count?.childrens > 0;
-        const targetPath = hasChildren ? '/department' : '/employees';
-
-        navigate(`${targetPath}?${params.toString()}`);
+        if (location?.pathname && currentSetting === 'subdepartment') {
+            return navigate(`/view?subdepartmentId=${item?.id}&current-setting=employee_list`);
+        }
+        if (item?._count?.childrens) {
+            return navigate(`/view?subdepartmentId=${item?.id}&current-setting=subdepartment`);
+        } else {
+            return navigate(`/employees?subdepartmentId=${item?.id}`);
+        }
     };
     return (
         <div className='dark:bg-bg-dark-bg border border-gray-200 rounded-lg shadow-sm p-4 gap-2'>
@@ -28,11 +30,11 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, parentId }: a
                 <MyBadge variant='green'>{t("Active")}</MyBadge>
             </div>
             <div className='grid grid-cols-2 gap-2 my-4'>
-                <div className='rounded-lg dark:bg-bg-dark-theme p-3'>
+                <div className='rounded-lg bg-[#F9FAFB] dark:bg-bg-dark-theme p-3'>
                     <h5 className='text-sm dark:text-text-title-dark'>{t("Departments")}</h5>
                     <h3 className='text-2xl font-inter font-bold dark:text-text-title-dark'>{item?._count?.childrens}</h3>
                 </div>
-                <div className='rounded-lg dark:bg-bg-dark-theme p-3'>
+                <div className='rounded-lg bg-[#F9FAFB] dark:bg-bg-dark-theme p-3'>
                     <h5 className='text-sm dark:text-text-title-dark'>{t("Employees")}</h5>
                     <h3 className='text-2xl font-inter font-bold dark:text-text-title-dark'>{item?._count?.employees}</h3>
                 </div>
@@ -53,7 +55,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, parentId }: a
                 <NotebookPen width={'16px'} />
                 <p className='dark:text-text-title-dark'>{item?.additionalDetails}</p>
             </div>
-            <div className='flex items-center justify-between mt-4'>
+            <div className='flex items-center justify-between gap-4 mt-4'>
                 <MyButton
                     variant="secondary"
                     allowedRoles={['ADMIN', 'HR']}
@@ -82,7 +84,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, parentId }: a
                     className={'[&_svg]:stroke-bg-[#E11D48]'}
                     variant='secondary' startIcon={<Trash2 color='red' />}></MyButton>
             </div>
-        </div >
+        </div>
     );
 }
 

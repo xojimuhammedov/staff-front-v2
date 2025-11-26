@@ -12,41 +12,25 @@ import DepartmentCard from "pages/DepartmentsPage/_components/DepartmentCard";
 import { Department } from "pages/DepartmentsPage/interface/department.interface";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import MainContent from "./_components/MainContent";
+import Sidebar from "./_components/Sidebar/Sidebar";
 
 
 const ViewPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const [paramsId] = useSearchParams()
-    const departmentId = paramsId.get("departmentId")
 
     const breadCrumbs = [
         {
-            label: t('Sub Department'),
+            label: t('View Department'),
             url: '#'
         }
     ];
-
-    const { data, isLoading } = useGetAllQuery<{ data: Department[] }>({
-        key: KEYS.getAllListDepartment,
-        url: URLS.getAllListDepartment,
-        params: {
-            parentId: departmentId
-        }
-    })
-
-    if (isLoading) {
-        return (
-            <div className="absolute flex h-full w-full items-center justify-center">
-                <Loading />
-            </div>
-        );
-    }
     return (
         <PageContentWrapper>
             <div className="flex items-center justify-between">
                 <div className="flex flex-col">
-                    <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('Department')}</h1>
+                    <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('View Department')}</h1>
                     <MyBreadCrumb items={breadCrumbs} />
                 </div>
                 <MyButton
@@ -57,12 +41,9 @@ const ViewPage = () => {
                 </MyButton>
             </div>
             <MyDivider />
-            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
-                {
-                    get(data, 'data')?.map((item: Department) => (
-                        <DepartmentCard action={false} item={item} />
-                    ))
-                }
+            <div className="flex gap-6">
+                <Sidebar sidebar_menu_type="simple" />
+                <MainContent />
             </div>
         </PageContentWrapper>
     );

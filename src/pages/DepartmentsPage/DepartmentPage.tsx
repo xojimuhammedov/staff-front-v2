@@ -103,7 +103,7 @@ const DepartmentPage = () => {
         </div>
       </div>
       <MyDivider />
-      <DepartmentList data={data} refetch={refetch} showModal={showModal} setShowModal={setShowModal} parentId={searchValue?.subdepartmentId} />
+      <DepartmentList data={data} refetch={refetch} showModal={showModal} setShowModal={setShowModal} />
     </PageContentWrapper>
   );
 }

@@ -15,11 +15,11 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
                 <MyBadge variant='green'>{item?.isActive ? "Active" : "isActive"}</MyBadge>
             </div>
             <div className='grid grid-cols-2 gap-2 my-4'>
-                <div className='rounded-lg dark:bg-bg-dark-theme p-3'>
+                <div className='rounded-lg bg-[#F9FAFB] dark:bg-bg-dark-theme p-3'>
                     <h5 className='text-sm dark:text-text-title-dark'>{t("Departments")}</h5>
                     <h3 className='text-2xl font-inter font-bold dark:text-text-title-dark'>{item?._count?.departments}</h3>
                 </div>
-                <div className='rounded-lg dark:bg-bg-dark-theme p-3'>
+                <div className='rounded-lg bg-[#F9FAFB] dark:bg-bg-dark-theme p-3'>
                     <h5 className='text-sm dark:text-text-title-dark'>{t("Employees")}</h5>
                     <h3 className='text-2xl font-inter font-bold dark:text-text-title-dark'>{item?._count?.employees}</h3>
                 </div>
