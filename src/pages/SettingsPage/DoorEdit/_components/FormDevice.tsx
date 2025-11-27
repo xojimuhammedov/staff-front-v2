@@ -18,7 +18,7 @@ const checkType = [
   {
     id: 2,
     label: "Check in",
-    value: "ENTRY"
+    value: "ENTER"
   },
   {
     id: 3,
