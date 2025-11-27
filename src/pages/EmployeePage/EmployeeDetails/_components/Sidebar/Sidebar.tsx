@@ -45,6 +45,18 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
                     path: 'computer',
                     isSwitch: false
                 },
+                {
+                    icon: 'Attendance',
+                    name: t('Attendance'),
+                    path: 'attendance',
+                    isSwitch: false
+                },
+                {
+                    icon: 'Productivity',
+                    name: t('Productivity'),
+                    path: 'productivity',
+                    isSwitch: false
+                },
             ]
         }
     ];
