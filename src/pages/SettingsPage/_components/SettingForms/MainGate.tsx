@@ -75,7 +75,7 @@ function MainGate() {
         cellRender: (row) => {
           if (row?.status) {
             return (
-              <MyBadge variant={row?.status === "ERROR" ? "red" : row?.status === "DONE" ? "green" : 'purple'}>
+              <MyBadge variant={row?.status === "FAILED" ? "red" : row?.status === "DONE" ? "green" : 'purple'}>
                 {row?.status}
               </MyBadge>
             );

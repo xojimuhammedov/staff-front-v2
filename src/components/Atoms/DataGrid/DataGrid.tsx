@@ -97,8 +97,8 @@ const DataGrid = forwardRef(
     const [element, setElement] = useState<DivRef>(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const [search, setSearch] = useState<string>('');
-    const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
-    const [allSelected, setAllSelected] = useState(false);
+    // const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
+    // const [allSelected, setAllSelected] = useState(false);
 
     const headerCellGeneralStyle =
       'px-[16px] py-[14px] text-left dark:text-text-title-dark sm:text-xs lg:text-sm font-normal text-c-m text-text-base';
@@ -111,9 +111,9 @@ const DataGrid = forwardRef(
       setElement(ref);
     }, []);
 
-    useEffect(() => {
-      setAllSelected(isAllSelected());
-    }, [JSON.stringify(rows), JSON.stringify(selectedItems)]);
+    // useEffect(() => {
+    //   setAllSelected(isAllSelected());
+    // }, [JSON.stringify(rows), JSON.stringify(selectedItems)]);
 
     const el = document.getElementById('table-container');
 
@@ -169,18 +169,18 @@ const DataGrid = forwardRef(
     //   setSelectedItems(tmpSelectedItems);
     // };
 
-    const isAllSelected = () => {
-      if (rows instanceof Array && !isEmpty(rows)) {
-        const rowIds = rows.map((row) => get(row, 'id', get(row, '_id')));
-        for (let id of rowIds) {
-          if (!selectedItems.includes(id)) {
-            return false;
-          }
-        }
-        return true;
-      }
-      return false;
-    };
+    // const isAllSelected = () => {
+    //   if (rows instanceof Array && !isEmpty(rows)) {
+    //     const rowIds = rows.map((row) => get(row, 'id', get(row, '_id')));
+    //     for (let id of rowIds) {
+    //       if (!selectedItems.includes(id)) {
+    //         return false;
+    //       }
+    //     }
+    //     return true;
+    //   }
+    //   return false;
+    // };
 
     return (
       <>
