@@ -34,11 +34,11 @@ const getCategoryStyles = (category: UsageDetail['category']) => {
 const getScoreStyles = (scoreColor: UsageDetail['scoreColor']) => {
     switch (scoreColor) {
         case 'productive':
-            return 'bg-yellow-500';
+            return 'bg-[#FBC02D]';
         case 'unproductive':
             return 'bg-gray-400';
         case 'neutral':
-            return 'bg-yellow-500';
+            return 'bg-[#FBC02D]';
     }
 };
 

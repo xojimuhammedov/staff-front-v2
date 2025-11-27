@@ -42,7 +42,6 @@ request.interceptors.response.use(
         // Retry original request
         return axios(error.config);
       } catch (refreshError) {
-        // Redirect to login
         window.location.href = '/login';
       }
     }
