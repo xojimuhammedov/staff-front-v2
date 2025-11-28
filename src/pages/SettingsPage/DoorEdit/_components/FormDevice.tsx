@@ -1,9 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { MyCheckbox, MyInput, MySelect } from "components/Atoms/Form";
 import MyButton from "components/Atoms/MyButton/MyButton";
+import deviceType from "configs/deviceType";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import { usePostQuery } from "hooks/api";
+import { ISelect } from "interfaces/select.interface";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -35,8 +37,8 @@ function FormDevice({ setOpenModal, doorId, refetch }: any) {
     password: string().required(),
     name: string().required(),
     login: string().required(),
-    entryType: string().required()
-
+    entryType: string().required(),
+    type: string().required()
   });
 
   const { mutate: create } = usePostQuery({
@@ -99,6 +101,24 @@ function FormDevice({ setOpenModal, doorId, refetch }: any) {
         helperText={t(`${errors?.name?.message}`)}
         placeholder={t('Enter device name')}
         label={t('Name')}
+      />
+      <Controller
+        name="type"
+        control={control}
+        render={({ field, fieldState }) => (
+          <MySelect
+            label={t("Select type")}
+            options={deviceType?.map((evt: any) => ({
+              label: evt.label,
+              value: evt.value,
+            }))}
+            value={field.value as any}  // 👈 cast to any
+            onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+            onBlur={field.onBlur}
+            error={!!fieldState.error}
+            allowedRoles={["ADMIN", "HR"]}
+          />
+        )}
       />
       <MyInput
         {...register('ipAddress')}

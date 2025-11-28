@@ -15,8 +15,8 @@ import { IAction } from 'interfaces/action.interface';
 import { paramsStrToObj } from 'utils/helper';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit3, Plus, Trash2 } from 'lucide-react';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import { searchValue } from 'types/search';
 
 
 const WorkScheduleList = () => {
@@ -25,7 +25,7 @@ const WorkScheduleList = () => {
   const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const [scheduleId, setScheduleId] = useState(null)
-  const searchValue: any = paramsStrToObj(location.search)
+  const searchValue: searchValue = paramsStrToObj(location.search)
 
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.employeeSchedulePlan,

@@ -4,16 +4,14 @@ import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AreaChart, Edit3, Plus, Trash2 } from 'lucide-react';
+import { AreaChart, Edit3, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import { IFilter } from 'interfaces/filter.interface';
-import { FilterTypeEnum } from 'enums/filter-type.enum';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
@@ -21,8 +19,13 @@ import MyAvatar from 'components/Atoms/MyAvatar';
 import config from 'configs';
 
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
+import { searchValue } from 'types/search';
 
-const EmployeeList = ({ searchValue }: any) => {
+type EmployeeListProps = {
+  searchValue?: searchValue;
+};
+
+const EmployeeList = ({ searchValue }: EmployeeListProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [show, setShow] = useState(false)
@@ -34,7 +37,6 @@ const EmployeeList = ({ searchValue }: any) => {
     params: {
       search: searchValue?.search,
       departmentId: searchValue?.subdepartmentId,
-      // organizationId: searchValue?.organizationId
     }
   });
   const columns: DataGridColumnType[] = useMemo(

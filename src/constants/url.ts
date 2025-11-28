@@ -24,5 +24,6 @@ export const URLS = {
   hikvisionEmployeeSync:"/api/v1/employee-sync",
   attendacesForEmployee:"/api/v1/attendances",
   employeeSchedulePlan:"/api/v1/employee-plans",
-  employeePlansAssign:"/api/v1/employee-plans/assign"
+  employeePlansAssign:"/api/v1/employee-plans/assign",
+  attendancesReason:"/api/v1/reasons"
 };

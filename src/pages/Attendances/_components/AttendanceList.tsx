@@ -19,12 +19,13 @@ import config from 'configs';
 import dayjs from 'dayjs';
 import ReasonModal from './ReasonModal';
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
+import { searchValue } from 'types/search';
 
 
 const AttendanceList = ({ watch }: any) => {
   const { t } = useTranslation();
   const location = useLocation()
-  const searchValue: any = paramsStrToObj(location.search)
+  const searchValue: searchValue = paramsStrToObj(location.search)
 
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.attendacesForEmployee,

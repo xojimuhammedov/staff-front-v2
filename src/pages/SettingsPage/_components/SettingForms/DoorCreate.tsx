@@ -7,24 +7,12 @@ import Stepper from './Stepper';
 import FormDevice from './FormDevice';
 import FormDoor from './FormDoor';
 import EmployeeDragDrop from './EmployeeDragDrop';
-
-interface SidebarItem {
-  icon: string;
-  name: string;
-  path: string;
-  isSwitch: boolean;
-}
-
-interface SidebarMenu {
-  title: string;
-  stepper_title: string;
-  items: SidebarItem[];
-}
+import { SidebarMenuType } from 'types/sidebar';
 
 function DoorCreate() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const sidebar_menu: SidebarMenu[] = [
+  const sidebar_menu: SidebarMenuType[] = [
     {
       title: t('Enter a door name and description'),
       stepper_title: t('Door details'),

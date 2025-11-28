@@ -24,5 +24,6 @@ export const KEYS = {
   hikvisionEmployeeSync: "hikvisionEmployeeSync",
   attendacesForEmployee: "attendacesForEmployee",
   employeeSchedulePlan: "employeeSchedulePlan",
-  employeePlansAssign:"employeePlansAssign"
+  employeePlansAssign: "employeePlansAssign",
+  attendancesReason: "attendancesReason"
 };

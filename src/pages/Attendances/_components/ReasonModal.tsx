@@ -70,8 +70,8 @@ function ReasonModal({ row, refetch }: any) {
                             {
                                 row?.reason ? (
                                     <>
-                                        <p>{t('Reason')}</p>
-                                        <h2 className="mt-2 text-base font-medium leading-7">
+                                        <p className='dark:text-text-title-dark'>{t('Reason')}</p>
+                                        <h2 className="mt-2 text-base dark:text-text-title-dark font-medium leading-7">
                                             {row?.reason}
                                         </h2>
                                         <MyDivider />

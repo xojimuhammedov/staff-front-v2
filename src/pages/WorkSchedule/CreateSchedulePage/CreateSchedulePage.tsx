@@ -6,23 +6,8 @@ import Sidebar from './_components/Sidebar/Sidebar';
 import MainContent from './_components/MainContent';
 import { useLocation } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
+import { SidebarMenuType } from 'types/sidebar';
 
-type MenuType = 'simple' | 'open-close';
-
-
-interface SidebarItem {
-  icon: string;
-  name: string;
-  path: string;
-  isSwitch: boolean;
-  disabled: boolean
-}
-
-interface SidebarMenu {
-  title: string;
-  stepper_title: string;
-  items: SidebarItem[];
-}
 
 const CreateSchedulePage = () => {
   const { t } = useTranslation();
@@ -35,7 +20,7 @@ const CreateSchedulePage = () => {
     },
   ];
 
-  const sidebar_menu: SidebarMenu[] = [
+  const sidebar_menu: SidebarMenuType[] = [
     {
       title: t('General info'),
       stepper_title: t('Schedule details'),

@@ -5,7 +5,12 @@ import { ZoomSlider } from 'components/Atoms/Cropper/Sliders';
 import { useTranslation } from 'react-i18next';
 import Cropper from 'components/Atoms/Cropper/Cropper';
 
-const ImageCropModalContent = ({ handleDone, handleClose }: any) => {
+type functionProps = {
+  handleDone: () => void;
+  handleClose: () => void
+}
+
+const ImageCropModalContent = ({ handleDone, handleClose }: functionProps) => {
   const { setImage }: any = useImageCropContext();
 
   const { t } = useTranslation();

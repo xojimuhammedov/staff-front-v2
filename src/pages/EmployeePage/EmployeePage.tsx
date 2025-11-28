@@ -9,13 +9,8 @@ import { KeyTypeEnum } from 'enums/key-type.enum';
 import { useSearch } from 'hooks/useSearch';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
+import { searchValue } from 'types/search';
 
-interface searchValue {
-  page?: string,
-  search?: string,
-  organizationId?: string,
-  subdepartmentId?: string
-}
 
 function EmployeePage() {
   const { t } = useTranslation();

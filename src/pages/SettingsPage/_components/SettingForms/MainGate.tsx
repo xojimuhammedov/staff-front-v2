@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
+import { searchValue } from 'types/search';
 
 type FilterType = {
   search: string;
@@ -26,16 +27,11 @@ type TItem = {
   id: string;
 };
 
-type SearchValue = {
-  page?: string,
-  pageSize?: string
-}
-
 function MainGate() {
   const { t } = useTranslation();
   const { id } = useParams()
   const location = useLocation()
-  const searchValue: SearchValue = paramsStrToObj(location?.search)
+  const searchValue: searchValue = paramsStrToObj(location?.search)
 
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.hikvisionEmployeeSync,

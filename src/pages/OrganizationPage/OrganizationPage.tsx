@@ -18,12 +18,13 @@ import { useSearch } from 'hooks/useSearch';
 import { paramsStrToObj } from 'utils/helper';
 import OrganizationList from './_components/OrganizationList';
 import Loading from 'assets/icons/Loading';
+import { searchValue } from 'types/search';
 
 const OrganizationPage = () => {
   const { t } = useTranslation()
   const location = useLocation()
   const [showModal, setShowModal] = useState(false);
-  const searchValue: any = paramsStrToObj(location.search)
+  const searchValue: searchValue = paramsStrToObj(location.search)
   const { search, setSearch, handleSearch } = useSearch();
 
   const breadCrumbs = [

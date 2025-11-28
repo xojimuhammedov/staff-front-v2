@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { MyCheckbox, MyInput } from 'components/Atoms/Form';
+import { MyCheckbox, MyInput, MySelect } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
@@ -10,6 +10,8 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string } from 'yup';
 import { paramsStrToObj } from 'utils/helper';
+import { ISelect } from 'interfaces/select.interface';
+import deviceType from 'configs/deviceType';
 
 const checkType = [
   {
@@ -44,7 +46,8 @@ function FormDeviceModal({ setOpenModal }: any) {
     password: string().required(),
     name: string().required(),
     login: string().required(),
-    entryType: string().required()
+    entryType: string().required(),
+    type: string().required()
   });
 
   const {
@@ -95,6 +98,24 @@ function FormDeviceModal({ setOpenModal }: any) {
         helperText={t(`${errors?.name?.message}`)}
         placeholder={t('Enter device name')}
         label={t('Name')}
+      />
+      <Controller
+        name="type"
+        control={control}
+        render={({ field, fieldState }) => (
+          <MySelect
+            label={t("Select type")}
+            options={deviceType?.map((evt: any) => ({
+              label: evt.label,
+              value: evt.value,
+            }))}
+            value={field.value as any}  // 👈 cast to any
+            onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+            onBlur={field.onBlur}
+            error={!!fieldState.error}
+            allowedRoles={["ADMIN", "HR"]}
+          />
+        )}
       />
       <MyInput
         {...register('ipAddress')}

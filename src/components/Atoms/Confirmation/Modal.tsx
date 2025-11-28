@@ -1,6 +1,7 @@
 import { Dialog } from '@headlessui/react';
+import { ConfirmationModalProps } from 'types/common';
 
-export default function ConfirmationModal({ open, setOpen, confirmationDelete, title, subTitle }: any) {
+export default function ConfirmationModal({ open, setOpen, confirmationDelete, title, subTitle }: ConfirmationModalProps) {
 
   return (
     <div>

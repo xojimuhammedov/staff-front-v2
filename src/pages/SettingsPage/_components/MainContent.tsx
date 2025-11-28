@@ -3,12 +3,14 @@ import { useSearchParams } from 'react-router-dom';
 
 const Notifications = lazy(() => import('./SettingForms/DeviceControl'));
 const DoorsPage = lazy(() => import('./SettingForms/DoorsPage'));
+const ReasonType = lazy(() => import('../ReasonType'))
 
-type RulesType = 'deviceControl' | 'doors';
+type RulesType = 'deviceControl' | 'doors' | 'reason_type';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
   deviceControl: Notifications,
-  doors: DoorsPage
+  doors: DoorsPage,
+  reason_type: ReasonType
 };
 
 const MainContent = () => {

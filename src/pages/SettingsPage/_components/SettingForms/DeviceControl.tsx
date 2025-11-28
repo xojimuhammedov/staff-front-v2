@@ -27,7 +27,7 @@ type TItem = {
   id: string;
 };
 
-const Notifications = () => {
+const DeviceControl = () => {
   const { t } = useTranslation();
 
   const { data, isLoading, refetch } = useGetAllQuery({
@@ -61,6 +61,11 @@ const Notifications = () => {
         headerClassName: 'sm:w-1/4 lg:flex-1'
       },
       {
+        key: 'type',
+        label: t('Device type'),
+        headerClassName: 'sm:w-1/4 lg:flex-1'
+      },
+      {
         key: 'isActive',
         label: t('Status'),
         headerClassName: 'sm:w-1/4 lg:flex-1',
@@ -89,11 +94,16 @@ const Notifications = () => {
     },
     {
       id: 2,
-      label: t('Status'),
+      label: t('Device type'),
       headerClassName: 'sm:w-1/4 lg:flex-1'
     },
     {
       id: 3,
+      label: t('Status'),
+      headerClassName: 'sm:w-1/4 lg:flex-1'
+    },
+    {
+      id: 4,
       label: t('Ip address'),
       headerClassName: 'sm:w-1/4 lg:flex-1'
     },
@@ -152,4 +162,4 @@ const Notifications = () => {
   );
 };
 
-export default Notifications;
+export default DeviceControl;

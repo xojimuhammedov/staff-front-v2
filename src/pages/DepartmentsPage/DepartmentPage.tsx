@@ -18,13 +18,7 @@ import { useSearch } from 'hooks/useSearch';
 import { KeyTypeEnum } from 'enums/key-type.enum';
 import Loading from 'assets/icons/Loading';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-interface searchValue {
-  page?: string,
-  search?: string,
-  organizationId?: string,
-  subdepartmentId?: string
-}
+import { searchValue } from 'types/search';
 
 const DepartmentPage = () => {
   const { t } = useTranslation()

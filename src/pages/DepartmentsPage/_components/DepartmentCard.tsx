@@ -24,7 +24,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow }: any) => {
         }
     };
     return (
-        <div className='dark:bg-bg-dark-bg border border-gray-200 rounded-lg shadow-sm p-4 gap-2'>
+        <div className='dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035] rounded-lg shadow-sm p-4 gap-2'>
             <div className='flex items-center justify-between'>
                 <h3 className='text-xl font-inter font-medium dark:text-text-title-dark'>{item?.fullName}</h3>
                 <MyBadge variant='green'>{t("Active")}</MyBadge>

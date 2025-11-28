@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import SidebarMenu from './SidebarMenu';
+import { SidebarMenuType } from 'types/sidebar';
 
 type MenuType = 'simple' | 'open-close';
 
@@ -8,22 +9,11 @@ interface SidebarProps {
   sidebar_menu_type: MenuType;
 }
 
-interface SidebarItem {
-  icon: string;
-  name: string;
-  path: string;
-  isSwitch: boolean;
-}
-
-interface SidebarMenu {
-  title: string;
-  items: SidebarItem[];
-}
 
 const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
   const { t } = useTranslation();
 
-  const sidebar_menu: SidebarMenu[] = [
+  const sidebar_menu: SidebarMenuType[] = [
     {
       title: t('General info'),
       items: [
@@ -37,6 +27,12 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
           icon: 'Bell',
           name: t('Devices'),
           path: 'deviceControl',
+          isSwitch: false 
+        },
+        {
+          icon: 'Reason type',
+          name: t('Reason type'),
+          path: 'reason_type',
           isSwitch: false 
         },
       ]

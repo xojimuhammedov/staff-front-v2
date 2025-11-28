@@ -2,14 +2,9 @@ import EmployeeList from 'pages/EmployeePage/_components/EmployeeList';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { searchValue } from 'types/search';
 import { paramsStrToObj } from 'utils/helper';
 
-interface searchValue {
-    page?: string,
-    search?: string,
-    organizationId?: string,
-    subdepartmentId?: string
-}
 
 const EmployeeListDepartment = () => {
     const { t } = useTranslation()

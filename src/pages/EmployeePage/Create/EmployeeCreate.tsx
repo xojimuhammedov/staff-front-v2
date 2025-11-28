@@ -9,29 +9,30 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const EmployeeCreate = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-    const breadCrumbs = [
-        {
-        label: t('Employees'),
-        url: '#'
-        }
-    ];
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const breadCrumbs = [
+    {
+      label: t('Employees'),
+      url: '#'
+    }
+  ];
   return (
     <PageContentWrapper>
-      <div className="flex flex-col">
-        <h1 className="headers-core text-text-base dark:text-text-title-dark">
-          {t('Add new employee')}
-        </h1>
-        <MyBreadCrumb items={breadCrumbs} />
+      <div className='flex items-center justify-between'>
+        <div className="flex flex-col">
+          <h1 className="headers-core text-text-base dark:text-text-title-dark">
+            {t('Add new employee')}
+          </h1>
+          <MyBreadCrumb items={breadCrumbs} />
+        </div>
+        <MyButton
+          onClick={() => navigate('/employees')}
+          variant="secondary"
+          startIcon={<ArrowLeft />}>
+          {t('Back to employees list')}
+        </MyButton>
       </div>
-      <MyDivider />
-      <MyButton
-        onClick={() => navigate('/employees')}
-        variant="secondary"
-        startIcon={<ArrowLeft />}>
-        {t('Back to employees list')}
-      </MyButton>
       <MyDivider />
       <Form />
     </PageContentWrapper>

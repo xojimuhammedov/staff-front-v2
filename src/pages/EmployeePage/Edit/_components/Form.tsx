@@ -89,7 +89,6 @@ function Form() {
         additionalDetails: get(data, 'data.additionalDetails'),
         departmentId: get(data, 'data.departmentId'),
         photo: get(data, 'data.photo'),
-        // organizationId: get(data, 'data.organizationId')
       };
     }, [data]),
     mode: 'onChange',
@@ -104,7 +103,6 @@ function Form() {
       address: get(data, 'data.address'),
       departmentId: get(data, 'data.departmentId'),
       photo: get(data, 'data.photo'),
-      // organizationId: get(data, 'data.organizationId')
     });
   }, [data]);
 
@@ -185,24 +183,6 @@ function Form() {
               helperText={t(`${errors?.additionalDetails?.message}`)}
               label={t('Employee details')}
             />
-            {/* <Controller
-              name="organizationId"
-              control={control}
-              render={({ field, fieldState }) => (
-                <MySelect
-                  label={t("Select organization")}
-                  options={getOrganization?.data?.map((evt: any) => ({
-                    label: evt.fullName,
-                    value: evt.id,
-                  }))}
-                  value={field.value as any}  // 👈 cast to any
-                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                  onBlur={field.onBlur}
-                  error={!!fieldState.error}
-                  allowedRoles={["ADMIN"]}
-                />
-              )}
-            /> */}
             <Controller
               name="departmentId"
               control={control}
