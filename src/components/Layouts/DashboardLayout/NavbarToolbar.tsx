@@ -5,6 +5,7 @@ import { useDarkMode } from 'context/DarkLightContext';
 import storage from 'services/storage';
 import RusImg from '../../../assets/icons/russian.png';
 import EnglishImg from '../../../assets/icons/english.png';
+import UzbekImg from '../../../assets/icons/uzbek.png';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -20,6 +21,12 @@ const languageData = [
     value: 'en',
     title: 'English',
     image: EnglishImg
+  },
+  {
+    id: 3,
+    value: 'uz',
+    title: "O'zbek",
+    image: UzbekImg
   }
 ];
 
@@ -58,7 +65,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
     setIsOpen(false);
   };
 
-  const languageTitle = i18n.language === 'ru' ? 'Русский' : 'English';
+  const languageTitle = i18n.language === 'ru' ? 'Русский' : i18n.language === "en" ? 'English' : "O'zbek";
   const i18nData = languageData.filter((item: any) => item.title !== languageTitle);
 
   return (
@@ -71,7 +78,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
           }}
           className="flex items-center gap-2 px-[10px] py-[4px]">
           <img
-            src={i18n.language === 'ru' ? RusImg : EnglishImg}
+            src={i18n.language === 'ru' ? RusImg : i18n.language === "en" ? EnglishImg : UzbekImg}
             className="h-6 w-6 rounded-full"
             alt=""
           />

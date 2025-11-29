@@ -1,12 +1,13 @@
-import { MyTextarea } from 'components/Atoms/Form';
+import { MySelect, MyTextarea } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { usePutQuery } from 'hooks/api';
+import { useGetAllQuery, usePutQuery } from 'hooks/api';
+import { ISelect } from 'interfaces/select.interface';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
@@ -14,12 +15,18 @@ function ReasonModal({ row, refetch }: any) {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
 
+    const { data }: any = useGetAllQuery({
+        key: KEYS.attendancesReason,
+        url: URLS.attendancesReason,
+        params: {}
+    })
+
     const { mutate: create } = usePutQuery({
         listKeyId: KEYS.attendacesForEmployee,
         hideSuccessToast: true
     });
 
-    const { handleSubmit, register } = useForm()
+    const { handleSubmit, register, control } = useForm()
 
     const onSubmit = (data: any) => {
         create(
@@ -87,6 +94,25 @@ function ReasonModal({ row, refetch }: any) {
                                     </>
                                 ) : (
                                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">
+                                        <Controller
+                                            name="reasonTypeId"
+                                            control={control}
+                                            render={({ field, fieldState }) => (
+                                                <MySelect
+                                                    label={t("Select type")}
+                                                    options={data?.items?.map((evt: any) => ({
+                                                        label: evt.key,
+                                                        value: evt.id,
+                                                    }))}
+                                                    value={field.value as any}  // 👈 cast to any
+                                                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                                    onBlur={field.onBlur}
+                                                    error={!!fieldState.error}
+                                                    allowedRoles={['ADMIN']}
+                                                    required
+                                                />
+                                            )}
+                                        />
                                         <MyTextarea label={t('Note')}  {...register('reason')} />
                                         <div className="mt-2 flex items-center justify-end gap-4">
                                             <MyButton variant="primary" type="submit">
