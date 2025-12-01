@@ -44,7 +44,7 @@ const Attendances = () => {
                     />
                     <div className="w-[200px]">
                         <MyTailwindPicker
-                            useRange={false}
+                            useRange={true}
                             name='date'
                             asSingle={true}
                             control={control}

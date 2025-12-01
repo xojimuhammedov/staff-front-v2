@@ -38,7 +38,6 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
     } = useForm({
         defaultValues: useMemo(() => {
             return {
-                key: get(getOne, 'data.key'),
                 value: get(getOne, 'data.value'),
                 organizationId: get(getOne, 'data.organizationId'),
             };
@@ -48,7 +47,6 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
 
     useEffect(() => {
         reset({
-            key: get(getOne, 'data.key'),
             value: get(getOne, 'data.value'),
             organizationId: get(getOne, 'data.organizationId'),
         });
@@ -97,7 +95,6 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
                         />
                     )}
                 />
-                <MyInput label={t('Key')}  {...register('key')} />
                 <MyTextarea label={t('Value')}  {...register('value')} />
                 <div className="mt-2 flex items-center justify-end gap-4">
                     <MyButton variant="primary" type="submit">

@@ -31,7 +31,6 @@ const Create = ({ refetch }: any) => {
     })
 
     const schema = object().shape({
-        key: string().required(),
         value: string().required(),
         organizationId: yup
             .number().required()
@@ -109,7 +108,6 @@ const Create = ({ refetch }: any) => {
                                     />
                                 )}
                             />
-                            <MyInput label={t('Key')}  {...register('key')} />
                             <MyTextarea label={t('Value')}  {...register('value')} />
                             <div className="mt-2 flex items-center justify-end gap-4">
                                 <MyButton variant="primary" type="submit">

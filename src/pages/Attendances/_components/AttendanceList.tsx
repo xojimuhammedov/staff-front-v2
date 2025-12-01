@@ -32,7 +32,8 @@ const AttendanceList = ({ watch }: any) => {
     url: URLS.attendacesForEmployee,
     params: {
       search: searchValue?.search,
-      date: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD")
+      startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
+      endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
     }
   });
   const columns: DataGridColumnType[] = useMemo(
