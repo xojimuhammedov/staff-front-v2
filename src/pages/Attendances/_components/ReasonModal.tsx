@@ -114,7 +114,7 @@ function ReasonModal({ row, refetch }: any) {
                                             )}
                                         />
                                         {
-                                            watch("reasonTypeId") === 7 ? (
+                                            watch("reasonTypeId") === 4 ? (
                                                 <MyTextarea label={t('Note')}  {...register('reason')} />
                                             ) : null
                                         }

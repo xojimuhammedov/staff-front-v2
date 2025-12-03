@@ -57,11 +57,6 @@ const TypeList = () => {
     const columns: DataGridColumnType[] = useMemo(
         () => [
             {
-                key: 'key',
-                label: t('Name'),
-                headerClassName: 'sm:w-1/4 lg:flex-1'
-            },
-            {
                 key: 'value',
                 label: t('Reason value'),
                 headerClassName: 'sm:w-1/4 lg:flex-1'
@@ -73,11 +68,6 @@ const TypeList = () => {
     const dataColumn = [
         {
             id: 1,
-            label: t('Name'),
-            headerClassName: 'sm:w-1/4 lg:flex-1'
-        },
-        {
-            id: 2,
             label: t('Reason value'),
             headerClassName: 'sm:w-1/4 lg:flex-1'
         },

@@ -41,7 +41,7 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
                 value: get(getOne, 'data.value'),
                 organizationId: get(getOne, 'data.organizationId'),
             };
-        }, [getOne]),
+        }, [getOne?.data]),
         mode: 'onChange',
     });
 
@@ -50,7 +50,7 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
             value: get(getOne, 'data.value'),
             organizationId: get(getOne, 'data.organizationId'),
         });
-    }, [getOne]);
+    }, [getOne?.data]);
 
     const onSubmit = (data: any) => {
         create(
@@ -71,8 +71,6 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
             }
         );
     };
-
-    console.log(getOne)
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">
