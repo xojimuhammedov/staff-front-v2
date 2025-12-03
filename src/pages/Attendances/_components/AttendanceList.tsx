@@ -27,13 +27,21 @@ const AttendanceList = ({ watch }: any) => {
   const location = useLocation()
   const searchValue: searchValue = paramsStrToObj(location.search)
 
+  const paramsValue = watch('date') ? {
+    startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
+    endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
+  } : {
+    date: dayjs(new Date())?.format("YYYY-MM-DD")
+  }
+
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.attendacesForEmployee,
     url: URLS.attendacesForEmployee,
     params: {
       search: searchValue?.search,
-      startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
-      endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
+      page: searchValue?.page || 1,
+      limit: searchValue?.pageSize || 10,
+      ...paramsValue
     }
   });
   const columns: DataGridColumnType[] = useMemo(
@@ -96,7 +104,7 @@ const AttendanceList = ({ watch }: any) => {
         cellRender: (row) => {
           if (row?.startTime) {
             return (
-              <div className="department-text">{dayjs(row?.startTime).format("HH:mm")}</div>
+              <div className="department-text">{dayjs(row?.startTime).format("YYYY-MM-DD, HH:mm")}</div>
             )
           } else return "--"
         }

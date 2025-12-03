@@ -26,7 +26,7 @@ function ReasonModal({ row, refetch }: any) {
         hideSuccessToast: true
     });
 
-    const { handleSubmit, register, control } = useForm()
+    const { handleSubmit, register, control, watch } = useForm()
 
     const onSubmit = (data: any) => {
         create(
@@ -51,7 +51,7 @@ function ReasonModal({ row, refetch }: any) {
     return (
         <>
             {
-                row?.reason ?
+                row?.reasons?.value ?
                     <MyButton onClick={() => setOpen(true)} variant="secondary">
                         {t('Sababli')}
                     </MyButton> :
@@ -75,11 +75,11 @@ function ReasonModal({ row, refetch }: any) {
                     children: (
                         <>
                             {
-                                row?.reason ? (
+                                row?.reasons?.value ? (
                                     <>
                                         <p className='dark:text-text-title-dark'>{t('Reason')}</p>
                                         <h2 className="mt-2 text-base dark:text-text-title-dark font-medium leading-7">
-                                            {row?.reason}
+                                            {row?.reasons?.value}
                                         </h2>
                                         <MyDivider />
                                         <div className="mt-6 flex items-center justify-end gap-4">
@@ -101,7 +101,7 @@ function ReasonModal({ row, refetch }: any) {
                                                 <MySelect
                                                     label={t("Select type")}
                                                     options={data?.items?.map((evt: any) => ({
-                                                        label: evt.key,
+                                                        label: evt.value,
                                                         value: evt.id,
                                                     }))}
                                                     value={field.value as any}  // 👈 cast to any
@@ -113,7 +113,11 @@ function ReasonModal({ row, refetch }: any) {
                                                 />
                                             )}
                                         />
-                                        <MyTextarea label={t('Note')}  {...register('reason')} />
+                                        {
+                                            watch("reasonTypeId") === 7 ? (
+                                                <MyTextarea label={t('Note')}  {...register('reason')} />
+                                            ) : null
+                                        }
                                         <div className="mt-2 flex items-center justify-end gap-4">
                                             <MyButton variant="primary" type="submit">
                                                 {t('Save changes')}

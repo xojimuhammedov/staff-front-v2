@@ -305,7 +305,7 @@ const DataGrid = forwardRef(
                                 'flex h-12 w-12 flex-none items-center justify-center px-[16px] py-[14px] text-text-base'
                               )}>
                               {/* {i + 1} */}
-                              {pagination?.page * pagination?.total + i + 1 - pagination?.total}
+                              {pagination?.page * pagination?.limit + i + 1 - pagination?.limit}
                             </div>
                           )}
                           {columns.map((column: DataGridColumnType, j: number) => {

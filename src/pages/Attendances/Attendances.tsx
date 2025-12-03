@@ -42,11 +42,11 @@ const Attendances = () => {
                         className="dark:bg-bg-input-dark"
                         placeholder={t('Search...')}
                     />
-                    <div className="w-[200px]">
+                    <div className="w-[380px]">
                         <MyTailwindPicker
                             useRange={true}
                             name='date'
-                            asSingle={true}
+                            asSingle={false}
                             control={control}
                             placeholder={t('Today')}
                             startIcon={<Calendar stroke="#9096A1" />}

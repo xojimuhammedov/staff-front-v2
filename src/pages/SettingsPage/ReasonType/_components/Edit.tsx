@@ -1,4 +1,4 @@
-import { MyInput, MySelect, MyTextarea } from 'components/Atoms/Form';
+import { MySelect, MyTextarea } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
@@ -6,7 +6,7 @@ import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
 import { ISelect } from 'interfaces/select.interface';
 import { get } from 'lodash';
 import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
