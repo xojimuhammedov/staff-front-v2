@@ -7,6 +7,7 @@ import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { ISelect } from 'interfaces/select.interface';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +18,7 @@ import * as yup from "yup";
 function FormDoor() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [organizationId, setOrganizationId] = useState<number[]>([])
 
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
@@ -25,9 +27,25 @@ function FormDoor() {
     hideErrorMsg: true
   })
 
+  const options =
+    data?.data?.map((item: any) => ({
+      label: item.fullName,
+      value: item.id,
+    })) || [];
+
+  // value qiymatini options asosida topish
+  const value = options.filter((option: any) =>
+    organizationId.includes(option.value)
+  );
+
+  // onchange hodisasi
+  const handleChange = (selected: any) => {
+    const ids = selected.map((s: any) => s.value);
+    setOrganizationId(ids);
+  };
+
   const schema = object().shape({
-    name: string().required(),
-    organizationId: yup.number().required(),
+    name: string().required()
   });
 
   const {
@@ -50,7 +68,10 @@ function FormDoor() {
     create(
       {
         url: URLS.getDoorGates,
-        attributes: data
+        attributes: {
+          organizationsIds: organizationId,
+          ...data
+        }
       },
       {
         onSuccess: (data) => {
@@ -108,22 +129,12 @@ function FormDoor() {
             />
           </div>
           <div className="w-[50%]">
-            <Controller
-              name="organizationId"
-              control={control}
-              render={({ field, fieldState }) => (
-                <MySelect
-                  options={data?.data?.map((evt: any) => ({
-                    label: evt.fullName,
-                    value: evt.id,
-                  }))}
-                  value={field.value as any}  // 👈 cast to any
-                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                  onBlur={field.onBlur}
-                  error={!!fieldState.error}
-                  allowedRoles={["ADMIN"]}
-                />
-              )}
+            <MySelect
+              isMulti
+              options={options}
+              value={value}
+              onChange={handleChange}
+              allowedRoles={["ADMIN"]}
             />
           </div>
         </div>
