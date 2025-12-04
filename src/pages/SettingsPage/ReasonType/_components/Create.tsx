@@ -31,7 +31,9 @@ const Create = ({ refetch }: any) => {
     })
 
     const schema = object().shape({
-        value: string().required(),
+        eng: string().required(),
+        ru: string().required(),
+        uz: string().required(),
         organizationId: yup
             .number().required()
     });
@@ -108,7 +110,9 @@ const Create = ({ refetch }: any) => {
                                     />
                                 )}
                             />
-                            <MyTextarea label={t('Value')}  {...register('value')} />
+                            <MyTextarea label={t('Reason uz')}  {...register('uz')} />
+                            <MyTextarea label={t('Reason en')}  {...register('eng')} />
+                            <MyTextarea label={t('Reason ru')}  {...register('ru')} />
                             <div className="mt-2 flex items-center justify-end gap-4">
                                 <MyButton variant="primary" type="submit">
                                     {t('Save changes')}

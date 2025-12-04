@@ -38,7 +38,9 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
     } = useForm({
         defaultValues: useMemo(() => {
             return {
-                value: get(getOne, 'data.value'),
+                eng: get(getOne, 'data.eng'),
+                ru: get(getOne, 'data.ru'),
+                uz: get(getOne, 'data.uz'),
                 organizationId: get(getOne, 'data.organizationId'),
             };
         }, [getOne?.data]),
@@ -47,7 +49,9 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
 
     useEffect(() => {
         reset({
-            value: get(getOne, 'data.value'),
+            eng: get(getOne, 'data.eng'),
+            ru: get(getOne, 'data.ru'),
+            uz: get(getOne, 'data.uz'),
             organizationId: get(getOne, 'data.organizationId'),
         });
     }, [getOne?.data]);
@@ -93,7 +97,9 @@ const Edit = ({ refetch, setOpen, typeId }: any) => {
                         />
                     )}
                 />
-                <MyTextarea label={t('Value')}  {...register('value')} />
+                <MyTextarea label={t('Reason uz')}  {...register('uz')} />
+                <MyTextarea label={t('Reason en')}  {...register('eng')} />
+                <MyTextarea label={t('Reason ru')}  {...register('ru')} />
                 <div className="mt-2 flex items-center justify-end gap-4">
                     <MyButton variant="primary" type="submit">
                         {t('Save changes')}

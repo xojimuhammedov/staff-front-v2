@@ -8,10 +8,10 @@ import { URLS } from 'constants/url';
 import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import TableProvider from 'providers/TableProvider/TableProvider';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
 
@@ -66,6 +66,26 @@ function MainGate() {
         )
       },
       {
+        key: 'credential',
+        label: t('Credential name'),
+        headerClassName: 'flex-1',
+        cellRender: (row) => (
+          <div className="flex items-center gap-4 dark:text-text-title-dark">
+            {row?.credential?.type ?? "--"}
+          </div>
+        )
+      },
+      {
+        key: 'device',
+        label: t('Device name'),
+        headerClassName: 'flex-1',
+        cellRender: (row) => (
+          <div className="flex items-center gap-4 dark:text-text-title-dark">
+            {row?.device?.name ?? "--"}
+          </div>
+        )
+      },
+      {
         key: 'status',
         label: t('Status'),
         cellRender: (row) => {
@@ -95,6 +115,16 @@ function MainGate() {
     },
     {
       id: 3,
+      label: t('Type'),
+      headerClassName: 'flex-1',
+    },
+    {
+      id: 4,
+      label: t('Device name'),
+      headerClassName: 'flex-1',
+    },
+    {
+      id: 5,
       label: t('Status')
     },
   ];
