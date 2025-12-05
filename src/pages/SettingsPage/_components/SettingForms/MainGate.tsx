@@ -8,12 +8,16 @@ import { URLS } from 'constants/url';
 import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import TableProvider from 'providers/TableProvider/TableProvider';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
+import MyButton from 'components/Atoms/MyButton/MyButton';
+import MyModal from 'components/Atoms/MyModal';
+import FixIssueModal from './FixIssueModal';
+import { ArrowLeft } from 'lucide-react';
 
 type FilterType = {
   search: string;
@@ -29,10 +33,10 @@ type TItem = {
 
 function MainGate() {
   const { t } = useTranslation();
+  const navigate = useNavigate()
   const { id } = useParams()
   const location = useLocation()
   const searchValue: searchValue = paramsStrToObj(location?.search)
-
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.hikvisionEmployeeSync,
     url: URLS.hikvisionEmployeeSync,
@@ -88,6 +92,7 @@ function MainGate() {
       {
         key: 'status',
         label: t('Status'),
+        headerClassName: 'flex-1',
         cellRender: (row) => {
           if (row?.status) {
             return (
@@ -98,6 +103,13 @@ function MainGate() {
           } else return '--';
         }
       },
+      {
+        key: "message",
+        label: t("Check error"),
+        headerClassName: 'flex-1',
+        cellRender: (row) =>
+          <FixIssueModal row={row} />
+      }
     ],
     [t]
   );
@@ -125,14 +137,26 @@ function MainGate() {
     },
     {
       id: 5,
-      label: t('Status')
+      label: t('Status'),
+      headerClassName: 'flex-1',
     },
+    {
+      id: 6,
+      label: t("Check error"),
+      headerClassName: 'flex-1',
+    }
   ];
 
   return (
     <PageContentWrapper>
       <div className={'flex justify-between'}>
         <LabelledCaption title={t('Main gate')} subtitle={t('See and manage door configs')} />
+        <MyButton
+          onClick={() => navigate('/settings')}
+          variant="secondary"
+          startIcon={<ArrowLeft />}>
+          {t('Back to gates list')}
+        </MyButton>
       </div>
       <MyDivider />
       <TableProvider<TItem, FilterType>

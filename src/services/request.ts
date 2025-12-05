@@ -35,9 +35,8 @@ request.interceptors.response.use(
           refreshToken: refreshTokenExpire
         });
 
-        const { accessToken, refreshToken } = response?.data;
+        const { accessToken } = response?.data;
         storage.set('accessToken', accessToken);
-        storage.set('refreshToken', refreshToken);
 
         // Retry original request
         return axios(error.config);
