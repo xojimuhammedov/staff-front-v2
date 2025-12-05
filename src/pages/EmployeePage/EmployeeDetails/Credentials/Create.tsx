@@ -11,7 +11,7 @@ import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import React from 'react';
 import { ISelect } from 'interfaces/select.interface';
-import credentialTypeData from 'configs/type';
+import { credentialTypeData } from 'configs/type';
 
 const Form = ({ refetch, onClose, employeeId }: any) => {
     const { t } = useTranslation()

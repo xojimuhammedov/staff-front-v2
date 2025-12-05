@@ -28,7 +28,7 @@ const GeneralDetails = () => {
 
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
-    url: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
     hideErrorMsg: true,
     params: {},
   })

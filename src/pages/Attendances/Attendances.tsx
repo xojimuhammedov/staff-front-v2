@@ -42,7 +42,7 @@ const Attendances = () => {
                         className="dark:bg-bg-input-dark"
                         placeholder={t('Search...')}
                     />
-                    <div className="w-[380px]">
+                    <div className="w-[400px]">
                         <MyTailwindPicker
                             useRange={true}
                             name='date'

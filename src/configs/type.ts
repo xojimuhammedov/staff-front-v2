@@ -36,4 +36,37 @@ const credentialTypeData = [
     }
 ]
 
-export default credentialTypeData
+const typeData = [
+    {
+        id: 1,
+        value: "CARD",
+        label: "CARD"
+    },
+    {
+        id: 2,
+        value: "CAR",
+        label: "CAR"
+    },
+    {
+        id: 3,
+        value: "QR",
+        label: "QR"
+    },
+    {
+        id: 4,
+        value: "PERSONAL_CODE",
+        label: "PERSONAL_CODE"
+    },
+    {
+        id: 5,
+        value: "ONE_TIME_ID",
+        label: "ONE_TIME_ID"
+    },
+    {
+        id: 7,
+        value: "USER",
+        label: "USER"
+    }
+]
+
+export { credentialTypeData, typeData }

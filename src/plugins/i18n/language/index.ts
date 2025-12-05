@@ -6,7 +6,7 @@ export const resources = {
   ru: {
     translation: ru
   },
-  en: {
+  eng: {
     translation: en
   },
   uz: {

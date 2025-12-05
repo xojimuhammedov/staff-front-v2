@@ -9,7 +9,7 @@ import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { get } from 'lodash';
 import { ISelect } from 'interfaces/select.interface';
-import credentialTypeData from 'configs/type';
+import { credentialTypeData } from 'configs/type';
 
 const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => {
     const { t } = useTranslation()

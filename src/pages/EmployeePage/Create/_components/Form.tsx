@@ -6,7 +6,7 @@ import { useImageCropContext } from 'context/ImageCropProvider';
 import { readFile } from 'helpers/cropImage';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { get } from 'lodash';
-import { UploadCloud } from 'lucide-react';
+import { Plus, Trash2, UploadCloud } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
@@ -22,6 +22,14 @@ import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import { request } from 'services/request';
 import storage from 'services/storage';
+import { typeData } from 'configs/type';
+import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
+
+interface Credential {
+  code: string;
+  type: 'CAR' | 'QR';
+  additionalDetails: string;
+}
 
 function Form() {
   const { t } = useTranslation();
@@ -29,6 +37,13 @@ function Form() {
   const userRole = JSON.parse(userData)?.role
   const [openModal, setOpenModal] = useState(false);
   const [imageKey, setImageKey] = useState(null)
+  const [credentials, setCredentials] = useState<Credential[]>([
+    {
+      code: '',
+      type: 'QR',
+      additionalDetails: '',
+    },
+  ]);
   const navigate = useNavigate()
   const [preview, setPreview] = useState<any>();
   const { getProcessedImage, setImage, resetStates }: any = useImageCropContext();
@@ -120,6 +135,7 @@ function Form() {
         url: URLS.getEmployeeList,
         attributes: {
           photo: imageKey,
+          credentials: credentials,
           ...data
         }
       },
@@ -133,6 +149,31 @@ function Form() {
         }
       }
     );
+  };
+
+  const addCredential = () => {
+    setCredentials([
+      ...credentials,
+      {
+        code: '',
+        type: 'QR',
+        additionalDetails: '',
+      },
+    ]);
+  };
+
+  const removeCredential = (index: number) => {
+    if (credentials.length === 1) {
+      alert("Kamida bitta hujjat qoldirish kerak!");
+      return;
+    }
+    setCredentials(credentials.filter((_, i) => i !== index));
+  };
+
+  const updateCredential = (index: number, field: keyof Credential, value: any) => {
+    const updated = [...credentials];
+    updated[index] = { ...updated[index], [field]: value };
+    setCredentials(updated);
   };
 
 
@@ -239,6 +280,36 @@ function Form() {
             </label>
           </div>
         </div>
+        {
+          credentials?.map((item, index) => (
+            <div className='flex items-center gap-4 w-3/4'>
+              <div key={index} className='grid grid-cols-3 gap-3 mt-4 w-full'>
+                <MySelect
+                  label={t("Select type")}
+                  options={typeData?.map((evt: any) => ({
+                    label: evt.label,
+                    value: evt.value,
+                  }))}
+                  value={item.type}
+                  onChange={(val) => updateCredential(index, 'type', ((val as ISelect)?.value ?? val) as Credential['type'])}
+                  allowedRoles={["ADMIN", "HR"]}
+                />
+                <MyInput
+                  value={item?.code}
+                  onChange={(e) => updateCredential(index, 'code', e.target.value)}
+                  label={t('Code')}
+                />
+                <MyInput
+                  value={item?.additionalDetails}
+                  onChange={(e) => updateCredential(index, 'additionalDetails', e.target.value)}
+                  label={t('Add information')}
+                />
+              </div>
+              <MyButton startIcon={<Trash2 size={DEFAULT_ICON_SIZE} />} type='button' className={'border p-2 mt-10'} onClick={() => removeCredential(index)} />
+            </div>
+          ))
+        }
+        <MyButton startIcon={<Plus size={DEFAULT_ICON_SIZE} />} type='button' className={'border p-2 mt-4'} onClick={addCredential} />
         <MyDivider />
         <MyButton
           type='submit'

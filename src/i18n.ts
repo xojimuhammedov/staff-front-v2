@@ -3,14 +3,13 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { resources } from './plugins/i18n/language';
 
-const availableLanguages = ['ru', 'en'] as const;
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     debug: true,
-    fallbackLng: 'en',
+    fallbackLng: 'eng',
     interpolation: {
       escapeValue: false
     },

@@ -8,6 +8,11 @@ interface Schedule {
     weekdays: string
 }
 
+interface CredentialType {
+    type: string,
+    code: string
+}
+
 interface PersonalInfoData {
     phone: string;
     carPlateNumber: string;
@@ -16,6 +21,7 @@ interface PersonalInfoData {
     department: any;
     todayActiveTime: string;
     plan: Schedule,
+    credentials?: CredentialType[]
 }
 
 interface PersonalInfoProps {
@@ -31,6 +37,10 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
             ? `${days[0]} - ${days[days?.length - 1]}`
             : days[0] || '-';
     };
+
+    const carCode = data?.credentials?.find((item: CredentialType) => item?.type === "CAR")
+
+    console.log(carCode)
     const infoItems = [
         {
             label: t("PHONE"),
@@ -40,7 +50,7 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
         },
         {
             label: t("CAR PLATE NUMBER"),
-            value: "HRN 996 09",
+            value: carCode?.code,
             Icon: 'Car',
             iconColor: 'text-gray-500'
         },

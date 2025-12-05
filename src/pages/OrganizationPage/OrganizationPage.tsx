@@ -77,7 +77,7 @@ const OrganizationPage = () => {
               onClick={() => setShowModal(true)}
               allowedRoles={['ADMIN']}
               variant="primary"
-              className="[&_svg]:stroke-bg-white text-sm w-[180px] dark:text-text-base">
+              className="[&_svg]:stroke-bg-white text-sm w-[230px] dark:text-text-base">
               {t('Add Organization')}
             </MyButton>
           </div>

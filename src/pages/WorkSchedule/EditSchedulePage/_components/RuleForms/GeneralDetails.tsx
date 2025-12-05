@@ -27,6 +27,7 @@ const GeneralDetails = () => {
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
     params: {},
+    hideErrorMsg: true,
   })
 
   const { data: getOneSchedule, refetch } = useGetOneQuery({

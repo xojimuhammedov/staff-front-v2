@@ -117,8 +117,8 @@ function FormDoorEdit({ handleClick }: any) {
         <div className="my-10 flex">
           <div className="w-[50%]">
             <LabelledCaption
-              title={t('Door name')}
-              subtitle={t('Short and easy-to-understand name')}
+              title={t('Organization')}
+              subtitle={t('')}
             />
           </div>
           <div className="w-[50%]">

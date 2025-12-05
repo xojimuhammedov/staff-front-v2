@@ -18,7 +18,7 @@ const languageData = [
   },
   {
     id: 2,
-    value: 'en',
+    value: 'eng',
     title: 'English',
     image: EnglishImg
   },

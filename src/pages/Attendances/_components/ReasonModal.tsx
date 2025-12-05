@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 function ReasonModal({ row, refetch }: any) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [open, setOpen] = useState(false);
 
     const { data }: any = useGetAllQuery({
@@ -51,7 +51,7 @@ function ReasonModal({ row, refetch }: any) {
     return (
         <>
             {
-                row?.reasons?.value ?
+                row?.reasons ?
                     <MyButton onClick={() => setOpen(true)} variant="secondary">
                         {t('Sababli')}
                     </MyButton> :
@@ -75,11 +75,11 @@ function ReasonModal({ row, refetch }: any) {
                     children: (
                         <>
                             {
-                                row?.reasons?.value ? (
+                                row?.reasons ? (
                                     <>
                                         <p className='dark:text-text-title-dark'>{t('Reason')}</p>
                                         <h2 className="mt-2 text-base dark:text-text-title-dark font-medium leading-7">
-                                            {row?.reasons?.value}
+                                            {row?.reasons?.[`${i18n?.language}`]}
                                         </h2>
                                         <MyDivider />
                                         <div className="mt-6 flex items-center justify-end gap-4">
@@ -94,27 +94,31 @@ function ReasonModal({ row, refetch }: any) {
                                     </>
                                 ) : (
                                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">
-                                        <Controller
-                                            name="reasonTypeId"
-                                            control={control}
-                                            render={({ field, fieldState }) => (
-                                                <MySelect
-                                                    label={t("Select type")}
-                                                    options={data?.items?.map((evt: any) => ({
-                                                        label: evt.value,
-                                                        value: evt.id,
-                                                    }))}
-                                                    value={field.value as any}  // 👈 cast to any
-                                                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                                                    onBlur={field.onBlur}
-                                                    error={!!fieldState.error}
-                                                    allowedRoles={['ADMIN']}
-                                                    required
-                                                />
-                                            )}
-                                        />
                                         {
-                                            watch("reasonTypeId") === 4 ? (
+                                            watch("reasonTypeId") !== 1 ? (
+                                                <Controller
+                                                    name="reasonTypeId"
+                                                    control={control}
+                                                    render={({ field, fieldState }) => (
+                                                        <MySelect
+                                                            label={t("Select type")}
+                                                            options={data?.items?.map((evt: any) => ({
+                                                                label: evt[`${i18n?.language}`],
+                                                                value: evt.id,
+                                                            }))}
+                                                            value={field.value as any}  // 👈 cast to any
+                                                            onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                                                            onBlur={field.onBlur}
+                                                            error={!!fieldState.error}
+                                                            allowedRoles={['ADMIN']}
+                                                            required
+                                                        />
+                                                    )}
+                                                />
+                                            ) : null
+                                        }
+                                        {
+                                            watch("reasonTypeId") === 1 ? (
                                                 <MyTextarea label={t('Note')}  {...register('reason')} />
                                             ) : null
                                         }
