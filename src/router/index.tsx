@@ -26,6 +26,7 @@ const CreateSchedulePage = lazy(() => import('pages/WorkSchedule/CreateScheduleP
 const EditSchedulePage = lazy(() => import('pages/WorkSchedule/EditSchedulePage'))
 
 const ViewDepartment = lazy(() => import('pages/ViewDepartment'))
+const ReportPage = lazy(() => import('pages/ReportPage'))
 
 export const PublicRoutes = [
   {
@@ -153,6 +154,11 @@ export const PrivateRoutes = [
   {
     path: '/workschedule/edit/:id',
     element: <EditSchedulePage />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: '/reports',
+    element: <ReportPage />,
     roles: ["ADMIN", "HR"],
   }
 ];

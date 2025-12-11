@@ -14,8 +14,9 @@ import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit3, Trash2 } from 'lucide-react';
 import Create from './Create';
-import Edit from './Edit';
+// import Edit from './Edit';
 import MyModal from 'components/Atoms/MyModal';
+import Edit from './Edit';
 
 type FilterType = {
     search: string;
@@ -27,24 +28,24 @@ type TItem = {
     ipAddress: string;
 };
 
-const TypeList = () => {
+const JobList = () => {
     const { t, i18n } = useTranslation();
     const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState(null)
     const { data, isLoading, refetch } = useGetAllQuery({
-        key: KEYS.attendancesReason,
-        url: URLS.attendancesReason,
+        key: KEYS.employeeJobPosition,
+        url: URLS.employeeJobPosition,
         params: {}
     });
 
     const { mutate: deleteRequest } = useDeleteQuery({
-        listKeyId: KEYS.attendancesReason
+        listKeyId: KEYS.employeeJobPosition
     });
 
     const deleteItem = (id: number) => {
         deleteRequest(
             {
-                url: `${URLS.attendancesReason}/${id}`
+                url: `${URLS.employeeJobPosition}/${id}`
             },
             {
                 onSuccess: () => {
@@ -58,7 +59,7 @@ const TypeList = () => {
         () => [
             {
                 key: 'value',
-                label: t('Reason value'),
+                label: t('Position'),
                 headerClassName: 'sm:w-1/4 lg:flex-1',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
@@ -73,7 +74,7 @@ const TypeList = () => {
     const dataColumn = [
         {
             id: 1,
-            label: t('Reason value'),
+            label: t('Position'),
             headerClassName: 'sm:w-1/4 lg:flex-1'
         },
     ];
@@ -114,8 +115,8 @@ const TypeList = () => {
         <div>
             <div className={'flex justify-between'}>
                 <LabelledCaption
-                    title={t('Reason type')}
-                    subtitle={t('Attendances list for reason type')}
+                    title={t('Job name')}
+                    subtitle={t('Employee list for position name')}
                 />
                 <Create refetch={refetch} />
             </div>
@@ -144,7 +145,7 @@ const TypeList = () => {
                     size: 'md'
                 }}
                 headerProps={{
-                    children: <h2 className="dark:text-text-title-dark">{t('Reason')}</h2>
+                    children: <h2 className="dark:text-text-title-dark">{t('Position')}</h2>
                 }}
                 bodyProps={{
                     children: (
@@ -157,4 +158,4 @@ const TypeList = () => {
     );
 };
 
-export default TypeList;
+export default JobList;

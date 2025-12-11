@@ -1,9 +1,9 @@
-import { MyInput } from 'components/Atoms/Form';
-import React, { useEffect, useMemo } from 'react';
+import { MyInput, MySelect } from 'components/Atoms/Form';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { KEYS } from 'constants/key';
-import { usePutQuery } from 'hooks/api';
+import { useGetAllQuery, usePutQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
@@ -11,6 +11,13 @@ import { get } from 'lodash';
 
 const EditForm = ({ onClose, refetch, data, organizationId }: any) => {
   const { t } = useTranslation()
+  const [selectGates, setSelectGates] = useState<number[]>([]);
+
+  const { data: getDoor }: any = useGetAllQuery({
+    key: KEYS.getDoorGates,
+    url: URLS.getDoorGates,
+    params: {}
+  });
 
   const {
     handleSubmit,
@@ -46,6 +53,31 @@ const EditForm = ({ onClose, refetch, data, organizationId }: any) => {
     listKeyId: KEYS.getAllListOrganization,
     hideSuccessToast: true
   });
+
+  useEffect(() => {
+    if (data?.data?.gates) {
+
+      const savedGateIds =
+        data?.data?.gates
+          ? data?.data?.gates.map((g: any) => g.id)
+          : data?.data?.gates || [];
+
+      setSelectGates(savedGateIds); // Bu yer muhim!
+    }
+  }, [data?.data?.gates]);
+
+  const options = useMemo(() =>
+    getDoor?.data?.map((item: any) => ({
+      label: item.name,
+      value: item.id,
+    })) || [],
+    [getDoor?.data]);
+
+  // Tanlangan optionlarni React Select ga berish uchun
+  const selectedValues = useMemo(() =>
+    options.filter((option: any) => selectGates.includes(option.value)),
+    [options, selectGates]
+  );
 
   const onSubmit = (data: any) => {
     update(
@@ -112,6 +144,17 @@ const EditForm = ({ onClose, refetch, data, organizationId }: any) => {
             label={t('Phone number')}
           />
         </div>
+        <MySelect
+          isMulti
+          options={options}
+          value={selectedValues}        // Bu yerda to'g'ri tanlanganlar ko'rinadi
+          onChange={(selected: any) => {
+            const ids = selected ? selected.map((s: any) => s.value) : [];
+            setSelectGates(ids);
+          }}
+          label={t("Gates")}
+          allowedRoles={["ADMIN"]}
+        />
         <div className="mt-2 flex w-full justify-end gap-4">
           <MyButton
             type='submit'

@@ -25,5 +25,6 @@ export const URLS = {
   attendacesForEmployee:"/api/v1/attendances",
   employeeSchedulePlan:"/api/v1/employee-plans",
   employeePlansAssign:"/api/v1/employee-plans/assign",
-  attendancesReason:"/api/v1/reasons"
+  attendancesReason:"/api/v1/reasons",
+  employeeJobPosition:"/api/v1/jobs"
 };

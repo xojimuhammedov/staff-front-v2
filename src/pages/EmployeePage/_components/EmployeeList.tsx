@@ -37,6 +37,8 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
     params: {
       search: searchValue?.search,
       departmentId: searchValue?.subdepartmentId,
+      page: searchValue?.page || 1,
+      limit: searchValue?.pageSize || 10,
     }
   });
   const columns: DataGridColumnType[] = useMemo(

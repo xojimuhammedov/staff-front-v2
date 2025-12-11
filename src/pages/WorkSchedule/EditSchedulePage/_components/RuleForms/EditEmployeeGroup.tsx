@@ -8,7 +8,7 @@ import { useGetAllQuery, useGetOneQuery, usePostQuery } from 'hooks/api';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const EditEmployeeGroup = () => {
@@ -27,7 +27,9 @@ const EditEmployeeGroup = () => {
     const { data } = useGetAllQuery<any>({
         key: KEYS.getEmployeeList,
         url: URLS.getEmployeeList,
-        params: {}
+        params: {
+            limit: 100
+        }
     });
 
     const {

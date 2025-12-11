@@ -27,14 +27,20 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
           icon: 'Bell',
           name: t('Devices'),
           path: 'deviceControl',
-          isSwitch: false 
+          isSwitch: false
         },
         {
           icon: 'Reason type',
           name: t('Reason type'),
           path: 'reason_type',
-          isSwitch: false 
+          isSwitch: false
         },
+        {
+          icon: "Reason type",
+          name: t("Job name"),
+          path: "job_position",
+          isSwitch: false
+        }
       ]
     }
   ];

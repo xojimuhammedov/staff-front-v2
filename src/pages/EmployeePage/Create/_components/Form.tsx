@@ -32,7 +32,7 @@ interface Credential {
 }
 
 function Form() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const userData: any = storage.get("userData")
   const userRole = JSON.parse(userData)?.role
   const [openModal, setOpenModal] = useState(false);
@@ -94,6 +94,13 @@ function Form() {
     hideErrorMsg: true
   })
 
+  const { data: jobData } = useGetAllQuery<any>({
+    key: KEYS.employeeJobPosition,
+    url: URLS.employeeJobPosition,
+    params: {},
+    hideErrorMsg: true
+  })
+
   const schema = object().shape({
     name: string().required(),
     address: string(),
@@ -110,6 +117,7 @@ function Form() {
         role === 'ADMIN' ? schema.required() : schema.optional()
       ),
     additionalDetails: string(),
+    jobId: yup.number().required()
   });
   const {
     handleSubmit,
@@ -246,6 +254,24 @@ function Form() {
                   label={t("Select department")}
                   options={get(getDepartment, "data")?.map((evt: Department) => ({
                     label: evt.fullName,
+                    value: evt.id,
+                  }))}
+                  value={field.value as any}  // 👈 cast to any
+                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                  onBlur={field.onBlur}
+                  error={!!fieldState.error}
+                  allowedRoles={["ADMIN", "HR"]}
+                />
+              )}
+            />
+            <Controller
+              name="jobId"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MySelect
+                  label={t("Select position")}
+                  options={get(jobData, "items")?.map((evt: any) => ({
+                    label: evt[`${i18n?.language}`],
                     value: evt.id,
                   }))}
                   value={field.value as any}  // 👈 cast to any

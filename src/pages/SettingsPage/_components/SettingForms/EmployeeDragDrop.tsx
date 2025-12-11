@@ -93,22 +93,22 @@ function EmployeeDragDrop() {
   const finalEmployees =
     data?.data?.filter((emp) => finalSelectedIds.includes(emp.id)) ?? [];
 
-  const options =
-    getDoor?.data?.map((item: any) => ({
-      label: item.name,
-      value: item.id,
-    })) || [];
+  // const options =
+  //   getDoor?.data?.map((item: any) => ({
+  //     label: item.name,
+  //     value: item.id,
+  //   })) || [];
 
-  // value qiymatini options asosida topish
-  const value = options.filter((option: any) =>
-    selectGates.includes(option.value)
-  );
+  // // value qiymatini options asosida topish
+  // const value = options.filter((option: any) =>
+  //   selectGates.includes(option.value)
+  // );
 
-  // onchange hodisasi
-  const handleChange = (selected: any) => {
-    const ids = selected.map((s: any) => s.value);
-    setSelectGates(ids);
-  };
+  // // onchange hodisasi
+  // const handleChange = (selected: any) => {
+  //   const ids = selected.map((s: any) => s.value);
+  //   setSelectGates(ids);
+  // };
 
 
   const onSubmit = (data: any) => {
@@ -139,7 +139,7 @@ function EmployeeDragDrop() {
       className={
         'mt-12 min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme'
       }>
-      <div className="mb-12 flex w-full items-start justify-between">
+      {/* <div className="mb-12 flex w-full items-start justify-between">
         <LabelledCaption
           className="flex-1"
           title={t('Gates')}
@@ -154,7 +154,7 @@ function EmployeeDragDrop() {
             allowedRoles={["ADMIN"]}
           />
         </div>
-      </div>
+      </div> */}
       <div className="mb-12 flex w-full items-start justify-between">
         <LabelledCaption
           className="flex-1"

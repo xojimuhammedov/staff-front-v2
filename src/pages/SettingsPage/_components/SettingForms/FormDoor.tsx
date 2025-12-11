@@ -6,14 +6,12 @@ import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
-import { ISelect } from 'interfaces/select.interface';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string } from 'yup';
-import * as yup from "yup";
 
 function FormDoor() {
   const { t } = useTranslation();

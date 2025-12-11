@@ -1,11 +1,11 @@
-import { MyCheckbox, MyInput } from "components/Atoms/Form";
+import { MyCheckbox, MyInput, MySelect } from "components/Atoms/Form";
 import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import LabelledCaption from "components/Molecules/LabelledCaption";
 import config from "configs";
 import { get } from "lodash";
 import { Search, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useNavigate,
@@ -43,6 +43,7 @@ function EmployeeDragDrop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]); // yakuniy tanlanganlar
+  const [selectGates, setSelectGates] = useState<number[]>([]);
 
   const { mutate: create } = usePostQuery({
     listKeyId: KEYS.devicesEmployeeAssign,
@@ -61,6 +62,12 @@ function EmployeeDragDrop() {
     params: {},
     enabled: !!id
   })
+
+  const { data: getDoor }: any = useGetAllQuery({
+    key: KEYS.getDoorGates,
+    url: URLS.getDoorGates,
+    params: {}
+  });
 
   const { handleSubmit } = useForm()
 
@@ -117,6 +124,33 @@ function EmployeeDragDrop() {
   const notSelectedEmployees =
     employeeList?.data?.filter((emp: Employee) => !finalSelectedIds.includes(emp.id)) ?? [];
 
+  /////////
+
+  // useEffect(() => {
+  //   if (data?.data?.gates) {
+
+  //     const savedGateIds =
+  //       data?.data?.gates
+  //         ? data?.data?.gates.map((g: any) => g.id)
+  //         : data?.data?.gates || [];
+
+  //     setSelectGates(savedGateIds); // Bu yer muhim!
+  //   }
+  // }, [data?.data?.gates]);
+
+  const options = useMemo(() =>
+    getDoor?.data?.map((item: any) => ({
+      label: item.name,
+      value: item.id,
+    })) || [],
+    [getDoor?.data]);
+
+  // Tanlangan optionlarni React Select ga berish uchun
+  const selectedValues = useMemo(() =>
+    options.filter((option: any) => selectGates.includes(option.value)),
+    [options, selectGates]
+  );
+
   const onSubmit = () => {
     const submitData = {
       employeeIds: finalSelectedIds,
@@ -146,6 +180,25 @@ function EmployeeDragDrop() {
         "mt-12 min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme"
       }
     >
+      <div className="mb-12 flex w-full items-start justify-between">
+        <LabelledCaption
+          className="flex-1"
+          title={t('Gates')}
+          subtitle={t('')}
+        />
+        <div className='w-[462px]'>
+          <MySelect
+            isMulti
+            options={options}
+            value={selectedValues}        // Bu yerda to'g'ri tanlanganlar ko'rinadi
+            onChange={(selected: any) => {
+              const ids = selected ? selected.map((s: any) => s.value) : [];
+              setSelectGates(ids);
+            }}
+            allowedRoles={["ADMIN"]}
+          />
+        </div>
+      </div>
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
           <LabelledCaption

@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
 import { useTranslation } from 'react-i18next';
-import MyInputMask from 'components/Atoms/Form/MyInputMask';
 import { KEYS } from 'constants/key';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { toast } from 'react-toastify';

@@ -21,7 +21,7 @@ import ImageCropModalContent from 'pages/EmployeePage/Create/_components/ImageCr
 import config from 'configs';
 
 function Form() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
   const [imageKey, setImageKey] = useState(null)
   const { id } = useParams()
@@ -73,6 +73,14 @@ function Form() {
     params: {},
     enabled: !!id
   })
+
+  const { data: jobData } = useGetAllQuery<any>({
+    key: KEYS.employeeJobPosition,
+    url: URLS.employeeJobPosition,
+    params: {},
+    hideErrorMsg: true
+  })
+
   const {
     handleSubmit,
     register,
@@ -88,6 +96,7 @@ function Form() {
         phone: get(data, 'data.phone'),
         additionalDetails: get(data, 'data.additionalDetails'),
         departmentId: get(data, 'data.departmentId'),
+        jobId: get(data, 'data.jobId'),
         photo: get(data, 'data.photo'),
       };
     }, [data]),
@@ -103,6 +112,7 @@ function Form() {
       address: get(data, 'data.address'),
       departmentId: get(data, 'data.departmentId'),
       photo: get(data, 'data.photo'),
+      jobId: get(data, 'data.jobId'),
     });
   }, [data]);
 
@@ -191,6 +201,24 @@ function Form() {
                   label={t("Select department")}
                   options={get(getDepartment, "data")?.map((evt: Department) => ({
                     label: evt.fullName,
+                    value: evt.id,
+                  }))}
+                  value={field.value as any}  // 👈 cast to any
+                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                  onBlur={field.onBlur}
+                  error={!!fieldState.error}
+                  allowedRoles={["ADMIN", "HR"]}
+                />
+              )}
+            />
+            <Controller
+              name="jobId"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MySelect
+                  label={t("Select position")}
+                  options={get(jobData, "items")?.map((evt: any) => ({
+                    label: evt[`${i18n?.language}`],
                     value: evt.id,
                   }))}
                   value={field.value as any}  // 👈 cast to any

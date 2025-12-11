@@ -7,7 +7,7 @@ import { URLS } from "constants/url";
 import { useGetAllQuery, useGetOneQuery, usePutQuery } from "hooks/api";
 import { ISelect } from "interfaces/select.interface";
 import { get } from "lodash";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ function FormDoorEdit({ handleClick }: any) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [selectGates, setSelectGates] = useState<number[]>([]);
 
   const { data } = useGetOneQuery({
     id: id,
@@ -31,6 +32,31 @@ function FormDoorEdit({ handleClick }: any) {
     hideErrorMsg: true,
     params: {},
   })
+
+  // useEffect(() => {
+  //   if (data?.data?.gates) {
+
+  //     const savedGateIds =
+  //       data?.data?.gates
+  //         ? data?.data?.gates.map((g: any) => g.id)
+  //         : data?.data?.gates || [];
+
+  //     setSelectGates(savedGateIds); // Bu yer muhim!
+  //   }
+  // }, [data?.data?.gates]);
+
+  const options = useMemo(() =>
+    getOrganization?.data?.map((item: any) => ({
+      label: item.fullName,
+      value: item.id,
+    })) || [],
+    [getOrganization?.data]);
+
+  // Tanlangan optionlarni React Select ga berish uchun
+  const selectedValues = useMemo(() =>
+    options.filter((option: any) => selectGates.includes(option.value)),
+    [options, selectGates]
+  );
 
   const {
     handleSubmit,
@@ -121,25 +147,20 @@ function FormDoorEdit({ handleClick }: any) {
               subtitle={t('')}
             />
           </div>
-          <div className="w-[50%]">
-            <Controller
-              name="organizationId"
-              control={control}
-              render={({ field, fieldState }) => (
-                <MySelect
-                  options={getOrganization?.data?.map((evt: any) => ({
-                    label: evt.fullName,
-                    value: evt.id,
-                  }))}
-                  value={field.value as any}
-                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                  onBlur={field.onBlur}
-                  error={!!fieldState.error}
-                  allowedRoles={["ADMIN"]}
-                />
-              )}
+
+          <div className="w-1/2">
+            <MySelect
+              isMulti
+              options={options}
+              value={selectedValues}      
+              onChange={(selected: any) => {
+                const ids = selected ? selected.map((s: any) => s.value) : [];
+                setSelectGates(ids);
+              }}
+              allowedRoles={["ADMIN"]}
             />
           </div>
+
         </div>
         <div className="flex justify-end">
           <MyButton type="submit" variant="primary">
