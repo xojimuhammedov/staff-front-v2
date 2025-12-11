@@ -16,6 +16,7 @@ import { ISelect } from 'interfaces/select.interface';
 import MyTimePicker from 'components/Atoms/Form/MyTimePicker';
 import weekDay from 'configs/weekday';
 import storage from 'services/storage';
+import extraDate from 'configs/extraDate';
 
 const GeneralDetails = () => {
   const { t } = useTranslation();
@@ -183,11 +184,17 @@ const GeneralDetails = () => {
               name="extraTime"
               control={control}
               render={({ field, fieldState }) => (
-                <MyTimePicker
-                  {...field}
-                  label={t("Extra time")}
+                <MySelect
+                  label={t("Select extra time")}
+                  options={extraDate?.map((evt: any) => ({
+                    label: evt,
+                    value: evt,
+                  }))}
+                  value={field.value as any}  // 👈 cast to any
+                  onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                  onBlur={field.onBlur}
                   error={!!fieldState.error}
-                  helperText={fieldState.error?.message}
+                  allowedRoles={["ADMIN", "HR"]}
                 />
               )}
             />
