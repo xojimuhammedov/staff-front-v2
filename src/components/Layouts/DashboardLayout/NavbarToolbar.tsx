@@ -65,7 +65,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
     setIsOpen(false);
   };
 
-  const languageTitle = i18n.language === 'ru' ? 'Русский' : i18n.language === "en" ? 'English' : "O'zbek";
+  const languageTitle = i18n.language === 'ru' ? 'Русский' : i18n.language === "eng" ? 'English' : "O'zbek";
   const i18nData = languageData.filter((item: any) => item.title !== languageTitle);
 
   return (
@@ -78,7 +78,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
           }}
           className="flex items-center gap-2 px-[10px] py-[4px]">
           <img
-            src={i18n.language === 'ru' ? RusImg : i18n.language === "en" ? EnglishImg : UzbekImg}
+            src={i18n.language === 'ru' ? RusImg : i18n.language === "eng" ? EnglishImg : UzbekImg}
             className="h-6 w-6 rounded-full"
             alt=""
           />

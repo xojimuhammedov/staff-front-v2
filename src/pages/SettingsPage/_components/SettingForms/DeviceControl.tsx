@@ -5,7 +5,7 @@ import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types
 import { useMemo } from 'react';
 import TableProvider from 'providers/TableProvider/TableProvider';
 import DataGrid from 'components/Atoms/DataGrid';
-import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery, usePostQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -13,7 +13,7 @@ import MyBadge from 'components/Atoms/MyBadge';
 import Loading from 'assets/icons/Loading';
 import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { Trash2 } from 'lucide-react';
+import { ExternalLink, Trash2 } from 'lucide-react';
 
 type FilterType = {
   search: string;
@@ -44,6 +44,24 @@ const DeviceControl = () => {
     deleteRequest(
       {
         url: `${URLS.getDoorForDevices}/${id}`
+      },
+      {
+        onSuccess: () => {
+          refetch();
+        }
+      }
+    );
+  };
+
+  const { mutate } = usePostQuery({
+    listKeyId: KEYS.deviceForDoor
+  });
+
+  const employeeForDoor = (id: number) => {
+    mutate(
+      {
+        url: `${URLS.deviceForDoor}/${id}`,
+        attributes: {}
       },
       {
         onSuccess: () => {
@@ -117,6 +135,14 @@ const DeviceControl = () => {
         name: t('Delete'),
         action: (row) => {
           deleteItem(row?.id)
+        }
+      },
+      {
+        icon: <ExternalLink size={DEFAULT_ICON_SIZE} />,
+        type: 'danger',
+        name: t('Open door'),
+        action: (row) => {
+          employeeForDoor(row?.id)
         }
       }
     ],
