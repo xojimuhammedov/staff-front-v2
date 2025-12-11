@@ -70,7 +70,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
 
   return (
     <div ref={dropdownRef} className="ml-auto flex flex-row items-center gap-5">
-      <div className="flex  cursor-pointer items-center justify-center rounded-xl shadow-base">
+      <div className="flex cursor-pointer items-center justify-center rounded-xl shadow-base">
         <div
           onClick={(event) => {
             toggleDropdown();
