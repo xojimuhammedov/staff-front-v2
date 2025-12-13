@@ -69,6 +69,20 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                             rowSpan={2}>
                             {t('According to plan')}
                         </th>
+                        {
+                            data[0]?.daysStatistics?.map((item: any) => (
+                                <th
+                                    style={{
+                                        height: '30px',
+                                        fontSize: '12px',
+                                        border: '1px solid gray',
+                                        textAlign: 'center'
+                                    }}
+                                    rowSpan={2}>
+                                    {item?.weekDay}
+                                </th>
+                            ))
+                        }
                         <th
                             style={{
                                 height: '30px',
@@ -229,6 +243,20 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                     }}>
                                     {evt?.workSchedule}
                                 </td>
+                                {
+                                    evt?.daysStatistics?.map((item: any) => (
+                                        <td
+                                            style={{
+                                                height: '30px',
+                                                fontSize: '12px',
+                                                border: '1px solid gray',
+                                                textAlign: 'center',
+                                                backgroundColor: item?.status === "ABSENT" ? "pink" : item?.status === "LATE" ? "yellow" : "transparent"
+                                            }}>
+                                            {item?.startTime && item?.endTime ? `(${item?.startTime}:${item?.endTime})` : "X"} {" "}  {item?.totalHours === "0" ? "" : item?.totalHours}
+                                        </td>
+                                    ))
+                                }
                                 <td
                                     style={{
                                         height: '30px',

@@ -15,6 +15,8 @@ import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useForm } from 'react-hook-form';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyButton from 'components/Atoms/MyButton/MyButton';
+import isoWeek from 'dayjs/plugin/isoWeek';
+dayjs.extend(isoWeek);
 
 const ReportPage = () => {
     const { t } = useTranslation();
@@ -32,13 +34,20 @@ const ReportPage = () => {
         }
     ];
 
+    const paramsValue = watch('date') ? {
+        startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
+        endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
+    } : {
+        startDate: dayjs().startOf('isoWeek').format('YYYY-MM-DD'),
+        endDate: dayjs().endOf('isoWeek').format('YYYY-MM-DD'),
+    };
+
     const { data, isLoading } = useGetAllQuery({
         key: KEYS.employeeTimesheet,
         url: URLS.employeeTimesheet,
         params: {
-            startDate: '2025-12-08',
-            endDate: '2025-12-12',
-            organizationId: 1
+            organizationId: 1,
+            ...paramsValue
         }
     });
 
