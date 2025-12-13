@@ -32,23 +32,23 @@ const ReportPage = () => {
         }
     ];
 
-    // const { data, isLoading } = useGetAllQuery({
-    //     key: KEYS.getTimeSheet,
-    //     url: URLS.getTimeSheet,
-    //     params: {
-    //         fromDate: value?.startDate ?? dayjs(new Date()).format('YYYY-MM-DD'),
-    //         toDate: value?.endDate ?? dayjs(new Date()).format('YYYY-MM-DD'),
-    //         populate: 'department, position',
-    //     }
-    // });
+    const { data, isLoading } = useGetAllQuery({
+        key: KEYS.employeeTimesheet,
+        url: URLS.employeeTimesheet,
+        params: {
+            startDate: '2025-12-08',
+            endDate: '2025-12-12',
+            organizationId: 1
+        }
+    });
 
-    // if (isLoading) {
-    //     return (
-    //         <div className="absolute -mt-8 flex h-full w-full items-center justify-center">
-    //             <Loading />
-    //         </div>
-    //     )
-    // }
+    if (isLoading) {
+        return (
+            <div className="absolute -mt-8 flex h-full w-full items-center justify-center">
+                <Loading />
+            </div>
+        )
+    }
 
     return (
         <PageContentWrapper>
@@ -74,7 +74,7 @@ const ReportPage = () => {
                 </div>
             </div>
             <MyDivider />
-            <TimeSheet currentTableRef={currentTableRef} />
+            <TimeSheet data={data} currentTableRef={currentTableRef} />
         </PageContentWrapper>
     );
 }

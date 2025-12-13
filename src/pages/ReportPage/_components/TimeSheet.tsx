@@ -1,17 +1,9 @@
-import dayjs from 'dayjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './style.css'
 
-const TimeSheet = ({ currentTableRef }: any) => {
+const TimeSheet = ({ currentTableRef, data }: any) => {
     const { t } = useTranslation();
-    // const dayLength = data?.days?.length;
-    const formatTime = (minutes: any) => {
-        const hours = Math.floor(minutes / 60);
-        const mins = minutes % 60;
-        const formattedTime = `${hours} ${t('hours')} ${mins.toString().padStart(2, '0')} ${t('minutes')}`;
-        return formattedTime;
-    };
 
     return (
         <div className="wrapper-table">
@@ -67,20 +59,6 @@ const TimeSheet = ({ currentTableRef }: any) => {
                             rowSpan={2}>
                             {t('Subdivision')}
                         </th>
-                        {/* {data?.days?.map((evt: any, index: number) => (
-                            <th
-                                key={index}
-                                style={{
-                                    height: '30px',
-                                    fontSize: '12px',
-                                    border: '1px solid gray',
-                                    textAlign: 'center',
-                                    maxWidth: '80px'
-                                }}
-                                className="num">
-                                {dayjs(evt.date).format('MM-DD')}
-                            </th>
-                        ))} */}
                         <th
                             style={{
                                 height: '30px',
@@ -99,7 +77,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                 textAlign: 'center'
                             }}
                             rowSpan={2}>
-                            {t('Late2')}
+                            {t('По плану')}
                         </th>
                         <th
                             style={{
@@ -109,7 +87,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                 textAlign: 'center'
                             }}
                             rowSpan={2}>
-                            {t('Early departure')}
+                            {t('Опоздание')}
                         </th>
                         <th
                             style={{
@@ -119,7 +97,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                 textAlign: 'center'
                             }}
                             rowSpan={2}>
-                            {t('Completed')}
+                            {t('Ранний уход')}
                         </th>
                         <th
                             style={{
@@ -129,7 +107,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                 textAlign: 'center'
                             }}
                             rowSpan={2}>
-                            {t('During')}
+                            {t('Отработано')}
                         </th>
                         <th
                             style={{
@@ -139,7 +117,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                 textAlign: 'center'
                             }}
                             rowSpan={2}>
-                            {t('Overtime')}
+                            {t('Вовремя')}
                         </th>
                         <th
                             style={{
@@ -150,18 +128,6 @@ const TimeSheet = ({ currentTableRef }: any) => {
                             }}
                             colSpan={2}>
                             {t('Off schedule')}
-                        </th>
-                        <th
-                            style={{
-                                height: '30px',
-                                fontSize: '12px',
-                                border: '1px solid gray',
-                                textAlign: 'center',
-                                maxWidth: '80px'
-                            }}
-                            rowSpan={2}
-                            className="num">
-                            {t('Absence')}
                         </th>
                         <th
                             style={{
@@ -189,18 +155,6 @@ const TimeSheet = ({ currentTableRef }: any) => {
                         </th>
                     </tr>
                     <tr style={{ background: '#c2c2c2' }}>
-                        {/* {data?.days?.map((evt: any, index: number) => (
-                            <th
-                                key={index}
-                                style={{
-                                    height: '30px',
-                                    fontSize: '12px',
-                                    border: '1px solid gray',
-                                    textAlign: 'center'
-                                }}>
-                                {evt?.name}
-                            </th>
-                        ))} */}
                         <th
                             style={{
                                 height: '30px',
@@ -226,14 +180,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {data?.employees?.map((evt: any, index: number) => {
-                        const count = dayLength - evt?.attendances?.length;
-                        const attendancesWithEmptyObjects = Array.from({ length: count }, () => ({
-                            firstIn: null,
-                            lastOut: null,
-                            workTimeTotal: null
-                        }));
-                        const combinedArray = [...attendancesWithEmptyObjects, ...(evt?.attendances ?? [])];
+                    {data?.map((evt: any, index: number) => {
                         return (
                             <tr key={index} className="dark:text-text-title-dark">
                                 <td
@@ -252,7 +199,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt.lastName} {evt.firstName} {evt.middleName ?? '--'}
+                                    {evt?.fio}
                                 </td>
                                 <td
                                     style={{
@@ -272,35 +219,6 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                     }}>
                                     {evt.department ?? '--'}
                                 </td>
-                                {combinedArray?.map((evt: any) => {
-                                    if (evt.firstIn) {
-                                        return (
-                                            <td
-                                                style={{
-                                                    height: '30px',
-                                                    fontSize: '12px',
-                                                    border: '1px solid gray',
-                                                    textAlign: 'center'
-                                                }}>
-                                                {evt.firstIn ?? ''} / {evt.lastOut ?? ''} (
-                                                {formatTime(evt?.workTimeTotal) ?? '--'})
-                                            </td>
-                                        );
-                                    } else {
-                                        return (
-                                            <td
-                                                style={{
-                                                    height: '30px',
-                                                    fontSize: '12px',
-                                                    border: '1px solid gray',
-                                                    textAlign: 'center',
-                                                    background: '#EBB9B6'
-                                                }}>
-                                                X
-                                            </td>
-                                        );
-                                    }
-                                })}
 
                                 <td
                                     style={{
@@ -309,7 +227,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {formatTime(evt?.workedTimePlan)}
+                                    {evt?.workSchedule}
                                 </td>
                                 <td
                                     style={{
@@ -318,7 +236,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {formatTime(evt?.lateInMinutes)}
+                                    {evt?.totalHoursPlan}
                                 </td>
                                 <td
                                     style={{
@@ -327,7 +245,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {formatTime(evt?.earlyOutMinutes)}
+                                    {evt?.totalHoursLate}
                                 </td>
                                 <td
                                     style={{
@@ -336,7 +254,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {formatTime(evt?.workTimeTotal)}
+                                    {evt?.totalHoursEarly}
                                 </td>
                                 <td
                                     style={{
@@ -345,7 +263,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {formatTime(evt?.workedTimeByPlan)}
+                                    {evt?.totalWorkedHours}
                                 </td>
                                 <td
                                     style={{
@@ -354,7 +272,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    --
+                                    {evt?.ontimeHours}
                                 </td>
                                 <td
                                     style={{
@@ -363,7 +281,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.absenceTimeWithReason ?? '--'}
+                                    {evt?.resonableAbsentHours ?? '--'}
                                 </td>
                                 <td
                                     style={{
@@ -372,7 +290,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.absenceTimeWithoutReason ?? '--'}
+                                    {evt?.unresaonableAbsentHours ?? '--'}
                                 </td>
                                 <td
                                     style={{
@@ -381,7 +299,7 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.workedTimeOutOfPlan ?? '--'}
+                                    {evt?.total ?? '--'}
                                 </td>
                                 <td
                                     style={{
@@ -390,20 +308,11 @@ const TimeSheet = ({ currentTableRef }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.totalWorkTimeWithReason ?? '--'}
-                                </td>
-                                <td
-                                    style={{
-                                        height: '30px',
-                                        fontSize: '12px',
-                                        border: '1px solid gray',
-                                        textAlign: 'center'
-                                    }}>
-                                    {evt?.workedDays ?? '--'}
+                                    {evt?.totalDays ?? '--'}
                                 </td>
                             </tr>
                         );
-                    })} */}
+                    })}
                 </tbody>
             </table>
         </div>

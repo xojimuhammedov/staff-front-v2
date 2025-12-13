@@ -27,5 +27,6 @@ export const KEYS = {
   employeePlansAssign: "employeePlansAssign",
   attendancesReason: "attendancesReason",
   employeeJobPosition: "employeeJobPosition",
-  deviceForDoor: "deviceForDoor"
+  deviceForDoor: "deviceForDoor",
+  employeeTimesheet: "employeeTimesheet"
 };
