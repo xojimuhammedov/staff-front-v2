@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Filter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import MyDropdown, { DropdownItemWrapper } from '../MyDropdown';
-import { useLocation, useSearchParams } from 'react-router-dom';
-import { paramsStrToObj } from 'utils/helper';
+import { useSearchParams } from 'react-router-dom';
 
 /**
  * `ColumnsButton` provides an interface for users to customize the visibility of columns in a data grid. It uses a dropdown menu to list all available columns with checkboxes, allowing users to select which columns they want to display. The component's open state is managed locally, while the columns' visibility states are managed both locally and globally via the table context. This allows for immediate feedback in the UI and persistent changes across the application. The component integrates with `react-i18next` for internationalization, supporting dynamic translations for the button text and other UI elements.
@@ -45,18 +44,19 @@ const ColumnsButton = () => {
     } else {
       newParams.delete(type);
     }
-
-    // Agar hech qanday filtr qolmasa, page=1 qo'yish mumkin
     newParams.set('page', '1');
     setSearchParams(newParams);
     setOpen(false);
   };
 
-  // Status variantlari
   const statusOptions = [
     { value: 'ON_TIME', label: t('On Time'), color: 'green' },
     { value: 'ABSENT', label: t('Absent'), color: 'red' },
     { value: 'LATE', label: t('Late'), color: 'orange' },
+  ];
+
+  const statusOptionsLeft = [
+    { value: 'ON_TIME', label: t('On Time'), color: 'green' },
     { value: 'EARLY', label: t('Early'), color: 'blue' },
   ];
 
@@ -127,7 +127,7 @@ const ColumnsButton = () => {
           <p className="text-sm font-medium text-text-subtle">{t('Left Status')}</p>
         </DropdownItemWrapper>
 
-        {statusOptions.map((option) => (
+        {statusOptionsLeft.map((option) => (
           <DropdownItemWrapper key={`goneStatus-${option.value}`} className="px-4 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800">
             <div className="flex items-center">
               <input

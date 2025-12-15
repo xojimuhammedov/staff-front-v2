@@ -26,7 +26,7 @@ function EmployeeView() {
             <Details
                 avatar={get(data, 'data.photo')}
                 title={get(data, 'data.name')}
-                position={get(data, 'data.additionalDetails')}
+                position={get(data, 'data.job')}
                 department={get(data, 'data.department')}
             />
             <div className='flex gap-8 mt-8 items-center'>

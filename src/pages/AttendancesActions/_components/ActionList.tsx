@@ -74,6 +74,18 @@ const ActionList = ({ watch }: any) => {
                     } else return "--"
                 }
             },
+            {
+                key: 'credential',
+                label: t('Credential type'),
+                headerClassName: 'w-1/4',
+                cellRender: (row) => {
+                    if (row?.credential) {
+                        return (
+                            <div className="department-text">{row?.credential?.name}</div>
+                        )
+                    } else return "--"
+                }
+            },
         ],
         [t]
     );
@@ -99,11 +111,11 @@ const ActionList = ({ watch }: any) => {
             label: t('Work on time'),
             headerClassName: 'w-1/4'
         },
-        // {
-        //     id: 5,
-        //     label: t('Arrival time'),
-        //     headerClassName: 'w-1/4'
-        // },
+        {
+            id: 5,
+            label: t('Credential type'),
+            headerClassName: 'w-1/4'
+        },
     ];
 
     const filter: IFilter[] = useMemo(

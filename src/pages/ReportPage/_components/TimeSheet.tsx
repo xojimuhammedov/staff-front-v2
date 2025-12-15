@@ -70,7 +70,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                             {t('According to plan')}
                         </th>
                         {
-                            data[0]?.daysStatistics?.map((item: any) => (
+                            data?.dateData?.map((item: any) => (
                                 <th
                                     style={{
                                         height: '30px',
@@ -79,7 +79,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         textAlign: 'center'
                                     }}
                                     rowSpan={2}>
-                                    {item?.weekDay}
+                                    {item?.weekday} {""} ({item?.date})
                                 </th>
                             ))
                         }
@@ -194,7 +194,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.map((evt: any, index: number) => {
+                    {data?.reportData?.map((evt: any, index: number) => {
                         return (
                             <tr key={index} className="dark:text-text-title-dark">
                                 <td

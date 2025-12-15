@@ -45,16 +45,14 @@ const Attendances = () => {
                         placeholder={t('Search...')}
                     />
                     <ColumnsButton />
-                    <div className="w-[400px]">
-                        <MyTailwindPicker
-                            useRange={true}
-                            name='date'
-                            asSingle={false}
-                            control={control}
-                            placeholder={t('Today')}
-                            startIcon={<Calendar stroke="#9096A1" />}
-                        />
-                    </div>
+                    <MyTailwindPicker
+                        useRange={true}
+                        name='date'
+                        asSingle={false}
+                        control={control}
+                        placeholder={t('Today')}
+                        startIcon={<Calendar stroke="#9096A1" />}
+                    />
                 </div>
             </div>
             <AttendanceList watch={watch} />

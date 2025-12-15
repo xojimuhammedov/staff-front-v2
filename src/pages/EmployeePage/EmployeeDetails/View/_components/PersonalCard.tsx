@@ -39,8 +39,6 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
     };
 
     const carCode = data?.credentials?.find((item: CredentialType) => item?.type === "CAR")
-
-    console.log(carCode)
     const infoItems = [
         {
             label: t("PHONE"),

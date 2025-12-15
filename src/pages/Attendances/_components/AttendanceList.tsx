@@ -113,7 +113,7 @@ const AttendanceList = ({ watch }: any) => {
       {
         key: "reason",
         label: t("Reason"),
-        headerClassName: 'w-1/4 relative z-[99999]',
+        headerClassName: 'w-1/4',
         cellRender: (row) => <ReasonModal row={row} refetch={refetch} />
       }
     ],
@@ -149,7 +149,7 @@ const AttendanceList = ({ watch }: any) => {
     {
       id: 7,
       label: t('Reason'),
-      headerClassName: 'w-1/4 relative z-[99999]'
+      headerClassName: 'w-1/4'
     }
   ];
 

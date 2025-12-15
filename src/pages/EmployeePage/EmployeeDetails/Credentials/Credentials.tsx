@@ -9,6 +9,7 @@ import Form from './Create';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import EditForm from './Edit';
+import config from 'configs';
 
 const Credentials = () => {
     const { id } = useParams()
@@ -52,7 +53,10 @@ const Credentials = () => {
                 {
                     data?.map((item: any) => (
                         <div key={item?.id} className='bg-white border border-gray-200 rounded-lg shadow-sm p-4 gap-2'>
-                            <h2 className='text-base font-medium'>{item?.code}</h2>
+                            {
+                                item.type === "PHOTO" ? <img className='w-16 h-16 rounded-full' src={`${config.FILE_URL}api/storage/${item?.additionalDetails}`} alt="" /> : <h2 className='text-base font-medium'>{item?.code}</h2>
+                            }
+                            {/* <h2 className='text-base font-medium'>{item?.code}</h2> */}
                             <div className='flex items-center gap-1 mt-4'>
                                 <p className='text-sm'>Type:</p>
                                 <b className='text-sm'>{item?.type}</b>
