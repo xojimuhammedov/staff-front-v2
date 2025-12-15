@@ -20,20 +20,12 @@ import { paramsStrToObj } from 'utils/helper';
 
 const ColumnsButton = () => {
   const { t } = useTranslation();
-  const location = useLocation();
-  const paramsValue: any = paramsStrToObj(location.search);
-  const locationValue = paramsValue?.IsLateIn ? 'IsLateIn' : '/';
   const [open, setOpen] = useState(false);
-  const [params, setParams] = useSearchParams();
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const values = params.get('filters')?.slice(0, 8) || locationValue;
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const handleClick = () => {
-    const params = new URLSearchParams(searchParams);
-    params.delete('IsLateIn');
-    setSearchParams(params);
-  };
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const currentFilters = Object.fromEntries(searchParams.entries());
+  const comeStatus = currentFilters['arrivalStatus'] || null;
+  const leftStatus = currentFilters['goneStatus'] || null;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -41,49 +33,47 @@ const ColumnsButton = () => {
         setOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const statusData = [
-    {
-      id: 1,
-      title: t('All them'),
-      label: 'black-radio',
-      className: 'text-black-600 focus:ring-black-500 dark:focus:ring-black-600',
-      value: '/',
-      name: '/'
-    },
-    {
-      id: 2,
-      title: t('come'),
-      label: 'red-radio',
-      className: 'text-red-600 focus:ring-red-500 dark:focus:ring-red-600',
-      value: 'isAbsent=true',
-      name: 'isAbsent'
-    },
-    {
-      id: 3,
-      title: t('Came on time'),
-      label: 'green-radio',
-      className: 'text-green-600 focus:ring-green-500 dark:focus:ring-green-600',
-      value: 'IsLateIn=false',
-      name: 'IsLateIn'
-    },
-    {
-      id: 4,
-      title: t('ComeLate'),
-      label: 'orange-radio',
-      className: 'text-orange-500 focus:ring-orange-500 dark:focus:ring-orange-600',
-      value: 'isLateIn=true',
-      name: 'isLateIn'
+  const handleStatusChange = (type: 'goneStatus' | 'arrivalStatus', value: string | null) => {
+    const newParams = new URLSearchParams(searchParams);
+
+    if (value) {
+      newParams.set(type, value);
+    } else {
+      newParams.delete(type);
     }
+
+    // Agar hech qanday filtr qolmasa, page=1 qo'yish mumkin
+    newParams.set('page', '1');
+    setSearchParams(newParams);
+    setOpen(false);
+  };
+
+  // Status variantlari
+  const statusOptions = [
+    { value: 'ON_TIME', label: t('On Time'), color: 'green' },
+    { value: 'ABSENT', label: t('Absent'), color: 'red' },
+    { value: 'LATE', label: t('Late'), color: 'orange' },
+    { value: 'EARLY', label: t('Early'), color: 'blue' },
   ];
 
+  const getColorClasses = (color: string) => {
+    switch (color) {
+      case 'green':
+        return 'text-green-600 focus:ring-green-500 dark:focus:ring-green-600';
+      case 'red':
+        return 'text-red-600 focus:ring-red-500 dark:focus:ring-red-600';
+      case 'orange':
+        return 'text-orange-600 focus:ring-orange-500 dark:focus:ring-orange-600';
+      case 'blue':
+        return 'text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600';
+      default:
+        return 'text-gray-600 focus:ring-gray-500';
+    }
+  };
   return (
     <MyDropdown
       open={open}
@@ -95,44 +85,75 @@ const ColumnsButton = () => {
         startIcon: <Filter />,
         endIcon: open ? <ChevronUp /> : <ChevronDown />
       }}>
-      <DropdownItemWrapper className="cursor-default">
-        <p className="text-c-xs-p text-text-subtle">{t('Select column to show')}</p>
-      </DropdownItemWrapper>
-      <div ref={dropdownRef} className="dark:bg-bg-button">
-        <DropdownItemWrapper className="flex flex-row flex-col gap-4">
-          {statusData.map((item: any, index: number) => (
-            <div
-              onClick={() => {
-                handleClick();
-              }}
-              key={index}
-              className="me-4 flex items-center">
+      <div ref={dropdownRef} className="py-2">
+        {/* Come Status Group */}
+        <DropdownItemWrapper className="cursor-default px-4 py-2">
+          <p className="text-sm font-medium text-text-subtle">{t('Come Status')}</p>
+        </DropdownItemWrapper>
+
+        {statusOptions.map((option) => (
+          <DropdownItemWrapper key={`arrivalStatus-${option.value}`} className="px-4 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <div className="flex items-center">
               <input
-                id={item?.label}
+                id={`arrivalStatus-${option.value}`}
                 type="radio"
-                value=""
-                name="colored-radio"
-                checked={item?.name === values ? true : false}
-                onChange={(evt) => {
-                  if (evt.target.checked) {
-                    if (item?.value) {
-                      params.set('filters', item.value);
-                      params.set('page', '1');
-                    }
-                    setParams(params);
-                    setOpen(false);
-                  }
-                }}
-                className={`h-4 w-4 border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 ${item.className}`}
+                name="come-status"
+                checked={comeStatus === option.value}
+                onChange={() =>
+                  handleStatusChange(
+                    'arrivalStatus',
+                    comeStatus === option.value ? null : option.value
+                  )
+                }
+                className={`h-4 w-4 border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 ${getColorClasses(
+                  option.color
+                )}`}
               />
               <label
-                htmlFor={item.label}
-                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                {item.title}
+                htmlFor={`arrivalStatus-${option.value}`}
+                className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer w-full"
+              >
+                {option.label}
               </label>
             </div>
-          ))}
+          </DropdownItemWrapper>
+        ))}
+
+        {/* Divider */}
+        <div className="my-2 border-t border-gray-200 dark:border-gray-700" />
+
+        {/* Left Status Group */}
+        <DropdownItemWrapper className="cursor-default px-4 py-2">
+          <p className="text-sm font-medium text-text-subtle">{t('Left Status')}</p>
         </DropdownItemWrapper>
+
+        {statusOptions.map((option) => (
+          <DropdownItemWrapper key={`goneStatus-${option.value}`} className="px-4 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <div className="flex items-center">
+              <input
+                id={`goneStatus-${option.value}`}
+                type="radio"
+                name="left-status"
+                checked={leftStatus === option.value}
+                onChange={() =>
+                  handleStatusChange(
+                    'goneStatus',
+                    leftStatus === option.value ? null : option.value
+                  )
+                }
+                className={`h-4 w-4 border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 ${getColorClasses(
+                  option.color
+                )}`}
+              />
+              <label
+                htmlFor={`goneStatus-${option.value}`}
+                className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer w-full"
+              >
+                {option.label}
+              </label>
+            </div>
+          </DropdownItemWrapper>
+        ))}
       </div>
     </MyDropdown>
   );

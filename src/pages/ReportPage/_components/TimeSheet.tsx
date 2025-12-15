@@ -253,7 +253,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                                 textAlign: 'center',
                                                 backgroundColor: item?.status === "ABSENT" ? "pink" : item?.status === "LATE" ? "yellow" : "transparent"
                                             }}>
-                                            {item?.startTime && item?.endTime ? `(${item?.startTime}:${item?.endTime})` : "X"} {" "}  {item?.totalHours === "0" ? "" : item?.totalHours}
+                                            {item?.startTime && item?.endTime ? `(${item?.startTime}-${item?.endTime})` : "X"} {" "}  {item?.totalHours === "0" ? "" : item?.totalHours}
                                         </td>
                                     ))
                                 }

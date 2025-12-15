@@ -24,9 +24,9 @@ const Attendances = lazy(() => import('pages/Attendances'))
 const WorkSchedule = lazy(() => import('pages/WorkSchedule'))
 const CreateSchedulePage = lazy(() => import('pages/WorkSchedule/CreateSchedulePage'))
 const EditSchedulePage = lazy(() => import('pages/WorkSchedule/EditSchedulePage'))
-
 const ViewDepartment = lazy(() => import('pages/ViewDepartment'))
 const ReportPage = lazy(() => import('pages/ReportPage'))
+const AttendanceActionList = lazy(() => import("pages/AttendancesActions"))
 
 export const PublicRoutes = [
   {
@@ -139,6 +139,11 @@ export const PrivateRoutes = [
   {
     path: "/attendances",
     element: <Attendances />,
+    roles: ["ADMIN", "HR"],
+  },
+  {
+    path: "/attendances/actions/:id",
+    element: <AttendanceActionList />,
     roles: ["ADMIN", "HR"],
   },
   {

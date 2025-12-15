@@ -24,16 +24,6 @@ const credentialTypeData = [
         value: "PERSONAL_CODE",
         label: "PERSONAL_CODE"
     },
-    {
-        id: 6,
-        value: "ONE_TIME_ID",
-        label: "ONE_TIME_ID"
-    },
-    {
-        id: 7,
-        value: "USER",
-        label: "USER"
-    }
 ]
 
 const typeData = [
@@ -57,16 +47,6 @@ const typeData = [
         value: "PERSONAL_CODE",
         label: "PERSONAL_CODE"
     },
-    {
-        id: 5,
-        value: "ONE_TIME_ID",
-        label: "ONE_TIME_ID"
-    },
-    {
-        id: 7,
-        value: "USER",
-        label: "USER"
-    }
 ]
 
 export { credentialTypeData, typeData }

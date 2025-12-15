@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
@@ -26,7 +26,7 @@ const AttendanceList = ({ watch }: any) => {
   const { t } = useTranslation();
   const location = useLocation()
   const searchValue: searchValue = paramsStrToObj(location.search)
-
+  const navigate = useNavigate()
   const paramsValue = watch('date') ? {
     startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
     endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
@@ -41,7 +41,8 @@ const AttendanceList = ({ watch }: any) => {
       search: searchValue?.search,
       page: searchValue?.page || 1,
       limit: searchValue?.pageSize || 10,
-      ...paramsValue
+      ...paramsValue,
+      ...searchValue
     }
   });
   const columns: DataGridColumnType[] = useMemo(
@@ -112,7 +113,7 @@ const AttendanceList = ({ watch }: any) => {
       {
         key: "reason",
         label: t("Reason"),
-        headerClassName: 'w-1/4',
+        headerClassName: 'w-1/4 relative z-[99999]',
         cellRender: (row) => <ReasonModal row={row} refetch={refetch} />
       }
     ],
@@ -148,7 +149,7 @@ const AttendanceList = ({ watch }: any) => {
     {
       id: 7,
       label: t('Reason'),
-      headerClassName: 'w-1/4'
+      headerClassName: 'w-1/4 relative z-[99999]'
     }
   ];
 
@@ -185,6 +186,8 @@ const AttendanceList = ({ watch }: any) => {
           dataColumn={dataColumn}
           rowActions={rowActions}
           pagination={data}
+          handleRowClick={(item) => navigate(`/attendances/actions/${item?.employeeId}`)}
+
         />
       </TableProvider>
     </>

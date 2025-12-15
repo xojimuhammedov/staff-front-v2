@@ -1,23 +1,24 @@
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
+import MyButton from 'components/Atoms/MyButton/MyButton';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
+import { ArrowLeft, Calendar, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import AttendanceList from './_components/AttendanceList';
-import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
+import { useNavigate } from 'react-router-dom';
+import ActionList from './_components/ActionList';
 import { useForm } from 'react-hook-form';
-import { Calendar, Search } from 'lucide-react';
 import { useSearch } from 'hooks/useSearch';
+import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { MyInput } from 'components/Atoms/Form';
 import { KeyTypeEnum } from 'enums/key-type.enum';
-import ColumnsButton from 'components/Atoms/DataGrid/ColumnsButton';
 
-
-const Attendances = () => {
-    const { t } = useTranslation();
+const AttendancesActions = () => {
+    const { t } = useTranslation()
+    const navigate = useNavigate()
     const { control, watch }: any = useForm()
     const { search, setSearch, handleSearch } = useSearch();
     const breadCrumbs = [
         {
-            label: t('Attendances'),
+            label: t('Attendance action list'),
             url: '#'
         }
     ];
@@ -44,22 +45,28 @@ const Attendances = () => {
                         className="dark:bg-bg-input-dark"
                         placeholder={t('Search...')}
                     />
-                    <ColumnsButton />
-                    <div className="w-[400px]">
-                        <MyTailwindPicker
-                            useRange={true}
-                            name='date'
-                            asSingle={false}
-                            control={control}
-                            placeholder={t('Today')}
-                            startIcon={<Calendar stroke="#9096A1" />}
-                        />
+                    <MyTailwindPicker
+                        useRange={true}
+                        name='date'
+                        asSingle={false}
+                        control={control}
+                        placeholder={t('Today')}
+                        startIcon={<Calendar stroke="#9096A1" />}
+                    />
+                    <div>
+                        <MyButton
+                            onClick={() => navigate('/attendances')}
+                            className={'w-[220px]'}
+                            variant="secondary"
+                            startIcon={<ArrowLeft />}>
+                            {t('Back to attendances list')}
+                        </MyButton>
                     </div>
                 </div>
             </div>
-            <AttendanceList watch={watch} />
+            <ActionList watch={watch} />
         </PageContentWrapper>
     );
 }
 
-export default Attendances;
+export default AttendancesActions;
