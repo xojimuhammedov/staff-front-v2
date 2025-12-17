@@ -9,72 +9,24 @@ import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ISelect } from 'interfaces/select.interface';
 import { credentialTypeData } from 'configs/type';
-import MyModal from 'components/Atoms/MyModal';
-import ImageCropModalContent from 'pages/EmployeePage/Create/_components/ImageCropModalContent';
-import { request } from 'services/request';
-import { useImageCropContext } from 'context/ImageCropProvider';
-import { readFile } from 'helpers/cropImage';
+import TypeForm from './TypeForm';
 
 const Form = ({ refetch, onClose, employeeId }: any) => {
     const { t } = useTranslation()
-    const fileInputRef = useRef<HTMLInputElement>(null);
     const [imageKey, setImageKey] = useState(null)
-    const [openModal, setOpenModal] = useState(false);
+    const [cardNumber, setCardNumber] = useState('');
+    const [carNumber, setCarNumber] = useState('');
+    const [personalCode, setPersonalCode] = useState('');
+    const [qrGuid, setQrGuid] = useState('');
     const schema = object().shape({
         code: string(),
         type: string().required(),
         additionalDetails: string(),
         organizationId: yup.number().required(),
     });
-
-    const { getProcessedImage, resetStates, setImage }: any = useImageCropContext();
-    const handleDone = async (): Promise<void> => {
-        const avatar = await getProcessedImage();
-        if (!avatar) {
-            console.error('Processed image is not available.');
-            setOpenModal(false);
-            return;
-        }
-
-        if (!(avatar instanceof Blob)) {
-            console.error('Processed image is not a valid Blob.');
-            setOpenModal(false);
-            return;
-        }
-
-        try {
-            const formData = new FormData();
-            formData.append('file', avatar);
-
-            const response = await request.post(URLS.uploadPhotoByEmployee, formData, {
-                headers: { "Content-Type": "multipart/form-data" }
-            });
-
-            const key = response?.data?.key;
-            if (key) {
-                setImageKey(key);
-                // additionalDetails ga avtomatik yozamiz
-                setValue('additionalDetails', key);
-                toast.success(t('Photo uploaded successfully!'));
-            }
-
-            resetStates();
-            setOpenModal(false);
-        } catch (error: any) {
-            console.error('❌ Error uploading avatar:', error);
-            toast.error(t('Failed to upload photo'));
-            setOpenModal(false);
-        }
-    };
-    const handleFileChange = async ({ target: { files } }: any) => {
-        const file = files && files[0];
-        const imageDataUrl = await readFile(file);
-        setImage(imageDataUrl);
-        setOpenModal(true);
-    };
 
     const { data } = useGetAllQuery<any>({
         key: KEYS.getAllListOrganization,
@@ -83,7 +35,6 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
     })
     const {
         handleSubmit,
-        register,
         reset,
         control,
         watch,
@@ -100,12 +51,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         resolver: yupResolver(schema)
     });
 
-    const selectedType = watch('type');
-    useEffect(() => {
-        if (selectedType === 'PHOTO' && fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    }, [selectedType]);
+    const selectedTypeName = watch('type');
 
     const { mutate: create } = usePostQuery({
         listKeyId: KEYS.credentials,
@@ -116,7 +62,11 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         const submitData = {
             employeeId: Number(employeeId),
             ...data,
-            additionalDetails: selectedType === 'PHOTO' ? imageKey || data.additionalDetails : data.additionalDetails,
+            additionalDetails: selectedTypeName === 'PHOTO' ? imageKey || data.additionalDetails : data.additionalDetails,
+            code: selectedTypeName === 'CARD' ? cardNumber :
+                selectedTypeName === 'CAR' ? carNumber :
+                    selectedTypeName === 'PERSONAL_CODE' ? personalCode :
+                        selectedTypeName === 'QR' ? qrGuid : "."
         };
         create(
             {
@@ -137,7 +87,6 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
             }
         );
     };
-
 
     return (
         <>
@@ -162,14 +111,6 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                                 />
                             )}
                         />
-                        {
-                            watch("type") !== "PHOTO" && <MyInput
-                                {...register("code")}
-                                error={Boolean(errors?.code?.message)}
-                                helperText={t(`${errors?.code?.message}`)}
-                                label={t('Code')}
-                            />
-                        }
                         <Controller
                             name="organizationId"
                             control={control}
@@ -189,14 +130,18 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                             )}
                         />
                     </div>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="hidden"
-                    />
-                    <div className="mt-2 flex w-full justify-end gap-4">
+                    <TypeForm 
+                        selectedTypeName={selectedTypeName} 
+                        setValue={setValue} setImageKey={setImageKey} 
+                        cardNumber={cardNumber}
+                        qrGuid={qrGuid}
+                        setCardNumber={setCardNumber}
+                        carNumber={carNumber}
+                        setCarNumber={setCarNumber}
+                        personalCode={personalCode}
+                        setPersonalCode={setPersonalCode}
+                        />
+                    <div className="mt-8 flex w-full justify-end gap-4">
                         <MyButton
                             type='submit'
                             variant="primary">{t("Submit")}</MyButton>
@@ -213,26 +158,6 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                 </form>
             </div>
 
-            <MyModal
-                modalProps={{
-                    show: Boolean(openModal),
-                    onClose: () => setOpenModal(false),
-                    size: 'md'
-                }}
-                headerProps={{
-                    children: <h2 className="text-gray-800">{t('Profile picture')}</h2>
-                }}
-                bodyProps={{
-                    children: (
-                        <>
-                            <ImageCropModalContent
-                                handleDone={handleDone}
-                                handleClose={() => setOpenModal(false)}
-                            />
-                        </>
-                    )
-                }}
-            />
         </>
     );
 }

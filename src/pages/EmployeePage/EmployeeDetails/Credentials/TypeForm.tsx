@@ -1,89 +1,66 @@
-import React, { useState, useRef } from 'react';
-import { X, Upload, Download, QrCode } from 'lucide-react';
+import { MyInput } from 'components/Atoms/Form';
+import MyModal from 'components/Atoms/MyModal';
+import { URLS } from 'constants/url';
+import { useImageCropContext } from 'context/ImageCropProvider';
+import { readFile } from 'helpers/cropImage';
+import { Download, Upload } from 'lucide-react';
+import ImageCropModalContent from 'pages/EmployeePage/Create/_components/ImageCropModalContent';
+import React, { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { request } from 'services/request';
 
-const CredentialsForm = () => {
-    const [selectedType, setSelectedType] = useState('');
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [cardNumber, setCardNumber] = useState('');
-    const [carNumber, setCarNumber] = useState('');
-    const [personalCode, setPersonalCode] = useState('');
+const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid, setCardNumber, carNumber, setCarNumber, setPersonalCode, personalCode }: any) => {
+    const { t } = useTranslation()
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [openModal, setOpenModal] = useState(false);
+    // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState<any>(null);
-    const [qrGuid, setQrGuid] = useState('');
     const [isDragging, setIsDragging] = useState(false);
-    const fileInputRef = useRef<any>(null);
     const qrCanvasRef = useRef(null);
-
-    const types = [
-        { value: 'PHOTO', label: 'Photo' },
-        { value: 'CARD', label: 'Card' },
-        { value: 'CAR', label: 'Car' },
-        { value: 'QR', label: 'QR Code' },
-        { value: 'PERSONAL_CODE', label: 'Personal Code' }
-    ];
-
-    const generateGuid = () => {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            const r = Math.random() * 16 | 0;
-            const v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    };
-
-    const generateQRCode = (text: any) => {
-        const canvas: any = qrCanvasRef.current;
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-        const size = 200;
-        canvas.width = size;
-        canvas.height = size;
-
-        // Simple QR code visualization
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, size, size);
-
-        ctx.fillStyle = '#000000';
-        const moduleSize = 4;
-        const modules = Math.floor(size / moduleSize);
-
-        // Generate random pattern based on GUID
-        for (let i = 0; i < modules; i++) {
-            for (let j = 0; j < modules; j++) {
-                const hash = text.charCodeAt(i % text.length) + text.charCodeAt(j % text.length);
-                if (hash % 2 === 0) {
-                    ctx.fillRect(i * moduleSize, j * moduleSize, moduleSize, moduleSize);
-                }
-            }
-        }
-    };
-
-    const handleTypeSelect = (type: any) => {
-        setSelectedType(type);
-        setIsDropdownOpen(false);
-
-        // Generate GUID and QR code if QR type is selected
-        if (type === 'QR') {
-            const guid = generateGuid();
-            setQrGuid(guid);
-            setTimeout(() => generateQRCode(guid), 100);
-        }
-    };
-
-    const handleFileChange = (e: any) => {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            setSelectedFile(file);
-        }
-    };
-
-    const handleDragOver = (e: any) => {
-        e.preventDefault();
-        setIsDragging(true);
-    };
-
     const handleDragLeave = (e: any) => {
         e.preventDefault();
         setIsDragging(false);
+    };
+
+    const { getProcessedImage, resetStates, setImage }: any = useImageCropContext();
+    const handleDone = async (): Promise<void> => {
+        const avatar = await getProcessedImage();
+        if (!avatar) {
+            console.error('Processed image is not available.');
+            setOpenModal(false);
+            return;
+        }
+
+        if (!(avatar instanceof Blob)) {
+            console.error('Processed image is not a valid Blob.');
+            setOpenModal(false);
+            return;
+        }
+
+        try {
+            const formData = new FormData();
+            formData.append('file', avatar);
+
+            const response = await request.post(URLS.uploadPhotoByEmployee, formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            });
+
+            const key = response?.data?.key;
+            if (key) {
+                setImageKey(key);
+                // additionalDetails ga avtomatik yozamiz
+                setValue('additionalDetails', key);
+                toast.success(t('Photo uploaded successfully!'));
+            }
+
+            resetStates();
+            setOpenModal(false);
+        } catch (error: any) {
+            console.error('❌ Error uploading avatar:', error);
+            toast.error(t('Failed to upload photo'));
+            setOpenModal(false);
+        }
     };
 
     const handleDrop = (e: any) => {
@@ -93,6 +70,15 @@ const CredentialsForm = () => {
         const file = e.dataTransfer.files[0];
         if (file && file.type.startsWith('image/')) {
             setSelectedFile(file);
+        }
+    };
+
+    const handleFileChange = async ({ target: { files } }: any) => {
+        const file = files && files[0];
+        const imageDataUrl = await readFile(file);
+        setImage(imageDataUrl);
+        if (file) {
+            setOpenModal(true);
         }
     };
 
@@ -107,21 +93,12 @@ const CredentialsForm = () => {
         link.click();
     };
 
-    const handleSubmit = () => {
-        const data = {
-            type: selectedType,
-            value: selectedType === 'CARD' ? cardNumber :
-                selectedType === 'CAR' ? carNumber :
-                    selectedType === 'PERSONAL_CODE' ? personalCode :
-                        selectedType === 'QR' ? qrGuid :
-                            selectedType === 'PHOTO' ? selectedFile : null
-        };
-        console.log('Submitting:', data);
-        alert('Form submitted! Check console for data.');
+    const handleDragOver = (e: any) => {
+        e.preventDefault();
+        setIsDragging(true);
     };
-
     const renderTypeSpecificField = () => {
-        switch (selectedType) {
+        switch (selectedTypeName) {
             case 'PHOTO':
                 return (
                     <div className="mt-4">
@@ -139,8 +116,8 @@ const CredentialsForm = () => {
                             onClick={() => fileInputRef?.current?.click()}
                         >
                             <input
-                                ref={fileInputRef}
                                 type="file"
+                                ref={fileInputRef}
                                 accept="image/*"
                                 onChange={handleFileChange}
                                 className="hidden"
@@ -182,8 +159,7 @@ const CredentialsForm = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             Card Number
                         </label>
-                        <input
-                            type="text"
+                        <MyInput
                             value={cardNumber}
                             onChange={(e) => {
                                 const value = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -203,8 +179,7 @@ const CredentialsForm = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             Car Number
                         </label>
-                        <input
-                            type="text"
+                        <MyInput
                             value={carNumber}
                             onChange={(e) => setCarNumber(e.target.value.toUpperCase())}
                             placeholder="01A001AA"
@@ -242,7 +217,7 @@ const CredentialsForm = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             Personal Code
                         </label>
-                        <input
+                        <MyInput
                             type="text"
                             value={personalCode}
                             onChange={(e) => {
@@ -262,77 +237,79 @@ const CredentialsForm = () => {
         }
     };
 
+    // const generateGuid = () => {
+    //     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    //         const r = Math.random() * 16 | 0;
+    //         const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    //         return v.toString(16);
+    //     });
+    // };
+
+    // const generateQRCode = (text: any) => {
+    //     const canvas: any = qrCanvasRef.current;
+    //     if (!canvas) return;
+
+    //     const ctx = canvas.getContext('2d');
+    //     const size = 200;
+    //     canvas.width = size;
+    //     canvas.height = size;
+
+    //     // Simple QR code visualization
+    //     ctx.fillStyle = '#ffffff';
+    //     ctx.fillRect(0, 0, size, size);
+
+    //     ctx.fillStyle = '#000000';
+    //     const moduleSize = 4;
+    //     const modules = Math.floor(size / moduleSize);
+
+    //     // Generate random pattern based on GUID
+    //     for (let i = 0; i < modules; i++) {
+    //         for (let j = 0; j < modules; j++) {
+    //             const hash = text.charCodeAt(i % text.length) + text.charCodeAt(j % text.length);
+    //             if (hash % 2 === 0) {
+    //                 ctx.fillRect(i * moduleSize, j * moduleSize, moduleSize, moduleSize);
+    //             }
+    //         }
+    //     }
+    // };
+
+    // const handleTypeSelect = (type: any) => {
+    //     setSelectedType(type);
+    //     setIsDropdownOpen(false);
+
+    //     // Generate GUID and QR code if QR type is selected
+    //     if (type === 'QR') {
+    //         const guid = generateGuid();
+    //         setQrGuid(guid);
+    //         setTimeout(() => generateQRCode(guid), 100);
+    //     }
+    // };
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-8 flex items-center justify-center">
-            <div className="w-full max-w-lg bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 p-8">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                        Create new type
-                    </h2>
-                    <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                        <X className="h-6 w-6" />
-                    </button>
-                </div>
+        <>
+            {renderTypeSpecificField()}
 
-                <div className="space-y-6">
-                    {/* Type Selector */}
-                    <div className="relative">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Credential Type
-                        </label>
-                        <button
-                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            className="w-full px-4 py-3 bg-white rounded-lg border-2 border-orange-500 text-left flex items-center justify-between hover:border-orange-600 transition-colors"
-                        >
-                            <span className={selectedType ? 'text-gray-900' : 'text-gray-400'}>
-                                {selectedType ? types.find(t => t.value === selectedType)?.label : 'Select type...'}
-                            </span>
-                            <svg
-                                className={`h-5 w-5 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''
-                                    }`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        {isDropdownOpen && (
-                            <div className="absolute z-10 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
-                                {types.map((type) => (
-                                    <button
-                                        key={type.value}
-                                        onClick={() => handleTypeSelect(type.value)}
-                                        className="w-full px-4 py-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all text-gray-700 hover:text-gray-900"
-                                    >
-                                        {type.label}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Dynamic Field */}
-                    {renderTypeSpecificField()}
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-3 pt-4">
-                        <button
-                            onClick={handleSubmit}
-                            disabled={!selectedType}
-                            className="flex-1 px-6 py-3 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-lg hover:from-gray-800 hover:to-gray-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                        >
-                            Submit
-                        </button>
-                        <button className="px-6 py-3 bg-white text-gray-700 rounded-lg border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all font-medium">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <MyModal
+                modalProps={{
+                    show: Boolean(openModal),
+                    onClose: () => setOpenModal(false),
+                    size: 'md'
+                }}
+                headerProps={{
+                    children: <h2 className="text-gray-800">{t('Profile picture')}</h2>
+                }}
+                bodyProps={{
+                    children: (
+                        <>
+                            <ImageCropModalContent
+                                handleDone={handleDone}
+                                handleClose={() => setOpenModal(false)}
+                            />
+                        </>
+                    )
+                }}
+            />
+        </>
     );
-};
+}
 
-export default CredentialsForm;
+export default TypeForm;

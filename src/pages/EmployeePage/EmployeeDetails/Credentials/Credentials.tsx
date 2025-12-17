@@ -84,7 +84,8 @@ const Credentials = () => {
                     className: 'px-6'
                 }}
                 bodyProps={{
-                    children: <Form refetch={refetch} onClose={() => setShowModal(false)} employeeId={id} />
+                    children: <Form refetch={refetch} onClose={() => setShowModal(false)} employeeId={id} />,
+                    className:"py-4"
                 }}
             />
             <MyModal
