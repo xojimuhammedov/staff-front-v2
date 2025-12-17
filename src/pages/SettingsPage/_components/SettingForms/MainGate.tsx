@@ -43,7 +43,7 @@ function MainGate() {
     params: {
       gateId: Number(id),
       page: searchValue?.page || 1,
-      limit: searchValue?.pageSize || 10
+      limit: searchValue?.limit || 10
     }
   })
 
