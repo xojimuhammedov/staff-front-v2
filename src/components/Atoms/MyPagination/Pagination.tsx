@@ -49,7 +49,7 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const page: number = Number(searchParams.get('page')) || DEFAULT_PAGE;
-  const limit: number = Number(searchParams.get('pageSize')) || DEFAULT_LIMIT;
+  const limit: number = Number(searchParams.get('limit')) || DEFAULT_LIMIT;
   const totalNumber = total === 0 ? 1 : total;
 
   return (
@@ -73,12 +73,12 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
             })}
             onChange={(evt: any) => {
               if (evt.value) {
-                searchParams.set('pageSize', evt.value);
+                searchParams.set('limit', evt.value);
               }
               setSearchParams(searchParams);
             }}
             allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
-            value={Number(searchParams.get('pageSize')) || DEFAULT_LIMIT}
+            value={Number(searchParams.get('limit')) || DEFAULT_LIMIT}
           />
         </div>
         <p className="text-subtle:text-gray-700 font-inter font-medium text-gray-900 dark:text-subtext-color-dark sm:text-[10px] lg:text-xs">

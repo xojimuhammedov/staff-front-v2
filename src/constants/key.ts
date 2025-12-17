@@ -29,5 +29,6 @@ export const KEYS = {
   employeeJobPosition: "employeeJobPosition",
   deviceForDoor: "deviceForDoor",
   employeeTimesheet: "employeeTimesheet",
-  actionAttendancesList:"actionAttendancesList"
+  actionAttendancesList:"actionAttendancesList",
+  employeeByAttendancesCard:"employeeByAttendancesCard"
 };

@@ -1,6 +1,6 @@
 export interface searchValue {
     page?: string,
-    pageSize?: string,
+    limit?: string,
     search?: string,
     organizationId?: string,
     subdepartmentId?: string,

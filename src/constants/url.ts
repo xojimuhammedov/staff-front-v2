@@ -29,5 +29,6 @@ export const URLS = {
   employeeJobPosition: "/api/v1/jobs",
   deviceForDoor: "/api/v1/devices/openDoor",
   employeeTimesheet: "/api/v1/reports/attendance",
-  actionAttendancesList: "/api/v1/action"
+  actionAttendancesList: "/api/v1/action",
+  employeeByAttendancesCard: "/api/v1/reports/attendance/statics"
 };

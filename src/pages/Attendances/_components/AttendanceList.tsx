@@ -40,11 +40,13 @@ const AttendanceList = ({ watch }: any) => {
     params: {
       search: searchValue?.search,
       page: searchValue?.page || 1,
-      limit: searchValue?.pageSize || 10,
+      limit: searchValue?.limit || 10,
       ...paramsValue,
       ...searchValue
     }
   });
+
+  console.log(searchValue)
   const columns: DataGridColumnType[] = useMemo(
     () => [
       {
@@ -186,8 +188,6 @@ const AttendanceList = ({ watch }: any) => {
           dataColumn={dataColumn}
           rowActions={rowActions}
           pagination={data}
-          handleRowClick={(item) => navigate(`/attendances/actions/${item?.employeeId}`)}
-
         />
       </TableProvider>
     </>

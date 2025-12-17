@@ -35,8 +35,6 @@ const ActionList = ({ watch }: any) => {
             page: searchValue?.page || 1,
             limit: searchValue?.pageSize || 10,
             employeeId: id,
-            // startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
-            // endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
         }
     });
     const columns: DataGridColumnType[] = useMemo(
