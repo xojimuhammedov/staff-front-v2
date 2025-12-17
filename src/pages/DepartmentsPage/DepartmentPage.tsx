@@ -33,7 +33,8 @@ const DepartmentPage = () => {
     params: {
       search: searchValue.search,
       organizationId: searchValue.organizationId,
-      parentId: searchValue.subdepartmentId
+      parentId: searchValue.subdepartmentId,
+      isSubDepartment: false
     }
   })
 
