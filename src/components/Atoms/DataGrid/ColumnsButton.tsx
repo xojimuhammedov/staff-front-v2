@@ -26,6 +26,9 @@ const ColumnsButton = () => {
   const comeStatus = currentFilters['arrivalStatus'] || null;
   const leftStatus = currentFilters['goneStatus'] || null;
 
+  const isAllSelected = !comeStatus && !leftStatus;
+
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -45,6 +48,17 @@ const ColumnsButton = () => {
       newParams.delete(type);
     }
     newParams.set('page', '1');
+    setSearchParams(newParams);
+    setOpen(false);
+  };
+
+  const handleAllStatuses = () => {
+    const newParams = new URLSearchParams(searchParams);
+
+    newParams.delete('arrivalStatus');
+    newParams.delete('goneStatus');
+    newParams.set('page', '1');
+
     setSearchParams(newParams);
     setOpen(false);
   };
@@ -86,9 +100,29 @@ const ColumnsButton = () => {
         endIcon: open ? <ChevronUp /> : <ChevronDown />
       }}>
       <div ref={dropdownRef} className="py-2">
-        {/* Come Status Group */}
         <DropdownItemWrapper className="cursor-default px-4 py-2">
           <p className="text-sm font-medium text-text-subtle">{t('Come Status')}</p>
+        </DropdownItemWrapper>
+
+        <DropdownItemWrapper className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <div className="flex items-center">
+            <input
+              id="all-status"
+              type="radio"
+              name="all-status"
+              checked={isAllSelected}
+              onChange={handleAllStatuses}
+              className="h-4 w-4 border-gray-300 bg-gray-100 focus:ring-2
+              text-gray-600 focus:ring-gray-500
+              dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
+            />
+            <label
+              htmlFor="all-status"
+              className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer w-full"
+            >
+              {t('All')}
+            </label>
+          </div>
         </DropdownItemWrapper>
 
         {statusOptions.map((option) => (
