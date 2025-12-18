@@ -48,29 +48,52 @@ const Credentials = () => {
 
     return (
         <>
-            <div className='flex justify-end'> <Button startIcon={<Plus />} onClick={() => setShowModal(true)} className={'[&_svg]:stroke-bg-white'} variant='primary'>Add new type</Button></div>
+            <div className='flex justify-end'>
+                <Button startIcon={<Plus />} onClick={() => setShowModal(true)} className={'[&_svg]:stroke-bg-white'} variant='primary'>Add new type</Button>
+            </div>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
-                {
-                    data?.map((item: any) => (
-                        <div key={item?.id} className='bg-white border border-gray-200 rounded-lg shadow-sm p-4 gap-2'>
-                            {
-                                item.type === "PHOTO" ? <img className='w-16 h-16 rounded-full' src={`${config.FILE_URL}api/storage/${item?.additionalDetails}`} alt="" /> : <h2 className='text-base font-medium'>{item?.code}</h2>
-                            }
-                            {/* <h2 className='text-base font-medium'>{item?.code}</h2> */}
-                            <div className='flex items-center gap-1 mt-4'>
-                                <p className='text-sm'>Type:</p>
-                                <b className='text-sm'>{item?.type}</b>
-                            </div>
-                            <div className='flex items-center gap-2 mt-4'>
-                                <Button variant='destructive' onClick={() => deleteItem(item?.id)} className={'w-full font-medium'}>Delete</Button>
-                                <Button variant='secondary' onClick={() => {
-                                    setCredentialId(item?.id)
-                                    setShow(true)
-                                }} startIcon={<Edit />}></Button>
-                            </div>
+                {data?.map((item: any) => (
+                    <div
+                        key={item?.id}
+                        className='bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col'
+                    >
+                        <div className='flex items-center mb-4'>
+                            {item.type === "PHOTO" ? (
+                                <img
+                                    className='w-20 h-20 rounded-full object-cover'
+                                    src={`${config.FILE_URL}api/storage/${item?.additionalDetails}`}
+                                    alt="User photo"
+                                />
+                            ) : (
+                                <h2 className='text-2xl font-semibold text-gray-800'>{item?.code}</h2>
+                            )}
                         </div>
-                    ))
-                }
+
+                        <div className='mb-6'>
+                            <p className='text-sm text-gray-600'>
+                                Type: <span className='font-semibold'>{item?.type}</span>
+                            </p>
+                        </div>
+
+                        <div className='flex items-center gap-2 mt-auto'>
+                            <Button
+                                variant='destructive'
+                                // onClick={() => deleteItem(item?.id)}
+                                className='w-full font-medium'
+                            >
+                                Delete
+                            </Button>
+                            <Button
+                                variant='secondary'
+                                onClick={() => {
+                                    setCredentialId(item?.id);
+                                    setShow(true);
+                                }}
+                                startIcon={<Edit />}
+                            />
+                        </div>
+                    </div>
+                ))}
             </div>
             <MyModal
                 modalProps={{
@@ -85,7 +108,7 @@ const Credentials = () => {
                 }}
                 bodyProps={{
                     children: <Form refetch={refetch} onClose={() => setShowModal(false)} employeeId={id} />,
-                    className:"py-4"
+                    className: "py-4"
                 }}
             />
             <MyModal

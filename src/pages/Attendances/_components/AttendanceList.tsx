@@ -20,13 +20,15 @@ import dayjs from 'dayjs';
 import ReasonModal from './ReasonModal';
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 import { searchValue } from 'types/search';
+import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
+import { View } from 'lucide-react';
 
 
 const AttendanceList = ({ watch }: any) => {
   const { t } = useTranslation();
   const location = useLocation()
-  const searchValue: searchValue = paramsStrToObj(location.search)
   const navigate = useNavigate()
+  const searchValue: searchValue = paramsStrToObj(location.search)
   const paramsValue = watch('date') ? {
     startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
     endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
@@ -45,8 +47,6 @@ const AttendanceList = ({ watch }: any) => {
       ...searchValue
     }
   });
-
-  console.log(searchValue)
   const columns: DataGridColumnType[] = useMemo(
     () => [
       {
@@ -115,7 +115,7 @@ const AttendanceList = ({ watch }: any) => {
       {
         key: "reason",
         label: t("Reason"),
-        headerClassName: 'w-1/4',
+        headerClassName: 'w-28',
         cellRender: (row) => <ReasonModal row={row} refetch={refetch} />
       }
     ],
@@ -151,7 +151,7 @@ const AttendanceList = ({ watch }: any) => {
     {
       id: 7,
       label: t('Reason'),
-      headerClassName: 'w-1/4'
+      headerClassName: 'w-28'
     }
   ];
 
@@ -160,7 +160,17 @@ const AttendanceList = ({ watch }: any) => {
     [t]
   )
   const rowActions: IAction[] = useMemo(
-    () => [],
+    () => [
+      {
+        icon: <View size={DEFAULT_ICON_SIZE} />,
+        type: 'primary',
+        name: t('View'),
+        action: (row, $e) => {
+          navigate(`/employees/about/${row.id}?current-setting=attendance`);
+        },
+        allowedRoles: ['ADMIN', 'HR'],
+      },
+    ],
     [t]
   );
 

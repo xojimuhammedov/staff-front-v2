@@ -31,5 +31,6 @@ export const KEYS = {
   employeeTimesheet: "employeeTimesheet",
   actionAttendancesList: "actionAttendancesList",
   employeeByAttendancesCard: "employeeByAttendancesCard",
-  dashbord: "dashbord"
+  dashbord: "dashbord",
+  dashboardLineChart:"dashboardLineChart"
 };
