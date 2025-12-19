@@ -2,7 +2,7 @@ import Button from 'components/Atoms/MyButton';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import {  useGetAllQuery, useGetOneQuery } from 'hooks/api';
+import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
 import { Edit, Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import Form from './Create';
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import EditForm from './Edit';
 import config from 'configs';
+import { toast } from 'react-toastify';
 
 const Credentials = () => {
     const { id } = useParams()
@@ -29,22 +30,32 @@ const Credentials = () => {
         enabled: !!credentialId
     });
 
-    // const { mutate: deleteRequest } = useDeleteQuery({
-    //     listKeyId: KEYS.credentials
-    // });
+    const { mutate: update } = usePutQuery({
+        listKeyId: KEYS.credentials,
+        hideSuccessToast: true
+    });
 
-    // const deleteItem = (id: number) => {
-    //     deleteRequest(
-    //         {
-    //             url: `${URLS.credentials}/${id}`
-    //         },
-    //         {
-    //             onSuccess: () => {
-    //                 refetch();
-    //             }
-    //         }
-    //     );
-    // };
+    const onSubmit = (data: any) => {
+        update(
+            {
+                url: `${URLS.credentials}/${data?.id}`,
+                attributes: {
+                    isActive: data?.isActive ? false : true
+                }
+            },
+            {
+                onSuccess: () => {
+                    toast.success(t('Edit successfully!'));
+                    refetch()
+                },
+                onError: (e: any) => {
+                    console.log(e);
+                    toast.error(e?.response?.data?.error?.message)
+                }
+            }
+        );
+    };
+
 
     return (
         <>
@@ -78,10 +89,12 @@ const Credentials = () => {
                         <div className='flex items-center gap-2 mt-auto'>
                             <Button
                                 variant='destructive'
-                                // onClick={() => deleteItem(item?.id)}
                                 className='w-full font-medium'
+                                onClick={() => {
+                                    onSubmit(item);
+                                }}
                             >
-                                Delete
+                                Active
                             </Button>
                             <Button
                                 variant='secondary'
