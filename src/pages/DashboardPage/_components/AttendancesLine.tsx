@@ -1,4 +1,5 @@
 import LineChart from 'components/Molecules/Chart';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const AttendancesLine = ({ date, onTime, late, absent }: any) => {
@@ -38,4 +39,4 @@ const AttendancesLine = ({ date, onTime, late, absent }: any) => {
     );
 };
 
-export default AttendancesLine;
+export default React.memo(AttendancesLine);

@@ -53,7 +53,9 @@ function EmployeeDragDrop() {
   const { data: employeeList } = useGetAllQuery<EmployeeResponse>({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
-    params: {}
+    params: {
+      search: searchParams.get("search")
+    }
   });
 
   const { data } = useGetOneQuery({
@@ -124,20 +126,6 @@ function EmployeeDragDrop() {
   const notSelectedEmployees =
     employeeList?.data?.filter((emp: Employee) => !finalSelectedIds.includes(emp.id)) ?? [];
 
-  /////////
-
-  // useEffect(() => {
-  //   if (data?.data?.gates) {
-
-  //     const savedGateIds =
-  //       data?.data?.gates
-  //         ? data?.data?.gates.map((g: any) => g.id)
-  //         : data?.data?.gates || [];
-
-  //     setSelectGates(savedGateIds); // Bu yer muhim!
-  //   }
-  // }, [data?.data?.gates]);
-
   const options = useMemo(() =>
     getDoor?.data?.map((item: any) => ({
       label: item.name,
@@ -145,7 +133,6 @@ function EmployeeDragDrop() {
     })) || [],
     [getDoor?.data]);
 
-  // Tanlangan optionlarni React Select ga berish uchun
   const selectedValues = useMemo(() =>
     options.filter((option: any) => selectGates.includes(option.value)),
     [options, selectGates]
@@ -190,7 +177,7 @@ function EmployeeDragDrop() {
           <MySelect
             isMulti
             options={options}
-            value={selectedValues}        // Bu yerda to'g'ri tanlanganlar ko'rinadi
+            value={selectedValues}
             onChange={(selected: any) => {
               const ids = selected ? selected.map((s: any) => s.value) : [];
               setSelectGates(ids);
@@ -220,9 +207,10 @@ function EmployeeDragDrop() {
                 if (event.key === KeyTypeEnum.enter) {
                   handleSearch();
                 } else {
-                  setSearch(get(event, "target.value", ""));
+                  setSearch((event.target as HTMLInputElement).value);
                 }
               }}
+              defaultValue={searchParams.get("search") ?? ""}
               startIcon={
                 <Search className="stroke-text-muted" onClick={handleSearch} />
               }

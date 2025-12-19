@@ -5,10 +5,15 @@ import { useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useParams } from 'react-router-dom';
+import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
+import { Calendar } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
 
 interface AttendanceCardData {
     averageArrivalTime?: string;
-    avgArrivalEarlyMinutes?: number;
+    avgArrivalEarlyMinutes?: number | null;
     avgArrivalLateMinutes?: number;
     averageLeaveTime?: string;
     avgLeaveOvertimeMinutes?: number;
@@ -19,12 +24,23 @@ interface AttendanceCardData {
 }
 
 const AttendancesInfo = () => {
+    const { t } = useTranslation()
+    const { control, watch } = useForm()
     const { id } = useParams()
+
+    const paramsValue = watch('date') ? {
+        startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
+        endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
+    } : {
+        endDate: dayjs().format("YYYY-MM-DD"),
+        startDate: dayjs().subtract(3, 'day').format("YYYY-MM-DD"),
+    }
     const { data } = useGetAllQuery({
         key: KEYS.actionAttendancesList,
         url: URLS.actionAttendancesList,
         params: {
             employeeId: id,
+            ...paramsValue
         }
     });
 
@@ -33,26 +49,39 @@ const AttendancesInfo = () => {
         url: URLS.employeeByAttendancesCard,
         params: {
             employeeId: id,
-            startDate: "2025-12-15",
-            endDate: "2025-12-15"
+            ...paramsValue
         }
     });
     return (
         <>
-            <h1 className='headers-core dark:text-text-title-dark text-text-base'>Attendance & Arrival/Leave Tracking</h1>
-            <p>Monitor employee attendance patterns and punctuality</p>
+            <div className='flex items-center justify-between'>
+                <div className='flex flex-col gap-2'>
+                    <h1 className='headers-core dark:text-text-title-dark text-text-base'>Attendance & Arrival/Leave Tracking</h1>
+                    <p>Monitor employee attendance patterns and punctuality</p>
+                </div>
+                <div className="flex items-center w-[230px]">
+                    <MyTailwindPicker
+                        useRange={true}
+                        name='date'
+                        asSingle={false}
+                        control={control}
+                        placeholder={t('Today')}
+                        startIcon={<Calendar stroke="#9096A1" />}
+                    />
+                </div>
+            </div>
             <MyDivider />
             <div className='grid grid-cols-3 gap-4'>
                 <AttendanceCard
                     averageArrival={cardData?.averageArrivalTime || "-"}
                     title='Average Arrival Time'
-                    statusText={`${cardData?.avgArrivalEarlyMinutes ?? cardData?.avgArrivalLateMinutes ?? ""}`}
+                    statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? cardData?.avgArrivalLateMinutes : cardData?.avgArrivalEarlyMinutes}`}
                     statusClass={cardData?.avgArrivalEarlyMinutes === 0 ? "late" : "early"} />
 
                 <AttendanceCard
                     averageArrival={cardData?.averageLeaveTime || "-"}
                     title='Average Arrival Time'
-                    statusText={`${cardData?.avgLeaveOvertimeMinutes ?? cardData?.avgLeaveEarlyMinutes ?? ""}`}
+                    statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? cardData?.avgLeaveEarlyMinutes : cardData?.avgLeaveOvertimeMinutes}`}
                     statusClass={cardData?.avgLeaveOvertimeMinutes === 0 ? "early" : "late"} />
 
                 <AttendanceCard

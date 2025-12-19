@@ -13,8 +13,9 @@ import AvatarIcon from 'assets/icons/avatar.png'
 import MyAvatar from 'components/Atoms/MyAvatar';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ISelect } from 'interfaces/select.interface';
+import { KeyTypeEnum } from 'enums/key-type.enum';
 
 interface EmployeeResponse {
   data: Employee[];
@@ -33,13 +34,17 @@ interface Employee {
 function EmployeeDragDrop() {
   const { t } = useTranslation();
   const navigate = useNavigate()
+  const [search, setSearch] = useState<any>("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [selectGates, setSelectGates] = useState<number[]>([]);
   const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]); // yakuniy tanlanganlar
   const { data } = useGetAllQuery<EmployeeResponse>({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
-    params: {}
+    params: {
+      search: searchParams.get("search")
+    }
   });
 
   const { data: getOrganization } = useGetAllQuery<any>({
@@ -49,11 +54,12 @@ function EmployeeDragDrop() {
     hideErrorMsg: true
   })
 
-  const { data: getDoor }: any = useGetAllQuery({
-    key: KEYS.getDoorGates,
-    url: URLS.getDoorGates,
-    params: {}
-  });
+
+  // const { data: getDoor }: any = useGetAllQuery({
+  //   key: KEYS.getDoorGates,
+  //   url: URLS.getDoorGates,
+  //   params: {}
+  // });
 
   const { mutate: create } = usePostQuery({
     listKeyId: KEYS.devicesEmployeeAssign,
@@ -61,6 +67,15 @@ function EmployeeDragDrop() {
   });
 
   const { handleSubmit, control, } = useForm()
+
+  const handleSearch = () => {
+    if (search) {
+      searchParams.set("search", search);
+    } else {
+      searchParams.delete("search");
+    }
+    setSearchParams(searchParams);
+  };
 
   const handleSelectAll = () => {
     if (selectedIds.length === (data?.data?.length ?? 0)) {
@@ -198,6 +213,14 @@ function EmployeeDragDrop() {
             <MyInput
               startIcon={<Search className="stroke-text-muted" />}
               placeholder={t('Search')}
+              onKeyUp={(event) => {
+                if (event.key === KeyTypeEnum.enter) {
+                  handleSearch();
+                } else {
+                  setSearch((event.target as HTMLInputElement).value);
+                }
+              }}
+              defaultValue={searchParams.get("search") ?? ""}
             />
           </div>
           <div className="mt-4 flex w-full flex-col gap-4">

@@ -2,7 +2,7 @@ import Button from 'components/Atoms/MyButton';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useDeleteQuery, useGetAllQuery, useGetOneQuery } from 'hooks/api';
+import {  useGetAllQuery, useGetOneQuery } from 'hooks/api';
 import { Edit, Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import Form from './Create';
@@ -29,22 +29,22 @@ const Credentials = () => {
         enabled: !!credentialId
     });
 
-    const { mutate: deleteRequest } = useDeleteQuery({
-        listKeyId: KEYS.credentials
-    });
+    // const { mutate: deleteRequest } = useDeleteQuery({
+    //     listKeyId: KEYS.credentials
+    // });
 
-    const deleteItem = (id: number) => {
-        deleteRequest(
-            {
-                url: `${URLS.credentials}/${id}`
-            },
-            {
-                onSuccess: () => {
-                    refetch();
-                }
-            }
-        );
-    };
+    // const deleteItem = (id: number) => {
+    //     deleteRequest(
+    //         {
+    //             url: `${URLS.credentials}/${id}`
+    //         },
+    //         {
+    //             onSuccess: () => {
+    //                 refetch();
+    //             }
+    //         }
+    //     );
+    // };
 
     return (
         <>

@@ -16,9 +16,13 @@ import { useMemo } from "react";
 
 interface DashboardData {
   totalEmployees?: number;
+  newEmployeesCount?: number;
   totalComputers?: number;
+  newComputersCount?: number;
   totalDepartments?: number;
+  newDepartmentsCount?: number;
   totalOrganizations?: number;
+  newOrganizationsCount?: number;
 }
 
 interface chartData {
@@ -108,9 +112,13 @@ const DashboardPage = () => {
       </div>
       <DashboardCard
         totalEmployees={data?.totalEmployees}
+        newEmployeesCount={data?.newEmployeesCount}
         totalComputers={data?.totalComputers}
+        newComputersCount={data?.newComputersCount}
         totalDepartments={data?.totalDepartments}
+        newDepartmentsCount={data?.newDepartmentsCount}
         totalOrganizations={data?.totalOrganizations}
+        newOrganizationsCount={data?.newOrganizationsCount}
       />
       <div className="rounded-m bg-bg-base p-4 mt-8 shadow-base dark:bg-dark-dashboard-cards">
         <AttendancesLine
