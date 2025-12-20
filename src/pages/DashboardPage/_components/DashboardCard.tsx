@@ -1,15 +1,7 @@
 import React from 'react';
 import { Users, Monitor, Grid3x3, Building2 } from 'lucide-react';
+import { DashboardCardProps, StatCardProps } from '../interface/dashboard.interface';
 
-interface StatCardProps {
-    icon: React.ReactNode;
-    title: string;
-    value: string;
-    change: string;
-    changeType: 'increase' | 'neutral' | 'none';
-    bgColor: string;
-    iconColor: string;
-}
 
 const StatCard: React.FC<StatCardProps> = ({
     icon,
@@ -61,16 +53,7 @@ const StatCard: React.FC<StatCardProps> = ({
     );
 };
 
-interface DashboardCardProps {
-    totalEmployees?: number;
-    newEmployeesCount?: number;
-    totalComputers?: number;
-    newComputersCount?: number;
-    totalDepartments?: number;
-    newDepartmentsCount?: number;
-    totalOrganizations?: number;
-    newOrganizationsCount?: number;
-}
+
 
 const DashboardCard: React.FC<DashboardCardProps> = ({ totalEmployees, totalComputers, totalDepartments, totalOrganizations, newEmployeesCount, newComputersCount, newDepartmentsCount, newOrganizationsCount }) => {
     const stats = [
@@ -96,7 +79,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ totalEmployees, totalComp
             icon: <Grid3x3 size={28} strokeWidth={2} />,
             title: 'Total Departments',
             value: String(totalDepartments ?? 0),
-            change: `${newDepartmentsCount} No change`,
+            change: `${newDepartmentsCount} this month`,
             changeType: 'increase' as const,
             bgColor: 'bg-blue-100',
             iconColor: 'text-blue-600'

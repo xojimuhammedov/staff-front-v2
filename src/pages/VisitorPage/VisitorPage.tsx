@@ -1,7 +1,6 @@
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useTranslation } from 'react-i18next';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
-import MyDivider from 'components/Atoms/MyDivider';
 import VisitorTable from './_components/VisitorTable';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { Plus } from 'lucide-react';

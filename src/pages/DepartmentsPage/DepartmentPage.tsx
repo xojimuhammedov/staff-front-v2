@@ -1,8 +1,5 @@
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useState } from 'react';
-import { useGetAllQuery } from 'hooks/api';
-import { KEYS } from 'constants/key';
-import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useTranslation } from 'react-i18next';
@@ -11,32 +8,19 @@ import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyDivider from 'components/Atoms/MyDivider';
 import { MyInput } from 'components/Atoms/Form';
 import MyPagination from 'components/Atoms/MyPagination/Pagination';
-import { Department } from './interface/department.interface';
 import DepartmentList from './_components/DepartmentList';
-import { paramsStrToObj } from 'utils/helper';
 import { useSearch } from 'hooks/useSearch';
 import { KeyTypeEnum } from 'enums/key-type.enum';
 import Loading from 'assets/icons/Loading';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { searchValue } from 'types/search';
+import { useNavigate } from 'react-router-dom';
+import { useDepartment } from './hooks/useDepartment';
 
 const DepartmentPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false);
-  const location = useLocation()
-  const searchValue: searchValue = paramsStrToObj(location.search)
   const { search, setSearch, handleSearch } = useSearch();
-  const { data, refetch, isLoading } = useGetAllQuery<{ data: Department[] }>({
-    key: KEYS.getAllListDepartment,
-    url: URLS.getAllListDepartment,
-    params: {
-      search: searchValue.search,
-      organizationId: searchValue.organizationId,
-      parentId: searchValue.subdepartmentId,
-      isSubDepartment: false
-    }
-  })
+  const { data, isLoading, searchValue } = useDepartment()
 
   const breadCrumbs = [
     {
@@ -98,7 +82,7 @@ const DepartmentPage = () => {
         </div>
       </div>
       <MyDivider />
-      <DepartmentList data={data} refetch={refetch} showModal={showModal} setShowModal={setShowModal} />
+      <DepartmentList showModal={showModal} setShowModal={setShowModal} />
     </PageContentWrapper>
   );
 }

@@ -1,92 +1,18 @@
 import { MyInput, MySelect } from 'components/Atoms/Form';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { object, string } from 'yup';
-import * as yup from "yup";
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KEYS } from 'constants/key';
-import { useGetAllQuery, usePostQuery } from 'hooks/api';
-import { toast } from 'react-toastify';
-import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { get } from 'lodash';
 import { ISelect } from 'interfaces/select.interface';
 import { Department } from '../interface/department.interface';
 import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
-import storage from 'services/storage';
+import { useFormDepartment } from '../hooks/useFormDepartment';
 
-const Form = ({ refetch, onClose }: any) => {
+const Form = ({ onClose }: any) => {
     const { t } = useTranslation()
-    const userData: any = storage.get("userData")
-    const userRole = JSON.parse(userData)?.role
-    const { data } = useGetAllQuery<any>({
-        key: KEYS.getAllListOrganization,
-        url: URLS.getAllListOrganization,
-        hideErrorMsg: true,
-        params: {},
-    })
 
-    const schema = object().shape({
-        fullName: string().required(),
-        shortName: string().required(),
-        email: string(),
-        address: string(),
-        additionalDetails: string(),
-        phone: string(),
-        organizationId: yup
-            .number()
-            .when('$role', (role: any, schema) =>
-                role === 'ADMIN' ? schema.required() : schema.optional()
-            ),
-        parentId: yup.number()
-    });
+    const { register, getDepartment, handleSubmit, onSubmit, control, errors, reset, data } = useFormDepartment(onClose)
 
-    const {
-        handleSubmit,
-        register,
-        reset,
-        control,
-        watch,
-        formState: { errors }
-    } = useForm({
-        mode: 'onChange',
-        resolver: yupResolver(schema),
-        context: { role: userRole }
-    });
-
-    const { mutate: create } = usePostQuery({
-        listKeyId: KEYS.getAllListDepartment,
-        hideSuccessToast: true
-    });
-
-    const onSubmit = (data: any) => {
-        create(
-            {
-                url: URLS.getAllListDepartment,
-                attributes: data
-            },
-            {
-                onSuccess: () => {
-                    toast.success(t('Successfully created!'));
-                    reset();
-                    refetch()
-                    onClose()
-                },
-                onError: (e: any) => {
-                    console.log(e);
-                    toast.error(e?.response?.data?.error?.message)
-                }
-            }
-        );
-    };
-
-    const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({
-        key: KEYS.getAllListDepartment,
-        url: URLS.getAllListDepartment,
-        params: {
-            organizationId: watch("organizationId")
-        }
-    })
 
     return (
         <div className='p-4'>

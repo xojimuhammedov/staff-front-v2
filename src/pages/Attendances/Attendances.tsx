@@ -3,18 +3,16 @@ import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useTranslation } from 'react-i18next';
 import AttendanceList from './_components/AttendanceList';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
-import { useForm } from 'react-hook-form';
 import { Calendar, Search } from 'lucide-react';
-import { useSearch } from 'hooks/useSearch';
 import { MyInput } from 'components/Atoms/Form';
 import { KeyTypeEnum } from 'enums/key-type.enum';
 import ColumnsButton from 'components/Atoms/DataGrid/ColumnsButton';
+import { useAttendance } from './hooks/useAttendance';
 
 
 const Attendances = () => {
     const { t } = useTranslation();
-    const { control, watch }: any = useForm()
-    const { search, setSearch, handleSearch } = useSearch();
+    const { handleSearch, setSearch, search, control } = useAttendance()
     const breadCrumbs = [
         {
             label: t('Attendances'),
@@ -55,7 +53,7 @@ const Attendances = () => {
                     />
                 </div>
             </div>
-            <AttendanceList watch={watch} />
+            <AttendanceList />
         </PageContentWrapper>
     );
 }

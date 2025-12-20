@@ -2,51 +2,24 @@ import { MySelect, MyTextarea } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import MyModal from 'components/Atoms/MyModal';
-import { KEYS } from 'constants/key';
-import { URLS } from 'constants/url';
-import { useGetAllQuery, usePutQuery } from 'hooks/api';
 import { ISelect } from 'interfaces/select.interface';
-import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React from 'react';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+import { useFormAttendance } from '../hooks/useFormAttendance';
 
 function ReasonModal({ row, refetch }: any) {
     const { t, i18n } = useTranslation();
-    const [open, setOpen] = useState(false);
-
-    const { data }: any = useGetAllQuery({
-        key: KEYS.attendancesReason,
-        url: URLS.attendancesReason,
-        params: {}
-    })
-
-    const { mutate: create } = usePutQuery({
-        listKeyId: KEYS.attendacesForEmployee,
-        hideSuccessToast: true
-    });
-
-    const { handleSubmit, register, control, watch } = useForm()
-
-    const onSubmit = (data: any) => {
-        create(
-            {
-                url: `${URLS.attendacesForEmployee}/${row?.id}`,
-                attributes: data
-            },
-            {
-                onSuccess: () => {
-                    toast.success(t('Your reason has been sent!'));
-                    setOpen(false)
-                    refetch()
-                },
-                onError: (e) => {
-                    console.log(e);
-                    toast.error(t('An error occurred!'));
-                }
-            }
-        );
-    };
+    const {
+        open,
+        setOpen,
+        reasonData,
+        register,
+        watch,
+        onSubmit,
+        handleSubmit,
+        control
+    } = useFormAttendance({ row, refetch })
 
     return (
         <>
@@ -102,7 +75,7 @@ function ReasonModal({ row, refetch }: any) {
                                                     render={({ field, fieldState }) => (
                                                         <MySelect
                                                             label={t("Select type")}
-                                                            options={data?.items?.map((evt: any) => ({
+                                                            options={reasonData?.items?.map((evt: any) => ({
                                                                 label: evt[`${i18n?.language}`],
                                                                 value: evt.id,
                                                             }))}

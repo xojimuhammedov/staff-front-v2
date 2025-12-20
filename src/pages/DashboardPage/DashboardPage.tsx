@@ -3,39 +3,11 @@ import PageContentWrapper from "components/Layouts/PageContentWrapper";
 import { useTranslation } from "react-i18next";
 import DashboardCard from "./_components/DashboardCard";
 import ProgressCard from "./_components/ProgressCard";
-import { useGetAllQuery } from "hooks/api";
-import { KEYS } from "constants/key";
-import { URLS } from "constants/url";
 import AttendancesLine from "./_components/AttendancesLine";
-import { get } from "lodash";
-import dayjs from "dayjs";
 import MyTailwindPicker from "components/Atoms/Form/MyTailwindDatePicker";
 import { Calendar } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { useMemo } from "react";
+import { useDashboard } from "./hooks/useDashboard";
 
-interface DashboardData {
-  totalEmployees?: number;
-  newEmployeesCount?: number;
-  totalComputers?: number;
-  newComputersCount?: number;
-  totalDepartments?: number;
-  newDepartmentsCount?: number;
-  totalOrganizations?: number;
-  newOrganizationsCount?: number;
-}
-
-interface chartData {
-  absent?: number;
-  late?: number;
-  onTime?: number;
-  date?: string
-}
-
-interface LineChartData {
-  employeeCount?: number;
-  data: chartData[]
-}
 
 const DashboardPage = () => {
   const { t } = useTranslation();
@@ -45,49 +17,8 @@ const DashboardPage = () => {
       url: '#'
     }
   ];
-  const { control, watch } = useForm()
 
-  const paramsValue = watch('date') ? {
-    startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
-    endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
-  } : {
-    endDate: dayjs().format("YYYY-MM-DD"),
-    startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
-  }
-
-  const { data } = useGetAllQuery<DashboardData>({
-    key: KEYS.dashbord,
-    url: URLS.dashbord,
-    params: {
-      ...paramsValue
-    }
-  })
-
-  const { data: chartData } = useGetAllQuery<LineChartData>({
-    key: KEYS.dashboardLineChart,
-    url: URLS.dashboardLineChart,
-    params: {
-      ...paramsValue
-    }
-  });
-
-  const lineChartData = useMemo(() => {
-    const items = get(chartData, 'data', []) as chartData[];
-
-    const dates: string[] = [];
-    const absents: number[] = [];
-    const lates: number[] = [];
-    const onTimes: number[] = [];
-
-    items.forEach((item) => {
-      dates.push(item.date || '');
-      absents.push(item.absent || 0);
-      lates.push(item.late || 0);
-      onTimes.push(item.onTime || 0);
-    });
-
-    return { dates, absents, lates, onTimes };
-  }, [chartData]);
+  const { data, control, lineChartData } = useDashboard()
 
 
   return (
