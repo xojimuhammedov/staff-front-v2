@@ -10,9 +10,8 @@ import { useFormDepartment } from '../hooks/useFormDepartment';
 
 const Form = ({ onClose }: any) => {
     const { t } = useTranslation()
-
-    const { register, getDepartment, handleSubmit, onSubmit, control, errors, reset, data } = useFormDepartment(onClose)
-
+    const { register, getDepartment, handleSubmit, 
+        onSubmit, control, errors, reset, data } = useFormDepartment(onClose)
 
     return (
         <div className='p-4'>

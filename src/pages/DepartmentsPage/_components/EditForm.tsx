@@ -1,92 +1,25 @@
 import { MyInput, MySelect } from 'components/Atoms/Form';
-import React, { useEffect, useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React from 'react';
+import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { KEYS } from 'constants/key';
-import { useGetAllQuery, usePutQuery } from 'hooks/api';
-import { toast } from 'react-toastify';
-import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { get } from 'lodash';
 import { ISelect } from 'interfaces/select.interface';
 import { Department } from '../interface/department.interface';
+import { useEditDepartment } from '../hooks/useEditDepartment';
 
-const EditForm = ({ onClose, refetch, data, departmentId }: any) => {
+const EditForm = ({ onClose }: any) => {
   const { t } = useTranslation()
 
-  const { data: getOrganization } = useGetAllQuery<any>({
-    key: KEYS.getAllListOrganization,
-    url: URLS.getAllListOrganization,
-    hideErrorMsg: true,
-    params: {},
-  })
-
-  const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({
-    key: KEYS.getAllListDepartment,
-    url: URLS.getAllListDepartment,
-    params: {}
-  })
-
-  const {
-    handleSubmit,
+  const { handleSubmit,
+    onSubmit,
     register,
-    reset,
     control,
-    formState: { errors }
-  } = useForm({
-    defaultValues: useMemo(() => {
-      return {
-        fullName: get(data, 'data.fullName'),
-        shortName: get(data, 'data.shortName'),
-        email: get(data, 'data.email'),
-        address: get(data, 'data.address'),
-        additionalDetails: get(data, 'data.additionalDetails'),
-        phone: get(data, 'data.phone'),
-        organizationId: get(data, 'data.organizationId'),
-        parentId: get(data, 'data.parentId')
-      };
-    }, [data]),
-    mode: 'onChange',
-  });
+    errors,
+    getDepartment,
+    getOrganization, reset } = useEditDepartment(onClose)
 
-  useEffect(() => {
-    reset({
-      fullName: get(data, 'data.fullName'),
-      shortName: get(data, 'data.shortName'),
-      email: get(data, 'data.email'),
-      address: get(data, 'data.address'),
-      additionalDetails: get(data, 'data.additionalDetails'),
-      phone: get(data, 'data.phone'),
-      organizationId: get(data, 'data.organizationId'),
-      parentId: get(data, 'data.parentId')
-    });
-  }, [data]);
 
-  const { mutate: update } = usePutQuery({
-    listKeyId: KEYS.getAllListDepartment,
-    hideSuccessToast: true
-  });
-
-  const onSubmit = (data: any) => {
-    update(
-      {
-        url: `${URLS.getAllListDepartment}/${departmentId}`,
-        attributes: data
-      },
-      {
-        onSuccess: () => {
-          toast.success(t('Edit successfully!'));
-          reset();
-          refetch()
-          onClose()
-        },
-        onError: (e: any) => {
-          console.log(e);
-          toast.error(e?.response?.data?.error?.message)
-        }
-      }
-    );
-  };
 
   return (
     <div className='p-4'>

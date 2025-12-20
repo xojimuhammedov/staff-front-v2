@@ -12,7 +12,7 @@ import { useDeleteDepartment } from '../hooks/useDeleteDepartment';
 const DepartmentList = ({ setShowModal, showModal }: any) => {
     const { t } = useTranslation()
     const { data, refetch } = useDepartment()
-    const { deleteItem, getOne, setDepartmentId, setOpen, setShow, open, show, departmentId } = useDeleteDepartment()
+    const { deleteItem, setDepartmentId, setOpen, setShow, open, show, } = useDeleteDepartment()
 
     return (
         <>
@@ -54,9 +54,7 @@ const DepartmentList = ({ setShowModal, showModal }: any) => {
                     className: 'px-6'
                 }}
                 bodyProps={{
-                    children: <EditForm
-                        departmentId={departmentId}
-                        data={getOne} refetch={refetch} onClose={() => setShow(false)} />
+                    children: <EditForm onClose={() => setShow(false)} />
                 }}
             />
         </>

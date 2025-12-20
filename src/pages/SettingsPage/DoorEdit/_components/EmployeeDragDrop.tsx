@@ -54,7 +54,8 @@ function EmployeeDragDrop() {
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
     params: {
-      search: searchParams.get("search")
+      // search: searchParams.get("search"),
+      limit: 100,
     }
   });
 
