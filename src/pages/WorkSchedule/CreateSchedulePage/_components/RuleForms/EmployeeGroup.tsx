@@ -1,28 +1,39 @@
-import { MyCheckbox } from 'components/Atoms/Form';
+import { MyCheckbox, MyInput } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
+import MyPagination from 'components/Atoms/MyPagination/Pagination';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
+import { KeyTypeEnum } from 'enums/key-type.enum';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
+import { get } from 'lodash';
+import { Search } from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { searchValue } from 'types/search';
 import { paramsStrToObj } from 'utils/helper';
 
 const EmployeeGroup = () => {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const { t } = useTranslation()
-    const location = useLocation()
     const navigate = useNavigate()
-    const scheduleId: any = paramsStrToObj(location.search);
+    const location = useLocation()
+    const [search, setSearch] = useState<any>("");
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchValue: searchValue = paramsStrToObj(location.search)
 
     const { data } = useGetAllQuery<any>({
         key: KEYS.getEmployeeList,
         url: URLS.getEmployeeList,
-        params: {}
+        params: {
+            search: searchParams.get("search"),
+            page: searchValue?.page || 1,
+            limit: searchValue?.limit || 10,
+        }
     });
 
     const {
@@ -41,7 +52,7 @@ const EmployeeGroup = () => {
 
     const onSubmit = () => {
         const submitData = {
-            employeePlanId: Number(scheduleId?.schedule),
+            employeePlanId: Number(searchValue?.schedule),
             employeeIds: selectedIds,
         }
         create(
@@ -87,44 +98,74 @@ const EmployeeGroup = () => {
     // Barchasi tanlanganligini aniqlash
     const isAllSelected =
         allIds.length > 0 && selectedIds.length === allIds.length;
+
+    const handleSearch = () => {
+        if (search) {
+            searchParams.set("search", search);
+        } else {
+            searchParams.delete("search");
+        }
+        setSearchParams(searchParams);
+    };
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <LabelledCaption
-                title={t('Add employees to group')}
-                subtitle={t('Short description describing this collection')}
-            />
-            <div className='border p-4 mt-8 rounded-lg'>
-                <div className='grid grid-cols-3 w-full'>
-                    <div className='flex items-center gap-2'>
-                        <MyCheckbox checked={isAllSelected}
-                            onChange={(checked) => handleSelectAll(checked)} label='Employee' />
-                    </div>
-                    <div className='dark:text-text-title-dark'>{t("Department")}</div>
-                    <div className='dark:text-text-title-dark'>{t("Phone")}</div>
+        <>
+            <div className='flex items-center justify-between'>
+                <LabelledCaption
+                    title={t('Add employees to group')}
+                    subtitle={t('Short description describing this collection')}
+                />
+                <div className='flex items-center my-2'>
+                    <MyInput
+                        onKeyUp={(event) => {
+                            if (event.key === KeyTypeEnum.enter) {
+                                handleSearch();
+                            } else {
+                                setSearch((event.target as HTMLInputElement).value);
+                            }
+                        }}
+                        defaultValue={searchParams.get("search") ?? ""}
+                        startIcon={
+                            <Search className="stroke-text-muted" onClick={handleSearch} />
+                        }
+                        placeholder={t("Search")}
+                    />
                 </div>
-                <MyDivider />
-                {
-                    data?.data?.map((item: any) => (
-                        <div key={item?.id} className='grid grid-cols-3 my-6 w-full'>
-                            <div>
-                                <MyCheckbox
-                                    label={item?.name}
-                                    checked={selectedIds.includes(item?.id)}
-                                    id={item.id}
-                                    onChange={(checked) => handleSelectOne(item?.id, checked)} />
-                            </div>
-                            <div className='dark:text-text-title-dark'>{item?.department?.shortName}</div>
-                            <div className='dark:text-text-title-dark'>{item?.phone}</div>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className='border p-4 mt-8 rounded-lg'>
+                    <div className='grid grid-cols-3 w-full'>
+                        <div className='flex items-center gap-2'>
+                            <MyCheckbox checked={isAllSelected}
+                                onChange={(checked) => handleSelectAll(checked)} label='Employee' />
                         </div>
-                    ))
-                }
-            </div>
-            <div className="flex justify-end mt-4">
-                <MyButton type="submit" variant="primary">
-                    {t('Create')}
-                </MyButton>
-            </div>
-        </form>
+                        <div className='dark:text-text-title-dark'>{t("Department")}</div>
+                        <div className='dark:text-text-title-dark'>{t("Phone")}</div>
+                    </div>
+                    <MyDivider />
+                    {
+                        data?.data?.map((item: any) => (
+                            <div key={item?.id} className='grid grid-cols-3 my-6 w-full'>
+                                <div>
+                                    <MyCheckbox
+                                        label={item?.name}
+                                        checked={selectedIds.includes(item?.id)}
+                                        id={item.id}
+                                        onChange={(checked) => handleSelectOne(item?.id, checked)} />
+                                </div>
+                                <div className='dark:text-text-title-dark'>{item?.department?.shortName}</div>
+                                <div className='dark:text-text-title-dark'>{item?.phone}</div>
+                            </div>
+                        ))
+                    }
+                </div>
+                <div className="flex justify-end mt-4">
+                    <MyButton type="submit" variant="primary">
+                        {t('Create')}
+                    </MyButton>
+                </div>
+            </form>
+            <MyPagination total={get(data, 'total')} />
+        </>
     );
 }
 

@@ -4,4 +4,5 @@ export interface searchValue {
     search?: string,
     organizationId?: string,
     subdepartmentId?: string,
+    schedule?: string;
 }

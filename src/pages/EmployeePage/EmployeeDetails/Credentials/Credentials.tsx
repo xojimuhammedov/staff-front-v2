@@ -56,7 +56,6 @@ const Credentials = () => {
         );
     };
 
-
     return (
         <>
             <div className='flex justify-end'>
@@ -94,7 +93,7 @@ const Credentials = () => {
                                     onSubmit(item);
                                 }}
                             >
-                                Active
+                                {item?.isActive ? "Inactive" : "Active"}
                             </Button>
                             <Button
                                 variant='secondary'

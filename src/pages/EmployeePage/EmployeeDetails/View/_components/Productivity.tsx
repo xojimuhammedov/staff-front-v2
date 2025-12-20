@@ -9,7 +9,8 @@ const Productivity = () => {
             <h2 className="text-lg font-semibold mb-6 text-gray-800">
                 {t("Weekly Activity")}
             </h2>
-            <LineChart data={[10, 40, 32, 55, 20, 42, 35]}
+            <LineChart 
+                data={[10, 40, 32, 55, 20, 42, 35]}
                 labels={["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]}
                 height={300}
                 areaColor="#FFEB3B"   // sariq area

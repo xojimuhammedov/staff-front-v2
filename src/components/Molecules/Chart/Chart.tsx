@@ -54,7 +54,7 @@ const Chart: FC<ChartProps> = ({
         series: series.map((item) => ({ type, ...item })),
         tooltip: {
             trigger: 'axis'
-        }
+        },
     };
 
     return (

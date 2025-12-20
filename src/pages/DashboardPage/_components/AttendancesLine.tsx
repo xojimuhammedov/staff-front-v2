@@ -23,7 +23,7 @@ const AttendancesLine = ({ date, onTime, late, absent }: any) => {
                 series={[
                     {
                         data: late,
-                        color: '#FDB563'
+                        color: '#FDB563',
                     },
                     {
                         data: onTime,
