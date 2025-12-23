@@ -12,6 +12,8 @@ const AttendanceList = () => {
   const { data, isLoading, refetch } = useAttendance()
   const { columns, dataColumn, rowActions } = createColumns(refetch)
 
+
+  
   if (isLoading) {
     return (
       <div className="absolute flex h-full w-full items-center justify-center">
