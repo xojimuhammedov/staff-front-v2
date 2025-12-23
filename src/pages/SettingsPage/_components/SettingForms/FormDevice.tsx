@@ -5,7 +5,6 @@ import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FormDeviceModal from './FormDeviceModal';
 import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import { KEYS } from 'constants/key';
@@ -13,6 +12,7 @@ import { URLS } from 'constants/url';
 import { useGetAllQuery } from 'hooks/api';
 import { MyCheckbox } from 'components/Atoms/Form';
 import { get } from 'lodash';
+import FormDeviceModal from 'pages/SettingsPage/DevicePage/_components/Create';
 
 function FormDevice({ handleClick }: any) {
   const { t } = useTranslation();

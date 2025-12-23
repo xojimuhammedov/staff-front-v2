@@ -261,7 +261,7 @@ const DataGrid = forwardRef(
                   <div
                     className={twMerge(
                       headerCellGeneralStyle,
-                      'bg-bg-subtle dark:bg-bg-darkBg dark:text-text-title-dark relative z-[99999]',
+                      'bg-bg-subtle dark:bg-bg-darkBg dark:text-text-title-dark',
                       'text-right',
                       'w-24'
                     )}>

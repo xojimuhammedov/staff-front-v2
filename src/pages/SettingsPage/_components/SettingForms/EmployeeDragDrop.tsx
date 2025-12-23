@@ -1,21 +1,27 @@
-import { MyCheckbox, MyInput, MySelect } from 'components/Atoms/Form';
-import MyButton from 'components/Atoms/MyButton/MyButton';
-import MyDivider from 'components/Atoms/MyDivider';
-import LabelledCaption from 'components/Molecules/LabelledCaption';
-import { KEYS } from 'constants/key';
-import { URLS } from 'constants/url';
-import { useGetAllQuery, usePostQuery } from 'hooks/api';
-import { get } from 'lodash';
-import { Search, Trash2 } from 'lucide-react';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import AvatarIcon from 'assets/icons/avatar.png'
-import MyAvatar from 'components/Atoms/MyAvatar';
-import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ISelect } from 'interfaces/select.interface';
-import { KeyTypeEnum } from 'enums/key-type.enum';
+import { MyCheckbox, MyInput, MySelect } from "components/Atoms/Form";
+import MyButton from "components/Atoms/MyButton/MyButton";
+import MyDivider from "components/Atoms/MyDivider";
+import LabelledCaption from "components/Molecules/LabelledCaption";
+import MyAvatar from "components/Atoms/MyAvatar";
+import MyModal from "components/Atoms/MyModal"; // <-- qo'shildi
+import { KEYS } from "constants/key";
+import { URLS } from "constants/url";
+import { useGetAllQuery, usePostQuery } from "hooks/api";
+import { Search, Trash2 } from "lucide-react";
+import { useState, useCallback, useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import AvatarIcon from "assets/icons/avatar.png";
+import deviceType from "configs/deviceType"; // <-- deviceType import qilindi
+
+interface Employee {
+  id: number;
+  name: string;
+  additionalDetails?: string;
+  avatar?: string;
+}
 
 interface EmployeeResponse {
   data: Employee[];
@@ -24,267 +30,331 @@ interface EmployeeResponse {
   total: number;
 }
 
-interface Employee {
-  id: number;
-  name: string;
-  additionalDetails: string;
-  avatar: string;
+interface ModalFormValues {
+  credentialTypes: string[]; // multiple
 }
 
 function EmployeeDragDrop() {
   const { t } = useTranslation();
-  const navigate = useNavigate()
-  const [search, setSearch] = useState<any>("");
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [selectGates, setSelectGates] = useState<number[]>([]);
-  const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]); // yakuniy tanlanganlar
-  const { data } = useGetAllQuery<EmployeeResponse>({
+
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [tempSelectedIds, setTempSelectedIds] = useState<number[]>([]);
+  const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]);
+  const [selectedDeviceTypes, setSelectedDeviceTypes] = useState<string[]>([]); // Yangi state
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const currentSearch = searchParams.get("search") || "";
+
+  const { data: employeesData, isLoading } = useGetAllQuery<EmployeeResponse>({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
-    params: {
-      search: searchParams.get("search")
-    }
+    params: { search: currentSearch || undefined },
   });
 
-  const { data: getOrganization } = useGetAllQuery<any>({
-    key: KEYS.getAllListOrganization,
-    url: URLS.getAllListOrganization,
-    params: {},
-    hideErrorMsg: true
-  })
+  const employees = employeesData?.data ?? [];
 
-
-  // const { data: getDoor }: any = useGetAllQuery({
-  //   key: KEYS.getDoorGates,
-  //   url: URLS.getDoorGates,
-  //   params: {}
-  // });
-
-  const { mutate: create } = usePostQuery({
+  const { mutate: assignEmployees } = usePostQuery({
     listKeyId: KEYS.devicesEmployeeAssign,
-    hideSuccessToast: true
+    hideSuccessToast: true,
   });
 
-  const { handleSubmit, control, } = useForm()
+  useEffect(() => {
+    setSearchInput(currentSearch);
+  }, [currentSearch]);
 
-  const handleSearch = () => {
-    if (search) {
-      searchParams.set("search", search);
+  const handleSearch = useCallback(() => {
+    const newParams = new URLSearchParams(searchParams);
+    if (searchInput.trim()) {
+      newParams.set("search", searchInput.trim());
     } else {
-      searchParams.delete("search");
+      newParams.delete("search");
     }
-    setSearchParams(searchParams);
+    setSearchParams(newParams);
+  }, [searchInput, searchParams, setSearchParams]);
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
-  const handleSelectAll = () => {
-    if (selectedIds.length === (data?.data?.length ?? 0)) {
-      setSelectedIds([]);
-    } else {
-      const ids = data?.data?.map((emp) => emp.id) ?? [];
-      setSelectedIds(ids);
-    }
-  };
-
-  const handleCheckboxChange = (id: number) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((empId) => empId !== id) : [...prev, id]
+  const toggleTempSelect = (id: number) => {
+    setTempSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
 
-  const handleAddSelected = () => {
+  const toggleSelectAll = () => {
+    if (tempSelectedIds.length === employees.length) {
+      setTempSelectedIds([]);
+    } else {
+      setTempSelectedIds(employees.map((emp) => emp.id));
+    }
+  };
+
+  const addSelectedToFinal = (deviceTypes: string[]) => {
+    if (tempSelectedIds.length === 0) return;
+
     setFinalSelectedIds((prev) => {
-      // yangi tanlangan id’larni eski listga qo‘shib, dublikatlarsiz qaytaradi
-      const merged = Array.from(new Set([...prev, ...selectedIds]));
-      return merged;
+      const newSet = new Set([...prev, ...tempSelectedIds]);
+      return Array.from(newSet);
     });
-    setSelectedIds([]); // vaqtinchalik tanlovni tozalasa ham bo‘ladi (agar xohlasang)
+
+    // Tanlangan deviceTypes ni saqlash
+    setSelectedDeviceTypes(deviceTypes);
+
+    setTempSelectedIds([]); // temp ni tozalash
   };
 
-  const handleRemoveFinal = (id: number) => {
-    setFinalSelectedIds((prev) => prev.filter((empId) => empId !== id));
+  const removeFromFinal = (id: number) => {
+    setFinalSelectedIds((prev) => prev.filter((x) => x !== id));
   };
 
-  const finalEmployees =
-    data?.data?.filter((emp) => finalSelectedIds.includes(emp.id)) ?? [];
+  const handleAssign = () => {
+    if (finalSelectedIds.length === 0) {
+      toast.warning(t("Please select at least one employee"));
+      return;
+    }
 
-  // const options =
-  //   getDoor?.data?.map((item: any) => ({
-  //     label: item.name,
-  //     value: item.id,
-  //   })) || [];
+    if (selectedDeviceTypes.length === 0) {
+      toast.warning(t("Please select device types for the employees"));
+      return;
+    }
 
-  // // value qiymatini options asosida topish
-  // const value = options.filter((option: any) =>
-  //   selectGates.includes(option.value)
-  // );
-
-  // // onchange hodisasi
-  // const handleChange = (selected: any) => {
-  //   const ids = selected.map((s: any) => s.value);
-  //   setSelectGates(ids);
-  // };
-
-
-  const onSubmit = (data: any) => {
     const submitData = {
       employeeIds: finalSelectedIds,
-      gateIds: selectGates,
-      ...data
-    }
-    create(
+      credentialTypes: selectedDeviceTypes,
+      gateId: Number(searchParams.get("doorId"))
+    };
+
+    assignEmployees(
       {
         url: URLS.devicesEmployeeAssign,
-        attributes: submitData
+        attributes: submitData,
       },
       {
         onSuccess: () => {
-          toast.success(t('Successfully created!'));
-          navigate('/settings')
+          toast.success(t("Employees successfully assigned with device types!"));
+          navigate("/settings");
         },
-        onError: (e: any) => {
-          toast.error(e?.response?.data?.error?.message)
-        }
+        onError: (error: any) => {
+          toast.error(
+            error?.response?.data?.error?.message || t("Assignment failed")
+          );
+        },
       }
     );
   };
 
+  const finalEmployees = employees.filter((emp) =>
+    finalSelectedIds.includes(emp.id)
+  );
+
+  const hasTempSelection = tempSelectedIds.length > 0;
+  const isAllTempSelected =
+    tempSelectedIds.length === employees.length && employees.length > 0;
+
+  const deviceTypeOptions = deviceType?.map((item: any) => ({
+    label: item.label,
+    value: item.value,
+  })) ?? [];
+
+
+  // Modal ichidagi komponent
+  const DeviceTypeSelectModal = () => {
+    const { control, handleSubmit } = useForm<ModalFormValues>({
+      defaultValues: { credentialTypes: selectedDeviceTypes }, // oldin tanlanganlarni ko'rsatish
+    });
+
+    const onConfirm = (data: ModalFormValues) => {
+      if (data.credentialTypes.length === 0) {
+        toast.warning(t("Please select at least one device type"));
+        return;
+      }
+
+      addSelectedToFinal(data.credentialTypes); // xodimlar + deviceTypes qo'shiladi
+      setOpenModal(false);
+    };
+
+    return (
+      <form onSubmit={handleSubmit(onConfirm)} className="space-y-6">
+        <Controller
+          name="credentialTypes"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <MySelect
+              isMulti
+              label={t("Select device types")}
+              placeholder={t("Choose one or more types")}
+              options={deviceTypeOptions}
+              value={deviceTypeOptions.filter((opt) =>
+                field.value?.includes(opt.value)
+              )}
+              onChange={(selected: any) => {
+                const values = selected ? selected.map((opt: any) => opt.value) : [];
+                field.onChange(values);
+              }}
+              allowedRoles={["ADMIN", "HR"]}
+            />
+          )}
+        />
+
+        <div className="flex justify-end gap-4">
+          <MyButton type="submit" variant="primary">
+            {t("Confirm and Add Employees")}
+          </MyButton>
+          <MyButton
+            type="button"
+            variant="secondary"
+            onClick={() => setOpenModal(false)}
+          >
+            {t("Cancel")}
+          </MyButton>
+        </div>
+      </form>
+    );
+  };
+
   return (
-    <div
-      className={
-        'mt-12 min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme'
-      }>
-      {/* <div className="mb-12 flex w-full items-start justify-between">
-        <LabelledCaption
-          className="flex-1"
-          title={t('Gates')}
-          subtitle={t('')}
-        />
-        <div className='w-[462px]'>
-          <MySelect
-            isMulti
-            options={options}
-            value={value}
-            onChange={handleChange}
-            allowedRoles={["ADMIN"]}
-          />
-        </div>
-      </div> */}
-      <div className="mb-12 flex w-full items-start justify-between">
-        <LabelledCaption
-          className="flex-1"
-          title={t('Select organization')}
-          subtitle={t('')}
-        />
-        <div className='w-[462px]'>
-          <Controller
-            name="organizationId"
-            control={control}
-            render={({ field, fieldState }) => (
-              <MySelect
-                options={getOrganization?.data?.map((evt: any) => ({
-                  label: evt.fullName,
-                  value: evt.id,
-                }))}
-                value={field.value as any}  // 👈 cast to any
-                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                onBlur={field.onBlur}
-                error={!!fieldState.error}
-                allowedRoles={["ADMIN"]}
-              />
-            )}
-          />
-        </div>
-      </div>
-      <MyDivider />
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col">
+    <>
+      <div className="mt-12 min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
+        <MyDivider />
+
+        <div className="flex items-center justify-between mb-4">
           <LabelledCaption
-            title={t('Add employees')}
-            subtitle={t('Create employees group and link to the door')}
+            title={t("Add employees")}
+            subtitle={t("Create employees group and link to the door")}
           />
+        </div>
+
+        <MyDivider />
+
+        <div className="mt-6 flex flex-col lg:flex-row gap-6">
+          {/* Chap panel */}
+          <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border-2 border-gray-300 bg-gray-100 p-4 dark:border-dark-line dark:bg-bg-dark-theme">
+            <MyInput
+              startIcon={<Search className="stroke-text-muted" />}
+              placeholder={t("Search")}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyUp={handleKeyUp}
+            />
+
+            <div className="mt-6">
+              <div className="flex items-center justify-between mb-4 px-2">
+                <MyCheckbox
+                  label={t("Select all")}
+                  checked={isAllTempSelected}
+                  indeterminate={!isAllTempSelected && tempSelectedIds.length > 0}
+                  onChange={toggleSelectAll}
+                />
+                <MyButton
+                  onClick={() => {
+                    if (hasTempSelection) {
+                      setOpenModal(true); // Modal ochiladi
+                    }
+                  }}
+                  disabled={!hasTempSelection}
+                  variant="secondary"
+                >
+                  {t("Add selected")} ({tempSelectedIds.length})
+                </MyButton>
+              </div>
+
+              <div className="space-y-3">
+                {isLoading ? (
+                  <p className="text-center text-gray-500 py-8">{t("Loading...")}</p>
+                ) : employees.length === 0 ? (
+                  <p className="text-center text-gray-500 py-8">{t("No employees found")}</p>
+                ) : (
+                  employees.map((emp) => (
+                    <div
+                      key={emp.id}
+                      className="flex items-center p-4 rounded-md bg-white hover:bg-gray-50 transition-colors border"
+                    >
+                      <MyCheckbox
+                        checked={tempSelectedIds.includes(emp.id)}
+                        onChange={() => toggleTempSelect(emp.id)}
+                        label={emp.name}
+                        id={`emp-${emp.id}`}
+                      />
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* O'ng panel */}
+          <div className="w-full lg:w-1/2 h-[600px] flex flex-col rounded-md border-2 border-gray-300 dark:border-dark-line overflow-hidden">
+            <h3 className="bg-gray-100 dark:bg-gray-800 p-4 text-lg font-medium">
+              {t("Selected employees")} ({finalSelectedIds.length})
+            </h3>
+
+            <div className="flex-1 overflow-y-auto">
+              {finalEmployees.length === 0 ? (
+                <p className="text-center text-gray-500 py-12">
+                  {t("No employees selected yet")}
+                </p>
+              ) : (
+                <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {finalEmployees.map((emp) => (
+                    <div
+                      key={emp.id}
+                      className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      <div className="flex items-center gap-4">
+                        <MyAvatar imageUrl={emp.avatar || AvatarIcon} size="medium" alt={emp.name} />
+                        <span className="font-medium">{emp.name}</span>
+                      </div>
+                      <button
+                        onClick={() => removeFromFinal(emp.id)}
+                        className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600"
+                        aria-label={t("Remove")}
+                      >
+                        <Trash2 size={20} className="text-gray-500" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 flex justify-end">
+          <MyButton
+            onClick={handleAssign}
+            variant="primary"
+          >
+            Save changes
+          </MyButton>
         </div>
       </div>
 
-      <MyDivider />
-      <div className="mt-6 flex w-full gap-4">
-        <div className="h-[600px] w-1/2 overflow-y-auto rounded-md border-2 border-solid border-gray-300 bg-gray-100 p-4 dark:border-dark-line dark:bg-bg-dark-theme">
-          <div>
-            <MyInput
-              startIcon={<Search className="stroke-text-muted" />}
-              placeholder={t('Search')}
-              onKeyUp={(event) => {
-                if (event.key === KeyTypeEnum.enter) {
-                  handleSearch();
-                } else {
-                  setSearch((event.target as HTMLInputElement).value);
-                }
-              }}
-              defaultValue={searchParams.get("search") ?? ""}
-            />
-          </div>
-          <div className="mt-4 flex w-full flex-col gap-4">
-            <div className="flex items-center justify-between sm:mx-1 lg:mx-4">
-              <MyCheckbox
-                label={t('Employees')}
-                checked={selectedIds?.length === data?.data?.length}
-                onChange={handleSelectAll}
-                id={(Math.random() * 10).toString()}
-              />
-              <MyButton
-                onClick={handleAddSelected}
-                disabled={selectedIds.length > 0 ? false : true}
-                className={'font-medium sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm'}
-                variant="secondary">
-                {t('Add selected employees')}
-              </MyButton>
-            </div>
-            <div className="flex flex-col gap-3">
-              {get(data, 'data')?.map((emp: Employee) => (
-                <div
-                  key={emp?.id}
-                  className="flex items-center p-4 border rounded-sm bg-white hover:bg-gray-50 transition"
-                >
-                  <MyCheckbox
-                    className="w-4 h-4 accent-black mr-3"
-                    checked={selectedIds.includes(emp?.id)}
-                    onChange={() => handleCheckboxChange(emp?.id)}
-                    label={emp?.name}
-                    id={emp?.id.toString()}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="flex h-[600px] w-1/2 flex-col gap-3 overflow-y-auto rounded-md border-2 border-solid border-gray-300 dark:border-dark-line">
-          <h3 className='bg-gray-100 p-4 text-[#030712]'>{t("Selected employees")}</h3>
-          {finalEmployees?.map((evt: Employee) => (
-            <div className="flex w-full items-center justify-between border-b-2 bg-white p-4 dark:border-dark-line">
-              <div className="flex items-center gap-3" key={evt?.id}>
-                <MyAvatar
-                  imageUrl={evt.avatar ?? AvatarIcon}
-                  size="medium"
-                />
-                <h2 className="text-sm font-normal text-black">
-                  {evt?.name}
-                </h2>
-              </div>
-              <div
-                onClick={() => handleRemoveFinal(evt.id)}
-                className="cursor-pointer">
-                <Trash2 color="#9CA3AF" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className='flex justify-end mt-4'>
-        <MyButton onClick={handleSubmit(onSubmit)} type="submit" variant="secondary">
-          {t('Save changes')}
-        </MyButton>
-      </div>
-    </div>
+
+      <MyModal
+        modalProps={{
+          show: openModal,
+          onClose: () => setOpenModal(false),
+          size: "md",
+        }}
+        headerProps={{
+          children: (
+            <h2 className="text-20 leading-32 font-inter tracking-tight text-black">
+              {t("Select types")}
+            </h2>
+          ),
+        }}
+        bodyProps={{
+          children: <DeviceTypeSelectModal />,
+          className: "py-[15px]",
+        }}
+      />
+    </>
   );
 }
 

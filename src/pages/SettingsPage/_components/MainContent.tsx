@@ -1,7 +1,7 @@
 import { lazy, LazyExoticComponent, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-const Notifications = lazy(() => import('./SettingForms/DeviceControl'));
+const DevicePage = lazy(() => import('../DevicePage'));
 const DoorsPage = lazy(() => import('./SettingForms/DoorsPage'));
 const ReasonType = lazy(() => import('../ReasonType'))
 const JobPosition = lazy(() => import('../JobPosition'))
@@ -9,7 +9,7 @@ const JobPosition = lazy(() => import('../JobPosition'))
 type RulesType = 'deviceControl' | 'doors' | 'reason_type' | 'job_position';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
-  deviceControl: Notifications,
+  deviceControl: DevicePage,
   doors: DoorsPage,
   reason_type: ReasonType,
   job_position: JobPosition
