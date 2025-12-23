@@ -47,7 +47,6 @@ function FormDeviceEdit({
             .required(t("Device type is required")),
         ipAddress: string().required(t("IP address is required")),
         login: string().required(t("Login is required")),
-        password: string().required(t("Password is required")),
         entryType: string().required(t("Entry type is required")),
     });
 
@@ -72,7 +71,6 @@ function FormDeviceEdit({
             deviceTypes: [],
             ipAddress: "",
             login: "",
-            password: "",
             entryType: "",
         },
         mode: "onChange",
@@ -83,10 +81,9 @@ function FormDeviceEdit({
         if (device) {
             reset({
                 name: device.name || "",
-                deviceTypes: device.type || [], // backenddan massiv sifatida keladi deb faraz qilamiz
+                deviceTypes: device.type || [],
                 ipAddress: device.ipAddress || "",
                 login: device.login || "",
-                password: device.password || "", // agar password kelmasa, bo'sh qoldiriladi (xavfsizlik uchun)
                 entryType: device.entryType || "",
             });
         }
@@ -131,7 +128,6 @@ function FormDeviceEdit({
 
     return (
         <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-            {/* Name */}
             <MyInput
                 label={t("Name")}
                 placeholder={t("Enter device name")}
@@ -160,7 +156,6 @@ function FormDeviceEdit({
                 )}
             />
 
-            {/* IP Address */}
             <MyInput
                 label={t("Ip address")}
                 placeholder={t("Enter ip address")}
@@ -174,15 +169,6 @@ function FormDeviceEdit({
                 placeholder={t("Enter device login")}
                 {...register("login")}
                 error={!!errors.login}
-            />
-
-            {/* Password */}
-            <MyInput
-                label={t("Password")}
-                placeholder={t("Enter new password (leave blank to keep current)")}
-                type="password"
-                {...register("password")}
-                error={!!errors.password}
             />
 
             <div>
@@ -207,7 +193,6 @@ function FormDeviceEdit({
                 />
             </div>
 
-            {/* Buttons */}
             <div className="flex items-center justify-end gap-4 mt-6">
                 <MyButton
                     type="submit"
