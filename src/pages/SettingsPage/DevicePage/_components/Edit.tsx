@@ -79,12 +79,11 @@ function FormDeviceEdit({
         resolver: yupResolver(schema),
     });
 
-    // Ma'lumotlar kelganda formani to'ldirish
     useEffect(() => {
         if (device) {
             reset({
                 name: device.name || "",
-                deviceTypes: device.deviceTypes || [], // backenddan massiv sifatida keladi deb faraz qilamiz
+                deviceTypes: device.type || [], // backenddan massiv sifatida keladi deb faraz qilamiz
                 ipAddress: device.ipAddress || "",
                 login: device.login || "",
                 password: device.password || "", // agar password kelmasa, bo'sh qoldiriladi (xavfsizlik uchun)
