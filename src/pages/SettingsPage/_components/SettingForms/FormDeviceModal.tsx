@@ -10,8 +10,8 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { object, string } from 'yup';
 import { paramsStrToObj } from 'utils/helper';
-import { ISelect } from 'interfaces/select.interface';
 import deviceType from 'configs/deviceType';
+import { useState } from 'react';
 
 const checkType = [
   {
@@ -35,6 +35,7 @@ function FormDeviceModal({ setOpenModal }: any) {
   const { t } = useTranslation();
   const searchParams = useLocation();
   const doorId: any = paramsStrToObj(searchParams.search);
+  const [selectGates, setSelectGates] = useState<number[]>([]);
 
   const { mutate: create } = usePostQuery({
     listKeyId: KEYS.getDoorForDevices,
@@ -47,7 +48,6 @@ function FormDeviceModal({ setOpenModal }: any) {
     name: string().required(),
     login: string().required(),
     entryType: string().required(),
-    type: string().required()
   });
 
   const {
@@ -62,9 +62,27 @@ function FormDeviceModal({ setOpenModal }: any) {
     resolver: yupResolver(schema)
   });
 
+  const options =
+    deviceType?.map((item: any) => ({
+      label: item.label,
+      value: item.value,
+    })) || [];
+
+  // value qiymatini options asosida topish
+  const value = options.filter((option: any) =>
+    selectGates.includes(option.value)
+  );
+
+  // onchange hodisasi
+  const handleChange = (selected: any) => {
+    const ids = selected.map((s: any) => s.value);
+    setSelectGates(ids);
+  };
+
   const onSubmit = (data: any) => {
     const submitData = {
       gateId: Number(doorId?.doorId),
+      deviceTypes: selectGates,
       ...data
     }
     create(
@@ -80,12 +98,7 @@ function FormDeviceModal({ setOpenModal }: any) {
         },
         onError: (e: any) => {
           console.log(e);
-          // if (e.response.data.error.message === 'This attribute must be unique') {
-          //   // toast.error('Bu ip address oldin ro`yhatdan o`tkazilgan');
-          //   toast.error(t('This IP address has been registered before'));
-          // } else {
-          //   toast.error(t("The IP address was entered incorrectly!"));
-          // }
+          toast.error(e?.response?.data?.error?.message)
         }
       }
     );
@@ -99,23 +112,14 @@ function FormDeviceModal({ setOpenModal }: any) {
         placeholder={t('Enter device name')}
         label={t('Name')}
       />
-      <Controller
-        name="type"
-        control={control}
-        render={({ field, fieldState }) => (
-          <MySelect
-            label={t("Select type")}
-            options={deviceType?.map((evt: any) => ({
-              label: evt.label,
-              value: evt.value,
-            }))}
-            value={field.value as any}  // 👈 cast to any
-            onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
-            onBlur={field.onBlur}
-            error={!!fieldState.error}
-            allowedRoles={["ADMIN", "HR"]}
-          />
-        )}
+      <MySelect
+        isMulti
+        options={options}
+        className=''
+        label={t("Select type")}
+        value={value}
+        onChange={handleChange}
+        allowedRoles={["ADMIN", "HR"]}
       />
       <MyInput
         {...register('ipAddress')}

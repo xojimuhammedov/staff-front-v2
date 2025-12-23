@@ -5,103 +5,102 @@ import LabelledCaption from "components/Molecules/LabelledCaption";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import { useGetAllQuery, useGetOneQuery, usePutQuery } from "hooks/api";
-import { ISelect } from "interfaces/select.interface";
-import { get } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
+interface FormValues {
+  name: string;
+  organizationIds: number[];
+}
 
 function FormDoorEdit({ handleClick }: any) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { id } = useParams();
-  const [selectGates, setSelectGates] = useState<number[]>([]);
 
-  const { data } = useGetOneQuery({
-    id: id,
+  const { data: doorData, isLoading: isDoorLoading } = useGetOneQuery({
+    id,
     url: URLS.getDoorGates,
     params: {},
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 
-  const { data: getOrganization } = useGetAllQuery<any>({
+  const { data: organizationsData, isLoading: isOrgLoading } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
     hideErrorMsg: true,
     params: {},
-  })
+  });
 
-  // useEffect(() => {
-  //   if (data?.data?.gates) {
-
-  //     const savedGateIds =
-  //       data?.data?.gates
-  //         ? data?.data?.gates.map((g: any) => g.id)
-  //         : data?.data?.gates || [];
-
-  //     setSelectGates(savedGateIds); // Bu yer muhim!
-  //   }
-  // }, [data?.data?.gates]);
-
-  const options = useMemo(() =>
-    getOrganization?.data?.map((item: any) => ({
-      label: item.fullName,
-      value: item.id,
-    })) || [],
-    [getOrganization?.data]);
-
-  // Tanlangan optionlarni React Select ga berish uchun
-  const selectedValues = useMemo(() =>
-    options.filter((option: any) => selectGates.includes(option.value)),
-    [options, selectGates]
+  const organizationOptions = useMemo(
+    () =>
+      organizationsData?.data?.map((item: any) => ({
+        label: item.fullName,
+        value: item.id,
+      })) || [],
+    [organizationsData?.data]
   );
+
+  const defaultOrganizationIds = useMemo(() => {
+    return (
+      doorData?.data?.organizations?.map((org: any) => org.id) || []
+    );
+  }, [doorData?.data?.organizations]);
 
   const {
     handleSubmit,
     register,
-    reset,
     control,
-    formState: { errors }
-  } = useForm({
-    defaultValues: useMemo(() => {
-      return {
-        name: get(data, 'data.name'),
-        organizationId: get(data, 'data.organizationId')
-      };
-    }, [data]),
-    mode: 'onChange',
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: doorData?.data?.name || "",
+      organizationIds: defaultOrganizationIds,
+    },
+    mode: "onChange",
   });
 
   useEffect(() => {
-    reset({
-      name: get(data, 'data.name'),
-      organizationId: get(data, 'data.organizationId')
-    });
-  }, [data]);
+    if (doorData?.data) {
+      reset({
+        name: doorData.data.name || "",
+        organizationIds: defaultOrganizationIds,
+      });
+    }
+  }, [doorData?.data, defaultOrganizationIds, reset]);
 
-  const { mutate: create } = usePutQuery({
+  const { mutate: updateDoor } = usePutQuery({
     listKeyId: KEYS.getDoorGates,
     hideSuccessToast: true,
   });
 
-  const onSubmit = (data: any) => {
-    create(
+  const onSubmit = (values: FormValues) => {
+    const payload = {
+      name: values.name,
+      organizationIds: values.organizationIds,
+    };
+
+    updateDoor(
       {
         url: `${URLS.getDoorGates}/${id}`,
-        attributes: data
+        attributes: payload,
       },
       {
         onSuccess: () => {
           toast.success(t("Door successfully edited!"));
+          handleClick?.();
         },
-        onError: (e) => {
-          console.log(e);
+        onError: (error) => {
+          console.error("Update error:", error);
         },
-      },
+      }
     );
   };
+
+  const isLoading = isDoorLoading || isOrgLoading;
 
   return (
     <div
@@ -149,15 +148,27 @@ function FormDoorEdit({ handleClick }: any) {
           </div>
 
           <div className="w-1/2">
-            <MySelect
-              isMulti
-              options={options}
-              value={selectedValues}      
-              onChange={(selected: any) => {
-                const ids = selected ? selected.map((s: any) => s.value) : [];
-                setSelectGates(ids);
-              }}
-              allowedRoles={["ADMIN"]}
+            <Controller
+              name="organizationIds"
+              control={control}
+              rules={{ required: t("At least one organization must be selected") }}
+              render={({ field }) => (
+                <MySelect
+                  isMulti={true}
+                  options={organizationOptions}
+                  value={organizationOptions.filter((opt: any) =>
+                    field.value?.includes(opt.value)
+                  )}
+                  onChange={(selectedOptions: any) => {
+                    const values = selectedOptions
+                      ? selectedOptions?.map((opt: any) => opt.value)
+                      : [];
+                    field.onChange(values);
+                  }}
+                  allowedRoles={["ADMIN"]}
+                  placeholder={t("Select organizations")}
+                />
+              )}
             />
           </div>
 

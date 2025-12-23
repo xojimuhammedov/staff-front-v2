@@ -5,11 +5,10 @@ import deviceType from "configs/deviceType";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import { usePostQuery } from "hooks/api";
-import { ISelect } from "interfaces/select.interface";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { object, string } from "yup";
+import { object, string, array } from "yup";
 
 const checkType = [
   {
@@ -29,16 +28,23 @@ const checkType = [
   }
 ]
 
-function FormDevice({ setOpenModal, doorId, refetch }: any) {
+function FormDevice({ setOpenModal, doorId, refetch }: {
+  setOpenModal: (open: boolean) => void;
+  doorId: number | string;
+  refetch: () => void;
+}) {
   const { t } = useTranslation();
 
   const schema = object().shape({
-    ipAddress: string().required(),
-    password: string().required(),
-    name: string().required(),
-    login: string().required(),
-    entryType: string().required(),
-    type: string().required()
+    name: string().required(t("Name is required")),
+    type: array()
+      .of(string())
+      .min(1, t("At least one device type must be selected"))
+      .required(t("Device type is required")),
+    ipAddress: string().required(t("IP address is required")),
+    login: string().required(t("Login is required")),
+    password: string().required(t("Password is required")),
+    entryType: string().required(t("Entry type is required")),
   });
 
   const { mutate: create } = usePostQuery({
@@ -53,7 +59,14 @@ function FormDevice({ setOpenModal, doorId, refetch }: any) {
     control,
     formState: { errors }
   } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      name: "",
+      type: [],
+      ipAddress: "",
+      login: "",
+      password: "",
+      entryType: "",
+    },
     mode: 'onChange',
     resolver: yupResolver(schema)
   });
@@ -78,22 +91,19 @@ function FormDevice({ setOpenModal, doorId, refetch }: any) {
         onError: (e: any) => {
           console.log(e);
           toast.error(e?.response?.data?.error?.message)
-          // if (e.response.data.error.message === 'This attribute must be unique') {
-          //   // toast.error('Bu ip address oldin ro`yhatdan o`tkazilgan');
-          //   toast.error(t('This IP address has been registered before'));
-          // } else {
-          //   toast.error(t("The IP address was entered incorrectly!"));
-          // }
         }
       }
     );
   };
 
+  const deviceTypeOptions = deviceType?.map((evt: any) => ({
+    label: evt.label,
+    value: evt.value,
+  }));
 
   return (
     <form
       className="flex flex-col gap-4"
-      action=""
       onSubmit={handleSubmit(onSubmit)}>
       <MyInput
         {...register('name')}
@@ -105,17 +115,22 @@ function FormDevice({ setOpenModal, doorId, refetch }: any) {
       <Controller
         name="type"
         control={control}
-        render={({ field, fieldState }) => (
+        render={({ field }) => (
           <MySelect
+            isMulti
             label={t("Select type")}
-            options={deviceType?.map((evt: any) => ({
-              label: evt.label,
-              value: evt.value,
-            }))}
-            value={field.value as any}  // 👈 cast to any
-            onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
-            onBlur={field.onBlur}
-            error={!!fieldState.error}
+            options={deviceTypeOptions}
+            value={deviceTypeOptions.filter((opt) =>
+              field.value?.includes(opt.value)
+            )}
+            onChange={(selectedOptions: any) => {
+              const values = selectedOptions
+                ? selectedOptions.map((opt: any) => opt.value)
+                : [];
+              field.onChange(values);
+            }}
+            placeholder={t("Choose one or more types")}
+            error={!!errors.type}
             allowedRoles={["ADMIN", "HR"]}
           />
         )}

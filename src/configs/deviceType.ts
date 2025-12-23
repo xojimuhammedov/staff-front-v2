@@ -16,23 +16,18 @@ const deviceType = [
     },
     {
         id: 4,
-        value: "ACCESS_CONTROL",
-        label: "ACCESS_CONTROL"
+        value: "PHOTO",
+        label: "FACE"
     },
     {
         id: 5,
-        value: "BIOMETRIC",
-        label: "BIOMETRIC"
+        value: "PERSONAL_CODE",
+        label: "PASSWORD"
     },
     {
         id: 6,
-        value: "OTHER",
-        label: "OTHER"
-    },
-    {
-        id: 7,
-        value: "FACE",
-        label: "FACE"
+        value: "ONE_TIME_ID",
+        label: "ONE_TIME_ID"
     }
 ]
 
