@@ -2,7 +2,7 @@ import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { useTranslation } from 'react-i18next';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import TableProvider from 'providers/TableProvider/TableProvider';
 import DataGrid from 'components/Atoms/DataGrid';
 import { useDeleteQuery, useGetAllQuery, usePostQuery } from 'hooks/api';
@@ -14,6 +14,8 @@ import Loading from 'assets/icons/Loading';
 import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit, ExternalLink, Trash2 } from 'lucide-react';
+import FormDeviceEdit from './Edit';
+import MyModal from 'components/Atoms/MyModal';
 
 type FilterType = {
     search: string;
@@ -30,7 +32,8 @@ type TItem = {
 const DeviceList = () => {
 
     const { t } = useTranslation()
-
+    const [openEditModal, setOpenEditModal] = useState(false)
+    const [deviceId, setDeviceId] = useState("")
 
     const { data, isLoading, refetch } = useGetAllQuery({
         key: KEYS.getDoorForDevices,
@@ -136,7 +139,8 @@ const DeviceList = () => {
                 type: 'danger',
                 name: t('Edit'),
                 action: (row) => {
-                    deleteItem(row?.id)
+                    setDeviceId(row.id)
+                    setOpenEditModal(true)
                 }
             },
             {
@@ -167,23 +171,46 @@ const DeviceList = () => {
         );
     }
     return (
-        <TableProvider<TItem, FilterType>
-            values={{
-                columns,
-                filter: { search: '' },
-                rows: get(data, 'data', []),
-                keyExtractor: 'id'
-            }}>
-            <DataGrid
-                hasCustomizeColumns={false}
-                hasExport={false}
-                hasSearch={false}
-                rowActions={rowActions}
-                dataColumn={dataColumn}
-                hasCheckbox={false}
-                isLoading={isLoading}
+        <>
+            <TableProvider<TItem, FilterType>
+                values={{
+                    columns,
+                    filter: { search: '' },
+                    rows: get(data, 'data', []),
+                    keyExtractor: 'id'
+                }}>
+                <DataGrid
+                    hasCustomizeColumns={false}
+                    hasExport={false}
+                    hasSearch={false}
+                    rowActions={rowActions}
+                    dataColumn={dataColumn}
+                    hasCheckbox={false}
+                    isLoading={isLoading}
+                />
+            </TableProvider>
+
+            <MyModal
+                modalProps={{
+                    show: Boolean(openEditModal),
+                    onClose: () => setOpenEditModal(false),
+                    size: "md",
+                }}
+                headerProps={{
+                    children: <h2 className="text-20 font-inter tracking-tight text-black">{t("Edit device")}</h2>,
+                }}
+                bodyProps={{
+                    children: (
+                        <FormDeviceEdit
+                            setOpenModal={setOpenEditModal}
+                            deviceId={deviceId}
+                            refetch={refetch}
+                        />
+                    ),
+                    className: "py-[15px]",
+                }}
             />
-        </TableProvider>
+        </>
     );
 }
 

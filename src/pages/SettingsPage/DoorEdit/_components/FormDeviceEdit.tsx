@@ -97,7 +97,7 @@ function FormDeviceEdit({ handleClick }: any) {
         headerProps={{
           children: (
             <h2 className="text-20 leading-32 font-inter tracking-tight text-black">
-              {t("Create new permit")}
+              {t("Create new device")}
             </h2>
           ),
         }}

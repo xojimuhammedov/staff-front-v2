@@ -37,7 +37,7 @@ function FormDevice({ setOpenModal, doorId, refetch }: {
 
   const schema = object().shape({
     name: string().required(t("Name is required")),
-    type: array()
+    deviceTypes: array()
       .of(string())
       .min(1, t("At least one device type must be selected"))
       .required(t("Device type is required")),
@@ -61,7 +61,7 @@ function FormDevice({ setOpenModal, doorId, refetch }: {
   } = useForm({
     defaultValues: {
       name: "",
-      type: [],
+      deviceTypes: [],
       ipAddress: "",
       login: "",
       password: "",
@@ -113,7 +113,7 @@ function FormDevice({ setOpenModal, doorId, refetch }: {
         label={t('Name')}
       />
       <Controller
-        name="type"
+        name="deviceTypes"
         control={control}
         render={({ field }) => (
           <MySelect
@@ -130,7 +130,7 @@ function FormDevice({ setOpenModal, doorId, refetch }: {
               field.onChange(values);
             }}
             placeholder={t("Choose one or more types")}
-            error={!!errors.type}
+            error={!!errors.deviceTypes}
             allowedRoles={["ADMIN", "HR"]}
           />
         )}

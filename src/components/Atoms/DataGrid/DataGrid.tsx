@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { MyCheckbox, MyInput } from '../Form';
@@ -99,6 +99,8 @@ const DataGrid = forwardRef(
     const [search, setSearch] = useState<string>('');
     // const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
     // const [allSelected, setAllSelected] = useState(false);
+
+
 
     const headerCellGeneralStyle =
       'px-[16px] py-[14px] text-left dark:text-text-title-dark sm:text-xs lg:text-sm font-normal text-c-m text-text-base';
@@ -422,4 +424,4 @@ const DataGrid = forwardRef(
   }
 );
 
-export default DataGrid;
+export default React.memo(DataGrid);
