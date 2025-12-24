@@ -52,7 +52,9 @@ function ReasonModal({ row, refetch }: any) {
                                     <>
                                         <p className='dark:text-text-title-dark'>{t('Reason')}</p>
                                         <h2 className="mt-2 text-base dark:text-text-title-dark font-medium leading-7">
-                                            {row?.reasons?.[`${i18n?.language}`]}
+                                            {
+                                                row?.reasons?.uz === "Boshqa" ? row.reason : row?.reasons?.[`${i18n?.language}`]
+                                            }
                                         </h2>
                                         <MyDivider />
                                         <div className="mt-6 flex items-center justify-end gap-4">
@@ -63,7 +65,6 @@ function ReasonModal({ row, refetch }: any) {
                                                 {t('Close')}
                                             </MyButton>
                                         </div>
-
                                     </>
                                 ) : (
                                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">

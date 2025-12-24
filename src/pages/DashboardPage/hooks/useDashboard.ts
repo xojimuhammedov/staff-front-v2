@@ -3,7 +3,7 @@ import { URLS } from 'constants/url';
 import dayjs from 'dayjs';
 import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
-import React, { useMemo } from 'react';
+import  { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { chartData, DashboardData, LineChartData } from '../interface/dashboard.interface';
 

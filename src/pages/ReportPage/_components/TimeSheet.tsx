@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './style.css'
+import { timeLine } from 'utils/helper';
 
 const TimeSheet = ({ currentTableRef, data }: any) => {
     const { t } = useTranslation();
@@ -140,6 +141,26 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                 border: '1px solid gray',
                                 textAlign: 'center'
                             }}
+                            rowSpan={2}>
+                            {t('Сверхурочно')}
+                        </th>
+                        <th
+                            style={{
+                                height: '30px',
+                                fontSize: '12px',
+                                border: '1px solid gray',
+                                textAlign: 'center'
+                            }}
+                            rowSpan={2}>
+                            {t('Вне графика')}
+                        </th>
+                        <th
+                            style={{
+                                height: '30px',
+                                fontSize: '12px',
+                                border: '1px solid gray',
+                                textAlign: 'center'
+                            }}
                             colSpan={2}>
                             {t('Off schedule')}
                         </th>
@@ -253,7 +274,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                                 textAlign: 'center',
                                                 backgroundColor: item?.status === "ABSENT" ? "pink" : item?.status === "LATE" ? "yellow" : "transparent"
                                             }}>
-                                            {item?.startTime && item?.endTime ? `(${item?.startTime}-${item?.endTime})` : "X"} {" "}  {item?.totalHours === "0" ? "" : item?.totalHours}
+                                            {item?.startTime && item?.endTime ? `(${item?.startTime}-${item?.endTime})` : item?.startTime ? `(${item?.startTime})` : ""} {" "}  {timeLine(item?.totalMinutes)}
                                         </td>
                                     ))
                                 }
@@ -264,7 +285,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.totalHoursPlan}
+                                    {timeLine(evt?.totalPlannedMinutes) ?? "--"}
                                 </td>
                                 <td
                                     style={{
@@ -273,7 +294,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.totalHoursLate}
+                                    {timeLine(evt?.totalLateMinutes) ?? "--"}
                                 </td>
                                 <td
                                     style={{
@@ -282,7 +303,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.totalHoursEarly}
+                                    {timeLine(evt?.totalEarlyMinutes) ?? "--"}
                                 </td>
                                 <td
                                     style={{
@@ -291,7 +312,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.totalWorkedHours}
+                                    {timeLine(evt?.totalWorkedMinutes) ?? "--"}
                                 </td>
                                 <td
                                     style={{
@@ -300,7 +321,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.ontimeHours}
+                                    {timeLine(evt?.onTimeMinutes) ?? "--"}
                                 </td>
                                 <td
                                     style={{
@@ -309,7 +330,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.resonableAbsentHours ?? '--'}
+                                    {timeLine(evt?.overtimeMinutes) ?? "--"}
                                 </td>
                                 <td
                                     style={{
@@ -318,7 +339,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.unresaonableAbsentHours ?? '--'}
+                                    {timeLine(evt?.overtimePlanMinutes) ?? "--"}
                                 </td>
                                 <td
                                     style={{
@@ -327,7 +348,25 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                         border: '1px solid gray',
                                         textAlign: 'center'
                                     }}>
-                                    {evt?.total ?? '--'}
+                                    {timeLine(evt?.reasonableAbsentMinutes) ?? '--'}
+                                </td>
+                                <td
+                                    style={{
+                                        height: '30px',
+                                        fontSize: '12px',
+                                        border: '1px solid gray',
+                                        textAlign: 'center'
+                                    }}>
+                                    {timeLine(evt?.unreasonableAbsentMinutes) ?? "--"}
+                                </td>
+                                <td
+                                    style={{
+                                        height: '30px',
+                                        fontSize: '12px',
+                                        border: '1px solid gray',
+                                        textAlign: 'center'
+                                    }}>
+                                    {timeLine(evt?.totalMinutes) ?? "--"}
                                 </td>
                                 <td
                                     style={{

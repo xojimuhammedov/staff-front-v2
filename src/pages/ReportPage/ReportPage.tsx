@@ -26,20 +26,20 @@ const ReportPage = () => {
     const sheet = 'users';
 
     const downloadExcel = useDownloadExcel({ currentTableRef, filename, sheet });
-
     const breadCrumbs = [
         {
             label: t('Timesheet'),
             url: '#'
         }
     ];
+    
 
     const paramsValue = watch('date') ? {
         startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
         endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
     } : {
-        startDate: dayjs().startOf('isoWeek').format('YYYY-MM-DD'),
-        endDate: dayjs().endOf('isoWeek').format('YYYY-MM-DD'),
+        endDate: dayjs().format("YYYY-MM-DD"),
+        startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
     };
 
     const { data, isLoading } = useGetAllQuery({
