@@ -29,17 +29,12 @@ type TItem = {
     id: string;
 };
 
-const DeviceList = () => {
+const DeviceList = ({ data, isLoading, refetch }: any) => {
 
     const { t } = useTranslation()
     const [openEditModal, setOpenEditModal] = useState(false)
     const [deviceId, setDeviceId] = useState("")
 
-    const { data, isLoading, refetch } = useGetAllQuery({
-        key: KEYS.getDoorForDevices,
-        url: URLS.getDoorForDevices,
-        params: {}
-    });
 
     const { mutate: deleteRequest } = useDeleteQuery({
         listKeyId: KEYS.getDoorForDevices

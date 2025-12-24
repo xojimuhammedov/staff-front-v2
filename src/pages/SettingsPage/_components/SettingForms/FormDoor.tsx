@@ -49,7 +49,6 @@ function FormDoor() {
   const {
     handleSubmit,
     register,
-    control,
     formState: { errors }
   } = useForm({
     defaultValues: {},
@@ -95,11 +94,6 @@ function FormDoor() {
             subtitle={t('Enter a door name and description')}
           />
         </div>
-        {/* <div className="flex items-center gap-4">
-          <MyButton variant="primary">
-            {t('Go to next step')}
-          </MyButton>
-        </div> */}
       </div>
       <MyDivider />
       <form onSubmit={handleSubmit(onSubmit)} action="">

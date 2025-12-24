@@ -9,7 +9,7 @@ import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ISelect } from 'interfaces/select.interface';
 import { credentialTypeData } from 'configs/type';
 import TypeForm from './TypeForm';
@@ -18,12 +18,14 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
     const { t } = useTranslation()
     const [imageKey, setImageKey] = useState(null)
     const [cardNumber, setCardNumber] = useState('');
+    const [selectedType, setSelectedType] = useState('');
     const [carNumber, setCarNumber] = useState('');
     const [personalCode, setPersonalCode] = useState('');
     const [qrGuid, setQrGuid] = useState('');
+    const qrCanvasRef = useRef(null);
     const schema = object().shape({
         code: string(),
-        type: string().required(),
+        type: string(),
         additionalDetails: string(),
         organizationId: yup.number().required(),
     });
@@ -51,7 +53,54 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         resolver: yupResolver(schema)
     });
 
-    const selectedTypeName = watch('type');
+
+    const generateGuid = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    };
+
+    const generateQRCode = (text: any) => {
+        const canvas: any = qrCanvasRef.current;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        const size = 200;
+        canvas.width = size;
+        canvas.height = size;
+
+        // Simple QR code visualization
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, size, size);
+
+        ctx.fillStyle = '#000000';
+        const moduleSize = 4;
+        const modules = Math.floor(size / moduleSize);
+
+        // Generate random pattern based on GUID
+        for (let i = 0; i < modules; i++) {
+            for (let j = 0; j < modules; j++) {
+                const hash = text.charCodeAt(i % text.length) + text.charCodeAt(j % text.length);
+                if (hash % 2 === 0) {
+                    ctx.fillRect(i * moduleSize, j * moduleSize, moduleSize, moduleSize);
+                }
+            }
+        }
+    };
+
+    const handleTypeSelect = (type: any) => {
+        setSelectedType(type);
+
+        // Generate GUID and QR code if QR type is selected
+        if (type === 'QR') {
+            const guid = generateGuid();
+            setQrGuid(guid);
+            setTimeout(() => generateQRCode(guid), 100);
+        }
+    };
+
 
     const { mutate: create } = usePostQuery({
         listKeyId: KEYS.credentials,
@@ -62,11 +111,11 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         const submitData = {
             employeeId: Number(employeeId),
             ...data,
-            additionalDetails: selectedTypeName === 'PHOTO' ? imageKey || data.additionalDetails : data.additionalDetails,
-            code: selectedTypeName === 'CARD' ? cardNumber :
-                selectedTypeName === 'CAR' ? carNumber :
-                    selectedTypeName === 'PERSONAL_CODE' ? personalCode :
-                        selectedTypeName === 'QR' ? qrGuid : "."
+            additionalDetails: selectedType === 'PHOTO' ? imageKey || data.additionalDetails : data.additionalDetails,
+            code: selectedType === 'CARD' ? cardNumber :
+                selectedType === 'CAR' ? carNumber :
+                    selectedType === 'PERSONAL_CODE' ? personalCode :
+                        selectedType === 'QR' ? qrGuid : "."
         };
         create(
             {
@@ -103,8 +152,11 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                                         label: evt.label,
                                         value: evt.value,
                                     }))}
-                                    value={field.value as any}  // 👈 cast to any
-                                    onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                                    value={selectedType} 
+                                    onChange={(val: any) =>{
+                                        field.onChange((val as ISelect)?.value ?? val)
+                                        handleTypeSelect(val.value)
+                                    }}
                                     onBlur={field.onBlur}
                                     error={!!fieldState.error}
                                     allowedRoles={["ADMIN", "HR"]}
@@ -130,17 +182,19 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                             )}
                         />
                     </div>
-                    <TypeForm 
-                        selectedTypeName={selectedTypeName} 
-                        setValue={setValue} setImageKey={setImageKey} 
+                    <TypeForm
+                        selectedTypeName={selectedType}
+                        setValue={setValue} setImageKey={setImageKey}
                         cardNumber={cardNumber}
                         qrGuid={qrGuid}
+                        setQrGuid={setQrGuid}
                         setCardNumber={setCardNumber}
                         carNumber={carNumber}
                         setCarNumber={setCarNumber}
                         personalCode={personalCode}
                         setPersonalCode={setPersonalCode}
-                        />
+                        qrCanvasRef={qrCanvasRef}
+                    />
                     <div className="mt-8 flex w-full justify-end gap-4">
                         <MyButton
                             type='submit'

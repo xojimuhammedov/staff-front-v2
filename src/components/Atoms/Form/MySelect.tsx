@@ -153,10 +153,12 @@ function MySelect(props: FormSelectProps) {
         unstyled
         closeMenuOnSelect={true}
         value={selectedValue}
+        menuPosition='fixed'
+        menuPortalTarget={document.body}
         classNames={{
           control: ({ isDisabled, isFocused }) =>
             clsx(
-              'rounded-sm appearance-none  py-xs px-3  dark:text-text-title-dark shadow-base text-c-m text-text-base hover:bg-bg-field-hover dark:bg-bg-form',
+              'rounded-sm appearance-none py-xs px-3 dark:text-text-title-dark shadow-base text-c-m text-text-base hover:bg-bg-field-hover dark:bg-bg-form',
               !isDisabled && 'bg-bg-field',
               !isDisabled && isFocused && 'bg-bg-field shadow-border-interactive-active',
               isDisabled && 'bg-bg-disabled shadow-base',
@@ -166,10 +168,14 @@ function MySelect(props: FormSelectProps) {
           placeholder: ({ isDisabled }) =>
             clsx('text-text-muted text-c-m', isDisabled && 'text-text-disabled'),
           input: () => clsx('[&>input]:focus:shadow-none multiple-input'),
-          menu: () => 'mt-2 bg-bg-base rounded-m shadow-flyout p-1 pagination-size',
+          menu: () =>
+            'mt-2 bg-bg-base rounded-m shadow-flyout p-1 pagination-size',
           option: () => clsx('px-3 py-2 hover:bg-bg-subtle')
         }}
         placeholder={placeholder || ''}
+        styles={{
+          menuPortal: base => ({ ...base, zIndex: 9999 })
+        }}
         // @ts-ignore
         components={{ DropdownIndicator, MultiValueContainer }}
       />

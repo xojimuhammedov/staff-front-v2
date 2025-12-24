@@ -31,7 +31,7 @@ const checkType = [
     }
 ]
 
-function FormDeviceModal({ setOpenModal }: any) {
+function FormDeviceModal({ setOpenModal, refetch }: any) {
     const { t } = useTranslation();
     const searchParams = useLocation();
     const doorId: any = paramsStrToObj(searchParams.search);
@@ -95,6 +95,7 @@ function FormDeviceModal({ setOpenModal }: any) {
                     toast.success(t('Successfully created!'));
                     setOpenModal(false);
                     reset();
+                    refetch()
                 },
                 onError: (e: any) => {
                     console.log(e);

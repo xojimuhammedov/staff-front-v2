@@ -1,23 +1,22 @@
 import { MyInput } from 'components/Atoms/Form';
+import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyModal from 'components/Atoms/MyModal';
 import { URLS } from 'constants/url';
 import { useImageCropContext } from 'context/ImageCropProvider';
 import { readFile } from 'helpers/cropImage';
 import { Download, Upload } from 'lucide-react';
 import ImageCropModalContent from 'pages/EmployeePage/Create/_components/ImageCropModalContent';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { request } from 'services/request';
 
-const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid, setCardNumber, carNumber, setCarNumber, setPersonalCode, personalCode }: any) => {
+const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid, setCardNumber, carNumber, setCarNumber, setPersonalCode, personalCode, qrCanvasRef }: any) => {
     const { t } = useTranslation()
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [openModal, setOpenModal] = useState(false);
-    // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [isDragging, setIsDragging] = useState(false);
-    const qrCanvasRef = useRef(null);
     const handleDragLeave = (e: any) => {
         e.preventDefault();
         setIsDragging(false);
@@ -75,12 +74,23 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid,
 
     const handleFileChange = async ({ target: { files } }: any) => {
         const file = files && files[0];
+        if (!file) return;
+
+        setSelectedFile(file); // <-- MUHIM
+
         const imageDataUrl = await readFile(file);
         setImage(imageDataUrl);
-        if (file) {
-            setOpenModal(true);
-        }
+
+        setOpenModal(true);
     };
+
+    useEffect(() => {
+        if (!selectedFile) return;
+
+        const url = URL.createObjectURL(selectedFile);
+
+        return () => URL.revokeObjectURL(url);
+    }, [selectedFile]);
 
     const downloadQRCode = () => {
         const canvas: any = qrCanvasRef.current;
@@ -127,7 +137,7 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid,
                                     <img
                                         src={URL.createObjectURL(selectedFile)}
                                         alt="Preview"
-                                        className="mx-auto max-h-48 rounded-lg mb-3"
+                                        className="mx-auto max-h-36 rounded-lg mb-3"
                                     />
                                     <p className="text-sm text-gray-600">{selectedFile.name}</p>
                                     <button
@@ -194,19 +204,13 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid,
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             Generated QR Code
                         </label>
-                        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 text-center">
+                        <div className="flex flex-col items-center">
                             <canvas ref={qrCanvasRef} className="mx-auto mb-4 rounded-lg shadow-md" />
-                            <div className="bg-white rounded-lg p-3 mb-4 border border-gray-200">
-                                <p className="text-xs text-gray-500 mb-1">GUID</p>
-                                <p className="text-sm font-mono text-gray-700 break-all">{qrGuid}</p>
-                            </div>
-                            <button
+                            <MyButton variant='secondary'
                                 onClick={downloadQRCode}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                            >
-                                <Download className="h-4 w-4" />
+                                startIcon={<Download className="h-4 w-4" />}>
                                 Download QR Code
-                            </button>
+                            </MyButton>
                         </div>
                     </div>
                 );
@@ -225,69 +229,19 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid,
                                 setPersonalCode(value);
                             }}
                             placeholder="Enter 10-digit personal code"
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                             maxLength={10}
                         />
                         <p className="text-xs text-gray-500 mt-1">{personalCode.length}/10 digits</p>
                     </div>
                 );
-
             default:
                 return null;
         }
     };
 
-    // const generateGuid = () => {
-    //     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    //         const r = Math.random() * 16 | 0;
-    //         const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    //         return v.toString(16);
-    //     });
-    // };
-
-    // const generateQRCode = (text: any) => {
-    //     const canvas: any = qrCanvasRef.current;
-    //     if (!canvas) return;
-
-    //     const ctx = canvas.getContext('2d');
-    //     const size = 200;
-    //     canvas.width = size;
-    //     canvas.height = size;
-
-    //     // Simple QR code visualization
-    //     ctx.fillStyle = '#ffffff';
-    //     ctx.fillRect(0, 0, size, size);
-
-    //     ctx.fillStyle = '#000000';
-    //     const moduleSize = 4;
-    //     const modules = Math.floor(size / moduleSize);
-
-    //     // Generate random pattern based on GUID
-    //     for (let i = 0; i < modules; i++) {
-    //         for (let j = 0; j < modules; j++) {
-    //             const hash = text.charCodeAt(i % text.length) + text.charCodeAt(j % text.length);
-    //             if (hash % 2 === 0) {
-    //                 ctx.fillRect(i * moduleSize, j * moduleSize, moduleSize, moduleSize);
-    //             }
-    //         }
-    //     }
-    // };
-
-    // const handleTypeSelect = (type: any) => {
-    //     setSelectedType(type);
-    //     setIsDropdownOpen(false);
-
-    //     // Generate GUID and QR code if QR type is selected
-    //     if (type === 'QR') {
-    //         const guid = generateGuid();
-    //         setQrGuid(guid);
-    //         setTimeout(() => generateQRCode(guid), 100);
-    //     }
-    // };
     return (
         <>
             {renderTypeSpecificField()}
-
             <MyModal
                 modalProps={{
                     show: Boolean(openModal),

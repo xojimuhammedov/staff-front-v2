@@ -32,5 +32,6 @@ export const KEYS = {
   actionAttendancesList: "actionAttendancesList",
   employeeByAttendancesCard: "employeeByAttendancesCard",
   dashbord: "dashbord",
-  dashboardLineChart:"dashboardLineChart"
+  dashboardLineChart: "dashboardLineChart",
+  doorDevice: "doorDevice"
 };

@@ -5,11 +5,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { useAttendance } from './useAttendance';
 
-export const useFormAttendance = ({ row, refetch }: any) => {
+export const useFormAttendance = ({ row }: any) => {
     const { t } = useTranslation()
     const [open, setOpen] = useState(false);
-
+    const { refetch } = useAttendance()
     const { data }: any = useGetAllQuery({
         key: KEYS.attendancesReason,
         url: URLS.attendancesReason,

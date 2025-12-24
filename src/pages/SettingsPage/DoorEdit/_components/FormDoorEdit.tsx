@@ -5,7 +5,7 @@ import LabelledCaption from "components/Molecules/LabelledCaption";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import { useGetAllQuery, useGetOneQuery, usePutQuery } from "hooks/api";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -20,14 +20,14 @@ function FormDoorEdit({ handleClick }: any) {
   const { t } = useTranslation();
   const { id } = useParams();
 
-  const { data: doorData, isLoading: isDoorLoading } = useGetOneQuery({
+  const { data: doorData } = useGetOneQuery({
     id,
     url: URLS.getDoorGates,
     params: {},
     enabled: !!id,
   });
 
-  const { data: organizationsData, isLoading: isOrgLoading } = useGetAllQuery<any>({
+  const { data: organizationsData } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
     hideErrorMsg: true,
@@ -54,7 +54,7 @@ function FormDoorEdit({ handleClick }: any) {
     register,
     control,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
       name: doorData?.data?.name || "",
@@ -100,7 +100,6 @@ function FormDoorEdit({ handleClick }: any) {
     );
   };
 
-  const isLoading = isDoorLoading || isOrgLoading;
 
   return (
     <div

@@ -7,16 +7,18 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import FormDevice from "./FormDevice";
-import { useGetAllQuery } from "hooks/api";
+import { useGetAllQuery, usePostQuery } from "hooks/api";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import { get } from "lodash";
-import { MyCheckbox } from "components/Atoms/Form";
+import { MyCheckbox, MySelect } from "components/Atoms/Form";
+import { toast } from "react-toastify";
 
 function FormDeviceEdit({ handleClick }: any) {
   const { t } = useTranslation();
   const { id }: any = useParams();
   const [openModal, setOpenModal] = useState<any>(false);
+  const [deviceId, setDeviceId] = useState<number[]>([])
 
   const { data, refetch }: any = useGetAllQuery({
     key: KEYS.getGatesByIdDevices,
@@ -25,6 +27,55 @@ function FormDeviceEdit({ handleClick }: any) {
       gateId: id
     }
   });
+
+  const { data: deviceData } = useGetAllQuery<any>({
+    key: KEYS.getDoorForDevices,
+    url: URLS.getDoorForDevices,
+    params: {}
+  });
+
+  const options =
+    deviceData?.data?.map((item: any) => ({
+      label: item.name,
+      value: item.id,
+    })) || [];
+
+  // value qiymatini options asosida topish
+  const value = options.filter((option: any) =>
+    deviceId.includes(option.value)
+  );
+
+  const handleChange = (selected: any) => {
+    const ids = selected.map((s: any) => s.value);
+    setDeviceId(ids);
+  };
+
+  const { mutate: create } = usePostQuery({
+    listKeyId: KEYS.doorDevice,
+    hideSuccessToast: true
+  });
+
+  const handleSubmit = () => {
+    create(
+      {
+        url: URLS.doorDevice,
+        attributes: {
+          gateId: Number(id),
+          deviceIds: deviceId
+        }
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Device created successfully!'));
+          refetch()
+        },
+        onError: (e: any) => {
+          console.log(e);
+        }
+      }
+    );
+  };
+
 
   return (
     <>
@@ -57,26 +108,22 @@ function FormDeviceEdit({ handleClick }: any) {
             />
           </div>
           <div className="w-[50%]">
+            <div className="mb-4">
+              <MySelect
+                isMulti
+                options={options}
+                value={value}
+                onChange={handleChange}
+                allowedRoles={["ADMIN"]}
+              />
+            </div>
             <div className="ml-3 flex flex-col gap-2">
               {get(data, "devices")?.map((evt: any, index: number) => (
                 <div key={index} className="flex items-center gap-4">
                   <MyCheckbox
                     checked
-                    label={`${evt?.name} ${evt?.name}`}
+                    label={evt?.name}
                   />
-                  {/* <div className="flex items-center ">
-                    <MyButton
-                      onClick={() => {
-                        setDeviceId(evt?.id);
-                        setOpenEditModal(true);
-                      }}
-                    >
-                      <Edit2 size={DEFAULT_ICON_SIZE} />
-                    </MyButton>
-                    <MyButton onClick={() => deleteItem(evt?.id)}>
-                      <Trash2 size={DEFAULT_ICON_SIZE} />
-                    </MyButton>
-                  </div> */}
                 </div>
               ))}
             </div>
@@ -86,6 +133,11 @@ function FormDeviceEdit({ handleClick }: any) {
               {t("Connect device")}
             </MyButton>
           </div>
+        </div>
+        <div className="mt-6 flex justify-end">
+          <MyButton variant="primary" onClick={handleSubmit} type="submit">
+            Save changes
+          </MyButton>
         </div>
       </div>
       <MyModal

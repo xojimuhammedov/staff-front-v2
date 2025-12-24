@@ -7,10 +7,19 @@ import { Plus } from 'lucide-react';
 import FormDeviceModal from './_components/Create';
 import MyModal from 'components/Atoms/MyModal';
 import { useState } from 'react';
+import { KEYS } from 'constants/key';
+import { useGetAllQuery } from 'hooks/api';
+import { URLS } from 'constants/url';
 
 const DevicePage = () => {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false)
+
+    const { data, isLoading, refetch } = useGetAllQuery({
+        key: KEYS.getDoorForDevices,
+        url: URLS.getDoorForDevices,
+        params: {}
+    });
 
     return (
         <>
@@ -31,7 +40,7 @@ const DevicePage = () => {
                 </MyButton>
             </div>
             <MyDivider />
-            <DeviceList />
+            <DeviceList data={data} isLoading={isLoading} refetch={refetch} />
 
             <MyModal
                 modalProps={{
@@ -47,7 +56,7 @@ const DevicePage = () => {
                     )
                 }}
                 bodyProps={{
-                    children: <FormDeviceModal setOpenModal={setOpen} />,
+                    children: <FormDeviceModal refetch={refetch} setOpenModal={setOpen} />,
                     className: 'py-[15px]'
                 }}
             />

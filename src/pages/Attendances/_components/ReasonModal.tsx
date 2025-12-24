@@ -8,7 +8,7 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useFormAttendance } from '../hooks/useFormAttendance';
 
-function ReasonModal({ row, refetch }: any) {
+function ReasonModal({ row }: any) {
     const { t, i18n } = useTranslation();
     const {
         open,
@@ -19,7 +19,7 @@ function ReasonModal({ row, refetch }: any) {
         onSubmit,
         handleSubmit,
         control
-    } = useFormAttendance({ row, refetch })
+    } = useFormAttendance({ row })
 
     return (
         <>
@@ -69,9 +69,9 @@ function ReasonModal({ row, refetch }: any) {
                                 ) : (
                                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">
                                         {
-                                            watch("reasonTypeId") !== 1 ? (
+                                            watch("reasonId") !== 1 ? (
                                                 <Controller
-                                                    name="reasonTypeId"
+                                                    name="reasonId"
                                                     control={control}
                                                     render={({ field, fieldState }) => (
                                                         <MySelect
@@ -92,7 +92,7 @@ function ReasonModal({ row, refetch }: any) {
                                             ) : null
                                         }
                                         {
-                                            watch("reasonTypeId") === 1 ? (
+                                            watch("reasonId") === 1 ? (
                                                 <MyTextarea label={t('Note')}  {...register('reason')} />
                                             ) : null
                                         }

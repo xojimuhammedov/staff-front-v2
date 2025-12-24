@@ -75,7 +75,7 @@ const Credentials = () => {
                                     alt="User photo"
                                 />
                             ) : (
-                                <h2 className='text-2xl font-semibold text-gray-800'>{item?.code}</h2>
+                                <h2 className='text-xl font-semibold text-gray-800'>{item?.code}</h2>
                             )}
                         </div>
 

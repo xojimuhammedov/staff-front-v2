@@ -32,5 +32,6 @@ export const URLS = {
   actionAttendancesList: "/api/v1/action",
   employeeByAttendancesCard: "/api/v1/reports/attendance/statics",
   dashbord: "/api/v1/dashboard",
-  dashboardLineChart: "/api/v1/dashboard/chart"
+  dashboardLineChart: "/api/v1/dashboard/chart",
+  doorDevice: "/api/v1/devices/connectDevicesToGate"
 };
