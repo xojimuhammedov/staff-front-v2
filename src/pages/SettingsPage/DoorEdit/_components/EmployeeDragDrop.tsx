@@ -1,288 +1,274 @@
-import { MyCheckbox, MyInput, MySelect } from "components/Atoms/Form";
+import { MyCheckbox, MyInput } from "components/Atoms/Form";
 import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import LabelledCaption from "components/Molecules/LabelledCaption";
-import config from "configs";
-import { get } from "lodash";
-import { Search, Trash2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import {
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import AvatarIcon from "assets/icons/avatar.png";
 import MyAvatar from "components/Atoms/MyAvatar";
-import { KeyTypeEnum } from "enums/key-type.enum";
-import { useGetAllQuery, useGetOneQuery, usePostQuery } from "hooks/api";
-import { URLS } from "constants/url";
 import { KEYS } from "constants/key";
+import { URLS } from "constants/url";
+import { useGetAllQuery, useGetOneQuery, usePostQuery } from "hooks/api";
+import { Search, Trash2 } from "lucide-react";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
-
-interface EmployeeResponse {
-  data: Employee[];
-  limit: number;
-  page: number;
-  total: number;
-}
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import AvatarIcon from "assets/icons/avatar.png";
+import deviceType from "configs/deviceType";
+import DeviceTypeSelectModal from './DeviceSelectModal';
 
 interface Employee {
   id: number;
   name: string;
-  additionalDetails: string;
-  photo: string;
+  avatar?: string;
 }
+
+interface EmployeeResponse {
+  data: Employee[];
+}
+
 
 function EmployeeDragDrop() {
   const { t } = useTranslation();
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const [search, setSearch] = useState<any>("");
+  const navigate = useNavigate();
+  const { id } = useParams(); // <-- agar id bo‘lsa UPDATE rejim
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]); // yakuniy tanlanganlar
-  const [selectGates, setSelectGates] = useState<number[]>([]);
 
-  const { mutate: create } = usePostQuery({
-    listKeyId: KEYS.devicesEmployeeAssign,
-    hideSuccessToast: true
-  });
+  const [searchInput, setSearchInput] = useState("");
+  const [tempSelectedIds, setTempSelectedIds] = useState<number[]>([]);
+  const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]);
+  const [selectedDeviceTypes, setSelectedDeviceTypes] = useState<string[]>([]);
+  const [openModal, setOpenModal] = useState(false);
 
-  const { data: employeeList } = useGetAllQuery<EmployeeResponse>({
-    key: KEYS.getEmployeeList,
-    url: URLS.getEmployeeList,
-    params: {
-      // search: searchParams.get("search"),
-      limit: 100,
-    }
-  });
 
-  const { data } = useGetOneQuery({
-    id: id,
+  const currentSearch = searchParams.get("search") || "";
+
+  const { data: employeesData, isLoading } =
+    useGetAllQuery<EmployeeResponse>({
+      key: KEYS.getEmployeeList,
+      url: URLS.getEmployeeList,
+      params: { search: currentSearch || undefined, limit: 100 },
+    });
+
+  const employees = employeesData?.data ?? [];
+
+  const { data: doorData } = useGetOneQuery({
+    id,
     url: URLS.getDoorGates,
-    params: {},
-    enabled: !!id
-  })
-
-  const { data: getDoor }: any = useGetAllQuery({
-    key: KEYS.getDoorGates,
-    url: URLS.getDoorGates,
-    params: {}
+    enabled: !!id,
   });
-
-  const { handleSubmit } = useForm()
-
-  const handleSearch = () => {
-    if (search) {
-      searchParams.set("search", search);
-    } else {
-      searchParams.delete("search");
-    }
-    setSearchParams(searchParams);
-  };
 
   useEffect(() => {
-    if (!data?.data?.employees || !Array.isArray(data?.data?.employees)) return;
-
-    const newIds = data?.data?.employees
-      ?.map((emp: any) => emp.id)
-      .filter((id: number | null | undefined) => typeof id === 'number');
-
-    if (newIds.length > 0) {
-      setFinalSelectedIds(prev => Array.from(new Set([...prev, ...newIds])));
+    if (doorData?.data?.employees) {
+      setFinalSelectedIds(
+        doorData.data.employees.map((e: any) => e.id)
+      );
     }
-  }, [data?.data?.employees]);
+  }, [doorData]);
 
-  const handleSelectAll = () => {
-    if (selectedIds.length === (data?.data?.length ?? 0)) {
-      setSelectedIds([]);
-    } else {
-      const ids = data?.data?.map((emp: any) => emp.id) ?? [];
-      setSelectedIds(ids);
-    }
-  };
 
-  const handleCheckboxChange = (id: number) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((empId) => empId !== id) : [...prev, id]
+  const { mutate: assignEmployees } = usePostQuery({
+    listKeyId: KEYS.devicesEmployeeAssign,
+    hideSuccessToast: true,
+  });
+
+  useEffect(() => setSearchInput(currentSearch), [currentSearch]);
+
+  const handleSearch = useCallback(() => {
+    const p = new URLSearchParams(searchParams);
+    if (searchInput.trim()) p.set("search", searchInput.trim());
+    else p.delete("search");
+    setSearchParams(p);
+  }, [searchInput, searchParams, setSearchParams]);
+
+  const handleKeyUp = (e: any) => e.key === "Enter" && handleSearch();
+
+  // ---- TEMP SELECT ----
+  const toggleTempSelect = (id: number) =>
+    setTempSelectedIds((p) =>
+      p.includes(id) ? p.filter((x) => x !== id) : [...p, id]
     );
+
+  const toggleSelectAll = () =>
+    setTempSelectedIds((p) =>
+      p.length === employees.length ? [] : employees.map((e) => e.id)
+    );
+
+  // ---- ADD TO FINAL ----
+  const addSelectedToFinal = (deviceTypes: string[]) => {
+    if (!tempSelectedIds.length) return;
+
+    setFinalSelectedIds((prev) =>
+      Array.from(new Set([...prev, ...tempSelectedIds]))
+    );
+
+    setSelectedDeviceTypes(deviceTypes);
+    setTempSelectedIds([]);
   };
 
-  const handleAddSelected = () => {
-    setFinalSelectedIds((prev) => {
-      const merged = Array.from(new Set([...prev, ...selectedIds]));
-      return merged;
-    });
-    setSelectedIds([]);
-  };
+  const removeFromFinal = (id: number) =>
+    setFinalSelectedIds((p) => p.filter((x) => x !== id));
 
-  const handleRemoveFinal = (id: number) => {
-    setFinalSelectedIds((prev) => prev.filter((empId) => empId !== id));
-  };
-
-  const finalEmployees =
-    employeeList?.data?.filter((emp: Employee) => finalSelectedIds.includes(emp.id)) ?? [];
-  const notSelectedEmployees =
-    employeeList?.data?.filter((emp: Employee) => !finalSelectedIds.includes(emp.id)) ?? [];
-
-  const options = useMemo(() =>
-    getDoor?.data?.map((item: any) => ({
-      label: item.name,
-      value: item.id,
-    })) || [],
-    [getDoor?.data]);
-
-  const selectedValues = useMemo(() =>
-    options.filter((option: any) => selectGates.includes(option.value)),
-    [options, selectGates]
+  const finalEmployees = useMemo(
+    () => employees.filter((e) => finalSelectedIds.includes(e.id)),
+    [employees, finalSelectedIds]
   );
 
-  const onSubmit = () => {
-    const submitData = {
-      employeeIds: finalSelectedIds,
-      gateIds: [Number(id)],
-      organizationId: get(data, 'data.organizationId')
-    }
-    create(
+  const deviceTypeOptions =
+    deviceType?.map((d: any) => ({
+      label: d.label,
+      value: d.value,
+    })) ?? [];
+
+  const alreadySelectedIds = new Set(finalSelectedIds);
+
+  // LEFT PANEL LIST
+  const leftEmployees = employees.filter(
+    (emp) => !alreadySelectedIds.has(emp.id)
+  );
+
+  const handleConfirmModal = (credentialTypes: string[]) => {
+    addSelectedToFinal(credentialTypes);
+    setOpenModal(false);
+  };
+
+
+  // ---- SUBMIT ----
+  const handleAssign = () => {
+    if (!finalSelectedIds.length)
+      return toast.warning(t("Please select at least one employee"));
+
+    if (!selectedDeviceTypes.length)
+      return toast.warning(t("Please select device types"));
+
+    assignEmployees(
       {
         url: URLS.devicesEmployeeAssign,
-        attributes: submitData
+        attributes: {
+          employeeIds: finalSelectedIds,
+          credentialTypes: selectedDeviceTypes,
+          gateId: Number(id),
+        },
       },
       {
         onSuccess: () => {
-          toast.success(t('Successfully created!'));
-          navigate('/settings')
+          toast.success(t("Saved successfully"));
+          navigate("/settings");
         },
-        onError: (e: any) => {
-          toast.error(e?.response?.data?.error?.message)
-        }
+        onError: (e: any) =>
+          toast.error(e?.response?.data?.error?.message || "Error"),
       }
     );
   };
 
   return (
-    <div
-      className={
-        "mt-12 min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme"
-      }
-    >
-      <div className="mb-12 flex w-full items-start justify-between">
-        <LabelledCaption
-          className="flex-1"
-          title={t('Gates')}
-          subtitle={t('')}
-        />
-        <div className='w-[462px]'>
-          <MySelect
-            isMulti
-            options={options}
-            value={selectedValues}
-            onChange={(selected: any) => {
-              const ids = selected ? selected.map((s: any) => s.value) : [];
-              setSelectGates(ids);
-            }}
-            allowedRoles={["ADMIN"]}
-          />
-        </div>
-      </div>
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col">
-          <LabelledCaption
-            title={t("Add employees")}
-            subtitle={t("Create employees group and link to the door")}
-          />
-        </div>
-        <MyButton type="submit" onClick={handleSubmit(onSubmit)} variant="secondary">
-          {t("Save changes")}
-        </MyButton>
-      </div>
+    <>
+      <div className="mt-12 w-full rounded-md bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
 
-      <MyDivider />
-      <div className="mt-6 flex w-full gap-4">
-        <div className="h-[600px] w-1/2 overflow-y-auto dark:border-dark-line rounded-md border-2 border-solid border-gray-300 p-4">
-          <div>
+        <MyDivider />
+
+        <LabelledCaption
+          title={id ? t("Edit employees") : t("Add employees")}
+          subtitle={t("Create group and link to door")}
+        />
+
+        <div className="mt-6 flex justify-end">
+          <MyButton variant="primary" onClick={handleAssign} type="submit">
+            Save changes
+          </MyButton>
+        </div>
+
+        <MyDivider />
+
+        <div className="mt-6 flex flex-col lg:flex-row gap-6">
+
+          {/* LEFT PANEL */}
+          <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border p-4">
             <MyInput
-              onKeyUp={(event) => {
-                if (event.key === KeyTypeEnum.enter) {
-                  handleSearch();
-                } else {
-                  setSearch((event.target as HTMLInputElement).value);
-                }
-              }}
-              defaultValue={searchParams.get("search") ?? ""}
-              startIcon={
-                <Search className="stroke-text-muted" onClick={handleSearch} />
-              }
+              startIcon={<Search />}
               placeholder={t("Search")}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyUp={handleKeyUp}
             />
-          </div>
-          <div className="mt-4 flex w-full flex-col gap-4">
-            <div className="lg:mx-4 sm:mx-1 flex items-center justify-between">
+
+            <div className="flex justify-between mt-4">
               <MyCheckbox
-                label={t('Employees')}
-                // checked={selectedIds?.length === data?.data?.length}
-                onChange={handleSelectAll}
-                id={(Math.random() * 10).toString()}
+                label={t("Select all")}
+                checked={
+                  tempSelectedIds.length === employees.length &&
+                  employees.length > 0
+                }
+                indeterminate={
+                  tempSelectedIds.length > 0 &&
+                  tempSelectedIds.length < employees.length
+                }
+                onChange={toggleSelectAll}
               />
+
               <MyButton
-                onClick={handleAddSelected}
-                disabled={selectedIds.length > 0 ? false : true}
-                className={'font-medium sm:px-[2px] sm:text-xs lg:px-2 lg:text-sm'}
-                variant="secondary">
-                {t('Add selected employees')}
+                variant="secondary"
+                disabled={!tempSelectedIds.length}
+                onClick={() => setOpenModal(true)}
+              >
+                {t("Add selected")} ({tempSelectedIds.length})
               </MyButton>
             </div>
-            <div className="flex flex-col gap-3">
-              {notSelectedEmployees?.map((emp: Employee) => (
-                <div
-                  key={emp?.id}
-                  className="flex items-center p-4 border rounded-sm bg-white hover:bg-gray-50 transition"
-                >
-                  <MyCheckbox
-                    className="w-4 h-4 accent-black mr-3"
-                    checked={selectedIds.includes(emp?.id)}
-                    onChange={() => handleCheckboxChange(emp?.id)}
-                    label={emp?.name}
-                    id={emp?.id.toString()}
-                  />
-                </div>
-              ))}
+
+            <div className="mt-4 space-y-2">
+              {isLoading ? (
+                <p>{t("Loading...")}</p>
+              ) : employees.length === 0 ? (
+                <p>{t("No employees found")}</p>
+              ) : (
+                leftEmployees.map((emp) => (
+                  <div key={emp.id} className="flex items-center p-4 rounded-md bg-white hover:bg-gray-50 transition-colors border">
+                    <MyCheckbox
+                      checked={tempSelectedIds.includes(emp.id)}
+                      onChange={() => toggleTempSelect(emp.id)}
+                      label={emp.name}
+                    />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* RIGHT PANEL */}
+          <div className="w-full lg:w-1/2 h-[600px] rounded-md border overflow-hidden">
+            <h3 className="p-4 font-medium bg-gray-100">
+              {t("Selected employees")} ({finalSelectedIds.length})
+            </h3>
+
+            <div className="overflow-y-auto h-full">
+              {!finalEmployees.length ? (
+                <p className="text-center mt-10">{t("Nothing selected yet")}</p>
+              ) : (
+                finalEmployees.map((emp) => (
+                  <div key={emp.id} className="flex justify-between items-center p-4 border-b">
+                    <div className="flex items-center gap-3">
+                      <MyAvatar imageUrl={emp.avatar || AvatarIcon} size="medium" />
+                      <span>{emp.name}</span>
+                    </div>
+
+                    <button onClick={() => removeFromFinal(emp.id)}>
+                      <Trash2 />
+                    </button>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
-        <div className="flex h-[600px] dark:border-dark-line w-1/2 flex-col gap-8 overflow-y-auto rounded-md border-2 border-solid border-gray-300 p-4 ">
-          {finalEmployees?.map((evt: any, index: number) => (
-            <div className="flex w-full items-center justify-between gap-4 pb-4 dark:border-dark-line border-b-2 bg-white dark:bg-bg-dark-bg">
-              <div className="flex items-center gap-3" key={index} id={evt.id}>
-                <MyAvatar
-                  imageUrl={
-                    evt.photo
-                      ? `${config.FILE_URL}api/storage/${evt?.photo}`
-                      : AvatarIcon
-                  }
-                  size="medium"
-                />
-                <div className="flex flex-col">
-                  <h2 className="text-sm font-normal dark:text-text-title-dark text-black">
-                    {evt?.name}
-                  </h2>
-                </div>
-              </div>
-              <div
-                className="cursor-pointer"
-                onClick={() => handleRemoveFinal(evt.id)}
-              >
-                <Trash2 color="#9CA3AF" />
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
-    </div>
+
+      <DeviceTypeSelectModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onConfirm={handleConfirmModal}
+        deviceTypeOptions={deviceTypeOptions}
+        initialValues={selectedDeviceTypes}
+      />
+    </>
   );
 }
 
 export default EmployeeDragDrop;
-

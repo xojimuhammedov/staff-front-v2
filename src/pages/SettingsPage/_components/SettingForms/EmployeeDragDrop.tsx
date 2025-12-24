@@ -162,6 +162,7 @@ function EmployeeDragDrop() {
   })) ?? [];
 
 
+
   // Modal ichidagi komponent
   const DeviceTypeSelectModal = () => {
     const { control, handleSubmit } = useForm<ModalFormValues>({
