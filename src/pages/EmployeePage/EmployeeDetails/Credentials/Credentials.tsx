@@ -95,14 +95,14 @@ const Credentials = () => {
                             >
                                 {item?.isActive ? "Inactive" : "Active"}
                             </Button>
-                            <Button
+                            {/* <Button
                                 variant='secondary'
                                 onClick={() => {
                                     setCredentialId(item?.id);
                                     setShow(true);
                                 }}
                                 startIcon={<Edit />}
-                            />
+                            /> */}
                         </div>
                     </div>
                 ))}
