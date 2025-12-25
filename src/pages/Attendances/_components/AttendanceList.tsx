@@ -9,9 +9,8 @@ import { createColumns } from '../helpers/createColumns';
 
 
 const AttendanceList = () => {
-  const { data, isLoading, refetch } = useAttendance()
-  const { columns, dataColumn, rowActions } = createColumns(refetch)
-
+  const { data, isLoading } = useAttendance()
+  const { columns, dataColumn, rowActions } = createColumns()
 
   
   if (isLoading) {

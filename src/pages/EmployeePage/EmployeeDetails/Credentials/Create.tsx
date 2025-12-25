@@ -1,4 +1,4 @@
-import { MyInput, MySelect } from 'components/Atoms/Form';
+import { MySelect } from 'components/Atoms/Form';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
@@ -39,7 +39,6 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         handleSubmit,
         reset,
         control,
-        watch,
         setValue,
         formState: { errors }
     } = useForm({
@@ -93,7 +92,6 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
     const handleTypeSelect = (type: any) => {
         setSelectedType(type);
 
-        // Generate GUID and QR code if QR type is selected
         if (type === 'QR') {
             const guid = generateGuid();
             setQrGuid(guid);
@@ -211,7 +209,6 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                     </div>
                 </form>
             </div>
-
         </>
     );
 }

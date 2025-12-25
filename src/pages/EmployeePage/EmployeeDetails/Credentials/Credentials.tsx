@@ -90,7 +90,7 @@ const Credentials = () => {
                 </div>
                 <Button startIcon={<Plus />} onClick={() => setShowModal(true)} className={'[&_svg]:stroke-bg-white'} variant='primary'>Add new type</Button>
             </div>
-            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8'>
                 {data?.data?.map((item: any) => (
                     <div
                         key={item?.id}

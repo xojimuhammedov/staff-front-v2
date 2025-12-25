@@ -12,11 +12,13 @@ import { getTimeDifference } from "utils/helper";
 import ReasonModal from "../_components/ReasonModal";
 import { useNavigate } from "react-router-dom";
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
+import { useAttendance } from "../hooks/useAttendance";
 
 
-export const createColumns = ({ refetch }: any) => {
+export const createColumns = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const { refetch } = useAttendance()
 
     const columns: DataGridColumnType[] = useMemo(
         () => [

@@ -74,6 +74,7 @@
     "postcss-nesting": "^13.0.2",
     "primeicons": "^7.0.0",
     "primereact": "^10.6.2",
+    "qrcode.react": "^4.2.0",
     "qs": "^6.12.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.8.0",

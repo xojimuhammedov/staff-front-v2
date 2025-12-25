@@ -10,19 +10,26 @@ import { paramsStrToObj } from 'utils/helper';
 
 export const useAttendance = () => {
     const location = useLocation()
-    const { control, watch }: any = useForm({
+    const { control, watch } = useForm({
         defaultValues: {
-            date: dayjs(new Date())?.format("YYYY-MM-DD")
+            date: {
+                endDate: dayjs().format("YYYY-MM-DD"),
+                startDate: dayjs().format("YYYY-MM-DD"),
+            }
         }
     })
     const { search, setSearch, handleSearch } = useSearch();
     const searchValue: searchValue = paramsStrToObj(location.search)
+
+
     const paramsValue = watch('date') ? {
         startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
         endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
     } : {
-        date: dayjs(new Date())?.format("YYYY-MM-DD")
+        endDate: dayjs().format("YYYY-MM-DD"),
+        startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
     }
+
 
     const { data, isLoading, refetch } = useGetAllQuery({
         key: KEYS.attendacesForEmployee,
@@ -31,8 +38,8 @@ export const useAttendance = () => {
             search: searchValue?.search,
             page: searchValue?.page || 1,
             limit: searchValue?.limit || 10,
+            ...searchValue,
             ...paramsValue,
-            ...searchValue
         }
     });
 
