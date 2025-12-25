@@ -10,7 +10,11 @@ import { paramsStrToObj } from 'utils/helper';
 
 export const useAttendance = () => {
     const location = useLocation()
-    const { control, watch }: any = useForm()
+    const { control, watch }: any = useForm({
+        defaultValues: {
+            date: dayjs(new Date())?.format("YYYY-MM-DD")
+        }
+    })
     const { search, setSearch, handleSearch } = useSearch();
     const searchValue: searchValue = paramsStrToObj(location.search)
     const paramsValue = watch('date') ? {

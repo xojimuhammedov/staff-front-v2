@@ -20,7 +20,6 @@ const DashboardPage = () => {
 
   const { data, control, lineChartData } = useDashboard()
 
-
   return (
     <PageContentWrapper className="dark:bg-bg-dark-bg">
       <div className="flex justify-between items-center">

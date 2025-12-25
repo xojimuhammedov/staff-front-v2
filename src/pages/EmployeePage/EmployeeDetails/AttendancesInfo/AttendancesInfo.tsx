@@ -25,7 +25,14 @@ interface AttendanceCardData {
 
 const AttendancesInfo = () => {
     const { t } = useTranslation()
-    const { control, watch } = useForm()
+    const { control, watch } = useForm({
+        defaultValues: {
+            date: {
+                endDate: dayjs().format("YYYY-MM-DD"),
+                startDate: dayjs().subtract(3, 'day').format("YYYY-MM-DD"),
+            }
+        }
+    })
     const { id } = useParams()
 
     const paramsValue = watch('date') ? {
@@ -59,7 +66,7 @@ const AttendancesInfo = () => {
                     <h1 className='headers-core dark:text-text-title-dark text-text-base'>Attendance & Arrival/Leave Tracking</h1>
                     <p>Monitor employee attendance patterns and punctuality</p>
                 </div>
-                <div className="flex items-center w-[230px]">
+                <div className="flex items-center w-[240px]">
                     <MyTailwindPicker
                         useRange={true}
                         name='date'
@@ -71,7 +78,7 @@ const AttendancesInfo = () => {
                 </div>
             </div>
             <MyDivider />
-            <div className='grid grid-cols-3 gap-4'>
+            <div className='grid grid-cols-5 gap-4'>
                 <AttendanceCard
                     averageArrival={cardData?.averageArrivalTime || "-"}
                     title='Average Arrival Time'

@@ -31,7 +31,9 @@ function FormDeviceEdit({ handleClick }: any) {
   const { data: deviceData } = useGetAllQuery<any>({
     key: KEYS.getDoorForDevices,
     url: URLS.getDoorForDevices,
-    params: {}
+    params: {
+      isConnected: false
+    }
   });
 
   const options =

@@ -3,12 +3,19 @@ import { URLS } from 'constants/url';
 import dayjs from 'dayjs';
 import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
-import  { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { chartData, DashboardData, LineChartData } from '../interface/dashboard.interface';
 
 export const useDashboard = () => {
-    const { control, watch } = useForm()
+    const { control, watch } = useForm({
+        defaultValues: {
+            date: {
+                endDate: dayjs().format("YYYY-MM-DD"),
+                startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
+            }
+        }
+    })
 
     const paramsValue = watch('date') ? {
         startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),

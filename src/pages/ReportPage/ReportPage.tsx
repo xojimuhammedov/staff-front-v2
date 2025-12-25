@@ -21,7 +21,14 @@ dayjs.extend(isoWeek);
 const ReportPage = () => {
     const { t } = useTranslation();
     const currentTableRef = useRef<any>(null);
-    const { control, watch }: any = useForm()
+    const { control, watch }: any = useForm({
+        defaultValues: {
+            date: {
+                endDate: dayjs().format("YYYY-MM-DD"),
+                startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
+            }
+        }
+    })
     const filename = `timesheet_${dayjs(new Date()).format('YYYY-MM-DD_hh:mm:ss')}`;
     const sheet = 'users';
 
@@ -32,7 +39,7 @@ const ReportPage = () => {
             url: '#'
         }
     ];
-    
+
 
     const paramsValue = watch('date') ? {
         startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),

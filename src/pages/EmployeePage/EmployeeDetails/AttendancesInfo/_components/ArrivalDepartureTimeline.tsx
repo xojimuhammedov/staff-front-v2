@@ -1,5 +1,5 @@
 import React from "react";
-import { Clock } from "lucide-react";
+import { CarFront, Clock, CreditCard, LockKeyhole, UserRound } from "lucide-react";
 import dayjs from "dayjs";
 
 // --------------------
@@ -77,13 +77,18 @@ interface EventCardProps {
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
     const isArrival = event?.entryType === "ENTER";
 
+    // console.log(event?.actionType)
+
     return (
         <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-2 shadow-sm">
             <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${isArrival ? "bg-green-100 text-green-600" : "bg-blue-100 text-blue-600"
                     }`}
             >
-                <Clock size={14} />
+                {/* <Clock size={14} /> */}
+                {
+                    event.actionType === "PHOTO" ? <UserRound size={20} /> : event.actionType === "CAR" ? <CarFront size={20} /> : event.actionType === "PERSONAL_CODE" ? <LockKeyhole size={20} /> : event.actionType === "CARD" ? <CreditCard size={20} /> : <Clock size={20} />
+                }
             </div>
             <div>
                 <p className="text-sm font-medium capitalize">{event?.entryType === "ENTER" ? "Arrival" : "Departure"}</p>

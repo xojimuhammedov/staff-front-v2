@@ -9,25 +9,77 @@ import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery } from 'hooks/api';
-import { MyCheckbox } from 'components/Atoms/Form';
+import { useGetAllQuery, usePostQuery } from 'hooks/api';
+import { MyCheckbox, MySelect } from 'components/Atoms/Form';
 import { get } from 'lodash';
 import FormDeviceModal from 'pages/SettingsPage/DevicePage/_components/Create';
+import { toast } from 'react-toastify';
 
 function FormDevice({ handleClick }: any) {
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState<any>(false);
+  const [deviceId, setDeviceId] = useState<number[]>([])
   const location = useLocation();
 
   const doorId: any = paramsStrToObj(location.search);
 
-  const { data }: any = useGetAllQuery({
+  const { data, refetch }: any = useGetAllQuery({
     key: KEYS.getGatesByIdDevices,
     url: `${URLS.getGatesByIdDevices}/${doorId.doorId}/devices`,
     params: {
       gateId: Number(doorId?.doorId)
     }
   });
+
+  const { data: deviceData } = useGetAllQuery<any>({
+    key: KEYS.getDoorForDevices,
+    url: URLS.getDoorForDevices,
+    params: {
+      isConnected: false
+    }
+  });
+
+  const options =
+    deviceData?.data?.map((item: any) => ({
+      label: item.name,
+      value: item.id,
+    })) || [];
+
+  // value qiymatini options asosida topish
+  const value = options.filter((option: any) =>
+    deviceId.includes(option.value)
+  );
+
+  const handleChange = (selected: any) => {
+    const ids = selected.map((s: any) => s.value);
+    setDeviceId(ids);
+  };
+
+  const { mutate: create } = usePostQuery({
+    listKeyId: KEYS.doorDevice,
+    hideSuccessToast: true
+  });
+
+  const handleSubmit = () => {
+    create(
+      {
+        url: URLS.doorDevice,
+        attributes: {
+          gateId: Number(doorId?.doorId),
+          deviceIds: deviceId
+        }
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Device created successfully!'));
+          refetch()
+        },
+        onError: (e: any) => {
+          console.log(e);
+        }
+      }
+    );
+  };
 
 
   return (
@@ -55,26 +107,19 @@ function FormDevice({ handleClick }: any) {
             <LabelledCaption title={t('Choose device')} subtitle={t('Subtitle text')} />
           </div>
           <div className="w-[50%]">
+            <div className="mb-4">
+              <MySelect
+                isMulti
+                options={options}
+                value={value}
+                onChange={handleChange}
+                allowedRoles={["ADMIN"]}
+              />
+            </div>
             <div className="ml-3 flex flex-col gap-2">
               {get(data, "devices")?.map((evt: any, index: number) => (
                 <div key={index} className="flex items-center gap-4">
-                  <MyCheckbox
-                    checked
-                    label={`${evt?.name} ${evt?.name}`}
-                  />
-                  {/* <div className="flex items-center ">
-                    <MyButton
-                      onClick={() => {
-                        setDeviceId(evt?.id);
-                        setOpenEditModal(true);
-                      }}
-                    >
-                      <Edit2 size={DEFAULT_ICON_SIZE} />
-                    </MyButton>
-                    <MyButton onClick={() => deleteItem(evt?.id)}>
-                      <Trash2 size={DEFAULT_ICON_SIZE} />
-                    </MyButton>
-                  </div> */}
+                  <MyCheckbox checked label={`${evt?.name}`} />
                 </div>
               ))}
             </div>
@@ -82,6 +127,11 @@ function FormDevice({ handleClick }: any) {
               {t('Connect device')}
             </MyButton>
           </div>
+        </div>
+        <div className="mt-6 flex justify-end">
+          <MyButton variant="primary" onClick={handleSubmit} type="submit">
+            Save changes
+          </MyButton>
         </div>
       </div>
       <MyModal
