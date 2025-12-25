@@ -10,12 +10,13 @@ import { Calendar } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
+import { timeLine } from 'utils/helper';
 
 interface AttendanceCardData {
-    averageArrivalTime?: string;
+    averageArrivalTime?: any;
     avgArrivalEarlyMinutes?: number | null;
     avgArrivalLateMinutes?: number;
-    averageLeaveTime?: string;
+    averageLeaveTime?: any;
     avgLeaveOvertimeMinutes?: number;
     avgLeaveEarlyMinutes?: number;
     totalTrackedHours?: string;
@@ -80,13 +81,13 @@ const AttendancesInfo = () => {
             <MyDivider />
             <div className='grid grid-cols-5 gap-4'>
                 <AttendanceCard
-                    averageArrival={cardData?.averageArrivalTime || "-"}
+                    averageArrival={timeLine(cardData?.averageArrivalTime) || "-"}
                     title='Average Arrival Time'
                     statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? cardData?.avgArrivalLateMinutes : cardData?.avgArrivalEarlyMinutes}`}
                     statusClass={cardData?.avgArrivalEarlyMinutes === 0 ? "late" : "early"} />
 
                 <AttendanceCard
-                    averageArrival={cardData?.averageLeaveTime || "-"}
+                    averageArrival={timeLine(cardData?.averageLeaveTime) || "-"}
                     title='Average Arrival Time'
                     statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? cardData?.avgLeaveEarlyMinutes : cardData?.avgLeaveOvertimeMinutes}`}
                     statusClass={cardData?.avgLeaveOvertimeMinutes === 0 ? "early" : "late"} />

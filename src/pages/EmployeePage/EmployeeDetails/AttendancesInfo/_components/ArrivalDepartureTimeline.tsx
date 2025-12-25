@@ -13,65 +13,8 @@ interface TimelineEvent {
     actionType: string;
 }
 
-interface TimelineDay {
-    day: string;
-    date: string;
-    events: TimelineEvent[];
-}
-
-// --------------------
-// Mock Data
-// --------------------
-// const mockTimeline: TimelineDay[] = [
-//     {
-//         day: "Monday",
-//         date: "Nov 18, 2025",
-//         events: [
-//             { type: "arrival", time: "08:55", method: "Face ID" },
-//             { type: "departure", time: "18:05", method: "Car Plate" },
-//         ],
-//     },
-//     {
-//         day: "Tuesday",
-//         date: "Nov 19, 2025",
-//         events: [
-//             { type: "arrival", time: "09:02", method: "Car Plate" },
-//             { type: "departure", time: "17:50", method: "Face ID" },
-//         ],
-//     },
-//     {
-//         day: "Wednesday",
-//         date: "Nov 20, 2025",
-//         events: [
-//             { type: "arrival", time: "08:58", method: "Face ID" },
-//             { type: "departure", time: "18:00", method: "Face ID" },
-//             { type: "arrival", time: "18:00", method: "Face ID" },
-//             { type: "departure", time: "18:00", method: "Face ID" },
-//         ],
-//     },
-//     {
-//         day: "Thursday",
-//         date: "Nov 21, 2025",
-//         events: [
-//             { type: "arrival", time: "08:50", method: "Car Plate" },
-//             { type: "departure", time: "18:15", method: "Car Plate" },
-//         ],
-//     },
-//     {
-//         day: "Friday",
-//         date: "Nov 22, 2025",
-//         events: [
-//             { type: "arrival", time: "08:59", method: "Face ID" },
-//             { type: "departure", time: "17:55", method: "Face ID" },
-//         ],
-//     },
-// ];
-
-// --------------------
-// Components
-// --------------------
 interface EventCardProps {
-    event: TimelineEvent;
+    event: any;
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
@@ -93,7 +36,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             <div>
                 <p className="text-sm font-medium capitalize">{event?.entryType === "ENTER" ? "Arrival" : "Departure"}</p>
                 <p className="text-xs text-gray-500">
-                    {dayjs(event?.actionTime).format("HH:mm")} via {event?.actionType}
+                    {dayjs(event?.actionTime).format("HH:mm")} via {event?.credential?.type}
                 </p>
             </div>
         </div>
