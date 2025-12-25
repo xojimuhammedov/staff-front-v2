@@ -11,6 +11,10 @@ import { useState } from 'react';
 import EditForm from './Edit';
 import config from 'configs';
 import { toast } from 'react-toastify';
+import { Controller, useForm } from 'react-hook-form';
+import { MySelect } from 'components/Atoms/Form';
+import { credentialTypeData } from 'configs/type';
+import { ISelect } from 'interfaces/select.interface';
 
 const Credentials = () => {
     const { id } = useParams()
@@ -18,10 +22,14 @@ const Credentials = () => {
     const [showModal, setShowModal] = useState(false)
     const [show, setShow] = useState(false)
     const [credentialId, setCredentialId] = useState(null)
+    const { control, watch } = useForm()
     const { data, refetch }: any = useGetAllQuery({
-        key: KEYS.getCredentialByEmployee,
-        url: `${URLS.getCredentialByEmployee}/${id}`,
-        params: {}
+        key: KEYS.credentials,
+        url: URLS.credentials,
+        params: {
+            employeeId: Number(id),
+            type: watch("type")
+        }
     })
     const { data: getOne } = useGetOneQuery({
         id: credentialId,
@@ -58,11 +66,32 @@ const Credentials = () => {
 
     return (
         <>
-            <div className='flex justify-end'>
+            <div className='flex justify-end gap-4'>
+                <div className='flex w-[200px]'>
+                    <Controller
+                        name="type"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <MySelect
+                                options={credentialTypeData?.map((evt: any) => ({
+                                    label: evt.label,
+                                    value: evt.value,
+                                }))}
+                                value={field.value as any}
+                                onChange={(val: any) => {
+                                    field.onChange((val as ISelect)?.value ?? val)
+                                }}
+                                onBlur={field.onBlur}
+                                error={!!fieldState.error}
+                                allowedRoles={["ADMIN", "HR"]}
+                            />
+                        )}
+                    />
+                </div>
                 <Button startIcon={<Plus />} onClick={() => setShowModal(true)} className={'[&_svg]:stroke-bg-white'} variant='primary'>Add new type</Button>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
-                {data?.map((item: any) => (
+                {data?.data?.map((item: any) => (
                     <div
                         key={item?.id}
                         className='bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col'
