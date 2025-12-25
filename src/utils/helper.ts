@@ -248,12 +248,21 @@ function formatDate(date?: Date | string | null): string {
   const d = new Date(date);
   if (isNaN(d.getTime())) return ''; // Agar noto‘g‘ri sana bo‘lsa (invalid date)
 
-  console.log(date)
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
 
   return `${year}-${month}-${day}`
+}
+
+function toHHmm(totalMinutes: number): string {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  const hh = String(hours).padStart(2, "0");
+  const mm = String(minutes).padStart(2, "0");
+
+  return `${hh}:${mm}`;
 }
 
 export {
@@ -273,5 +282,6 @@ export {
   slideDown,
   paramsStrToObj,
   timeLine,
-  getTimeDifference
+  getTimeDifference,
+  toHHmm
 };

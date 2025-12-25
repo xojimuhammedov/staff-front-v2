@@ -10,7 +10,7 @@ import { Calendar } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { timeLine } from 'utils/helper';
+import { timeLine, toHHmm } from 'utils/helper';
 
 interface AttendanceCardData {
     averageArrivalTime?: any;
@@ -81,13 +81,13 @@ const AttendancesInfo = () => {
             <MyDivider />
             <div className='grid grid-cols-5 gap-4'>
                 <AttendanceCard
-                    averageArrival={timeLine(cardData?.averageArrivalTime) || "-"}
+                    averageArrival={toHHmm(cardData?.averageArrivalTime) || "-"}
                     title='Average Arrival Time'
                     statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? cardData?.avgArrivalLateMinutes : cardData?.avgArrivalEarlyMinutes}`}
                     statusClass={cardData?.avgArrivalEarlyMinutes === 0 ? "late" : "early"} />
 
                 <AttendanceCard
-                    averageArrival={timeLine(cardData?.averageLeaveTime) || "-"}
+                    averageArrival={toHHmm(cardData?.averageLeaveTime) || "-"}
                     title='Average Arrival Time'
                     statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? cardData?.avgLeaveEarlyMinutes : cardData?.avgLeaveOvertimeMinutes}`}
                     statusClass={cardData?.avgLeaveOvertimeMinutes === 0 ? "early" : "late"} />
