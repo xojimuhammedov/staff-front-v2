@@ -131,13 +131,11 @@ function EmployeeDragDrop() {
   };
 
 
-  
+
   const handleAssign = () => {
     if (!finalSelectedIds.length)
       return toast.warning(t("Please select at least one employee"));
 
-    if (!selectedDeviceTypes.length)
-      return toast.warning(t("Please select device types"));
 
     assignEmployees(
       {
@@ -154,10 +152,12 @@ function EmployeeDragDrop() {
           navigate("/settings");
         },
         onError: (e: any) =>
-          toast.error(e?.response?.data?.error?.message || "Error"),
+          console.log(e)
       }
     );
   };
+
+  console.log(selectedDeviceTypes)
 
   return (
     <>
@@ -190,7 +190,7 @@ function EmployeeDragDrop() {
               onKeyUp={handleKeyUp}
             />
 
-            <div className="flex justify-between mt-4">
+            <div className="flex items-center justify-between mt-4">
               <MyCheckbox
                 label={t("Select all")}
                 checked={
