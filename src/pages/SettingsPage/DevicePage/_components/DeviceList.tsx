@@ -1,11 +1,9 @@
-import MyDivider from 'components/Atoms/MyDivider';
-import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { useTranslation } from 'react-i18next';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useMemo, useState } from 'react';
 import TableProvider from 'providers/TableProvider/TableProvider';
 import DataGrid from 'components/Atoms/DataGrid';
-import { useDeleteQuery, useGetAllQuery, usePostQuery } from 'hooks/api';
+import { useDeleteQuery, usePostQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -16,6 +14,7 @@ import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit, ExternalLink, Trash2 } from 'lucide-react';
 import FormDeviceEdit from './Edit';
 import MyModal from 'components/Atoms/MyModal';
+import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 
 type FilterType = {
     search: string;
@@ -34,16 +33,18 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
     const { t } = useTranslation()
     const [openEditModal, setOpenEditModal] = useState(false)
     const [deviceId, setDeviceId] = useState("")
+    const [show, setShow] = useState(false)
 
 
     const { mutate: deleteRequest } = useDeleteQuery({
         listKeyId: KEYS.getDoorForDevices
     });
 
-    const deleteItem = (id: number) => {
+    const deleteItem = () => {
+        if (!deviceId) return;
         deleteRequest(
             {
-                url: `${URLS.getDoorForDevices}/${id}`
+                url: `${URLS.getDoorForDevices}/${deviceId}`
             },
             {
                 onSuccess: () => {
@@ -143,7 +144,8 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
                 type: 'danger',
                 name: t('Delete'),
                 action: (row) => {
-                    deleteItem(row?.id)
+                    setDeviceId(row?.id);
+                    setShow(true);
                 }
             },
             {
@@ -205,6 +207,11 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
                     className: "py-[15px]",
                 }}
             />
+
+            <ConfirmationModal
+                title={t("Bu device o'chirmoqchimisiz?")}
+                subTitle={t("Bu amalni qaytarib bo'lmaydi! Device o'chiriladi va unga bog'langan barcha qurilmalar o'chiriladi.")}
+                open={show} setOpen={setShow} confirmationDelete={deleteItem} />
         </>
     );
 }
