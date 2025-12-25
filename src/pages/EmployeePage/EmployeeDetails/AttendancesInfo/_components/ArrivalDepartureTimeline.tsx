@@ -1,5 +1,5 @@
 import React from "react";
-import { CarFront, Clock, CreditCard, LockKeyhole, UserRound } from "lucide-react";
+import { CarFront, Clock, CreditCard, LockKeyhole, QrCode, UserRound } from "lucide-react";
 import dayjs from "dayjs";
 
 // --------------------
@@ -20,7 +20,6 @@ interface EventCardProps {
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
     const isArrival = event?.entryType === "ENTER";
 
-    // console.log(event?.actionType)
 
     return (
         <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-2 shadow-sm">
@@ -28,24 +27,21 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${isArrival ? "bg-green-100 text-green-600" : "bg-blue-100 text-blue-600"
                     }`}
             >
-                {/* <Clock size={14} /> */}
                 {
-                    event.actionType === "PHOTO" ? <UserRound size={20} /> : event.actionType === "CAR" ? <CarFront size={20} /> : event.actionType === "PERSONAL_CODE" ? <LockKeyhole size={20} /> : event.actionType === "CARD" ? <CreditCard size={20} /> : <Clock size={20} />
+                    event?.credential?.type === "PHOTO" ? <UserRound size={20} /> : event?.credential?.type === "CAR" ? <CarFront size={20} /> : event?.credential?.type === "PERSONAL_CODE" ? <LockKeyhole size={20} /> : event?.credential?.type === "CARD" ? <CreditCard size={20} /> : event?.credential?.type === "QR" ? <QrCode /> : <Clock />
                 }
             </div>
             <div>
                 <p className="text-sm font-medium capitalize">{event?.entryType === "ENTER" ? "Arrival" : "Departure"}</p>
                 <p className="text-xs text-gray-500">
-                    {dayjs(event?.actionTime).format("HH:mm")} via {event?.credential?.type}
+                    {dayjs(event?.actionTime).format("HH:mm")} {event?.credential?.type}
                 </p>
             </div>
         </div>
     );
 };
 
-// --------------------
-// Main UI
-// --------------------
+
 export default function ArrivalDepartureTimeline({ data }: any) {
     return (
         <div className="mt-8">

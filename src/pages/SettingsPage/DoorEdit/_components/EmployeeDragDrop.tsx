@@ -157,7 +157,6 @@ function EmployeeDragDrop() {
     );
   };
 
-  console.log(selectedDeviceTypes)
 
   return (
     <>

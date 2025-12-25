@@ -1,4 +1,3 @@
-import { LogOut } from 'lucide-react';
 import React from 'react';
 
 // Define the shape of the component's props
@@ -7,13 +6,15 @@ interface ArrivalCardProps {
     statusText?: string;
     title: string;
     statusClass?: 'early' | 'late' | 'on-time'; // For styling
+    icon?: any;
 }
 
 const AttendanceCard: React.FC<ArrivalCardProps> = ({
     averageArrival,
     statusText,
     statusClass,
-    title
+    title,
+    icon
 }) => {
     // Determine the color based on the statusClass
     let statusTextColor = 'text-green-600'; // Default to early/on-time color
@@ -29,7 +30,7 @@ const AttendanceCard: React.FC<ArrivalCardProps> = ({
                 <h3 className="text-gray-500 text-base font-medium">
                     {title}
                 </h3>
-                <LogOut color='green' />
+                {icon}
             </div>
             <div className="text-xl font-bold text-gray-900 mb-1">
                 {averageArrival}

@@ -15,22 +15,37 @@ import { Controller, useForm } from 'react-hook-form';
 import { MySelect } from 'components/Atoms/Form';
 import { credentialTypeData } from 'configs/type';
 import { ISelect } from 'interfaces/select.interface';
+import ConfirmationCredential from './Confirmation';
 
 const Credentials = () => {
     const { id } = useParams()
     const { t } = useTranslation()
     const [showModal, setShowModal] = useState(false)
     const [show, setShow] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [active, setActive] = useState<any>()
     const [credentialId, setCredentialId] = useState(null)
     const { control, watch } = useForm()
+
+    const paramsValue = watch("type")?.label === "All" ? null : watch("type")
+
     const { data, refetch }: any = useGetAllQuery({
         key: KEYS.credentials,
         url: URLS.credentials,
         params: {
             employeeId: Number(id),
-            type: watch("type")
+            type: paramsValue
         }
     })
+
+    const typeData = [
+        {
+            label: "All",
+            value: null
+        },
+        ...credentialTypeData
+    ]
+
     const { data: getOne } = useGetOneQuery({
         id: credentialId,
         url: URLS.credentials,
@@ -43,18 +58,19 @@ const Credentials = () => {
         hideSuccessToast: true
     });
 
-    const onSubmit = (data: any) => {
+    const onSubmit = () => {
         update(
             {
-                url: `${URLS.credentials}/${data?.id}`,
+                url: `${URLS.credentials}/${active?.id}`,
                 attributes: {
-                    isActive: data?.isActive ? false : true
+                    isActive: active?.isActive ? false : true
                 }
             },
             {
                 onSuccess: () => {
                     toast.success(t('Edit successfully!'));
                     refetch()
+                    setOpen(false)
                 },
                 onError: (e: any) => {
                     console.log(e);
@@ -73,7 +89,7 @@ const Credentials = () => {
                         control={control}
                         render={({ field, fieldState }) => (
                             <MySelect
-                                options={credentialTypeData?.map((evt: any) => ({
+                                options={typeData?.map((evt: any) => ({
                                     label: evt.label,
                                     value: evt.value,
                                 }))}
@@ -119,7 +135,8 @@ const Credentials = () => {
                                 variant='destructive'
                                 className='w-full font-medium'
                                 onClick={() => {
-                                    onSubmit(item);
+                                    setActive(item);
+                                    setOpen(true)
                                 }}
                             >
                                 {item?.isActive ? "Inactive" : "Active"}
@@ -168,6 +185,11 @@ const Credentials = () => {
                         credentialId={credentialId}
                         data={getOne} refetch={refetch} onClose={() => setShow(false)} employeeId={id} />
                 }}
+            />
+            <ConfirmationCredential
+                title={active?.isActive ? t("Buning holatini faolsizlantirmoqchimisiz?") : t("Buning holatini faollashtirmoqchimisiz?")}
+                subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+                open={open} setOpen={setOpen} confirmationDelete={onSubmit}
             />
         </>
     );
