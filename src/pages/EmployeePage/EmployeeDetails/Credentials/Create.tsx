@@ -9,7 +9,7 @@ import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ISelect } from 'interfaces/select.interface';
 import { credentialTypeData } from 'configs/type';
 import TypeForm from './TypeForm';
@@ -21,8 +21,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
     const [selectedType, setSelectedType] = useState('');
     const [carNumber, setCarNumber] = useState('');
     const [personalCode, setPersonalCode] = useState('');
-    const [qrGuid, setQrGuid] = useState('');
-    const qrCanvasRef = useRef(null);
+    const [code, setCode] = useState<string>("");
     const schema = object().shape({
         code: string(),
         type: string(),
@@ -52,53 +51,9 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
         resolver: yupResolver(schema)
     });
 
-
-    const generateGuid = () => {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            const r = Math.random() * 16 | 0;
-            const v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    };
-
-    const generateQRCode = (text: any) => {
-        const canvas: any = qrCanvasRef.current;
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-        const size = 200;
-        canvas.width = size;
-        canvas.height = size;
-
-        // Simple QR code visualization
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, size, size);
-
-        ctx.fillStyle = '#000000';
-        const moduleSize = 4;
-        const modules = Math.floor(size / moduleSize);
-
-        // Generate random pattern based on GUID
-        for (let i = 0; i < modules; i++) {
-            for (let j = 0; j < modules; j++) {
-                const hash = text.charCodeAt(i % text.length) + text.charCodeAt(j % text.length);
-                if (hash % 2 === 0) {
-                    ctx.fillRect(i * moduleSize, j * moduleSize, moduleSize, moduleSize);
-                }
-            }
-        }
-    };
-
     const handleTypeSelect = (type: any) => {
         setSelectedType(type);
-
-        if (type === 'QR') {
-            const guid = generateGuid();
-            setQrGuid(guid);
-            setTimeout(() => generateQRCode(guid), 100);
-        }
     };
-
 
     const { mutate: create } = usePostQuery({
         listKeyId: KEYS.credentials,
@@ -113,7 +68,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
             code: selectedType === 'CARD' ? cardNumber :
                 selectedType === 'CAR' ? carNumber :
                     selectedType === 'PERSONAL_CODE' ? personalCode :
-                        selectedType === 'QR' ? qrGuid : "."
+                        selectedType === 'QR' ? code : "."
         };
         create(
             {
@@ -150,8 +105,8 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                                         label: evt.label,
                                         value: evt.value,
                                     }))}
-                                    value={selectedType} 
-                                    onChange={(val: any) =>{
+                                    value={selectedType}
+                                    onChange={(val: any) => {
                                         field.onChange((val as ISelect)?.value ?? val)
                                         handleTypeSelect(val.value)
                                     }}
@@ -184,14 +139,13 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
                         selectedTypeName={selectedType}
                         setValue={setValue} setImageKey={setImageKey}
                         cardNumber={cardNumber}
-                        qrGuid={qrGuid}
-                        setQrGuid={setQrGuid}
                         setCardNumber={setCardNumber}
                         carNumber={carNumber}
                         setCarNumber={setCarNumber}
                         personalCode={personalCode}
                         setPersonalCode={setPersonalCode}
-                        qrCanvasRef={qrCanvasRef}
+                        code={code}
+                        setCode={setCode}
                     />
                     <div className="mt-8 flex w-full justify-end gap-4">
                         <MyButton

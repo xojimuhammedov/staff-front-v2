@@ -16,6 +16,7 @@ import { MySelect } from 'components/Atoms/Form';
 import { credentialTypeData } from 'configs/type';
 import { ISelect } from 'interfaces/select.interface';
 import ConfirmationCredential from './Confirmation';
+import { QRCodeCanvas } from 'qrcode.react';
 
 const Credentials = () => {
     const { id } = useParams()
@@ -119,9 +120,17 @@ const Credentials = () => {
                                     src={`${config.FILE_URL}api/storage/${item?.additionalDetails}`}
                                     alt="User photo"
                                 />
-                            ) : (
-                                <h2 className='text-xl font-semibold text-gray-800'>{item?.code}</h2>
-                            )}
+                            ) : item?.type === "QR" ? (
+                                <QRCodeCanvas
+                                    value={item?.code}
+                                    size={180}
+                                    includeMargin
+                                />
+                            ) :
+                                (
+                                    <h2 className='text-xl font-semibold text-gray-800'>{item?.code}</h2>
+                                )
+                            }
                         </div>
 
                         <div className='mb-6'>

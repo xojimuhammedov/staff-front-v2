@@ -10,8 +10,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { request } from 'services/request';
+import { QRCodeCanvas } from "qrcode.react";
 
-const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid, setCardNumber, carNumber, setCarNumber, setPersonalCode, personalCode, qrCanvasRef }: any) => {
+
+const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCardNumber, carNumber, setCarNumber, setPersonalCode, personalCode, code, setCode }: any) => {
     const { t } = useTranslation()
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [openModal, setOpenModal] = useState(false);
@@ -88,25 +90,23 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid,
         if (!selectedFile) return;
 
         const url = URL.createObjectURL(selectedFile);
-
         return () => URL.revokeObjectURL(url);
     }, [selectedFile]);
-
-    const downloadQRCode = () => {
-        const canvas: any = qrCanvasRef.current;
-        if (!canvas) return;
-
-        const url = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.download = `qr-${qrGuid}.png`;
-        link.href = url;
-        link.click();
-    };
 
     const handleDragOver = (e: any) => {
         e.preventDefault();
         setIsDragging(true);
     };
+
+
+
+    function handleGenerate() {
+        const random = Math.floor(100000 + Math.random() * 900000);
+        const newCode = `QR-${random}`;
+
+        setCode(newCode);
+    }
+
     const renderTypeSpecificField = () => {
         switch (selectedTypeName) {
             case 'PHOTO':
@@ -205,11 +205,15 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, qrGuid,
                             Generated QR Code
                         </label>
                         <div className="flex flex-col items-center">
-                            <canvas ref={qrCanvasRef} className="mx-auto mb-4 rounded-lg shadow-md" />
+                            <QRCodeCanvas
+                                value={code}
+                                size={180}
+                                includeMargin
+                            />
                             <MyButton variant='secondary'
-                                onClick={downloadQRCode}
+                                onClick={handleGenerate}
                                 startIcon={<Download className="h-4 w-4" />}>
-                                Download QR Code
+                                Generate QR Code
                             </MyButton>
                         </div>
                     </div>
