@@ -17,8 +17,6 @@ import { searchValue } from 'types/search';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import FixIssueModal from './FixIssueModal';
 import { ArrowLeft, Search } from 'lucide-react';
-import { ISelect } from 'interfaces/select.interface';
-import { Controller, useForm } from 'react-hook-form';
 import { MyInput, MySelect } from 'components/Atoms/Form';
 import { KeyTypeEnum } from 'enums/key-type.enum';
 import { useSearch } from 'hooks/useSearch';
@@ -42,7 +40,6 @@ function MainGate() {
   const location = useLocation()
   const searchValue: searchValue = paramsStrToObj(location?.search)
   const { search, setSearch, handleSearch } = useSearch();
-  const { control, watch } = useForm()
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.hikvisionEmployeeSync,
     url: URLS.hikvisionEmployeeSync,
@@ -53,12 +50,6 @@ function MainGate() {
       search: searchValue?.search,
     }
   })
-
-  // const { data: deviceData } = useGetAllQuery<any>({
-  //   key: KEYS.getDoorForDevices,
-  //   url: URLS.getDoorForDevices,
-  //   params: {}
-  // });
 
 
   const columns: DataGridColumnType[] = useMemo(
@@ -166,40 +157,6 @@ function MainGate() {
       <div className={'flex justify-between'}>
         <LabelledCaption title={t('Main gate')} subtitle={t('See and manage door configs')} />
         <div className='flex items-center gap-4'>
-          <div className='flex'>
-            <MyInput
-              onKeyUp={(event) => {
-                if (event.key === KeyTypeEnum.enter) {
-                  handleSearch();
-                } else {
-                  setSearch((event.target as HTMLInputElement).value);
-                }
-              }}
-              defaultValue={search}
-              startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
-              className="dark:bg-bg-input-dark"
-              placeholder={t('Search...')}
-            />
-            {/* <Controller
-              name="type"
-              control={control}
-              render={({ field, fieldState }) => (
-                <MySelect
-                  options={deviceData?.data?.map((evt: any) => ({
-                    label: evt.name,
-                    value: evt.value,
-                  }))}
-                  value={field.value as any}
-                  onChange={(val: any) => {
-                    field.onChange((val as ISelect)?.value ?? val)
-                  }}
-                  onBlur={field.onBlur}
-                  error={!!fieldState.error}
-                  allowedRoles={["ADMIN", "HR"]}
-                />
-              )}
-            /> */}
-          </div>
           <MyButton
             onClick={() => navigate('/settings')}
             variant="secondary"
