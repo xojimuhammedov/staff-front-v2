@@ -6,7 +6,7 @@ import MyAvatar from "components/Atoms/MyAvatar";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import { useGetAllQuery, useGetOneQuery, usePostQuery } from "hooks/api";
-import { Search, Trash2 } from "lucide-react";
+import { Edit, Edit2, Search, Trash2 } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import AvatarIcon from "assets/icons/avatar.png";
 import deviceType from "configs/deviceType";
 import DeviceTypeSelectModal from './DeviceSelectModal';
+import TypeSelectModal from "./TypeSelectModal";
 
 interface Employee {
   id: number;
@@ -37,8 +38,8 @@ function EmployeeDragDrop() {
   const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]);
   const [selectedDeviceTypes, setSelectedDeviceTypes] = useState<string[]>([]);
   const [openModal, setOpenModal] = useState(false);
-
-
+  const [selectModal, setSelectModal] = useState(false)
+  const [employeeId, setEmployeeId] = useState<any>(null)
   const currentSearch = searchParams.get("search") || "";
 
   const { data: employeesData, isLoading } =
@@ -136,7 +137,6 @@ function EmployeeDragDrop() {
     if (!finalSelectedIds.length)
       return toast.warning(t("Please select at least one employee"));
 
-
     assignEmployees(
       {
         url: URLS.devicesEmployeeAssign,
@@ -157,19 +157,16 @@ function EmployeeDragDrop() {
     );
   };
 
-
   return (
     <>
       <div className="mt-12 w-full rounded-md bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
 
-        <MyDivider />
+        <div className="flex items-center justify-between">
+          <LabelledCaption
+            title={id ? t("Edit employees") : t("Add employees")}
+            subtitle={t("Create group and link to door")}
+          />
 
-        <LabelledCaption
-          title={id ? t("Edit employees") : t("Add employees")}
-          subtitle={t("Create group and link to door")}
-        />
-
-        <div className="mt-6 flex justify-end">
           <MyButton variant="primary" onClick={handleAssign} type="submit">
             Save changes
           </MyButton>
@@ -232,7 +229,7 @@ function EmployeeDragDrop() {
           </div>
 
           {/* RIGHT PANEL */}
-          <div className="w-full lg:w-1/2 h-[600px] rounded-md border overflow-hidden">
+          <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border">
             <h3 className="p-4 font-medium bg-gray-100">
               {t("Selected employees")} ({finalSelectedIds.length})
             </h3>
@@ -248,9 +245,17 @@ function EmployeeDragDrop() {
                       <span>{emp.name}</span>
                     </div>
 
-                    <button onClick={() => removeFromFinal(emp.id)}>
-                      <Trash2 />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button onClick={() => {
+                        setSelectModal(true);
+                        setEmployeeId(emp?.id)
+                      }}>
+                        <Edit />
+                      </button>
+                      <button onClick={() => removeFromFinal(emp.id)}>
+                        <Trash2 />
+                      </button>
+                    </div>
                   </div>
                 ))
               )}
@@ -265,6 +270,13 @@ function EmployeeDragDrop() {
         onConfirm={handleConfirmModal}
         deviceTypeOptions={deviceTypeOptions}
         initialValues={selectedDeviceTypes}
+      />
+      <TypeSelectModal
+        onClose={() => setSelectModal(false)}
+        open={selectModal}
+        employeeId={employeeId}
+        gateId={id}
+        setEmployeeId={setEmployeeId}
       />
     </>
   );

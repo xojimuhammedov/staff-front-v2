@@ -123,7 +123,7 @@ const Credentials = () => {
                             ) : item?.type === "QR" ? (
                                 <QRCodeCanvas
                                     value={item?.code}
-                                    size={180}
+                                    size={80}
                                     includeMargin
                                 />
                             ) :
