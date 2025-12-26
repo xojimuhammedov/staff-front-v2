@@ -32,10 +32,33 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
     enabled: !!userId
   });
 
+  const { data: departmentData } = useGetAllQuery<any>({
+    key: KEYS.getAllListDepartment,
+    url: URLS.getAllListDepartment,
+    params: {}
+  })
+
   const { mutate: update } = usePutQuery({
     listKeyId: KEYS.getListUsersManagment,
     hideSuccessToast: true
   });
+
+  const departmentOptions = useMemo(
+    () =>
+      departmentData?.data?.map((item: any) => ({
+        label: item.fullName,
+        value: item.id,
+      })) || [],
+    [departmentData?.data]
+  );
+
+  const defaultDepartmentIds = useMemo(() => {
+    return (
+      getOne?.data?.departments?.map((org: any) => org.id) || []
+    );
+  }, [getOne?.data?.departments]);
+
+  console.log(getOne?.data?.departments)
 
 
   const {
@@ -43,6 +66,7 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
     register,
     reset,
     control,
+    watch,
     formState: { errors }
   } = useForm({
     defaultValues: useMemo(() => {
@@ -51,6 +75,7 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
         username: get(getOne, 'data.username'),
         role: get(getOne, 'data.role'),
         organizationId: get(getOne, 'data.organizationId'),
+        departmentIds: defaultDepartmentIds,
       };
     }, [getOne?.data]),
     mode: 'onChange',
@@ -62,8 +87,11 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
       username: get(getOne, 'data.username'),
       role: get(getOne, 'data.role'),
       organizationId: get(getOne, 'data.organizationId'),
+      departmentIds: defaultDepartmentIds,
     });
-  }, [getOne?.data]);
+  }, [getOne?.data, defaultDepartmentIds]);
+
+
 
   const onSubmit = (data: any) => {
     update(
@@ -73,7 +101,7 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
       },
       {
         onSuccess: () => {
-          toast.success(t('Successfully created!'));
+          toast.success(t('Successfully edited!'));
           reset();
           refetch()
           setOpen(false)
@@ -150,6 +178,32 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
                   />
                 )}
               />
+              {
+                watch("role") === "DEPARTMENT_LEAD" && (
+                  <Controller
+                    name="departmentIds"
+                    control={control}
+                    rules={{ required: t("At least one department must be selected") }}
+                    render={({ field }) => (
+                      <MySelect
+                        isMulti={true}
+                        options={departmentOptions}
+                        value={departmentOptions.filter((opt: any) =>
+                          field.value?.includes(opt.value)
+                        )}
+                        onChange={(selectedOptions: any) => {
+                          const values = selectedOptions
+                            ? selectedOptions?.map((opt: any) => opt.value)
+                            : [];
+                          field.onChange(values);
+                        }}
+                        allowedRoles={["ADMIN"]}
+                        label={t("Select departments")}
+                      />
+                    )}
+                  />
+                )
+              }
             </div>
 
             <div className="mb-[5px] flex w-full justify-end gap-4">

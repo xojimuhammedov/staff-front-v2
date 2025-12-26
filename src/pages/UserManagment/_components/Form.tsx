@@ -7,6 +7,7 @@ import { URLS } from 'constants/url';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { ISelect } from 'interfaces/select.interface';
 import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -18,6 +19,7 @@ const Form = ({ refetch, open, setOpen }: any) => {
   const { t } = useTranslation()
   const userData: any = storage.get("userData")
   const userRole = JSON.parse(userData)?.role
+  const [departmentId, setDepartmentId] = useState<number[]>([])
 
   const { mutate: create } = usePostQuery({
     listKeyId: KEYS.getListUsersManagment,
@@ -27,6 +29,12 @@ const Form = ({ refetch, open, setOpen }: any) => {
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
+    params: {}
+  })
+
+  const { data: departmentData } = useGetAllQuery<any>({
+    key: KEYS.getAllListDepartment,
+    url: URLS.getAllListDepartment,
     params: {}
   })
 
@@ -51,6 +59,7 @@ const Form = ({ refetch, open, setOpen }: any) => {
     handleSubmit,
     register,
     reset,
+    watch,
     control,
     formState: { errors }
   } = useForm({
@@ -60,11 +69,31 @@ const Form = ({ refetch, open, setOpen }: any) => {
     context: { role: userRole }
   });
 
+  const options =
+    departmentData?.data?.map((item: any) => ({
+      label: item.fullName,
+      value: item.id,
+    })) || [];
+
+  // value qiymatini options asosida topish
+  const value = options.filter((option: any) =>
+    departmentId.includes(option.value)
+  );
+
+  // onchange hodisasi
+  const handleChange = (selected: any) => {
+    const ids = selected.map((s: any) => s.value);
+    setDepartmentId(ids);
+  };
+
   const onSubmit = (data: any) => {
     create(
       {
         url: URLS.getListUsersManagment,
-        attributes: data
+        attributes: {
+          departmentIds: departmentId,
+          ...data
+        }
       },
       {
         onSuccess: () => {
@@ -151,6 +180,18 @@ const Form = ({ refetch, open, setOpen }: any) => {
                   />
                 )}
               />
+              {
+                watch("role") === "DEPARTMENT_LEAD" && (
+                  <MySelect
+                    isMulti
+                    options={options}
+                    value={value}
+                    onChange={handleChange}
+                    label="Select department"
+                    allowedRoles={["ADMIN"]}
+                  />
+                )
+              }
             </div>
 
             <div className="mb-[5px] flex w-full justify-end gap-4">

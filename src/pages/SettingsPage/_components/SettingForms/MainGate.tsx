@@ -8,7 +8,7 @@ import { URLS } from 'constants/url';
 import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import TableProvider from 'providers/TableProvider/TableProvider';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -16,9 +16,7 @@ import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import FixIssueModal from './FixIssueModal';
-import { ArrowLeft, Search } from 'lucide-react';
-import { MyInput, MySelect } from 'components/Atoms/Form';
-import { KeyTypeEnum } from 'enums/key-type.enum';
+import { ArrowLeft } from 'lucide-react';
 import { useSearch } from 'hooks/useSearch';
 
 type FilterType = {
