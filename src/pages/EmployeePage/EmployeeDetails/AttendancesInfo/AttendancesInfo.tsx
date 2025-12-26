@@ -10,7 +10,7 @@ import { Calendar, Clock, LogIn, LogOut } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
-import {  toHHmm } from 'utils/helper';
+import { toHHmm } from 'utils/helper';
 
 interface AttendanceCardData {
     averageArrivalTime?: any;
@@ -85,36 +85,32 @@ const AttendancesInfo = () => {
                     averageArrival={toHHmm(cardData?.averageArrivalTime) || "-"}
                     title='Average Arrival Time'
                     statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? cardData?.avgArrivalLateMinutes : cardData?.avgArrivalEarlyMinutes}`}
-                    statusClass={cardData?.avgArrivalEarlyMinutes === 0 ? "late" : "early"} 
+                    statusClass={cardData?.avgArrivalEarlyMinutes === 0 ? "late" : "early"}
                     icon={<LogIn color='green' />}
-                    />
+                />
 
                 <AttendanceCard
                     averageArrival={toHHmm(cardData?.averageLeaveTime) || "-"}
                     title='Average Leave Time'
                     statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? cardData?.avgLeaveEarlyMinutes : cardData?.avgLeaveOvertimeMinutes}`}
-                    statusClass={cardData?.avgLeaveOvertimeMinutes === 0 ? "early" : "late"} 
+                    statusClass={cardData?.avgLeaveOvertimeMinutes === 0 ? "early" : "late"}
                     icon={<LogOut color='green' />}
-                    />
+                />
 
                 <AttendanceCard
                     averageArrival={cardData?.totalTrackedHours || "-"}
                     icon={<Clock />}
                     title='Total tracked hours' />
 
-                {
-                    cardData?.lateArrivalsCount ? <AttendanceCard
-                        averageArrival={cardData?.lateArrivalsCount || "-"}
-                        icon={<LogIn color='red' />}
-                        title='Late Arrivals' /> : ""
-                }
+                <AttendanceCard
+                    averageArrival={cardData?.lateArrivalsCount || "-"}
+                    icon={<LogIn color='red' />}
+                    title='Late Arrivals' />
 
-                {
-                    cardData?.earlyLeavesCount ? <AttendanceCard
-                        averageArrival={cardData?.earlyLeavesCount || "-"}
-                        icon={<LogOut color='red' />}
-                        title='Early Leaves' /> : ""
-                }
+                <AttendanceCard
+                    averageArrival={cardData?.earlyLeavesCount || "-"}
+                    icon={<LogOut color='red' />}
+                    title='Early Leaves' />
             </div>
             <ArrivalDepartureTimeline data={data} />
         </>

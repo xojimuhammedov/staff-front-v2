@@ -40,6 +40,12 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
           name: t("Job name"),
           path: "job_position",
           isSwitch: false
+        },
+        {
+          icon: "Reason type",
+          name: t("Work schedule"),
+          path: "schedule",
+          isSwitch: false
         }
       ]
     }

@@ -64,7 +64,7 @@ const EmployeeGroup = () => {
                 onSuccess: () => {
                     toast.success(t('Successfully created!'));
                     reset();
-                    navigate('/workschedule')
+                    navigate('/settings?current-setting=schedule')
                 },
                 onError: (e: any) => {
                     console.log(e);
