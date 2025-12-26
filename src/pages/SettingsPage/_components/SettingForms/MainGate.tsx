@@ -15,9 +15,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
 import MyButton from 'components/Atoms/MyButton/MyButton';
-import MyModal from 'components/Atoms/MyModal';
 import FixIssueModal from './FixIssueModal';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Search } from 'lucide-react';
+import { ISelect } from 'interfaces/select.interface';
+import { Controller, useForm } from 'react-hook-form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
+import { KeyTypeEnum } from 'enums/key-type.enum';
+import { useSearch } from 'hooks/useSearch';
 
 type FilterType = {
   search: string;
@@ -37,15 +41,25 @@ function MainGate() {
   const { id } = useParams()
   const location = useLocation()
   const searchValue: searchValue = paramsStrToObj(location?.search)
+  const { search, setSearch, handleSearch } = useSearch();
+  const { control, watch } = useForm()
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.hikvisionEmployeeSync,
     url: URLS.hikvisionEmployeeSync,
     params: {
       gateId: Number(id),
       page: searchValue?.page || 1,
-      limit: searchValue?.limit || 10
+      limit: searchValue?.limit || 10,
+      search: searchValue?.search,
     }
   })
+
+  // const { data: deviceData } = useGetAllQuery<any>({
+  //   key: KEYS.getDoorForDevices,
+  //   url: URLS.getDoorForDevices,
+  //   params: {}
+  // });
+
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -151,12 +165,48 @@ function MainGate() {
     <PageContentWrapper>
       <div className={'flex justify-between'}>
         <LabelledCaption title={t('Main gate')} subtitle={t('See and manage door configs')} />
-        <MyButton
-          onClick={() => navigate('/settings')}
-          variant="secondary"
-          startIcon={<ArrowLeft />}>
-          {t('Back to gates list')}
-        </MyButton>
+        <div className='flex items-center gap-4'>
+          <div className='flex'>
+            <MyInput
+              onKeyUp={(event) => {
+                if (event.key === KeyTypeEnum.enter) {
+                  handleSearch();
+                } else {
+                  setSearch((event.target as HTMLInputElement).value);
+                }
+              }}
+              defaultValue={search}
+              startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+              className="dark:bg-bg-input-dark"
+              placeholder={t('Search...')}
+            />
+            {/* <Controller
+              name="type"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MySelect
+                  options={deviceData?.data?.map((evt: any) => ({
+                    label: evt.name,
+                    value: evt.value,
+                  }))}
+                  value={field.value as any}
+                  onChange={(val: any) => {
+                    field.onChange((val as ISelect)?.value ?? val)
+                  }}
+                  onBlur={field.onBlur}
+                  error={!!fieldState.error}
+                  allowedRoles={["ADMIN", "HR"]}
+                />
+              )}
+            /> */}
+          </div>
+          <MyButton
+            onClick={() => navigate('/settings')}
+            variant="secondary"
+            startIcon={<ArrowLeft />}>
+            {t('Back to gates list')}
+          </MyButton>
+        </div>
       </div>
       <MyDivider />
       <TableProvider<TItem, FilterType>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './style.css'
-import { timeLine } from 'utils/helper';
+import { addHours, timeLine } from 'utils/helper';
 
 const TimeSheet = ({ currentTableRef, data }: any) => {
     const { t } = useTranslation();
@@ -272,9 +272,20 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
                                                 fontSize: '12px',
                                                 border: '1px solid gray',
                                                 textAlign: 'center',
-                                                backgroundColor: item?.status === "ABSENT" ? "pink" : item?.status === "LATE" ? "yellow" : "transparent"
-                                            }}>
-                                            {item?.startTime && item?.endTime ? `(${item?.startTime}-${item?.endTime})` : item?.startTime ? `(${item?.startTime})` : ""} {" "}  {timeLine(item?.totalMinutes)}
+                                                backgroundColor:
+                                                    item?.status === "ABSENT"
+                                                        ? "pink"
+                                                        : item?.status === "LATE"
+                                                            ? "yellow"
+                                                            : "transparent",
+                                            }}
+                                        >
+                                            {item?.startTime && item?.endTime
+                                                ? `(${addHours(item.startTime)}-${addHours(item.endTime)})`
+                                                : item?.startTime
+                                                    ? `(${addHours(item.startTime)})`
+                                                    : ""}{" "}
+                                            {timeLine(item?.totalMinutes)}
                                         </td>
                                     ))
                                 }

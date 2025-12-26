@@ -124,6 +124,7 @@ const Credentials = () => {
                                 <QRCodeCanvas
                                     value={item?.code}
                                     size={80}
+                                    style={{ opacity: '0.2' }}
                                     includeMargin
                                 />
                             ) :

@@ -21,19 +21,20 @@ function ReasonModal({ row }: any) {
         control
     } = useFormAttendance({ row })
 
+    const disabled =
+        !row?.reasons &&
+        row?.arrivalStatus === "ON_TIME" &&
+        row?.goneStatus === "ON_TIME";
+
+
     return (
         <>
-            {
-                row?.reasons ?
-                    <MyButton onClick={() => setOpen(true)} variant="secondary">
-                        {t('Sababli')}
-                    </MyButton> :
-                    <MyButton variant="secondary"
-                        disabled={!(row?.arrivalStatus === "ABSENT" || row?.arrivalStatus === "LATE")}
-                        onClick={() => setOpen(true)}>
-                        {t('Reason')}
-                    </MyButton>
-            }
+            <MyButton
+                variant="secondary"
+                disabled={disabled}
+                onClick={() => setOpen(true)}>
+                {row?.reasons ? t("Sababli") : t("Reason")}
+            </MyButton>
 
             <MyModal
                 modalProps={{

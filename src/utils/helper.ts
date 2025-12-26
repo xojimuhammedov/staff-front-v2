@@ -265,6 +265,24 @@ function toHHmm(totalMinutes: number): string {
   return `${hh}:${mm}`;
 }
 
+
+const addHours = (timeStr: any, hoursToAdd = 5) => {
+  if (!timeStr) return "";
+
+  const [h, m] = timeStr.split(":").map(Number);
+
+  const date = new Date();
+  date.setHours(h);
+  date.setMinutes(m);
+
+  date.setHours(date.getHours() + hoursToAdd);
+
+  const hh = String(date.getHours()).padStart(2, "0");
+  const mm = String(date.getMinutes()).padStart(2, "0");
+
+  return `${hh}:${mm}`;
+};
+
 export {
   cutText,
   formatDate,
@@ -283,5 +301,6 @@ export {
   paramsStrToObj,
   timeLine,
   getTimeDifference,
-  toHHmm
+  toHHmm,
+  addHours
 };
