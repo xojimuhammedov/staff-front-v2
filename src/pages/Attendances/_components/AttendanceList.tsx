@@ -4,15 +4,13 @@ import { IEmployee } from 'interfaces/employee/employee.interface';
 import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
 import { IFilter } from 'interfaces/filter.interface';
-import { useAttendance } from '../hooks/useAttendance';
 import { createColumns } from '../helpers/createColumns';
 
 
-const AttendanceList = () => {
-  const { data, isLoading } = useAttendance()
-  const { columns, dataColumn, rowActions } = createColumns()
+const AttendanceList = ({ data, isLoading, refetch }: any) => {
+  const { columns, dataColumn, rowActions } = createColumns({ refetch })
 
-  
+
   if (isLoading) {
     return (
       <div className="absolute flex h-full w-full items-center justify-center">

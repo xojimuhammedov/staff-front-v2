@@ -29,7 +29,7 @@ const DashboardPage = () => {
           </h1>
           <MyBreadCrumb items={breadCrumbs} />
         </div>
-        <div className="flex items-center w-[230px]">
+        <div className="flex items-center w-[240px]">
           <MyTailwindPicker
             useRange={true}
             name='date'

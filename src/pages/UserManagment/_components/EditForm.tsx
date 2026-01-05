@@ -6,7 +6,7 @@ import { URLS } from 'constants/url';
 import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
 import { ISelect } from 'interfaces/select.interface';
 import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { get, Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';

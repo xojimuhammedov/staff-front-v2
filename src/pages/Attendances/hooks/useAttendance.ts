@@ -21,7 +21,6 @@ export const useAttendance = () => {
     const { search, setSearch, handleSearch } = useSearch();
     const searchValue: searchValue = paramsStrToObj(location.search)
 
-
     const paramsValue = watch('date') ? {
         startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
         endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")

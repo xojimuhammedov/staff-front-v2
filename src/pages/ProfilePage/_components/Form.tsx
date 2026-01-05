@@ -79,13 +79,13 @@ function Form() {
                             {...register("name")}
                             error={Boolean(errors?.name?.message)}
                             helperText={t(`${errors?.name?.message}`)}
-                            label={t('User name')}
+                            label={t('Name')}
                         />
                         <MyInput
                             {...register("username")}
                             error={Boolean(errors?.username?.message)}
                             helperText={t(`${errors?.username?.message}`)}
-                            label={t('User address')}
+                            label={t('User name')}
                         />
                         <MyInput
                             {...register("currentPassword")}

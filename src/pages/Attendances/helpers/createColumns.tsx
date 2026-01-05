@@ -12,13 +12,11 @@ import { getTimeDifference } from "utils/helper";
 import ReasonModal from "../_components/ReasonModal";
 import { useNavigate } from "react-router-dom";
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
-import { useAttendance } from "../hooks/useAttendance";
 
 
-export const createColumns = () => {
+export const createColumns = ({ refetch }: any) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const { refetch } = useAttendance()
 
     const columns: DataGridColumnType[] = useMemo(
         () => [
@@ -55,8 +53,7 @@ export const createColumns = () => {
                 cellRender: (row) => {
                     if (row?.goneStatus) {
                         return (
-                            <MyBadge variant={row?.goneStatus === "EARLY" ? "orange" : 'green'
-                            }>
+                            <MyBadge variant={row?.goneStatus === "EARLY" ? "orange" : 'green'}>
                                 {row?.goneStatus}
                             </MyBadge>
                         );
