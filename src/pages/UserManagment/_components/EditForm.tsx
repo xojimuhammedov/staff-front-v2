@@ -58,8 +58,6 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
     );
   }, [getOne?.data?.departments]);
 
-  console.log(getOne?.data?.departments)
-
 
   const {
     handleSubmit,
@@ -76,6 +74,7 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
         role: get(getOne, 'data.role'),
         organizationId: get(getOne, 'data.organizationId'),
         departmentIds: defaultDepartmentIds,
+        password: get(getOne, 'data.password'),
       };
     }, [getOne?.data]),
     mode: 'onChange',
@@ -88,9 +87,9 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
       role: get(getOne, 'data.role'),
       organizationId: get(getOne, 'data.organizationId'),
       departmentIds: defaultDepartmentIds,
+      password: get(getOne, 'data.password'),
     });
   }, [getOne?.data, defaultDepartmentIds]);
-
 
 
   const onSubmit = (data: any) => {
@@ -141,6 +140,10 @@ const EditForm = ({ refetch, open, setOpen, userId }: any) => {
                 error={Boolean(errors?.username?.message)}
                 helperText={t(`${errors?.username?.message}`)}
                 label={t('Username')}
+              />
+              <MyInput
+                {...register('password')}
+                label={t('Password')}
               />
               <Controller
                 name="role"

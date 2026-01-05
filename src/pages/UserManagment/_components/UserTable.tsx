@@ -161,6 +161,7 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
       </TableProvider>
       <Form refetch={refetch} open={open} setOpen={setOpen} />
       <EditForm refetch={refetch} setOpen={setShow} open={show} userId={editUserId} />
+
       <ConfirmationModal
         title={t("Ushbu foydalanuvchini o'chirmoqchimisiz?")}
         subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
