@@ -58,6 +58,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -65,8 +66,12 @@ const NavbarToolbar = ({ setLoading }: any) => {
     setIsOpen(false);
   };
 
-  const languageTitle = i18n.language === 'ru' ? 'Русский' : i18n.language === "eng" ? 'English' : "O'zbek";
-  const i18nData = languageData.filter((item: any) => item.title !== languageTitle);
+  const currentLang = i18n.resolvedLanguage;
+
+  const languageTitle = currentLang === 'ru' ? 'Русский' : currentLang === "eng" ? 'English' : "O'zbek";
+  const i18nData = languageData.filter(
+    (item: any) => item.title !== languageTitle
+  );
 
   return (
     <div ref={dropdownRef} className="ml-auto flex flex-row items-center gap-5">
@@ -78,7 +83,7 @@ const NavbarToolbar = ({ setLoading }: any) => {
           }}
           className="flex items-center gap-2 px-[10px] py-[4px]">
           <img
-            src={i18n.language === 'ru' ? RusImg : i18n.language === "eng" ? EnglishImg : UzbekImg}
+            src={currentLang === 'ru' ? RusImg : currentLang === "eng" ? EnglishImg : UzbekImg}
             className="h-6 w-6 rounded-full"
             alt=""
           />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EditForm from './EditForm';
 import MyModal from 'components/Atoms/MyModal';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
@@ -12,14 +12,22 @@ import { useDeleteDepartment } from '../hooks/useDeleteDepartment';
 const DepartmentList = ({ setShowModal, showModal }: any) => {
     const { t } = useTranslation()
     const { data, refetch } = useDepartment()
-    const { deleteItem, setDepartmentId, setOpen, setShow, open, show, } = useDeleteDepartment()
+    const [show, setShow] = useState(false)
+    const [editId, setEditId] = useState(null)
+    const { deleteItem, setDepartmentId, setOpen, open } = useDeleteDepartment()
 
     return (
         <>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
                 {
                     data?.map((item: Department) => (
-                        <DepartmentCard setDepartmentId={setDepartmentId} setShow={setShow} action={true} setOpen={setOpen} item={item} />
+                        <DepartmentCard
+                            setDepartmentId={setDepartmentId}
+                            setShow={setShow}
+                            action={true}
+                            setOpen={setOpen}
+                            setEditId={setEditId}
+                            item={item} />
                     ))
                 }
             </div>
@@ -54,7 +62,7 @@ const DepartmentList = ({ setShowModal, showModal }: any) => {
                     className: 'px-6'
                 }}
                 bodyProps={{
-                    children: <EditForm onClose={() => setShow(false)} />
+                    children: <EditForm setShow={setShow} editId={editId} refetch={refetch} />
                 }}
             />
         </>

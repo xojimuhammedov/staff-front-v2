@@ -1,12 +1,11 @@
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useDeleteQuery, useGetOneQuery } from 'hooks/api';
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useDepartment } from './useDepartment';
 
 export const useDeleteDepartment = () => {
     const [open, setOpen] = useState(false)
-    const [show, setShow] = useState(false)
     const { refetch } = useDepartment()
     const [departmentId, setDepartmentId] = useState<any | null>(null)
     const { mutate: deleteRequest } = useDeleteQuery({
@@ -39,9 +38,7 @@ export const useDeleteDepartment = () => {
         getOne,
         setDepartmentId,
         setOpen,
-        setShow,
         open,
-        show,
         departmentId
     }
 }

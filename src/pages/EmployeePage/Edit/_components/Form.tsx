@@ -22,6 +22,7 @@ import config from 'configs';
 
 function Form() {
   const { t, i18n } = useTranslation();
+  const currentLang = i18n.resolvedLanguage;
   const [openModal, setOpenModal] = useState(false);
   const [imageKey, setImageKey] = useState(null)
   const { id } = useParams()
@@ -218,7 +219,7 @@ function Form() {
                 <MySelect
                   label={t("Select position")}
                   options={get(jobData, "items")?.map((evt: any) => ({
-                    label: evt[`${i18n?.language}`],
+                    label: evt[`${currentLang}`],
                     value: evt.id,
                   }))}
                   value={field.value as any}  // 👈 cast to any

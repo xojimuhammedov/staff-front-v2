@@ -31,6 +31,7 @@ const TypeList = () => {
     const { t, i18n } = useTranslation();
     const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState(null)
+    const currentLang = i18n.resolvedLanguage;
     const { data, isLoading, refetch } = useGetAllQuery({
         key: KEYS.attendancesReason,
         url: URLS.attendancesReason,
@@ -62,7 +63,7 @@ const TypeList = () => {
                 headerClassName: 'sm:w-1/4 lg:flex-1',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
-                      {row?.[`${i18n?.language}`]}
+                      {row?.[`${currentLang}`]}
                     </div>
                   )
             },

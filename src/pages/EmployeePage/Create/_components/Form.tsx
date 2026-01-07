@@ -33,6 +33,7 @@ interface Credential {
 
 function Form() {
   const { t, i18n } = useTranslation();
+  const currentLang = i18n.resolvedLanguage;
   const userData: any = storage.get("userData")
   const userRole = JSON.parse(userData)?.role
   const [openModal, setOpenModal] = useState(false);
@@ -103,9 +104,15 @@ function Form() {
 
   const schema = object().shape({
     name: string().required(),
-    address: string(),
-    phone: string(),
-    email: string(),
+    email: yup
+      .string()
+      .transform(v => v === "" ? undefined : v),
+    phone: yup
+      .string()
+      .transform(v => v === "" ? undefined : v),
+    address: yup
+      .string()
+      .transform(v => v === "" ? undefined : v),
     departmentId: yup
       .number()
       .when('$role', (role: any, schema) =>
@@ -116,7 +123,9 @@ function Form() {
       .when('$role', (role: any, schema) =>
         role === 'ADMIN' ? schema.required() : schema.optional()
       ),
-    additionalDetails: string(),
+    additionalDetails: yup
+      .string()
+      .transform(v => v === "" ? undefined : v),
     jobId: yup.number().required()
   });
   const {
@@ -271,7 +280,7 @@ function Form() {
                 <MySelect
                   label={t("Select position")}
                   options={get(jobData, "items")?.map((evt: any) => ({
-                    label: evt[`${i18n?.language}`],
+                    label: evt[`${currentLang}`],
                     value: evt.id,
                   }))}
                   value={field.value as any}  // 👈 cast to any

@@ -10,7 +10,6 @@ import { createColumns } from '../helpers/createColumns';
 const AttendanceList = ({ data, isLoading, refetch }: any) => {
   const { columns, dataColumn, rowActions } = createColumns({ refetch })
 
-
   if (isLoading) {
     return (
       <div className="absolute flex h-full w-full items-center justify-center">

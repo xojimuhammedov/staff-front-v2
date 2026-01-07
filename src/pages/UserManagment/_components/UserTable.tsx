@@ -1,5 +1,4 @@
 import DataGrid from 'components/Atoms/DataGrid';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import { KEYS } from 'constants/key';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { URLS } from 'constants/url';
@@ -8,7 +7,7 @@ import { IAction } from 'interfaces/action.interface';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { IFilter } from 'interfaces/filter.interface';
 import { get } from 'lodash';
-import { AreaChart, Edit3, Plus, Trash2 } from 'lucide-react';
+import { AreaChart, Edit3, Trash2 } from 'lucide-react';
 import TableProvider from 'providers/TableProvider/TableProvider';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

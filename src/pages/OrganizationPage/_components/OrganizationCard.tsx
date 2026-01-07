@@ -45,7 +45,7 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
                     variant='secondary'
                     allowedRoles={['ADMIN']}
                     className={'w-[170px]'}
-                    onClick={() => navigate(`/department?organizationId=${item?.id}`)}
+                    onClick={() => navigate(`/view?organizationId=${item?.id}&current-setting=department`)}
                     startIcon={<Eye />}
                 >{t("View")}</MyButton>
                 <MyButton

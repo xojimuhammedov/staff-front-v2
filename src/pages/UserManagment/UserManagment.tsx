@@ -1,7 +1,6 @@
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
-import MyDivider from 'components/Atoms/MyDivider';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import UserTable from './_components/UserTable';
 import MyButton from 'components/Atoms/MyButton/MyButton';

@@ -61,7 +61,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ totalEmployees, totalComp
             icon: <Users size={28} strokeWidth={2} />,
             title: 'Total Employees',
             value: String(totalEmployees ?? 0),
-            change: `${newEmployeesCount} this month`,
+            change: `${newEmployeesCount} last 30 days`,
             changeType: 'increase' as const,
             bgColor: 'bg-purple-100',
             iconColor: 'text-purple-600'

@@ -5,7 +5,7 @@ import MyBadge from 'components/Atoms/MyBadge';
 import React from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
-const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow }: any) => {
+const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: any) => {
     const { t } = useTranslation()
     const location = useLocation();
     const navigate = useNavigate();
@@ -14,11 +14,11 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow }: any) => {
     const handleViewClick = (item: any) => {
         const currentSetting = searchParams.get('current-setting');
 
+        if (location?.pathname && currentSetting === 'department') {
+            return navigate(`/view?subdepartmentId=${item?.id}&current-setting=subdepartment`);
+        }
         if (location?.pathname && currentSetting === 'subdepartment') {
             return navigate(`/view?subdepartmentId=${item?.id}&current-setting=employee_list`);
-        }
-        if (item?._count?.childrens) {
-            return navigate(`/view?subdepartmentId=${item?.id}&current-setting=subdepartment`);
         } else {
             return navigate(`/employees?subdepartmentId=${item?.id}`);
         }
@@ -71,7 +71,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow }: any) => {
                     className={'w-[170px]'}
                     onClick={() => {
                         setShow(true)
-                        setDepartmentId(item?.id)
+                        setEditId(item?.id)
                     }}
                     startIcon={<Edit />}
                 >{t("Edit")}</MyButton>

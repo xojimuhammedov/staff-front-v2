@@ -14,7 +14,6 @@ import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit3, Trash2 } from 'lucide-react';
 import Create from './Create';
-// import Edit from './Edit';
 import MyModal from 'components/Atoms/MyModal';
 import Edit from './Edit';
 
@@ -32,6 +31,7 @@ const JobList = () => {
     const { t, i18n } = useTranslation();
     const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState(null)
+    const currentLang = i18n.resolvedLanguage;
     const { data, isLoading, refetch } = useGetAllQuery({
         key: KEYS.employeeJobPosition,
         url: URLS.employeeJobPosition,
@@ -63,7 +63,7 @@ const JobList = () => {
                 headerClassName: 'sm:w-1/4 lg:flex-1',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
-                      {row?.[`${i18n?.language}`]}
+                      {row?.[`${currentLang}`]}
                     </div>
                   )
             },

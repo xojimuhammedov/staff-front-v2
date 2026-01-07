@@ -10,6 +10,7 @@ import { useFormAttendance } from '../hooks/useFormAttendance';
 
 function ReasonModal({ row }: any) {
     const { t, i18n } = useTranslation();
+    const currentLang = i18n.resolvedLanguage;
     const {
         open,
         setOpen,
@@ -31,6 +32,7 @@ function ReasonModal({ row }: any) {
         <>
             <MyButton
                 variant="secondary"
+                className={'text-sm w-[100px]'}
                 disabled={disabled}
                 onClick={() => setOpen(true)}>
                 {row?.reasons ? t("Sababli") : t("Reason")}
@@ -54,7 +56,7 @@ function ReasonModal({ row }: any) {
                                         <p className='dark:text-text-title-dark'>{t('Reason')}</p>
                                         <h2 className="mt-2 text-base dark:text-text-title-dark font-medium leading-7">
                                             {
-                                                row?.reasons?.uz === "Boshqa" ? row.reason : row?.reasons?.[`${i18n?.language}`]
+                                                row?.reasons?.uz === "Boshqa" ? row.reason : row?.reasons?.[`${currentLang}`]
                                             }
                                         </h2>
                                         <MyDivider />
@@ -78,7 +80,7 @@ function ReasonModal({ row }: any) {
                                                         <MySelect
                                                             label={t("Select type")}
                                                             options={reasonData?.items?.map((evt: any) => ({
-                                                                label: evt[`${i18n?.language}`],
+                                                                label: evt[`${currentLang}`],
                                                                 value: evt.id,
                                                             }))}
                                                             value={field.value as any}  // 👈 cast to any

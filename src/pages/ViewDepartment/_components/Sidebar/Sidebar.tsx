@@ -19,7 +19,13 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
             items: [
                 {
                     icon: 'User',
-                    name: t('Sub depament list'),
+                    name: t('Organization details'),
+                    path: 'department',
+                    isSwitch: false
+                },
+                {
+                    icon: 'User',
+                    name: t('Department details'),
                     path: 'subdepartment',
                     isSwitch: false
                 },

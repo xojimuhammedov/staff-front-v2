@@ -10,11 +10,13 @@ import { useSearchParams } from "react-router-dom";
 
 const DepartmentList = () => {
     const [paramsId] = useSearchParams()
+    const organizationId = paramsId.get("organizationId")
     const departmentId = paramsId.get("subdepartmentId")
     const { data, isLoading } = useGetAllQuery<{ data: Department[] }>({
         key: KEYS.getAllListDepartment,
         url: URLS.getAllListDepartment,
         params: {
+            organizationId: organizationId,
             parentId: departmentId
         }
     })

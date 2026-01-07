@@ -3,15 +3,9 @@ import MyBreadCrumb from "components/Atoms/MyBreadCrumb";
 import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import PageContentWrapper from "components/Layouts/PageContentWrapper";
-import { KEYS } from "constants/key";
-import { URLS } from "constants/url";
-import { useGetAllQuery } from "hooks/api";
-import { get } from "lodash";
 import { ArrowLeft } from "lucide-react";
-import DepartmentCard from "pages/DepartmentsPage/_components/DepartmentCard";
-import { Department } from "pages/DepartmentsPage/interface/department.interface";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MainContent from "./_components/MainContent";
 import Sidebar from "./_components/Sidebar/Sidebar";
 

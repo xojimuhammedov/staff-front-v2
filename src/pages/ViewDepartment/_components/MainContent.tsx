@@ -5,9 +5,10 @@ const DepartmentList = lazy(() => import('./DepartmentList'))
 const EmployeeListDepartment = lazy(() => import('./EmployeeList'))
 
 
-type RulesType = 'subdepartment' | 'employee_list';
+type RulesType = 'department' | 'subdepartment' | 'employee_list';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
+    department: DepartmentList,
     subdepartment: DepartmentList,
     employee_list: EmployeeListDepartment,
 };
@@ -17,7 +18,7 @@ const MainContent = () => {
 
     const currentRuleKey = Object.hasOwn(contents, searchParams.get('current-setting') as string)
         ? searchParams.get('current-setting')
-        : 'subdepartment';
+        : 'department';
 
     const Component = contents[currentRuleKey as RulesType];
 

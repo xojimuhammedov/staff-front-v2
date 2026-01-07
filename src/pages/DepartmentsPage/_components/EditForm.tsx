@@ -1,23 +1,99 @@
 import { MyInput, MySelect } from 'components/Atoms/Form';
-import React from 'react';
-import { Controller } from 'react-hook-form';
+import React, { useEffect, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { get } from 'lodash';
 import { ISelect } from 'interfaces/select.interface';
 import { Department } from '../interface/department.interface';
-import { useEditDepartment } from '../hooks/useEditDepartment';
+import { toast } from 'react-toastify';
+import { URLS } from 'constants/url';
+import { KEYS } from 'constants/key';
+import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
 
-const EditForm = ({ onClose }: any) => {
+const EditForm = ({ setShow, editId, refetch }: any) => {
   const { t } = useTranslation()
 
-  const { handleSubmit,
-    onSubmit,
+  const { data: getOrganization } = useGetAllQuery<any>({
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
+    hideErrorMsg: true,
+    params: {},
+  })
+
+  const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({
+    key: KEYS.getAllListDepartment,
+    url: URLS.getAllListDepartment,
+    params: {}
+  })
+
+  const { data: getOne } = useGetOneQuery({
+    id: editId,
+    url: URLS.getAllListDepartment,
+    params: {},
+    enabled: !!editId
+  });
+
+  const {
+    handleSubmit,
     register,
+    reset,
     control,
-    errors,
-    getDepartment,
-    getOrganization, reset } = useEditDepartment(onClose)
+    formState: { errors }
+  } = useForm({
+    defaultValues: useMemo(() => {
+      return {
+        fullName: get(getOne, 'data.fullName'),
+        shortName: get(getOne, 'data.shortName'),
+        email: get(getOne, 'data.email'),
+        address: get(getOne, 'data.address'),
+        additionalDetails: get(getOne, 'data.additionalDetails'),
+        phone: get(getOne, 'data.phone'),
+        organizationId: get(getOne, 'data.organizationId'),
+        parentId: get(getOne, 'data.parentId')
+      };
+    }, [getOne?.data]),
+    mode: 'onChange',
+  });
+
+  useEffect(() => {
+    reset({
+      fullName: get(getOne, 'data.fullName'),
+      shortName: get(getOne, 'data.shortName'),
+      email: get(getOne, 'data.email'),
+      address: get(getOne, 'data.address'),
+      additionalDetails: get(getOne, 'data.additionalDetails'),
+      phone: get(getOne, 'data.phone'),
+      organizationId: get(getOne, 'data.organizationId'),
+      parentId: get(getOne, 'data.parentId')
+    });
+  }, [getOne?.data]);
+
+  const { mutate: update } = usePutQuery({
+    listKeyId: KEYS.getAllListDepartment,
+    hideSuccessToast: true
+  });
+
+  const onSubmit = (data: any) => {
+    update(
+      {
+        url: `${URLS.getAllListDepartment}/${editId}`,
+        attributes: data
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Edit successfully!'));
+          reset();
+          refetch()
+          setShow(false)
+        },
+        onError: (e: any) => {
+          console.log(e);
+          toast.error(e?.response?.data?.error?.message)
+        }
+      }
+    );
+  };
 
 
 
@@ -108,7 +184,7 @@ const EditForm = ({ onClose }: any) => {
             variant="primary">{t("Submit")}</MyButton>
           <MyButton
             onClick={() => {
-              onClose();
+              setShow(false);
               reset();
             }}
             variant="secondary">
