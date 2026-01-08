@@ -84,7 +84,7 @@ const AttendancesInfo = () => {
                 <AttendanceCard
                     averageArrival={toHHmm(cardData?.averageArrivalTime) || "-"}
                     title='Average Arrival Time'
-                    statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? cardData?.avgArrivalLateMinutes : cardData?.avgArrivalEarlyMinutes}`}
+                    statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? toHHmm(cardData?.avgArrivalLateMinutes) : toHHmm(cardData?.avgArrivalEarlyMinutes)}`}
                     statusClass={cardData?.avgArrivalEarlyMinutes === 0 ? "late" : "early"}
                     icon={<LogIn color='green' />}
                 />
@@ -92,7 +92,7 @@ const AttendancesInfo = () => {
                 <AttendanceCard
                     averageArrival={toHHmm(cardData?.averageLeaveTime) || "-"}
                     title='Average Leave Time'
-                    statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? cardData?.avgLeaveEarlyMinutes : cardData?.avgLeaveOvertimeMinutes}`}
+                    statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? toHHmm(cardData?.avgLeaveEarlyMinutes) : toHHmm(cardData?.avgLeaveOvertimeMinutes)}`}
                     statusClass={cardData?.avgLeaveOvertimeMinutes === 0 ? "early" : "late"}
                     icon={<LogOut color='green' />}
                 />

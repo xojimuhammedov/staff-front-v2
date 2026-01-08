@@ -8,7 +8,6 @@ import { searchValue } from 'types/search';
 export const useDepartment = () => {
     const location = useLocation()
     const searchValue: searchValue = paramsStrToObj(location.search)
-
     const { data, refetch, isLoading } = useGetAllQuery<any>({
         key: KEYS.getAllListDepartment,
         url: URLS.getAllListDepartment,

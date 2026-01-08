@@ -38,7 +38,7 @@ export const PrivateRoutes = [
   {
     path: '/',
     element: <DashboardPage />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"], // kimlar ko‘ra oladi
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"], // kimlar ko‘ra oladi
   },
   {
     path: '/profile/edit',
@@ -73,12 +73,12 @@ export const PrivateRoutes = [
   {
     path: '/employees/create',
     element: <EmployeeCreate />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
   },
   {
     path: '/employees/edit/:id',
     element: <EditEmployee />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
   },
   {
     path: '/visitor',

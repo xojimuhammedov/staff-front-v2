@@ -6,6 +6,7 @@ import { request } from 'services/request';
 import authConfig from 'configs/auth';
 import { toast } from 'react-toastify';
 import storage from 'services/storage';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
   // Define properties of user here
@@ -40,6 +41,7 @@ const AuthContext = createContext<AuthContextProps>(defaultProvider);
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(defaultProvider.user);
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const initAuth = async () => {
@@ -53,12 +55,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     request
       .post(authConfig.loginEndpoint, params)
       .then(async (response: AxiosResponse<any>) => {
-        console.log(response);
         window.localStorage.setItem(authConfig.storageTokenKeyName, response.data?.accessToken);
         window.localStorage.setItem('refreshToken', response.data?.refreshToken);
         window.localStorage.setItem('userData', JSON.stringify(response?.data?.user));
         // setUser(response?.data?.data?.user);
-        window.location.replace('/');
+        // window.location.replace('/');
+        navigate("/")
         checkAuth(response.data?.jwt);
         toast.success('Siz muvaffaqiyatli kirdingiz!');
       })
@@ -73,7 +75,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const handleLogout = () => {
     const refreshToken = storage.get('refreshToken');
-    
+
     if (refreshToken) {
       request
         .post(authConfig.logOutEndpoint, { refreshToken })

@@ -35,5 +35,6 @@ export const KEYS = {
   dashboardLineChart: "dashboardLineChart",
   doorDevice: "doorDevice",
   devicesGateEmployee: "devicesGateEmployee",
-  deviceGateSyncEmployee: "deviceGateSyncEmployee"
+  deviceGateSyncEmployee: "deviceGateSyncEmployee",
+  getAllListDepartmentSelf: "getAllListDepartmentSelf"
 };

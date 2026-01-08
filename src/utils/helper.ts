@@ -255,7 +255,8 @@ function formatDate(date?: Date | string | null): string {
   return `${year}-${month}-${day}`
 }
 
-function toHHmm(totalMinutes: number): string {
+function toHHmm(totalMinutes: number | null | undefined): string {
+  if (totalMinutes == null) return "-";
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
 
