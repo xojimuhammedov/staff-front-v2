@@ -16,6 +16,7 @@ import { Edit3, Trash2 } from 'lucide-react';
 import Create from './Create';
 import Edit from './Edit';
 import MyModal from 'components/Atoms/MyModal';
+import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 
 type FilterType = {
     search: string;
@@ -30,6 +31,7 @@ type TItem = {
 const TypeList = () => {
     const { t, i18n } = useTranslation();
     const [open, setOpen] = useState(false);
+    const [show, setShow] = useState(false)
     const [typeId, setTypeId] = useState(null)
     const currentLang = i18n.resolvedLanguage;
     const { data, isLoading, refetch } = useGetAllQuery({
@@ -42,10 +44,10 @@ const TypeList = () => {
         listKeyId: KEYS.attendancesReason
     });
 
-    const deleteItem = (id: number) => {
+    const deleteItem = () => {
         deleteRequest(
             {
-                url: `${URLS.attendancesReason}/${id}`
+                url: `${URLS.attendancesReason}/${typeId}`
             },
             {
                 onSuccess: () => {
@@ -63,9 +65,9 @@ const TypeList = () => {
                 headerClassName: 'sm:w-1/4 lg:flex-1',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
-                      {row?.[`${currentLang}`]}
+                        {row?.[`${currentLang}`]}
                     </div>
-                  )
+                )
             },
         ],
         [t]
@@ -95,7 +97,8 @@ const TypeList = () => {
                 type: 'danger',
                 name: t('Delete'),
                 action: (row) => {
-                    deleteItem(row?.id)
+                    setShow(true)
+                    setTypeId(row?.id)
                 }
             },
         ],
@@ -154,6 +157,10 @@ const TypeList = () => {
                     className: 'py-[10px]'
                 }}
             />
+            <ConfirmationModal
+                title={t("Bu sababni o'chirmoqchimisiz?")}
+                subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+                open={show} setOpen={setShow} confirmationDelete={deleteItem} />
         </div>
     );
 };
