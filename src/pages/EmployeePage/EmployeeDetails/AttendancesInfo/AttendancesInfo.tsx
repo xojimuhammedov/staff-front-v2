@@ -10,7 +10,7 @@ import { Calendar, Clock, LogIn, LogOut } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { toHHmm } from 'utils/helper';
+import { timeLine, toHHmm } from 'utils/helper';
 
 interface AttendanceCardData {
     averageArrivalTime?: any;
@@ -84,7 +84,7 @@ const AttendancesInfo = () => {
                 <AttendanceCard
                     averageArrival={toHHmm(cardData?.averageArrivalTime) || "-"}
                     title='Average Arrival Time'
-                    statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? toHHmm(cardData?.avgArrivalLateMinutes) : toHHmm(cardData?.avgArrivalEarlyMinutes)}`}
+                    statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? timeLine(cardData?.avgArrivalLateMinutes) : timeLine(cardData?.avgArrivalEarlyMinutes)}`}
                     statusClass={cardData?.avgArrivalEarlyMinutes === 0 ? "late" : "early"}
                     icon={<LogIn color='green' />}
                 />
@@ -92,7 +92,7 @@ const AttendancesInfo = () => {
                 <AttendanceCard
                     averageArrival={toHHmm(cardData?.averageLeaveTime) || "-"}
                     title='Average Leave Time'
-                    statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? toHHmm(cardData?.avgLeaveEarlyMinutes) : toHHmm(cardData?.avgLeaveOvertimeMinutes)}`}
+                    statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? timeLine(cardData?.avgLeaveEarlyMinutes) : timeLine(cardData?.avgLeaveOvertimeMinutes)}`}
                     statusClass={cardData?.avgLeaveOvertimeMinutes === 0 ? "early" : "late"}
                     icon={<LogOut color='green' />}
                 />

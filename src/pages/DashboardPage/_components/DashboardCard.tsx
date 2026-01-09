@@ -70,7 +70,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ totalEmployees, totalComp
             icon: <Monitor size={28} strokeWidth={2} />,
             title: 'Total Computers',
             value: String(totalComputers ?? 0),
-            change: `${newComputersCount ?? ""} this month`,
+            change: `${newComputersCount ?? ""} last 30 days`,
             changeType: 'increase' as const,
             bgColor: 'bg-pink-100',
             iconColor: 'text-pink-600'
@@ -79,7 +79,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ totalEmployees, totalComp
             icon: <Grid3x3 size={28} strokeWidth={2} />,
             title: 'Total Departments',
             value: String(totalDepartments ?? 0),
-            change: `${newDepartmentsCount} this month`,
+            change: `${newDepartmentsCount} last 30 days`,
             changeType: 'increase' as const,
             bgColor: 'bg-blue-100',
             iconColor: 'text-blue-600'
@@ -88,7 +88,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ totalEmployees, totalComp
             icon: <Building2 size={28} strokeWidth={2} />,
             title: 'Total Organizations',
             value: String(totalOrganizations ?? 0),
-            change: `${newOrganizationsCount} this month`,
+            change: `${newOrganizationsCount} last 30 days`,
             changeType: 'increase' as const,
             bgColor: 'bg-yellow-100',
             iconColor: 'text-yellow-600'

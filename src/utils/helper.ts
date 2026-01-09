@@ -114,10 +114,11 @@ const isset = (obj: object | string) => {
   return false;
 };
 
-const timeLine = (time: number) => {
+const timeLine = (time: number | null | undefined): string => {
+  const { t } = useTranslation();
+  if (time == null) return "-";
   const hours = Math.floor(time / 60);
   const remainderMinutes = time % 60;
-  const { t } = useTranslation();
 
   return `${hours} ${t('hours')}, ${remainderMinutes} ${t('minutes')}`;
 };
