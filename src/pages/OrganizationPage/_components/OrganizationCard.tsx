@@ -40,17 +40,17 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
                 <NotebookPen width={'16px'} />
                 <p className='dark:text-text-title-dark'>{item?.additionalDetails}</p>
             </div>
-            <div className='flex items-center justify-between mt-4'>
+            <div className='flex items-center justify-between gap-4 mt-4'>
                 <MyButton
                     variant='secondary'
                     allowedRoles={['ADMIN']}
-                    className={'w-[170px]'}
+                    className={'w-2/5'}
                     onClick={() => navigate(`/view?organizationId=${item?.id}&current-setting=department`)}
                     startIcon={<Eye />}
                 >{t("View")}</MyButton>
                 <MyButton
                     variant='secondary'
-                    className={'w-[170px]'}
+                    className={'w-2/5'}
                     allowedRoles={['ADMIN']}
                     onClick={() => {
                         setShow(true)
@@ -64,7 +64,7 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
                         setOpen(true)
                         setOrganizationId(item?.id)
                     }}
-                    className={'[&_svg]:stroke-bg-red'}
+                    className={'[&_svg]:stroke-bg-red w-1/5'}
                     variant='secondary' startIcon={<Trash2 color='red' />}></MyButton>
             </div>
         </div>
