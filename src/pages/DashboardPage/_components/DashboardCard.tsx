@@ -1,9 +1,12 @@
 import React from 'react';
 import { Users, Monitor, Grid3x3, Building2 } from 'lucide-react';
 import { DashboardCardProps, StatCardProps } from '../interface/dashboard.interface';
+import { useTranslation } from 'react-i18next';
+
 
 
 const StatCard: React.FC<StatCardProps> = ({
+    
     icon,
     title,
     value,
@@ -13,6 +16,7 @@ const StatCard: React.FC<StatCardProps> = ({
     iconColor
 }) => {
     const getChangeStyles = () => {
+        
         switch (changeType) {
             case 'increase':
                 return 'bg-green-100 text-green-600';
@@ -22,6 +26,7 @@ const StatCard: React.FC<StatCardProps> = ({
                 return 'bg-gray-100 text-gray-600';
         }
     };
+    
 
     const getChangeIcon = () => {
         if (changeType === 'increase') {
@@ -31,6 +36,8 @@ const StatCard: React.FC<StatCardProps> = ({
         }
         return '';
     };
+
+   
 
     return (
         <div className="bg-white rounded-2xl p-6 shadow-lg">
@@ -56,39 +63,40 @@ const StatCard: React.FC<StatCardProps> = ({
 
 
 const DashboardCard: React.FC<DashboardCardProps> = ({ totalEmployees, totalComputers, totalDepartments, totalOrganizations, newEmployeesCount, newComputersCount, newDepartmentsCount, newOrganizationsCount }) => {
+    const { t } = useTranslation();
     const stats = [
         {
             icon: <Users size={28} strokeWidth={2} />,
-            title: 'Total Employees',
+            title: t('Total Employees'),
             value: String(totalEmployees ?? 0),
-            change: `${newEmployeesCount} last 30 days`,
+            change: `${newEmployeesCount} ${t('last 30 days')}`,
             changeType: 'increase' as const,
             bgColor: 'bg-purple-100',
             iconColor: 'text-purple-600'
         },
         {
             icon: <Monitor size={28} strokeWidth={2} />,
-            title: 'Total Computers',
+            title: t('Total Computers'),
             value: String(totalComputers ?? 0),
-            change: `${newComputersCount ?? ""} last 30 days`,
+            change: `${newComputersCount ?? ""} ${t('last 30 days')}`,
             changeType: 'increase' as const,
             bgColor: 'bg-pink-100',
             iconColor: 'text-pink-600'
         },
         {
             icon: <Grid3x3 size={28} strokeWidth={2} />,
-            title: 'Total Departments',
+            title: t('Total Departments'),
             value: String(totalDepartments ?? 0),
-            change: `${newDepartmentsCount} last 30 days`,
+            change: `${newDepartmentsCount} ${t('last 30 days')}`,
             changeType: 'increase' as const,
             bgColor: 'bg-blue-100',
             iconColor: 'text-blue-600'
         },
         {
             icon: <Building2 size={28} strokeWidth={2} />,
-            title: 'Total Organizations',
+            title: t('Total Organizations'),
             value: String(totalOrganizations ?? 0),
-            change: `${newOrganizationsCount} last 30 days`,
+            change: `${newOrganizationsCount} ${t('last 30 days')}`,
             changeType: 'increase' as const,
             bgColor: 'bg-yellow-100',
             iconColor: 'text-yellow-600'

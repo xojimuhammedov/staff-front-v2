@@ -62,7 +62,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       },
       {
         key: 'phone',
-        label: t('Phone Number'),
+        label: t('Phone number'),
         headerClassName: 'w-1/3',
         cellRender: (row) => <>{row?.phone ?? '--'}</>
       }

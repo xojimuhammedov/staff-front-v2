@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Employee {
     id: number;
@@ -43,6 +44,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({ employee }) => {
 };
 
 const ProgressCard: React.FC = () => {
+    const { t } = useTranslation();
     const employees: Employee[] = [
         {
             id: 1,
@@ -84,10 +86,10 @@ const ProgressCard: React.FC = () => {
                 </div>
                 <div>
                     <h1 className="text-xl font-bold text-gray-900">
-                        Top Effective Employees
+                       {t("Top Effective Employees")}
                     </h1>
                     <p className="text-gray-500 text-xs">
-                        Highest productivity scores
+                        {t("Highest productivity scores")}
                     </p>
                 </div>
             </div>
