@@ -43,6 +43,7 @@ function EmployeeDragDrop() {
   const [tempSelectedIds, setTempSelectedIds] = useState<number[]>([]);
   const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]);
   const [selectedDeviceTypes, setSelectedDeviceTypes] = useState<string[]>([]); // Yangi state
+  const [deviceId, setDeviceId] = useState<number[]>([])
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const currentSearch = searchParams.get("search") || "";
@@ -52,6 +53,30 @@ function EmployeeDragDrop() {
     url: URLS.getEmployeeList,
     params: { search: currentSearch || undefined },
   });
+
+  const { data } = useGetAllQuery<any>({
+    key: KEYS.getDoorForDevices,
+    url: URLS.getDoorForDevices,
+    params: {},
+    hideErrorMsg: true
+  })
+
+  const options =
+    data?.data?.map((item: any) => ({
+      label: item.fullName,
+      value: item.id,
+    })) || [];
+
+  // value qiymatini options asosida topish
+  const value = options.filter((option: any) =>
+    deviceId.includes(option.value)
+  );
+
+  // onchange hodisasi
+  const handleChange = (selected: any) => {
+    const ids = selected.map((s: any) => s.value);
+    setDeviceId(ids);
+  };
 
   const employees = employeesData?.data ?? [];
 
@@ -126,7 +151,7 @@ function EmployeeDragDrop() {
     const submitData = {
       employeeIds: finalSelectedIds,
       credentialTypes: selectedDeviceTypes,
-      gateId: Number(searchParams.get("doorId"))
+      deviceIds: deviceId
     };
 
     assignEmployees(
@@ -160,7 +185,6 @@ function EmployeeDragDrop() {
     label: item.label,
     value: item.value,
   })) ?? [];
-
 
 
   // Modal ichidagi komponent
@@ -222,6 +246,25 @@ function EmployeeDragDrop() {
   return (
     <>
       <div className="mt-12 min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
+
+        <div className="my-8 flex">
+          <div className="w-[50%]">
+            <LabelledCaption
+              title={t('Devices')}
+              subtitle={t('')}
+            />
+          </div>
+          <div className="w-[50%]">
+            <MySelect
+              isMulti
+              options={options}
+              value={value}
+              onChange={handleChange}
+              allowedRoles={["ADMIN"]}
+            />
+          </div>
+        </div>
+
         <MyDivider />
 
         <div className="flex items-center justify-between mb-4">
