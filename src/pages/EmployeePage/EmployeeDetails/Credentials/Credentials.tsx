@@ -19,10 +19,6 @@ import ConfirmationCredential from './Confirmation';
 import { QRCodeCanvas } from 'qrcode.react';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 
-interface Props {
-    code: string;
-}
-
 const Credentials = () => {
     const { id } = useParams()
     const { t } = useTranslation()

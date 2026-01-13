@@ -53,11 +53,6 @@ const DoorsPage = () => {
         label: t('Devices'),
         cellRender: (row) => <div className="dark:text-text-title-dark">{row?._count?.devices ?? '--'}</div>
       },
-      {
-        key: 'actions',
-        label: t('Allowed employees'),
-        cellRender: (row) => <div className="dark:text-text-title-dark">{row?._count?.employees ?? '--'}</div>
-      }
     ],
     [t]
   );
@@ -72,10 +67,6 @@ const DoorsPage = () => {
       id: 2,
       label: t('Devices')
     },
-    {
-      id: 3,
-      label: t('Allowed employees')
-    }
   ];
 
   const rowActions: IAction[] = useMemo(
