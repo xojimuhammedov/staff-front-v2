@@ -14,6 +14,7 @@ export const URLS = {
   getPolicyResources: "/api/v1/policies/resources",
   getPolicyGroups: "/api/v1/policies/groups",
   getEmployeeGroups: "/api/v1/employee/groups",
+  getOnetimeCodes: "/api/v1/onetime-codes",
   employeeBulk: "/api/v1/employees/bulk",
   getDoorGates: "/api/v1/gates",
   getDoorForDevices: "/api/v1/devices",

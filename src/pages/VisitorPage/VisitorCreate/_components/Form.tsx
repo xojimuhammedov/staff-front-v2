@@ -38,7 +38,7 @@ function Form() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const schema = object().shape({
+  const visitorSchema = object().shape({
     firstName: string().required(),
     lastName: string().required(),
     middleName: string(),
@@ -56,8 +56,17 @@ function Form() {
       ),
   });
 
+  const onetimeCodeSchema = object().shape({
+    codeType: string().required(),
+    startDate: yup.mixed().required(),
+    endDate: yup.mixed().required(),
+    additionalDetails: string(),
+    isActive: yup.boolean(),
+  });
+
+  // Visitor form
   const {
-    handleSubmit,
+    handleSubmit: handleVisitorSubmit,
     register,
     control,
     formState: { errors },
@@ -66,31 +75,91 @@ function Form() {
       birthday: { startDate: null, endDate: null },
     },
     mode: 'onChange',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(visitorSchema),
     context: { role: userRole },
   });
 
-  const { mutate: create } = usePostQuery({
+  // Onetime code form
+  const {
+    handleSubmit: handleOnetimeCodeSubmit,
+    control: onetimeCodeControl,
+    getValues: getOnetimeCodeValues,
+    formState: { errors: onetimeCodeErrors },
+  } = useForm<any>({
+    defaultValues: {
+      codeType: '',
+      startDate: null,
+      endDate: null,
+      additionalDetails: '',
+      isActive: true,
+    },
+    mode: 'onChange',
+    resolver: yupResolver(onetimeCodeSchema),
+  });
+
+  const { mutate: createVisitor } = usePostQuery({
     listKeyId: KEYS.getVisitorList,
     hideSuccessToast: true,
   });
 
-  const onSubmit = (data: any) => {
+  const { mutate: createOnetimeCode } = usePostQuery({
+    listKeyId: KEYS.getOnetimeCodes,
+    hideSuccessToast: true,
+  });
+
+  const onSubmitVisitor = (visitorData: any) => {
+    const { attachId, ...visitorDataWithoutAttachId } = visitorData;
+    
     const formattedData = {
-      ...data,
-      birthday: data.birthday?.startDate
-        ? dayjs(data.birthday.startDate).format('YYYY-MM-DD')
+      ...visitorDataWithoutAttachId,
+      birthday: visitorData.birthday?.startDate
+        ? dayjs(visitorData.birthday.startDate).format('YYYY-MM-DD')
         : null,
     };
-    create(
+    createVisitor(
       {
         url: URLS.getVisitorList,
         attributes: formattedData,
       },
       {
-        onSuccess: () => {
-          toast.success(t('Successfully created!'));
-          navigate('/visitor');
+        onSuccess: (response: any) => {
+          const visitorId = response?.data?.id || response?.id;
+          if (visitorId) {
+            const onetimeCodeData = getOnetimeCodeValues();
+            if (onetimeCodeData.codeType && onetimeCodeData.startDate && onetimeCodeData.endDate) {
+              const formattedOnetimeCodeData = {
+                visitorId: visitorId,
+                codeType: onetimeCodeData.codeType,
+                startDate: dayjs(onetimeCodeData.startDate).toISOString(),
+                endDate: dayjs(onetimeCodeData.endDate).toISOString(),
+                additionalDetails: onetimeCodeData.additionalDetails || '',
+                isActive: onetimeCodeData.isActive ?? true,
+              };
+
+              createOnetimeCode(
+                {
+                  url: URLS.getOnetimeCodes,
+                  attributes: formattedOnetimeCodeData,
+                },
+                {
+                  onSuccess: () => {
+                    toast.success(t('Successfully created!'));
+                    navigate('/visitor');
+                  },
+                  onError: (e: any) => {
+                    console.log(e);
+                    toast.error(e?.response?.data?.error?.message || t('Error creating onetime code'));
+                  },
+                }
+              );
+            } else {
+              toast.success(t('Successfully created!'));
+              navigate('/visitor');
+            }
+          } else {
+            toast.success(t('Successfully created!'));
+            navigate('/visitor');
+          }
         },
         onError: (e: any) => {
           console.log(e);
@@ -111,7 +180,7 @@ function Form() {
   ];
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleVisitorSubmit(onSubmitVisitor)}>
         <div className="grid grid-cols-2 gap-4 w-2/4">
           <MyInput
             {...register('firstName')}
@@ -211,16 +280,19 @@ function Form() {
             )}
           />
           <Controller
-            name="onetypeCodeId"
-            control={control}
+            name="codeType"
+            control={onetimeCodeControl}
             render={({ field, fieldState }) => (
               <MySelect
-                label={t('Select onetime')}
+                label={t('Select code type')}
                 options={codeTypeOptions}
                 value={field.value as any}
                 onChange={(val) => {
-                  const selectedValue = (val as ISelect)?.value ?? val;
-                  field.onChange(selectedValue);
+                  if (val && typeof val === 'object' && !Array.isArray(val) && 'value' in val) {
+                    field.onChange((val as ISelect).value);
+                  } else {
+                    field.onChange(val);
+                  }
                 }}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
@@ -229,11 +301,11 @@ function Form() {
             )}
           />
           <Controller
-            name="datetime"
-            control={control}
+            name="startDate"
+            control={onetimeCodeControl}
             render={({ field, fieldState }) => (
               <MyDateTimeRangePicker
-                label={t('Date and Time')}
+                label={t('Start time')}
                 value={field.value}
                 onChange={field.onChange}
                 placeholder={t('Select date and time')}
@@ -242,11 +314,11 @@ function Form() {
             )}
           />
           <Controller
-            name="datetime"
-            control={control}
+            name="endDate"
+            control={onetimeCodeControl}
             render={({ field, fieldState }) => (
               <MyDateTimeRangePicker
-                label={t('Date and Time')}
+                label={t('End time')}
                 value={field.value}
                 onChange={field.onChange}
                 placeholder={t('Select date and time')}

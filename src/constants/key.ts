@@ -36,5 +36,6 @@ export const KEYS = {
   doorDevice: "doorDevice",
   devicesGateEmployee: "devicesGateEmployee",
   deviceGateSyncEmployee: "deviceGateSyncEmployee",
-  getAllListDepartmentSelf: "getAllListDepartmentSelf"
+  getAllListDepartmentSelf: "getAllListDepartmentSelf",
+  getOnetimeCodes: "getOnetimeCodes"
 };
