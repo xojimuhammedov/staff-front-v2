@@ -5,4 +5,5 @@ export interface searchValue {
     organizationId?: string,
     subdepartmentId?: string,
     schedule?: string;
+    attachedId?: number;
 }

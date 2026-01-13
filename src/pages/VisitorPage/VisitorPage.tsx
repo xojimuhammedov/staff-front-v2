@@ -5,9 +5,11 @@ import VisitorTable from './_components/VisitorTable';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const VisitorPage = () => {
   const { t } = useTranslation()
+    const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const breadCrumbs = [
     {
@@ -25,7 +27,10 @@ const VisitorPage = () => {
         </div>
         <MyButton
           startIcon={<Plus />}
-          onClick={() => setShow(true)}
+          // onClick={() => setShow(true)}
+          onClick={() => {
+                navigate('/visitor/create');
+              }}
           allowedRoles={['ADMIN', "HR", "GUARD"]}
           variant="primary"
           className="[&_svg]:stroke-bg-white w-[160px] text-sm">

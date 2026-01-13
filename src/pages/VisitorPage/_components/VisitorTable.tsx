@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { Edit3, Plus, Trash2 } from 'lucide-react';
+import { Edit3, MessageSquareShare , Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
@@ -31,33 +31,32 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
     const columns: DataGridColumnType[] = useMemo(
         () => [
             {
-                key: 'fullName',
-                label: t('Employees'),
+                key: 'firstName',
+                label: t('Full Name'),
                 headerClassName: 'w-1/3',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
-                        {/* <MyAvatar size="medium" imageUrl={row?.photoBase64} /> */}
-                        {row?.firstName} {row?.lastName}
+                        {row?.firstName ?? '--'}
                     </div>
                 )
             },
             {
-                key: 'workPlace',
-                label: t('Work Place'),
+                key: 'middleName',
+                label: t('Middle Name'),
                 headerClassName: 'w-1/3',
-                cellRender: (row) => <div className="department-text">{row?.workPlace ?? '--'}</div>
-            },
-            {
-                key: 'additionalDetails',
-                label: t('Position'),
-                headerClassName: 'w-56',
-                cellRender: (row) => <>{row?.additionalDetails ?? '--'}</>
+                cellRender: (row) => <div className="department-text">{row?.middleName ?? '--'}</div>
             },
             {
                 key: 'phone',
                 label: t('Phone Number'),
                 headerClassName: 'w-40',
                 cellRender: (row) => <>{row?.phone ?? '--'}</>
+            },
+            {
+                key: 'workPlace',
+                label: t('Work Place'),
+                headerClassName: 'w-1/3',
+                cellRender: (row) => <>{row?.workPlace ?? '--'}</>
             }
         ],
         [t]
@@ -66,23 +65,23 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
     const dataColumn = [
         {
             id: 1,
-            label: t('Employees'),
+            label: t('Full Name'),
             headerClassName: 'w-1/3'
         },
         {
             id: 2,
-            label: t('Department'),
+            label: t('Middle Name'),
             headerClassName: 'w-1/3'
         },
         {
             id: 3,
-            label: t('Position'),
-            headerClassName: 'w-56'
-        },
-        {
-            id: 5,
             label: t('Phone Number'),
             headerClassName: 'w-40'
+        },
+        {
+            id: 4,
+            label: t('Work Place'),
+            headerClassName: 'w-1/3'
         }
     ];
 
@@ -113,6 +112,16 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
                     setVisitorId(row?.id)
                 },
                 allowedRoles: ['ADMIN', 'HR'],
+            },
+            {
+                icon: <MessageSquareShare size={DEFAULT_ICON_SIZE} />,
+                type: 'secondary',
+                name: t('Details'),
+               action: (row, $e) => {
+                    setOpen(true)
+                    setVisitorId(row?.id)
+                },
+                allowedRoles: ['ADMIN', 'HR', 'GUARD'],
             }
         ],
         [t]
