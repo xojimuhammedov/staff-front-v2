@@ -53,7 +53,7 @@ const DeviceEdit = () => {
             <div className="flex w-full gap-8">
                 <Stepper complete={complete} currentStep={currentStep} steps={sidebar_menu} />
                 {currentStep === 2 ? (
-                    <EmployeeAssign />
+                    <EmployeeAssign deviceId={Number(id)} />
                 ) : (
                     <EditForm deviceId={Number(id)} handleClick={handleClick} />
                 )}

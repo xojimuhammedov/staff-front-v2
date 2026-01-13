@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import AvatarIcon from "assets/icons/avatar.png";
 import deviceType from "configs/deviceType";
+import DeviceTypeSelectModal from "pages/SettingsPage/DoorEdit/_components/DeviceSelectModal";
 // import DeviceTypeSelectModal from './DeviceSelectModal';
 // import TypeSelectModal from "./TypeSelectModal";
 
@@ -27,10 +28,9 @@ interface EmployeeResponse {
 }
 
 
-function EmployeeAssign() {
+function EmployeeAssign({ deviceId }: any) {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { id } = useParams(); // <-- agar id bo‘lsa UPDATE rejim
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [searchInput, setSearchInput] = useState("");
@@ -51,19 +51,23 @@ function EmployeeAssign() {
 
     const employees = employeesData?.data ?? [];
 
-    const { data: doorData } = useGetOneQuery({
-        id,
-        url: URLS.getDoorGates,
-        enabled: !!id,
+    const { data } = useGetAllQuery<any>({
+        key: KEYS.hikvisionEmployeeSync,
+        url: URLS.hikvisionEmployeeSync,
+        params: {
+            deviceId: deviceId,
+            userType: 'EMPLOYEE',
+            limit: 100
+        }
     });
 
     useEffect(() => {
-        if (doorData?.data?.employees) {
+        if (data?.data) {
             setFinalSelectedIds(
-                doorData.data.employees.map((e: any) => e.id)
+                data?.data?.map((e: any) => e?.employee?.id)
             );
         }
-    }, [doorData]);
+    }, [data?.data]);
 
 
     const { mutate: assignEmployees } = usePostQuery({
@@ -113,12 +117,6 @@ function EmployeeAssign() {
         [employees, finalSelectedIds]
     );
 
-    const deviceTypeOptions =
-        deviceType?.map((d: any) => ({
-            label: d.label,
-            value: d.value,
-        })) ?? [];
-
     const alreadySelectedIds = new Set(finalSelectedIds);
 
     // LEFT PANEL LIST
@@ -130,6 +128,12 @@ function EmployeeAssign() {
         addSelectedToFinal(credentialTypes);
         setOpenModal(false);
     };
+
+    const deviceTypeOptions =
+        deviceType?.map((d: any) => ({
+            label: d.label,
+            value: d.value,
+        })) ?? [];
 
 
 
@@ -143,13 +147,13 @@ function EmployeeAssign() {
                 attributes: {
                     employeeIds: finalSelectedIds,
                     credentialTypes: selectedDeviceTypes,
-                    gateId: Number(id),
+                    deviceIds: [deviceId],
                 },
             },
             {
                 onSuccess: () => {
                     toast.success(t("Saved successfully"));
-                    navigate("/settings");
+                    navigate("/settings?current-setting=deviceControl");
                 },
                 onError: (e: any) =>
                     console.log(e)
@@ -163,7 +167,7 @@ function EmployeeAssign() {
 
                 <div className="flex items-center justify-between">
                     <LabelledCaption
-                        title={id ? t("Edit employees") : t("Add employees")}
+                        title={deviceId ? t("Edit employees") : t("Add employees")}
                         subtitle={t("Create group and link to door")}
                     />
 
@@ -246,15 +250,13 @@ function EmployeeAssign() {
                                         </div>
 
                                         <div className="flex items-center gap-2">
-                                            <button onClick={() => {
-                                                setSelectModal(true);
-                                                setEmployeeId(emp?.id)
-                                            }}>
-                                                <Edit />
-                                            </button>
-                                            <button onClick={() => removeFromFinal(emp.id)}>
-                                                <Trash2 />
-                                            </button>
+                                            {/* <MyButton
+                                                // onClick={() => {
+                                                //     setSelectModal(true);
+                                                //     setEmployeeId(emp?.id)
+                                                // }}
+                                                startIcon={<Edit size={20} />} /> */}
+                                            <MyButton startIcon={<Trash2 size={20} />} onClick={() => removeFromFinal(emp.id)} />
                                         </div>
                                     </div>
                                 ))
@@ -264,14 +266,14 @@ function EmployeeAssign() {
                 </div>
             </div>
 
-            {/* <DeviceTypeSelectModal
+            <DeviceTypeSelectModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
                 onConfirm={handleConfirmModal}
                 deviceTypeOptions={deviceTypeOptions}
                 initialValues={selectedDeviceTypes}
             />
-            <TypeSelectModal
+            {/* <TypeSelectModal
                 onClose={() => setSelectModal(false)}
                 open={selectModal}
                 employeeId={employeeId}

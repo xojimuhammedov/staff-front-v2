@@ -122,7 +122,7 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
                 type: 'danger',
                 name: t('Edit'),
                 action: (row) => {
-                    // navigate(`/device/edit/${row?.id}`)
+                    navigate(`/device/edit/${row?.id}`)
                 }
             },
             {
