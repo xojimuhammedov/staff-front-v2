@@ -12,9 +12,8 @@ import Loading from 'assets/icons/Loading';
 import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit, ExternalLink, Trash2 } from 'lucide-react';
-import FormDeviceEdit from './Edit';
-import MyModal from 'components/Atoms/MyModal';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import { useNavigate } from 'react-router-dom';
 
 type FilterType = {
     search: string;
@@ -29,12 +28,10 @@ type TItem = {
 };
 
 const DeviceList = ({ data, isLoading, refetch }: any) => {
-
     const { t } = useTranslation()
-    const [openEditModal, setOpenEditModal] = useState(false)
+    const navigate = useNavigate()
     const [deviceId, setDeviceId] = useState("")
     const [show, setShow] = useState(false)
-
 
     const { mutate: deleteRequest } = useDeleteQuery({
         listKeyId: KEYS.getDoorForDevices
@@ -79,11 +76,6 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
                 label: t('Device name'),
                 headerClassName: 'sm:w-1/4 lg:flex-1'
             },
-            // {
-            //   key: 'type',
-            //   label: t('Device type'),
-            //   headerClassName: 'sm:w-1/4 lg:flex-1'
-            // },
             {
                 key: 'isActive',
                 label: t('Status'),
@@ -111,11 +103,6 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
             label: t('Device name'),
             headerClassName: 'sm:w-1/4 lg:flex-1'
         },
-        // {
-        //   id: 2,
-        //   label: t('Device type'),
-        //   headerClassName: 'sm:w-1/4 lg:flex-1'
-        // },
         {
             id: 2,
             label: t('Status'),
@@ -135,8 +122,7 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
                 type: 'danger',
                 name: t('Edit'),
                 action: (row) => {
-                    setDeviceId(row.id)
-                    setOpenEditModal(true)
+                    // navigate(`/device/edit/${row?.id}`)
                 }
             },
             {
@@ -186,27 +172,6 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
                     isLoading={isLoading}
                 />
             </TableProvider>
-
-            <MyModal
-                modalProps={{
-                    show: Boolean(openEditModal),
-                    onClose: () => setOpenEditModal(false),
-                    size: "md",
-                }}
-                headerProps={{
-                    children: <h2 className="text-20 font-inter tracking-tight text-black">{t("Edit device")}</h2>,
-                }}
-                bodyProps={{
-                    children: (
-                        <FormDeviceEdit
-                            setOpenModal={setOpenEditModal}
-                            deviceId={deviceId}
-                            refetch={refetch}
-                        />
-                    ),
-                    className: "py-[15px]",
-                }}
-            />
 
             <ConfirmationModal
                 title={t("Bu device o'chirmoqchimisiz?")}

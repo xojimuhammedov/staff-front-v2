@@ -57,7 +57,9 @@ function EmployeeDragDrop() {
   const { data } = useGetAllQuery<any>({
     key: KEYS.getDoorForDevices,
     url: URLS.getDoorForDevices,
-    params: {},
+    params: {
+      gateId: searchParams.get("doorId")
+    },
     hideErrorMsg: true
   })
 
