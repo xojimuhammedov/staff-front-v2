@@ -59,7 +59,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
                 <MyButton
                     variant="secondary"
                     allowedRoles={['ADMIN', 'HR']}
-                    className="w-[170px]"
+                    className="w-2/5"
                     onClick={() => handleViewClick(item)}
                     startIcon={<Eye />}
                 >
@@ -68,7 +68,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
                 <MyButton
                     variant='secondary'
                     allowedRoles={['ADMIN', "HR"]}
-                    className={'w-[170px]'}
+                    className={'w-2/5'}
                     onClick={() => {
                         setShow(true)
                         setEditId(item?.id)
@@ -81,7 +81,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
                         setOpen(true)
                         setDepartmentId(item?.id)
                     }}
-                    className={'[&_svg]:stroke-bg-[#E11D48]'}
+                    className={'[&_svg]:stroke-bg-[#E11D48] w-1/5'}
                     variant='secondary' startIcon={<Trash2 color='red' />}></MyButton>
             </div>
         </div>

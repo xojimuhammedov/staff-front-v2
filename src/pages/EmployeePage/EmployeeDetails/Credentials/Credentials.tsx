@@ -3,11 +3,11 @@ import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
-import { Edit, Plus } from 'lucide-react';
+import { Download, Edit, Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import Form from './Create';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import EditForm from './Edit';
 import config from 'configs';
 import { toast } from 'react-toastify';
@@ -17,6 +17,11 @@ import { credentialTypeData } from 'configs/type';
 import { ISelect } from 'interfaces/select.interface';
 import ConfirmationCredential from './Confirmation';
 import { QRCodeCanvas } from 'qrcode.react';
+import MyButton from 'components/Atoms/MyButton/MyButton';
+
+interface Props {
+    code: string;
+}
 
 const Credentials = () => {
     const { id } = useParams()
@@ -26,6 +31,7 @@ const Credentials = () => {
     const [open, setOpen] = useState(false)
     const [active, setActive] = useState<any>()
     const [credentialId, setCredentialId] = useState(null)
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     const { control, watch } = useForm()
 
     const paramsValue = watch("type")?.label === "All" ? null : watch("type")
@@ -46,6 +52,29 @@ const Credentials = () => {
         },
         ...credentialTypeData
     ]
+
+    const downloadQR = (code: string) => {
+        if (!canvasRef.current) return;
+
+        const canvas = canvasRef.current;
+
+        // Kattaroq rasm olish uchun yangi canvas yaratamiz
+        const tempCanvas = document.createElement('canvas');
+        const size = 512; // yoki 1024 — qanchalik katta bo'lsa shunchalik aniq
+
+        tempCanvas.width = size;
+        tempCanvas.height = size;
+
+        const ctx = tempCanvas.getContext('2d');
+        if (!ctx) return;
+
+        ctx.drawImage(canvas, 0, 0, size, size);
+
+        const link = document.createElement('a');
+        link.download = `QR_${code}.png`;
+        link.href = tempCanvas.toDataURL('image/png', 1.0);
+        link.click();
+    };
 
     const { data: getOne } = useGetOneQuery({
         id: credentialId,
@@ -121,12 +150,18 @@ const Credentials = () => {
                                     alt="User photo"
                                 />
                             ) : item?.type === "QR" ? (
-                                <QRCodeCanvas
-                                    value={item?.code}
-                                    size={80}
-                                    style={{ opacity: '0.2' }}
-                                    includeMargin
-                                />
+                                <div className='flex justify-between w-full'>
+                                    <QRCodeCanvas
+                                        value={item?.code}
+                                        ref={canvasRef}
+                                        size={80}
+                                        style={{ opacity: '0.2' }}
+                                        includeMargin
+                                    />
+                                    <MyButton
+                                        onClick={() => downloadQR(item?.code)}
+                                        variant='secondary' startIcon={<Download />}></MyButton>
+                                </div>
                             ) :
                                 (
                                     <h2 className='text-xl font-semibold text-gray-800'>{item?.code}</h2>
