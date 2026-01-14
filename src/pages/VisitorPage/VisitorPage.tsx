@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const VisitorPage = () => {
   const { t } = useTranslation()
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const breadCrumbs = [
     {
@@ -29,8 +29,8 @@ const VisitorPage = () => {
           startIcon={<Plus />}
           // onClick={() => setShow(true)}
           onClick={() => {
-                navigate('/visitor/create');
-              }}
+            navigate('/visitor/create');
+          }}
           allowedRoles={['ADMIN', "HR", "GUARD"]}
           variant="primary"
           className="[&_svg]:stroke-bg-white w-[160px] text-sm">
