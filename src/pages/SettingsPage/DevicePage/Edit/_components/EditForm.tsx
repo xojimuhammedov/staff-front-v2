@@ -212,7 +212,7 @@ const EditForm = ({ handleClick, deviceId }: any) => {
                     />
                 </div>
                 <div className="flex items-center justify-end gap-4">
-                    <MyButton variant="primary">{t('Create a device')}</MyButton>
+                    <MyButton variant="primary">{t('Save changes')}</MyButton>
                 </div>
             </form>
         </div>
