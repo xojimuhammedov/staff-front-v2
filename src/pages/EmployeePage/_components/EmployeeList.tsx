@@ -6,7 +6,7 @@ import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AreaChart, Edit3, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
-import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery , usePostQuery} from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -15,7 +15,7 @@ import { IFilter } from 'interfaces/filter.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
-import MyAvatar from 'components/Atoms/MyAvatar';
+import MyAvatar from 'components/Atoms/MyAvatar'
 import config from 'configs';
 
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
@@ -39,6 +39,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       departmentId: searchValue?.subdepartmentId,
       page: searchValue?.page || 1,
       limit: searchValue?.limit || 10,
+      // attachedId: searchValue?.attachedId 
     }
   });
   const columns: DataGridColumnType[] = useMemo(
@@ -62,7 +63,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       },
       {
         key: 'phone',
-        label: t('Phone Number'),
+        label: t('Phone number'),
         headerClassName: 'w-1/3',
         cellRender: (row) => <>{row?.phone ?? '--'}</>
       }

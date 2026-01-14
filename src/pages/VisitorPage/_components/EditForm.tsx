@@ -1,9 +1,9 @@
-import { MyInput } from 'components/Atoms/Form';
-import  { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
+import { useEffect, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { KEYS } from 'constants/key';
-import { useGetOneQuery, usePutQuery } from 'hooks/api';
+import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
 import { toast } from 'react-toastify';
 import { URLS } from 'constants/url';
 import MyButton from 'components/Atoms/MyButton/MyButton';
@@ -12,22 +12,29 @@ import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { Calendar } from 'lucide-react';
 import MyModal from 'components/Atoms/MyModal';
 import dayjs from 'dayjs';
+import { ISelect } from 'interfaces/select.interface';
 
 const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const { data } = useGetOneQuery({
     id: visitorId,
     url: URLS.getVisitorList,
     params: {},
-    enabled: !!visitorId
-  })
+    enabled: !!visitorId,
+  });
+
+  const { data: employeeData } = useGetAllQuery<any>({
+    key: KEYS.getEmployeeList,
+    url: URLS.getEmployeeList,
+    params: {},
+  });
   const {
     handleSubmit,
     register,
     reset,
     control,
-    formState: { errors }
+    formState: { errors },
   } = useForm<any>({
     defaultValues: useMemo(() => {
       return {
@@ -42,12 +49,13 @@ const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
         phone: get(data, 'data.data.phone'),
         birthday: {
           startDate: get(data, 'data.data.birthday')
-            ? dayjs(get(data, 'data.data.birthday')).format("YYYY-MM-DD") // ✅ formatlanadi
-            : null, endDate: null
-        }
+            ? dayjs(get(data, 'data.data.birthday')).format('YYYY-MM-DD') // ✅ formatlanadi
+            : null,
+          endDate: null,
+        },
       };
     }, [data]),
-    mode: 'onChange'
+    mode: 'onChange',
   });
 
   useEffect(() => {
@@ -62,8 +70,9 @@ const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
       phone: get(data, 'data.data.phone'),
       birthday: {
         startDate: get(data, 'data.data.birthday')
-          ? dayjs(get(data, 'data.data.birthday')).format("YYYY-MM-DD")
-          : null, endDate: null
+          ? dayjs(get(data, 'data.data.birthday')).format('YYYY-MM-DD')
+          : null,
+        endDate: null,
       },
       organizationId: get(data, 'data.data.organizationId'),
     });
@@ -71,32 +80,32 @@ const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
 
   const { mutate: update } = usePutQuery({
     listKeyId: KEYS.getVisitorList,
-    hideSuccessToast: true
+    hideSuccessToast: true,
   });
 
   const onSubmit = (data: any) => {
     const formattedData = {
       ...data,
       birthday: data.birthday?.startDate
-        ? dayjs(data.birthday.startDate).format("YYYY-MM-DD")
+        ? dayjs(data.birthday.startDate).format('YYYY-MM-DD')
         : null,
     };
     update(
       {
         url: `${URLS.getVisitorList}/${visitorId}`,
-        attributes: formattedData
+        attributes: formattedData,
       },
       {
         onSuccess: () => {
           toast.success(t('Edit successfully!'));
           reset();
-          refetch()
-          setShow(false)
+          refetch();
+          setShow(false);
         },
         onError: (e: any) => {
           console.log(e);
-          toast.error(e?.response?.data?.error?.message)
-        }
+          toast.error(e?.response?.data?.error?.message);
+        },
       }
     );
   };
@@ -106,44 +115,44 @@ const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
       modalProps={{
         show: Boolean(show),
         onClose: () => {
-          setShow(false)
-        }
+          setShow(false);
+        },
       }}
       headerProps={{
         children: <h2 className="text-xl font-semibold">{t('Edit visitor')}</h2>,
-        className: 'px-6'
+        className: 'px-6',
       }}
       bodyProps={{
         children: (
-          <div className='p-4'>
+          <div className="p-4">
             <form onSubmit={handleSubmit(onSubmit)} action="">
-              <div className='grid grid-cols-2 gap-4'>
+              <div className="grid grid-cols-2 gap-4">
                 <MyInput
-                  {...register("firstName")}
+                  {...register('firstName')}
                   error={Boolean(errors?.firstName?.message)}
                   helperText={t(`${errors?.firstName?.message}`)}
                   label={t('Visitor full name')}
                 />
                 <MyInput
-                  {...register("lastName")}
+                  {...register('lastName')}
                   error={Boolean(errors?.lastName?.message)}
                   helperText={t(`${errors?.lastName?.message}`)}
                   label={t('Visitor short name')}
                 />
                 <MyInput
-                  {...register("middleName")}
+                  {...register('middleName')}
                   error={Boolean(errors?.middleName?.message)}
                   helperText={t(`${errors?.middleName?.message}`)}
                   label={t('Visitor email')}
                 />
                 <MyInput
-                  {...register("workPlace")}
+                  {...register('workPlace')}
                   error={Boolean(errors?.workPlace?.message)}
                   helperText={t(`${errors?.workPlace?.message}`)}
                   label={t('Visitor address')}
                 />
                 <MyInput
-                  {...register("additionalDetails")}
+                  {...register('additionalDetails')}
                   error={Boolean(errors?.additionalDetails?.message)}
                   helperText={t(`${errors?.additionalDetails?.message}`)}
                   label={t('Visitor details')}
@@ -179,27 +188,46 @@ const EditForm = ({ setShow, show, refetch, visitorId }: any) => {
                   type="tel"
                   label={t('Passport Number')}
                 />
+                <Controller
+                  name="attachId"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <MySelect
+                      label={t('Select employee')}
+                      options={employeeData?.data?.map((evt: any) => ({
+                        label: evt.name,
+                        value: evt.id,
+                      }))}
+                      value={field.value as any} // 👈 cast to any
+                      onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                      onBlur={field.onBlur}
+                      error={!!fieldState.error}
+                      allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
+                    />
+                  )}
+                />
               </div>
               <div className="mt-2 flex w-full justify-end gap-4">
-                <MyButton
-                  type='submit'
-                  variant="primary">{t("Submit")}</MyButton>
+                <MyButton type="submit" variant="primary">
+                  {t('Submit')}
+                </MyButton>
                 <MyButton
                   onClick={() => {
                     setShow(false);
                     reset();
                   }}
-                  variant="secondary">
+                  variant="secondary"
+                >
                   {' '}
                   {t('Close')}
                 </MyButton>
               </div>
             </form>
           </div>
-        )
+        ),
       }}
     />
   );
-}
+};
 
 export default EditForm;

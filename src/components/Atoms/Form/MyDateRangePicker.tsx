@@ -107,7 +107,7 @@ const MyDateRangePicker = forwardRef((props: FormInputProps, ref: FormInputRef) 
       {label && (
         <label
           className={twMerge([
-            'relative mb-1.5 inline-block text-c-m-p text-text-base dark:text-text-title-dark',
+            'relative mb-1.5 inline-block text-c-m-p text-text-base dark:text-text-title-dark ',
             computedProps.required && requiredLabelStyles
           ])}
           htmlFor={computedProps.name}>
