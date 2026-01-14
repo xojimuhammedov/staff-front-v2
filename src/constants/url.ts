@@ -37,5 +37,6 @@ export const URLS = {
   dashboardLineChart: "/api/v1/dashboard/chart",
   doorDevice: "/api/v1/devices/connectDevicesToGate",
   devicesGateEmployee: "/api/v1/devices/gate",
-  deviceGateSyncEmployee: "/api/v1/devices/gate/sync-credentials"
+  deviceGateSyncEmployee: "/api/v1/devices/gate/sync-credentials",
+  visitorByAttendancesCard: "/api/v1/reports/attendance/statics"
 };

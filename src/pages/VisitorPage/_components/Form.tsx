@@ -1,125 +1,37 @@
 import { MyInput, MySelect } from 'components/Atoms/Form';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { object, string } from 'yup';
-import { useTranslation } from 'react-i18next';
-import { KEYS } from 'constants/key';
-import { useGetAllQuery, usePostQuery } from 'hooks/api';
-import { toast } from 'react-toastify';
-import { URLS } from 'constants/url';
+import { Controller } from 'react-hook-form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyModal from 'components/Atoms/MyModal';
-import dayjs from 'dayjs';
 import { ISelect } from 'interfaces/select.interface';
-import * as yup from 'yup';
-import storage from 'services/storage';
 import MyDateTimeRangePicker from 'components/Atoms/Form/MyDateTimeRangePicker';
-import React from 'react';
+import { useVisitorForm } from '../hooks/useVisitorForm';
+import VisitorDetailsModal from './VisitorDetailsModal';
 
 const Form = ({ refetch, setShow, show }: any) => {
-  const userData: any = storage.get('userData');
-  const userRole = JSON.parse(userData)?.role;
-
-  const { data } = useGetAllQuery<any>({
-    key: KEYS.getAllListOrganization,
-    url: URLS.getAllListOrganization,
-    params: {},
-    hideErrorMsg: true,
-  });
-
-  const { data: employeeData } = useGetAllQuery<any>({
-    key: KEYS.getEmployeeList,
-    url: URLS.getEmployeeList,
-    params: {},
-  });
-
-  // Mock data for code type options
-  const codeTypeOptions = [
-    {
-      label: 'ONETIME',
-      value: 'ONETIME',
-    },
-    {
-      label: 'MULTIPLE',
-      value: 'MULTIPLE',
-    },
-  ];
-
-  const { t } = useTranslation();
-  const schema = object().shape({
-    firstName: string().required(),
-    lastName: string().required(),
-    middleName: string(),
-    birthday: object() || null,
-    additionalDetails: string(),
-    phone: string(),
-    pinfl: string(),
-    workPlace: string(),
-    passportNumber: string(),
-    attachId: yup.number(),
-    onetimeCodeId: yup.string(),
-    codeType: yup.string(),
-    organizationId: yup
-      .number()
-      .when('$role', (role: any, schema) =>
-        role === 'ADMIN' ? schema.required() : schema.optional()
-      ),
-  });
-
   const {
+    t,
     handleSubmit,
     register,
     reset,
     control,
-    formState: { errors },
-  } = useForm<any>({
-    defaultValues: {
-      birthday: { startDate: null, endDate: null },
-    },
-    mode: 'onChange',
-    resolver: yupResolver(schema),
-    context: { role: userRole },
-  });
-
-  const { mutate: create } = usePostQuery({
-    listKeyId: KEYS.getVisitorList,
-    hideSuccessToast: true,
-  });
-
-  const onSubmit = (data: any) => {
-    const formattedData = {
-      ...data,
-      birthday: data.birthday?.startDate
-        ? dayjs(data.birthday.startDate).format('YYYY-MM-DD')
-        : null,
-    };
-    create(
-      {
-        url: URLS.getVisitorList,
-        attributes: formattedData,
-      },
-      {
-        onSuccess: () => {
-          toast.success(t('Successfully created!'));
-          reset();
-          refetch();
-          setShow(false);
-        },
-        onError: (e: any) => {
-          console.log(e);
-          toast.error(e?.response?.data?.error?.message);
-        },
-      }
-    );
-  };
+    errors,
+    onSubmit,
+    organizationData,
+    employeeData,
+    codeTypeOptions,
+    createdVisitor,
+    showVisitorDetailsModal,
+    setShowVisitorDetailsModal,
+  } = useVisitorForm(refetch, setShow);
 
   return (
     <>
-      <MyModal
+    <MyModal
         modalProps={{
           show: Boolean(show),
           onClose: () => {
             setShow(false);
+            reset();
           },
         }}
         headerProps={{
@@ -189,7 +101,7 @@ const Form = ({ refetch, setShow, show }: any) => {
                     render={({ field, fieldState }) => (
                       <MySelect
                         label={t('Select organization')}
-                        options={data?.data?.map((evt: any) => ({
+                        options={organizationData?.data?.map((evt: any) => ({
                           label: evt.fullName,
                           value: evt.id,
                         }))}
@@ -201,7 +113,7 @@ const Form = ({ refetch, setShow, show }: any) => {
                       />
                     )}
                   />
-                  
+
                   <Controller
                     name="attachId"
                     control={control}
@@ -229,8 +141,12 @@ const Form = ({ refetch, setShow, show }: any) => {
                         options={codeTypeOptions}
                         value={field.value as any}
                         onChange={(val) => {
-                          // react-select onChange handler'ga ISelect object yuboradi
-                          if (val && typeof val === 'object' && !Array.isArray(val) && 'value' in val) {
+                          if (
+                            val &&
+                            typeof val === 'object' &&
+                            !Array.isArray(val) &&
+                            'value' in val
+                          ) {
                             field.onChange((val as ISelect).value);
                           } else {
                             field.onChange(val);
@@ -245,8 +161,8 @@ const Form = ({ refetch, setShow, show }: any) => {
                   <MyDateTimeRangePicker
                     label="Sana"
                     placeholder="DD/MM/YYYY HH:mm"
-                    className="custom-datepicker" 
-                    size="small" 
+                    className="custom-datepicker"
+                    size="small"
                     error={!!errors.date}
                   />
                 </div>
@@ -269,6 +185,16 @@ const Form = ({ refetch, setShow, show }: any) => {
             </div>
           ),
         }}
+      />
+      <VisitorDetailsModal
+        show={showVisitorDetailsModal}
+        onClose={() => {
+          setShowVisitorDetailsModal(false);
+          setShow(false);
+        }}
+        visitor={createdVisitor}
+        organizationData={organizationData}
+        employeeData={employeeData}
       />
     </>
   );

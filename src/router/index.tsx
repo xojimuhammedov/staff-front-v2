@@ -1,4 +1,5 @@
 import EmployeeDetails from 'pages/EmployeePage/EmployeeDetails';
+import VisitorDetails from 'pages/VisitorPage/VisitorDetails';
 import { lazy } from 'react';
 
 const LoginPage = lazy(() => import('pages/LoginPage'))
@@ -94,6 +95,11 @@ export const PrivateRoutes = [
     path: '/visitor/create',
     element: <VisitorCreate />,
     roles: ["ADMIN", "HR", "GUARD"],
+  },
+  {
+    path: "/visitor/about/:id",
+    element: <VisitorDetails />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
   },
   {
     path: '/policy',

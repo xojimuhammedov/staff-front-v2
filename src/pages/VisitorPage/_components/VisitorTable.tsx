@@ -3,23 +3,23 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { Edit3, MessageSquareShare , Trash2 } from 'lucide-react';
+import { Edit3, AreaChart, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import { IFilter } from 'interfaces/filter.interface';
-import { FilterTypeEnum } from 'enums/filter-type.enum';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import Form from './Form';
 import EditForm from './EditForm';
+import { useNavigate } from 'react-router-dom';
 
 const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [showEdit, setShowEdit] = useState(false)
     const [open, setOpen] = useState(false)
     const [visitorId, setVisitorId] = useState(null)
@@ -42,7 +42,7 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
             },
             {
                 key: 'middleName',
-                label: t('Middle Name'),
+                label: t('Email'),
                 headerClassName: 'w-1/3',
                 cellRender: (row) => <div className="department-text">{row?.middleName ?? '--'}</div>
             },
@@ -93,6 +93,15 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
 
     const rowActions: IAction[] = useMemo(
         () => [
+             {
+                icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
+                type: 'secondary',
+                name: t('Details'),
+                action: (row, $e) => {
+                    navigate(`/visitor/about/${row?.id}?current-setting=attendance`);
+                },
+                allowedRoles: ['ADMIN', 'HR', 'GUARD'],
+            },
             {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
                 type: 'primary',
@@ -112,16 +121,6 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
                     setVisitorId(row?.id)
                 },
                 allowedRoles: ['ADMIN', 'HR'],
-            },
-            {
-                icon: <MessageSquareShare size={DEFAULT_ICON_SIZE} />,
-                type: 'secondary',
-                name: t('Details'),
-               action: (row, $e) => {
-                    setOpen(true)
-                    setVisitorId(row?.id)
-                },
-                allowedRoles: ['ADMIN', 'HR', 'GUARD'],
             }
         ],
         [t]
