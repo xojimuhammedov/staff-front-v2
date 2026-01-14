@@ -20,7 +20,7 @@ const WorkSchedule = () => {
         }
     ];
     return (
-        <PageContentWrapper>
+        <>
             <div className='flex items-center justify-between'>
                 <div className="flex flex-col">
                     <h1 className="headers-core dark:text-text-title-dark text-text-base">
@@ -55,7 +55,7 @@ const WorkSchedule = () => {
                 </div>
             </div>
             <WorkScheduleList />
-        </PageContentWrapper>
+        </>
     );
 }
 
