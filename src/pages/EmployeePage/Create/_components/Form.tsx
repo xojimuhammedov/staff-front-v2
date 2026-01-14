@@ -152,7 +152,7 @@ function Form() {
         url: URLS.getEmployeeList,
         attributes: {
           photo: imageKey,
-          credentials: credentials,
+          // credentials: credentials,
           ...data
         }
       },
@@ -315,7 +315,7 @@ function Form() {
             </label>
           </div>
         </div>
-        {
+        {/* {
           credentials?.map((item, index) => (
             <div className='flex items-center gap-4 w-3/4'>
               <div key={index} className='grid grid-cols-3 gap-3 mt-4 w-full'>
@@ -343,8 +343,8 @@ function Form() {
               <MyButton startIcon={<Trash2 size={DEFAULT_ICON_SIZE} />} type='button' className={'border p-2 mt-10'} onClick={() => removeCredential(index)} />
             </div>
           ))
-        }
-        <MyButton startIcon={<Plus size={DEFAULT_ICON_SIZE} />} type='button' className={'border p-2 mt-4'} onClick={addCredential} />
+        } */}
+        {/* <MyButton startIcon={<Plus size={DEFAULT_ICON_SIZE} />} type='button' className={'border p-2 mt-4'} onClick={addCredential} /> */}
         <MyDivider />
         <MyButton
           type='submit'

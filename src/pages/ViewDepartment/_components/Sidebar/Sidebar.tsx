@@ -7,43 +7,12 @@ type MenuType = 'simple' | 'open-close';
 
 interface SidebarProps {
     sidebar_menu_type: MenuType;
+    sidebar_menu: SidebarMenuType[]
 }
 
 
-const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
+const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple', sidebar_menu }) => {
     const { t } = useTranslation();
-
-    const sidebar_menu: SidebarMenuType[] = [
-        {
-            title: t('General info'),
-            items: [
-                {
-                    icon: 'User',
-                    name: t('Organization details'),
-                    path: 'department',
-                    isSwitch: false
-                },
-                {
-                    icon: 'User',
-                    name: t('Department details'),
-                    path: 'subdepartment',
-                    isSwitch: false
-                },
-                {
-                    icon: 'CarTaxiFront',
-                    name: t('Employee list'),
-                    path: 'employee_list',
-                    isSwitch: false
-                },
-                {
-                    icon: 'Laptop',
-                    name: t('Department statistics'),
-                    path: 'statistics',
-                    isSwitch: false
-                },
-            ]
-        }
-    ];
 
     return (
         <div className="h-max settings-sidebar w-[290px] rounded-m bg-bg-base p-m shadow-base dark:bg-bg-dark-bg">

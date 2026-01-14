@@ -1,24 +1,87 @@
-import Loading from "assets/icons/Loading";
 import MyBreadCrumb from "components/Atoms/MyBreadCrumb";
 import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import PageContentWrapper from "components/Layouts/PageContentWrapper";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import MainContent from "./_components/MainContent";
 import Sidebar from "./_components/Sidebar/Sidebar";
+import { paramsStrToObj } from "utils/helper";
+import { SidebarMenuType } from 'types/sidebar';
+import { searchValue } from "types/search";
 
 
 const ViewPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const location = useLocation()
+    const paramsValue: searchValue = paramsStrToObj(location?.search)
 
     const breadCrumbs = [
         {
             label: t('View Department'),
             url: '#'
         }
+    ];
+
+    const sidebar_menu: SidebarMenuType[] = [
+        {
+            title: t('Organization info'),
+            items: [
+                {
+                    icon: 'User',
+                    name: t('Department lists'),
+                    path: 'department',
+                    isSwitch: false
+                },
+            ]
+        },
+        ...(paramsValue.parentDepartmentId ? [
+            {
+                title: t('Department info'),
+                items: [
+                    {
+                        icon: 'User',
+                        name: t('Department details'),
+                        path: 'departmentInfo',
+                        isSwitch: false
+                    },
+                    {
+                        icon: 'User',
+                        name: t('SubDepartment list'),
+                        path: 'subdepartment',
+                        isSwitch: false
+                    },
+                    {
+                        icon: 'CarTaxiFront',
+                        name: t('Employee list'),
+                        path: 'employee_list',
+                        isSwitch: false
+                    },
+                ]
+            }
+        ]
+        : []),
+        ...(paramsValue.subdepartmentId ? [
+            {
+                title: t('SubDepartment info'),
+                items: [
+                    {
+                        icon: 'User',
+                        name: t('SubDepartment details'),
+                        path: 'subdepartmentInfo',
+                        isSwitch: false
+                    },
+                    {
+                        icon: 'CarTaxiFront',
+                        name: t('Employee list'),
+                        path: 'sub_employee_list',
+                        isSwitch: false
+                    },
+                ]
+            }
+        ] : [])
     ];
     return (
         <PageContentWrapper>
@@ -36,7 +99,7 @@ const ViewPage = () => {
             </div>
             <MyDivider />
             <div className="flex gap-6">
-                <Sidebar sidebar_menu_type="simple" />
+                <Sidebar sidebar_menu={sidebar_menu} sidebar_menu_type="simple" />
                 <MainContent />
             </div>
         </PageContentWrapper>

@@ -6,7 +6,7 @@ import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AreaChart, Edit3, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
-import { useDeleteQuery, useGetAllQuery , usePostQuery} from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery, usePostQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -36,7 +36,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
     url: URLS.getEmployeeList,
     params: {
       search: searchValue?.search,
-      departmentId: searchValue?.subdepartmentId,
+      departmentId: searchValue?.subdepartmentId ? searchValue.subdepartmentId : searchValue?.parentDepartmentId,
       page: searchValue?.page || 1,
       limit: searchValue?.limit || 10,
       // attachedId: searchValue?.attachedId 

@@ -15,14 +15,17 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
         const currentSetting = searchParams.get('current-setting');
 
         if (location?.pathname && currentSetting === 'department') {
-            return navigate(`/view?subdepartmentId=${item?.id}&current-setting=subdepartment`);
+            return navigate(`/view?organizationId=${item?.organizationId}&parentDepartmentId=${item?.id}&current-setting=departmentInfo`);
         }
         if (location?.pathname && currentSetting === 'subdepartment') {
-            return navigate(`/view?subdepartmentId=${item?.id}&current-setting=employee_list`);
-        } else {
-            return navigate(`/employees?subdepartmentId=${item?.id}`);
+            return navigate(`/view?organizationId=${item?.organizationId}&parentDepartmentId=${item?.parentId}&subdepartmentId=${item?.id}&current-setting=subdepartmentInfo`);
+        }
+        else {
+            return navigate(`/employees?parentDepartmentId=${item?.id}`);
         }
     };
+
+
     return (
         <div className='dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035] rounded-lg shadow-sm p-4 gap-2'>
             <div className='flex items-center justify-between'>

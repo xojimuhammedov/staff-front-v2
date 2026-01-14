@@ -1,16 +1,23 @@
 import { lazy, LazyExoticComponent, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+const SubDepartmentList = lazy(() => import('./DepartmentList'))
 const DepartmentList = lazy(() => import('./DepartmentList'))
 const EmployeeListDepartment = lazy(() => import('./EmployeeList'))
+const EmployeeListSubDepartment = lazy(() => import('./EmployeeList'))
+const ParentDepartmentInfo = lazy(() => import('../DepartmentInfo/DepartmentInfo'))
+const SubDepartmentInfo = lazy(() => import('../DepartmentInfo/DepartmentInfo'))
 
 
-type RulesType = 'department' | 'subdepartment' | 'employee_list';
+type RulesType = 'department' | 'subdepartment' | 'employee_list' | 'sub_employee_list' | 'departmentInfo' | 'subdepartmentInfo';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
     department: DepartmentList,
-    subdepartment: DepartmentList,
+    subdepartment: SubDepartmentList,
     employee_list: EmployeeListDepartment,
+    departmentInfo: ParentDepartmentInfo,
+    subdepartmentInfo: SubDepartmentInfo,
+    sub_employee_list: EmployeeListSubDepartment
 };
 
 const MainContent = () => {
