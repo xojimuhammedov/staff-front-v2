@@ -11,7 +11,7 @@ import MyBadge from 'components/Atoms/MyBadge';
 import Loading from 'assets/icons/Loading';
 import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { Edit, ExternalLink, Trash2 } from 'lucide-react';
+import { Edit, ExternalLink, Eye, Trash2 } from 'lucide-react';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { useNavigate } from 'react-router-dom';
 
@@ -117,6 +117,14 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
 
     const rowActions: IAction[] = useMemo(
         () => [
+            {
+                icon: <Eye size={DEFAULT_ICON_SIZE} />,
+                type: 'primary',
+                name: t('View device'),
+                action: (row) => {
+                    navigate(`/settings/device/${row.id}`);
+                }
+            },
             {
                 icon: <Edit size={DEFAULT_ICON_SIZE} />,
                 type: 'danger',

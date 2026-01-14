@@ -5,21 +5,27 @@ import { useGetAllQuery } from "hooks/api";
 import { get } from "lodash";
 import DepartmentCard from "pages/DepartmentsPage/_components/DepartmentCard";
 import { Department } from "pages/DepartmentsPage/interface/department.interface";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { searchValue } from "types/search";
+import { paramsStrToObj } from "utils/helper";
 
 
 const DepartmentList = () => {
     const [paramsId] = useSearchParams()
-    const organizationId = paramsId.get("organizationId")
-    const departmentId = paramsId.get("subdepartmentId")
+    const location = useLocation()
+    const paramsValue: searchValue = paramsStrToObj(location?.search)
+    // const organizationId = paramsId.get("organizationId")
+    // const subdepartmentId = paramsId.get("subdepartmentId")
     const { data, isLoading } = useGetAllQuery<{ data: Department[] }>({
         key: KEYS.getAllListDepartment,
         url: URLS.getAllListDepartment,
         params: {
-            organizationId: organizationId,
-            parentId: departmentId
+            // organizationId: organizationId,
+            parentId: Number(paramsValue?.parentDepartmentId)
         }
     })
+
+    console.log(paramsValue)
 
     if (isLoading) {
         return (

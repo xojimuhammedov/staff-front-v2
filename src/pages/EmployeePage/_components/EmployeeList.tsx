@@ -3,10 +3,10 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { AreaChart, Edit3, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
-import { useDeleteQuery, useGetAllQuery , usePostQuery} from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery, usePostQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -28,6 +28,7 @@ type EmployeeListProps = {
 const EmployeeList = ({ searchValue }: EmployeeListProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams()
   const [show, setShow] = useState(false)
   const [employeeId, setEmployeeId] = useState<any | null>(null)
 
@@ -36,7 +37,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
     url: URLS.getEmployeeList,
     params: {
       search: searchValue?.search,
-      departmentId: searchValue?.subdepartmentId,
+      departmentId: searchParams.get("current-setting") === "employee_list" ? searchValue?.parentDepartmentId : searchValue?.subdepartmentId,
       page: searchValue?.page || 1,
       limit: searchValue?.limit || 10,
       // attachedId: searchValue?.attachedId 
