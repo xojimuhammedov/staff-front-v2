@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AreaChart, Edit3, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery , usePostQuery} from 'hooks/api';

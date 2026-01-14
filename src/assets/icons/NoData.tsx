@@ -3,7 +3,7 @@ import React from 'react';
 function NoData() {
   return (
     <svg width="164" height="132" viewBox="0 0 184 152" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" fill-rule="evenodd">
+      <g fill="none" fillRule="evenodd">
         <g transform="translate(24 31.67)">
           <ellipse
             fill-opacity=".8"
