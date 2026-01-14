@@ -21,7 +21,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
             return navigate(`/view?organizationId=${item?.organizationId}&parentDepartmentId=${item?.parentId}&subdepartmentId=${item?.id}&current-setting=subdepartmentInfo`);
         }
         else {
-            return navigate(`/employees?parentDepartmentId=${item?.id}`);
+            return navigate(`/employees?subdepartmentId=${item?.id}`);
         }
     };
 

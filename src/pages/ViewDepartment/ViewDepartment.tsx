@@ -4,7 +4,7 @@ import MyDivider from "components/Atoms/MyDivider";
 import PageContentWrapper from "components/Layouts/PageContentWrapper";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import MainContent from "./_components/MainContent";
 import Sidebar from "./_components/Sidebar/Sidebar";
 import { paramsStrToObj } from "utils/helper";
@@ -16,6 +16,7 @@ const ViewPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const location = useLocation()
+    const [searchParams] = useSearchParams()
     const paramsValue: searchValue = paramsStrToObj(location?.search)
 
     const breadCrumbs = [
@@ -24,6 +25,16 @@ const ViewPage = () => {
             url: '#'
         }
     ];
+
+    const currentSetting = searchParams.get("current-setting");
+
+    const isValidSubDepartmentSetting =
+        paramsValue.subdepartmentId &&
+        (
+            currentSetting === "subdepartmentInfo" ||
+            currentSetting === "sub_employee_list"
+        );
+
 
     const sidebar_menu: SidebarMenuType[] = [
         {
@@ -62,8 +73,8 @@ const ViewPage = () => {
                 ]
             }
         ]
-        : []),
-        ...(paramsValue.subdepartmentId ? [
+            : []),
+        ...(isValidSubDepartmentSetting ? [
             {
                 title: t('SubDepartment info'),
                 items: [
