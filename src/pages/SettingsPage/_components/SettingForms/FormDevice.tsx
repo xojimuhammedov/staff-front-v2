@@ -12,7 +12,6 @@ import { URLS } from 'constants/url';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { MyCheckbox, MySelect } from 'components/Atoms/Form';
 import { get } from 'lodash';
-import FormDeviceModal from 'pages/SettingsPage/DevicePage/_components/Create';
 import { toast } from 'react-toastify';
 
 function FormDevice({ handleClick }: any) {
@@ -134,7 +133,7 @@ function FormDevice({ handleClick }: any) {
           </MyButton>
         </div>
       </div>
-      <MyModal
+      {/* <MyModal
         modalProps={{
           show: Boolean(openModal),
           onClose: () => setOpenModal(false),
@@ -151,7 +150,7 @@ function FormDevice({ handleClick }: any) {
           children: <FormDeviceModal setOpenModal={setOpenModal} />,
           className: 'py-[15px]'
         }}
-      />
+      /> */}
     </>
   );
 }
