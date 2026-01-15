@@ -41,7 +41,8 @@ export const useDepartment = () => {
         key: KEYS.dashboardLineChart,
         url: URLS.dashboardLineChart,
         params: {
-            ...paramsValue
+            departmentId: Number(searchValue?.parentDepartmentId) || Number(searchValue.subdepartmentId),
+            ...paramsValue,
         }
     });
 

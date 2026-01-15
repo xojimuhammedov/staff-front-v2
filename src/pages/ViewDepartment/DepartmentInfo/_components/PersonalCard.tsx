@@ -66,7 +66,7 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
             iconColor: 'text-blue-500'
         },
         {
-            label: t("DEPARTMENT"),
+            label: t("ORGANIZATION"),
             value: data?.organization?.fullName,
             Icon: 'Building',
             iconColor: 'text-yellow-700'
