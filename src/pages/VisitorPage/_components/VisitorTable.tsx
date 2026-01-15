@@ -16,11 +16,11 @@ import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import EditForm from './EditForm';
 import { useNavigate } from 'react-router-dom';
 
-interface VisitorTableProps {
-    organizationId?: number | null;
-}
+// interface VisitorTableProps {
+//     organizationId?: number | null;
+// }
 
-const VisitorTable = ({ organizationId }: VisitorTableProps) => {
+const VisitorTable = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [showEdit, setShowEdit] = useState(false)
@@ -29,10 +29,9 @@ const VisitorTable = ({ organizationId }: VisitorTableProps) => {
     const { data, isLoading, refetch } = useGetAllQuery({
         key: KEYS.getVisitorList,
         url: URLS.getVisitorList,
-        params: {
-            ...(organizationId ? { organizationId } : {})
-        }
+        params: {}
     });
+
     const columns: DataGridColumnType[] = useMemo(
         () => [
             {
@@ -41,15 +40,15 @@ const VisitorTable = ({ organizationId }: VisitorTableProps) => {
                 headerClassName: 'w-1/3',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
-                        {row?.firstName ?? '--'}
+                        {row?.firstName ?? '--'} {row?.lastName ?? '--'} {row?.middleName ?? '--'}
                     </div>
                 )
             },
             {
-                key: 'middleName',
+                key: 'email',
                 label: t('Email'),
                 headerClassName: 'w-1/3',
-                cellRender: (row) => <div className="department-text">{row?.middleName ?? '--'}</div>
+                cellRender: (row) => <div className="department-text">{row?.email ?? '--'}</div>
             },
             {
                 key: 'phone',
@@ -75,7 +74,7 @@ const VisitorTable = ({ organizationId }: VisitorTableProps) => {
         },
         {
             id: 2,
-            label: t('Middle Name'),
+            label: t('Email'),
             headerClassName: 'w-1/3'
         },
         {
@@ -98,7 +97,7 @@ const VisitorTable = ({ organizationId }: VisitorTableProps) => {
 
     const rowActions: IAction[] = useMemo(
         () => [
-             {
+            {
                 icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
                 type: 'secondary',
                 name: t('Details'),
