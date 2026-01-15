@@ -291,7 +291,7 @@ function EmployeeAssign() {
                     {/* O'ng panel */}
                     <div className="w-full lg:w-1/2 h-[600px] flex flex-col rounded-md border-2 border-gray-300 dark:border-dark-line overflow-hidden">
                         <h3 className="bg-gray-100 dark:bg-gray-800 p-4 text-lg font-medium">
-                            {t("Selected employees")} ({finalSelectedIds.length})
+                            {t("Selected employees")} ({finalEmployees.length})
                         </h3>
 
                         <div className="flex-1 overflow-y-auto">

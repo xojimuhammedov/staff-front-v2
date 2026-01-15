@@ -35,6 +35,10 @@ const ViewPage = () => {
             currentSetting === "sub_employee_list"
         );
 
+    // const isValidDepartmentSetting = paramsValue?.parentDepartmentId && (
+    //     currentSetting === "departmentInfo" || currentSetting === "subdepartment" || currentSetting === "employee_list"
+    // )
+
 
     const sidebar_menu: SidebarMenuType[] = [
         {
@@ -48,7 +52,7 @@ const ViewPage = () => {
                 },
             ]
         },
-        ...(paramsValue.parentDepartmentId ? [
+        ...(paramsValue?.parentDepartmentId ? [
             {
                 title: t('Department info'),
                 items: [

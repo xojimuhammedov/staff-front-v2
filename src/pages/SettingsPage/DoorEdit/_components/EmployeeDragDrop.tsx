@@ -264,13 +264,13 @@ function EmployeeDragDrop() {
         </div>
       </div>
 
-      <DeviceTypeSelectModal
+      {/* <DeviceTypeSelectModal
         open={openModal}
         onClose={() => setOpenModal(false)}
         onConfirm={handleConfirmModal}
         deviceTypeOptions={deviceTypeOptions}
         initialValues={selectedDeviceTypes}
-      />
+      /> */}
       <TypeSelectModal
         onClose={() => setSelectModal(false)}
         open={selectModal}

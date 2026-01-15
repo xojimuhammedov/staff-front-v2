@@ -34,6 +34,12 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
     params: {},
   });
 
+  const { data: gateData } = useGetAllQuery<any>({
+    key: KEYS.getDoorGates,
+    url: URLS.getDoorGates,
+    params: {},
+  });
+
   // Visitor form
   const {
     handleSubmit,
@@ -181,6 +187,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
     onSubmit,
     organizationData,
     employeeData,
+    gateData,
     codeTypeOptions,
     onetimeCodeControl,
     onetimeCodeErrors,
