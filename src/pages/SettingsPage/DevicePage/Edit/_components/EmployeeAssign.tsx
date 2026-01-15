@@ -2,20 +2,16 @@ import { MyCheckbox, MyInput } from "components/Atoms/Form";
 import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import LabelledCaption from "components/Molecules/LabelledCaption";
-import MyAvatar from "components/Atoms/MyAvatar";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
-import { useGetAllQuery, useGetOneQuery, usePostQuery } from "hooks/api";
-import { Edit, Edit2, Search, Trash2 } from "lucide-react";
+import { useGetAllQuery } from "hooks/api";
+import { Search } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import AvatarIcon from "assets/icons/avatar.png";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import deviceType from "configs/deviceType";
-import DeviceTypeSelectModal from "pages/SettingsPage/DoorEdit/_components/DeviceSelectModal";
-// import DeviceTypeSelectModal from './DeviceSelectModal';
-// import TypeSelectModal from "./TypeSelectModal";
+import DeviceAssignModal from "./DeviceAssignModal";
+import RemoveAssignModal from "./RemoveAssignModal";
 
 interface Employee {
     id: number;
@@ -30,16 +26,13 @@ interface EmployeeResponse {
 
 function EmployeeAssign({ deviceId }: any) {
     const { t } = useTranslation();
-    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-
     const [searchInput, setSearchInput] = useState("");
     const [tempSelectedIds, setTempSelectedIds] = useState<number[]>([]);
-    const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]);
-    const [selectedDeviceTypes, setSelectedDeviceTypes] = useState<string[]>([]);
+    const [rightSelectIds, setRightSelectIds] = useState<number[]>([]);
+    const [removeSelectIds, setRemoveSelectIds] = useState<number[]>([]);
     const [openModal, setOpenModal] = useState(false);
-    const [selectModal, setSelectModal] = useState(false)
-    const [employeeId, setEmployeeId] = useState<any>(null)
+    const [removeModal, setRemoveModal] = useState(false);
     const currentSearch = searchParams.get("search") || "";
 
     const { data: employeesData, isLoading } =
@@ -63,17 +56,11 @@ function EmployeeAssign({ deviceId }: any) {
 
     useEffect(() => {
         if (data?.data) {
-            setFinalSelectedIds(
+            setRightSelectIds(
                 data?.data?.map((e: any) => e?.employee?.id)
             );
         }
     }, [data?.data]);
-
-
-    const { mutate: assignEmployees } = usePostQuery({
-        listKeyId: KEYS.devicesEmployeeAssign,
-        hideSuccessToast: true,
-    });
 
     useEffect(() => setSearchInput(currentSearch), [currentSearch]);
 
@@ -87,47 +74,21 @@ function EmployeeAssign({ deviceId }: any) {
     const handleKeyUp = (e: any) => e.key === "Enter" && handleSearch();
 
     // ---- TEMP SELECT ----
-    const toggleTempSelect = (id: number) =>
-        setTempSelectedIds((p) =>
-            p.includes(id) ? p.filter((x) => x !== id) : [...p, id]
+    const toggleTempSelect = (id: number) => {
+        setTempSelectedIds((prev) =>
+            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
         );
+    };
+
+    const toggleRemoveTempSelect = (id: number) => {
+        setRemoveSelectIds((prev) =>
+            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+        );
+    };
 
     const toggleSelectAll = () =>
         setTempSelectedIds((p) =>
-            p.length === employees.length ? [] : employees.map((e) => e.id)
-        );
-
-    // ---- ADD TO FINAL ----
-    const addSelectedToFinal = (deviceTypes: string[]) => {
-        if (!tempSelectedIds.length) return;
-
-        setFinalSelectedIds((prev) =>
-            Array.from(new Set([...prev, ...tempSelectedIds]))
-        );
-
-        setSelectedDeviceTypes(deviceTypes);
-        setTempSelectedIds([]);
-    };
-
-    const removeFromFinal = (id: number) =>
-        setFinalSelectedIds((p) => p.filter((x) => x !== id));
-
-    const finalEmployees = useMemo(
-        () => employees.filter((e) => finalSelectedIds.includes(e.id)),
-        [employees, finalSelectedIds]
-    );
-
-    const alreadySelectedIds = new Set(finalSelectedIds);
-
-    // LEFT PANEL LIST
-    const leftEmployees = employees.filter(
-        (emp) => !alreadySelectedIds.has(emp.id)
-    );
-
-    const handleConfirmModal = (credentialTypes: string[]) => {
-        addSelectedToFinal(credentialTypes);
-        setOpenModal(false);
-    };
+            p.length === employees.length ? [] : employees.map((e) => e.id));
 
     const deviceTypeOptions =
         deviceType?.map((d: any) => ({
@@ -135,31 +96,17 @@ function EmployeeAssign({ deviceId }: any) {
             value: d.value,
         })) ?? [];
 
+    const finalEmployees = useMemo(
+        () => employees.filter((e) => rightSelectIds.includes(e.id)),
+        [employees, rightSelectIds]
+    );
 
+    const alreadySelectedIds = new Set(rightSelectIds);
 
-    const handleAssign = () => {
-        if (!finalSelectedIds.length)
-            return toast.warning(t("Please select at least one employee"));
-
-        assignEmployees(
-            {
-                url: URLS.devicesEmployeeAssign,
-                attributes: {
-                    employeeIds: finalSelectedIds,
-                    credentialTypes: selectedDeviceTypes,
-                    deviceIds: [deviceId],
-                },
-            },
-            {
-                onSuccess: () => {
-                    toast.success(t("Saved successfully"));
-                    navigate("/settings?current-setting=deviceControl");
-                },
-                onError: (e: any) =>
-                    console.log(e)
-            }
-        );
-    };
+    // LEFT PANEL LIST
+    const leftEmployees = employees.filter(
+        (emp) => !alreadySelectedIds.has(emp.id)
+    );
 
     return (
         <>
@@ -171,9 +118,9 @@ function EmployeeAssign({ deviceId }: any) {
                         subtitle={t("Create group and link to door")}
                     />
 
-                    <MyButton variant="primary" onClick={handleAssign} type="submit">
+                    {/* <MyButton variant="primary" onClick={handleAssign} type="submit">
                         Save changes
-                    </MyButton>
+                    </MyButton> */}
                 </div>
 
                 <MyDivider />
@@ -234,30 +181,30 @@ function EmployeeAssign({ deviceId }: any) {
 
                     {/* RIGHT PANEL */}
                     <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border">
-                        <h3 className="p-4 font-medium bg-gray-100">
-                            {t("Selected employees")} ({finalSelectedIds.length})
-                        </h3>
+                        <div className="flex items-center justify-between bg-gray-100 p-2">
+                            <h3 className="font-medium">
+                                {t("Selected employees")} ({finalEmployees.length})
+                            </h3>
+                            <MyButton
+                                variant="secondary"
+                                disabled={!removeSelectIds.length}
+                                onClick={() => setRemoveModal(true)}
+                            >
+                                {t("Remove")} ({removeSelectIds.length})
+                            </MyButton>
+                        </div>
 
-                        <div className="overflow-y-auto h-full">
+                        <div className="overflow-y-auto h-full space-y-2 mt-4">
                             {!finalEmployees.length ? (
                                 <p className="text-center mt-10">{t("Nothing selected yet")}</p>
                             ) : (
                                 finalEmployees.map((emp) => (
-                                    <div key={emp.id} className="flex justify-between items-center p-4 border-b">
-                                        <div className="flex items-center gap-3">
-                                            <MyAvatar imageUrl={emp.avatar || AvatarIcon} size="medium" />
-                                            <span>{emp.name}</span>
-                                        </div>
-
-                                        <div className="flex items-center gap-2">
-                                            {/* <MyButton
-                                                // onClick={() => {
-                                                //     setSelectModal(true);
-                                                //     setEmployeeId(emp?.id)
-                                                // }}
-                                                startIcon={<Edit size={20} />} /> */}
-                                            <MyButton startIcon={<Trash2 size={20} />} onClick={() => removeFromFinal(emp.id)} />
-                                        </div>
+                                    <div key={emp.id} className="flex items-center p-4 mx-2 rounded-md bg-white hover:bg-gray-50 transition-colors border">
+                                        <MyCheckbox
+                                            label={emp.name}
+                                            checked={removeSelectIds.includes(emp.id)}
+                                            onChange={() => toggleRemoveTempSelect(emp.id)}
+                                        />
                                     </div>
                                 ))
                             )}
@@ -266,20 +213,20 @@ function EmployeeAssign({ deviceId }: any) {
                 </div>
             </div>
 
-            <DeviceTypeSelectModal
+            <DeviceAssignModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
-                onConfirm={handleConfirmModal}
                 deviceTypeOptions={deviceTypeOptions}
-                initialValues={selectedDeviceTypes}
+                tempSelectedIds={tempSelectedIds}
+                deviceId={deviceId}
             />
-            {/* <TypeSelectModal
-                onClose={() => setSelectModal(false)}
-                open={selectModal}
-                employeeId={employeeId}
-                gateId={id}
-                setEmployeeId={setEmployeeId}
-            /> */}
+
+            <RemoveAssignModal
+                deviceId={deviceId}
+                open={removeModal}
+                onClose={() => setRemoveModal(false)}
+                tempSelectedIds={removeSelectIds}
+            />
         </>
     );
 }

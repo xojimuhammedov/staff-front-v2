@@ -38,5 +38,6 @@ export const KEYS = {
   deviceGateSyncEmployee: "deviceGateSyncEmployee",
   getAllListDepartmentSelf: "getAllListDepartmentSelf",
   getOnetimeCodes: "getOnetimeCodes",
-  visitorByAttendancesCard: "visitorByAttendancesCard"
+  visitorByAttendancesCard: "visitorByAttendancesCard",
+  removeAssignEmployee: "removeAssignEmployee"
 };

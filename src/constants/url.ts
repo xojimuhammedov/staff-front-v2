@@ -3,7 +3,7 @@ export const URLS = {
   getMe: '/api/v2/employees/me',
   getAllListOrganization: "/api/v1/organizations",
   getAllListDepartment: "/api/v1/departments",
-  getAllListDepartmentSelf:"/api/v1/departments/self",
+  getAllListDepartmentSelf: "/api/v1/departments/self",
   getListOrganizationSelf: "/api/v1/organizations/self",
   getListUsersManagment: "/api/v1/users",
   getUserRoles: "/api/v1/users/roles",
@@ -38,5 +38,6 @@ export const URLS = {
   doorDevice: "/api/v1/devices/connectDevicesToGate",
   devicesGateEmployee: "/api/v1/devices/gate",
   deviceGateSyncEmployee: "/api/v1/devices/gate/sync-credentials",
-  visitorByAttendancesCard: "/api/v1/reports/attendance/statics"
+  visitorByAttendancesCard: "/api/v1/reports/attendance/statics",
+  removeAssignEmployee: "/api/v1/devices/remove-employees"
 };

@@ -14,9 +14,7 @@ type Props = {
     open: boolean;
     onClose: () => void;
     deviceTypeOptions: { label: string; value: string }[];
-    // initialValues: string[];
     deviceId: any,
-    openModal: boolean,
     tempSelectedIds: number[]
 };
 
@@ -24,7 +22,7 @@ type FormValues = {
     credentialTypes: string[];
 };
 
-export default function DeviceTypeSelectModal({
+export default function DeviceAssignModal({
     open,
     onClose,
     deviceId,

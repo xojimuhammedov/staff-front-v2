@@ -5,7 +5,7 @@ import MyModal from "components/Atoms/MyModal";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { usePostQuery } from "hooks/api";
+import { useGetOneQuery, usePostQuery } from "hooks/api";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import deviceType from "configs/deviceType";
@@ -13,10 +13,7 @@ import deviceType from "configs/deviceType";
 type Props = {
     open: boolean;
     onClose: () => void;
-    deviceTypeOptions: { label: string; value: string }[];
-    // initialValues: string[];
     deviceId: any,
-    openModal: boolean,
     tempSelectedIds: number[]
 };
 
@@ -24,7 +21,7 @@ type FormValues = {
     credentialTypes: string[];
 };
 
-export default function DeviceTypeSelectModal({
+export default function RemoveAssignModal({
     open,
     onClose,
     deviceId,
@@ -33,18 +30,25 @@ export default function DeviceTypeSelectModal({
     const navigate = useNavigate()
     const { t } = useTranslation();
 
-    const { control, handleSubmit } = useForm<FormValues>({
-        defaultValues: { credentialTypes: [] },
+    const { data: deviceData } = useGetOneQuery({
+        id: deviceId,
+        url: URLS.getDoorForDevices,
+        params: {},
+        enabled: !!deviceId,
     });
 
     const deviceTypeOptions =
-        deviceType?.map((d: any) => ({
-            label: d.label,
-            value: d.value,
+        deviceData?.data?.type?.map((d: any) => ({
+            label: d,
+            value: d,
         })) ?? [];
 
-    const { mutate: assignEmployees } = usePostQuery({
-        listKeyId: KEYS.devicesEmployeeAssign,
+    const { control, handleSubmit } = useForm<FormValues>({
+        defaultValues: { credentialTypes: deviceData?.data?.type },
+    });
+
+    const { mutate: removeEmployees } = usePostQuery({
+        listKeyId: KEYS.removeAssignEmployee,
         hideSuccessToast: true,
     });
 
@@ -52,9 +56,9 @@ export default function DeviceTypeSelectModal({
         if (!tempSelectedIds.length)
             return toast.warning(t("Please select at least one employee"));
 
-        assignEmployees(
+        removeEmployees(
             {
-                url: URLS.devicesEmployeeAssign,
+                url: URLS.removeAssignEmployee,
                 attributes: {
                     employeeIds: tempSelectedIds,
                     deviceIds: [deviceId],
@@ -87,7 +91,7 @@ export default function DeviceTypeSelectModal({
                                     isMulti
                                     label={t("Device types")}
                                     options={deviceTypeOptions}
-                                    value={deviceTypeOptions.filter(o =>
+                                    value={deviceTypeOptions.filter((o: any) =>
                                         field.value?.includes(o.value)
                                     )}
                                     onChange={(val: any) =>
