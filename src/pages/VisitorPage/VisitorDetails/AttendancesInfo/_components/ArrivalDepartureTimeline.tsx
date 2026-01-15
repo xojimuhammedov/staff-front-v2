@@ -1,6 +1,7 @@
 import React from 'react';
 import { CarFront, Clock, CreditCard, LockKeyhole, QrCode, UserRound } from 'lucide-react';
 import dayjs from 'dayjs';
+import { t } from 'i18next';
 
 // --------------------
 // Types
@@ -57,7 +58,7 @@ export default function ArrivalDepartureTimeline({ data }: any) {
   return (
     <div className="mt-8">
       <div className="bg-white rounded-2xl border shadow-sm p-6 space-y-6">
-        <h2 className="text-lg font-semibold">Arrival & Departure Timeline</h2>
+        <h2 className="text-lg font-semibold">{t("Arrival & Departure Timeline")}</h2>
 
         {data?.map((day: any) => (
           <div key={day?.id} className="space-y-3">

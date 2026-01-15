@@ -1,8 +1,7 @@
 import MyModal from 'components/Atoms/MyModal';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
-import { CheckCircle, User, Phone, MapPin, Calendar, Building2, Briefcase, FileText, Hash } from 'lucide-react';
+import { CheckCircle, User, Phone, MapPin, Calendar, Building2, Briefcase, FileText, Hash, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface VisitorDetailsModalProps {

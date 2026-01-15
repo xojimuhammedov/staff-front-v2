@@ -37,10 +37,10 @@ const Credentials = () => {
     params: {},
   });
 
-  const codeTypeOptions = [
-    { label: 'ONETIME', value: 'ONETIME' },
-    { label: 'MULTIPLE', value: 'MULTIPLE' },
-  ];
+const codeTypeOptions = [ 
+  { label: t("ONETIME"), value: "ONETIME" },
+  { label: t("MULTIPLE"), value: "MULTIPLE" },
+];
 
   const { mutate: updateOnetimeCode } = usePutQuery({
     listKeyId: KEYS.getOnetimeCodes,
@@ -75,14 +75,20 @@ const Credentials = () => {
   };
 
   const handleModalSubmit = (data: any) => {
-    const submitData = {
+    // API doesn't accept attachId for onetime codes, so we exclude it
+    const submitData: any = {
       visitorId: Number(id),
-      attachId: data.attachId ? Number(data.attachId) : undefined,
       codeType: data.codeType,
       startDate: dayjs().toISOString(),
       endDate: dayjs().add(1, 'day').toISOString(),
       isActive: true,
     };
+
+    // Only include attachId if it's provided and API supports it
+    // Currently API doesn't support attachId, so we don't include it
+    // if (data.attachId) {
+    //   submitData.attachId = Number(data.attachId);
+    // }
 
     createOnetimeCode(
       {
@@ -133,7 +139,7 @@ const Credentials = () => {
           className={'[&_svg]:stroke-bg-white'}
           variant="primary"
         >
-          Add new type
+        {t('Add new type')}
         </Button>
       </div>
       {onetimeCodesData?.data && onetimeCodesData.data.length > 0 ? (
