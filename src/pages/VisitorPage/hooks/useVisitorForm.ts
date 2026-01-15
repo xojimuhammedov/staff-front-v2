@@ -116,7 +116,6 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
                 },
                 {
                   onSuccess: (onetimeCodeResponse: any) => {
-                    // Visitor ma'lumotlarini to'liq saqlash
                     const visitorData = response?.data || response;
                     console.log('Visitor data to save:', visitorData);
                     setCreatedVisitor(visitorData);

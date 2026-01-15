@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 const VisitorPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [show, setShow] = useState(false)
   const breadCrumbs = [
     {
       label: t('Visitor'),
@@ -37,7 +36,7 @@ const VisitorPage = () => {
           {t('Create visitor')}
         </MyButton>
       </div>
-      <VisitorTable show={show} setShow={setShow} />
+      <VisitorTable />
     </PageContentWrapper>
   );
 }

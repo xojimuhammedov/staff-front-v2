@@ -13,11 +13,10 @@ import { IFilter } from 'interfaces/filter.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
-import Form from './Form';
 import EditForm from './EditForm';
 import { useNavigate } from 'react-router-dom';
 
-const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const VisitorTable = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [showEdit, setShowEdit] = useState(false)
@@ -49,7 +48,7 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
             {
                 key: 'phone',
                 label: t('Phone Number'),
-                headerClassName: 'w-40',
+                headerClassName: 'w-1/3',
                 cellRender: (row) => <>{row?.phone ?? '--'}</>
             },
             {
@@ -76,7 +75,7 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
         {
             id: 3,
             label: t('Phone Number'),
-            headerClassName: 'w-40'
+            headerClassName: 'w-1/3'
         },
         {
             id: 4,
@@ -161,7 +160,6 @@ const VisitorTable = ({ show, setShow }: { show: boolean, setShow: React.Dispatc
                     pagination={data}
                 />
             </TableProvider>
-            <Form show={show} setShow={setShow} refetch={refetch} />
             <ConfirmationModal
                 title={t("Bu mehmonni o'chirmoqchimisiz?")}
                 subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
