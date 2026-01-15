@@ -10,7 +10,7 @@ import storage from 'services/storage';
 import { visitorSchema, onetimeCodeSchema } from 'schema/visitor.schema';
 import { useState } from 'react';
 import { t } from 'i18next';
-const codeTypeOptions = [ 
+const codeTypeOptions = [
   { label: t("ONETIME"), value: "ONETIME" },
   { label: t("MULTIPLE"), value: "MULTIPLE" },
 ];
@@ -86,7 +86,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
 
   const onSubmit = (visitorData: any) => {
     const { attachId, ...visitorDataWithoutAttachId } = visitorData;
-    
+
     const formattedData = {
       ...visitorDataWithoutAttachId,
       birthday: visitorData.birthday?.startDate
@@ -122,13 +122,15 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
                 {
                   onSuccess: (onetimeCodeResponse: any) => {
                     const visitorData = response?.data || response;
+                    console.log(onetimeCodeResponse)
                     // Add onetime code data to visitor object for modal display
                     const visitorWithOnetimeCode = {
                       ...visitorData,
                       onetimeCode: {
-                        startDate: onetimeCodeData.startDate,
-                        endDate: onetimeCodeData.endDate,
-                        codeType: onetimeCodeData.codeType,
+                        startDate: onetimeCodeResponse?.data?.startDate,
+                        endDate: onetimeCodeResponse?.data?.endDate,
+                        codeType: onetimeCodeResponse?.data?.codeType,
+                        code: onetimeCodeResponse?.data?.code
                       }
                     };
                     console.log('Visitor data to save:', visitorWithOnetimeCode);

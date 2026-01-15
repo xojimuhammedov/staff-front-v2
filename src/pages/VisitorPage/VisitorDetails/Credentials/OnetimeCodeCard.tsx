@@ -10,25 +10,25 @@ interface OnetimeCodeCardProps {
 
 const OnetimeCodeCard = ({ code, onToggle }: OnetimeCodeCardProps) => {
   const { t } = useTranslation();
-  
+
   const infoItems = [
-    { 
-      icon: Calendar, 
-      color: "text-blue-500", 
-      label: t('Code ID'), 
-      value: code?.id 
+    {
+      icon: Calendar,
+      color: "text-blue-500",
+      label: t('Code ID'),
+      value: code?.code
     },
-    { 
-      icon: Clock, 
-      color: "text-green-500", 
-      label: t('Start Time'), 
+    {
+      icon: Clock,
+      color: "text-green-500",
+      label: t('Start Time'),
       value: code?.startDate ? dayjs(code.startDate).format('DD/MM/YYYY HH:mm') : '--'
     },
-    { 
-      icon: Clock, 
-      color: "text-red-500", 
-      label: t('End Time'), 
-      value: code?.endDate ? dayjs(code.endDate).format('DD/MM/YYYY HH:mm') : '--' 
+    {
+      icon: Clock,
+      color: "text-red-500",
+      label: t('End Time'),
+      value: code?.endDate ? dayjs(code.endDate).format('DD/MM/YYYY HH:mm') : '--'
     }
   ];
   return (

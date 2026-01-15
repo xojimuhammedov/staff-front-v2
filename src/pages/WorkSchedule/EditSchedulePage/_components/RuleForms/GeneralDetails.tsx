@@ -14,9 +14,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
 import { ISelect } from 'interfaces/select.interface';
 import MyTimePicker from 'components/Atoms/Form/MyTimePicker';
-import weekDay from 'configs/weekday';
 import storage from 'services/storage';
 import extraDate from 'configs/extraDate';
+import useWeekDays from 'configs/weekday';
 
 const GeneralDetails = () => {
   const { t } = useTranslation();
@@ -24,6 +24,7 @@ const GeneralDetails = () => {
   const userData: any = storage.get("userData")
   const userRole = JSON.parse(userData)?.role
   const navigate = useNavigate()
+  const weekDay = useWeekDays()
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
