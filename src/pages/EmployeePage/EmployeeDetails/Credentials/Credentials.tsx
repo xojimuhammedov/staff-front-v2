@@ -108,30 +108,6 @@ const Credentials = () => {
 
     return (
         <>
-            <div className='flex justify-end gap-4'>
-                <div className='flex w-[200px]'>
-                    <Controller
-                        name="type"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <MySelect
-                                options={typeData?.map((evt: any) => ({
-                                    label: evt.label,
-                                    value: evt.value,
-                                }))}
-                                value={field.value as any}
-                                onChange={(val: any) => {
-                                    field.onChange((val as ISelect)?.value ?? val)
-                                }}
-                                onBlur={field.onBlur}
-                                error={!!fieldState.error}
-                                allowedRoles={["ADMIN", "HR"]}
-                            />
-                        )}
-                    />
-                </div>
-                <Button startIcon={<Plus />} onClick={() => setShowModal(true)} className={'[&_svg]:stroke-bg-white'} variant='primary'>Add new type</Button>
-            </div>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8'>
                 {data?.data?.map((item: any) => (
                     <div

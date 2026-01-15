@@ -17,6 +17,18 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
       title: t('General info'),
       items: [
         {
+          icon: 'User',
+          name: t('Visitor details'),
+          path: 'view',
+          isSwitch: false,
+        },
+        {
+          icon: 'CarTaxiFront',
+          name: t('Visitor credentials'),
+          path: 'details',
+          isSwitch: false,
+        },
+        {
           icon: 'Attendance',
           name: t('Attendance'),
           path: 'attendance',

@@ -75,8 +75,8 @@ const VisitorDetailsModal = ({
                     <Phone className="text-gray-400" size={14} />
                     <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                       {t('Phone Number')}
-                    </p>
-                  </div>
+                  </p>
+                </div>
                   <p className="text-base font-medium text-text-base dark:text-text-title-dark">
                     {visitor.phone || '--'}
                   </p>
@@ -95,8 +95,8 @@ const VisitorDetailsModal = ({
                   <div className="flex items-center gap-2 mb-1.5">
                     <MapPin className="text-gray-400" size={14} />
                     <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                      {t('Work Place')}
-                    </p>
+                    {t('Work Place')}
+                  </p>
                   </div>
                   <p className="text-base font-medium text-text-base dark:text-text-title-dark">
                     {visitor.workPlace || '--'}
@@ -107,8 +107,8 @@ const VisitorDetailsModal = ({
                     <div className="flex items-center gap-2 mb-1.5">
                       <Building2 className="text-gray-400" size={14} />
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                        {t('Organization')}
-                      </p>
+                      {t('Organization')}
+                    </p>
                     </div>
                     <p className="text-base font-medium text-text-base dark:text-text-title-dark">
                       {getOrganizationName(visitor.organizationId)}
@@ -121,7 +121,7 @@ const VisitorDetailsModal = ({
                       <User className="text-gray-400" size={14} />
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                         {t('Attached Employee')}
-                      </p>
+                    </p>
                     </div>
                     <p className="text-base font-medium text-text-base dark:text-text-title-dark">
                       {getEmployeeName(visitor.attachId)}
