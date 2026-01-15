@@ -4,7 +4,6 @@ import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import VisitorTable from './_components/VisitorTable';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const VisitorPage = () => {
@@ -26,7 +25,6 @@ const VisitorPage = () => {
         </div>
         <MyButton
           startIcon={<Plus />}
-          // onClick={() => setShow(true)}
           onClick={() => {
             navigate('/visitor/create');
           }}

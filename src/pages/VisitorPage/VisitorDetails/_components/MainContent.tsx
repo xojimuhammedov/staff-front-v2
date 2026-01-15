@@ -2,10 +2,14 @@ import { lazy, LazyExoticComponent, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 const AttendancesInfo = lazy(() => import('../AttendancesInfo'));
+const Credentials = lazy(() => import('../Credentials'));
+const VisitorView = lazy(() => import('../View'));
 
-type RulesType = 'attendance';
+type RulesType = 'view' | 'details' | 'attendance';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
+  view: VisitorView,
+  details: Credentials,
   attendance: AttendancesInfo,
 };
 
@@ -14,7 +18,7 @@ const MainContent = () => {
 
   const currentRuleKey = Object.hasOwn(contents, searchParams.get('current-setting') as string)
     ? searchParams.get('current-setting')
-    : 'attendance';
+    : 'view';
 
   const Component = contents[currentRuleKey as RulesType];
 

@@ -22,8 +22,6 @@ import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import { request } from 'services/request';
 import storage from 'services/storage';
-import { typeData } from 'configs/type';
-import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 
 interface Credential {
   code: string;

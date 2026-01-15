@@ -16,7 +16,11 @@ import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import EditForm from './EditForm';
 import { useNavigate } from 'react-router-dom';
 
-const VisitorTable = () => {
+interface VisitorTableProps {
+    organizationId?: number | null;
+}
+
+const VisitorTable = ({ organizationId }: VisitorTableProps) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [showEdit, setShowEdit] = useState(false)
@@ -25,7 +29,9 @@ const VisitorTable = () => {
     const { data, isLoading, refetch } = useGetAllQuery({
         key: KEYS.getVisitorList,
         url: URLS.getVisitorList,
-        params: {}
+        params: {
+            ...(organizationId ? { organizationId } : {})
+        }
     });
     const columns: DataGridColumnType[] = useMemo(
         () => [
