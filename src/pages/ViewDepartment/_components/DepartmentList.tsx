@@ -11,21 +11,17 @@ import { paramsStrToObj } from "utils/helper";
 
 
 const DepartmentList = () => {
-    const [paramsId] = useSearchParams()
     const location = useLocation()
+    const [searchParams] = useSearchParams()
     const paramsValue: searchValue = paramsStrToObj(location?.search)
-    // const organizationId = paramsId.get("organizationId")
-    // const subdepartmentId = paramsId.get("subdepartmentId")
     const { data, isLoading } = useGetAllQuery<{ data: Department[] }>({
         key: KEYS.getAllListDepartment,
         url: URLS.getAllListDepartment,
         params: {
-            // organizationId: organizationId,
-            parentId: Number(paramsValue?.parentDepartmentId)
+            organizationId: Number(paramsValue?.organizationId),
+            parentId: searchParams.get("current-setting") !== "department" ? Number(paramsValue.parentDepartmentId) : null
         }
     })
-
-    console.log(paramsValue)
 
     if (isLoading) {
         return (
