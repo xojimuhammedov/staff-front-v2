@@ -12,7 +12,7 @@ const PolicyGroups = () => {
     const navigate = useNavigate()
     const breadCrumbs = [
         {
-            label: t('Policy Groups'),
+            label: t('Policy groups'),
             url: '#'
         }
     ];

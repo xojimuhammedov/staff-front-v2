@@ -31,7 +31,7 @@ const Create = () => {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const breadCrumbs = [
         {
-            label: t('Policy Groups'),
+            label: t('Policy groups'),
             url: '#'
         }
     ];

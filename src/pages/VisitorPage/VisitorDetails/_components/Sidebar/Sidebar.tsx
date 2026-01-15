@@ -24,13 +24,13 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
         },
         {
           icon: 'CarTaxiFront',
-          name: t('Visitor credentials'),
+          name: t('Visitor onetimes'),
           path: 'details',
           isSwitch: false,
         },
         {
           icon: 'Attendance',
-          name: t('Attendance'),
+          name: t('Actions'),
           path: 'attendance',
           isSwitch: false,
         },

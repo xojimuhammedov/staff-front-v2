@@ -9,12 +9,11 @@ import dayjs from 'dayjs';
 import storage from 'services/storage';
 import { visitorSchema, onetimeCodeSchema } from 'schema/visitor.schema';
 import { useState } from 'react';
-
+import { t } from 'i18next';
 const codeTypeOptions = [ 
-  { label: 'ONETIME', value: 'ONETIME' },
-  { label: 'MULTIPLE', value: 'MULTIPLE' },
+  { label: t("ONETIME"), value: "ONETIME" },
+  { label: t("MULTIPLE"), value: "MULTIPLE" },
 ];
-
 export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show: boolean) => void) => {
   const { t } = useTranslation();
   const userData: any = storage.get('userData');
@@ -123,14 +122,23 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
                 {
                   onSuccess: (onetimeCodeResponse: any) => {
                     const visitorData = response?.data || response;
-                    console.log('Visitor data to save:', visitorData);
-                    setCreatedVisitor(visitorData);
+                    // Add onetime code data to visitor object for modal display
+                    const visitorWithOnetimeCode = {
+                      ...visitorData,
+                      onetimeCode: {
+                        startDate: onetimeCodeData.startDate,
+                        endDate: onetimeCodeData.endDate,
+                        codeType: onetimeCodeData.codeType,
+                      }
+                    };
+                    console.log('Visitor data to save:', visitorWithOnetimeCode);
+                    setCreatedVisitor(visitorWithOnetimeCode);
                     if (setShowCreateModal) setShowCreateModal(false);
                     reset();
                     resetOnetimeCode();
                     if (refetch) refetch();
                     setTimeout(() => {
-                      console.log('Opening modal, visitor:', visitorData);
+                      console.log('Opening modal, visitor:', visitorWithOnetimeCode);
                       setShowVisitorDetailsModal(true);
                     }, 100);
                   },

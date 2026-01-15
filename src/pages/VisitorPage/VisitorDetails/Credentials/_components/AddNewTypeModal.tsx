@@ -84,15 +84,13 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
                     error={!!fieldState.error}
                     allowedRoles={['ADMIN', 'HR']}
                   />
+                  
                 )}
               />
             </div>
             <div className="mt-6 flex w-full justify-end gap-4">
               <MyButton type="submit" variant="primary">
-                {t('Submit')}
-              </MyButton>
-              <MyButton type="button" onClick={handleClose} variant="secondary">
-                {t('Close')}
+                {t('Done')}
               </MyButton>
             </div>
           </form>
