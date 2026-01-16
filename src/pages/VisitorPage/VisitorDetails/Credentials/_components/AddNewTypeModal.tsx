@@ -5,6 +5,7 @@ import MyModal from 'components/Atoms/MyModal';
 import { MySelect } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { ISelect } from 'interfaces/select.interface';
+import MyDateTimeRangePicker from 'components/Atoms/Form/MyDateTimeRangePicker';
 
 interface AddNewTypeModalProps {
   show: boolean;
@@ -26,6 +27,8 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
     defaultValues: {
       attachId: undefined,
       codeType: undefined,
+      startDate: undefined,
+      endDate: undefined,
     },
   });
 
@@ -84,7 +87,32 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
                     error={!!fieldState.error}
                     allowedRoles={['ADMIN', 'HR']}
                   />
-                  
+                )}
+              />
+              <Controller
+                name="startDate"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <MyDateTimeRangePicker
+                    label={t('Start time')}
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder={t('Select date and time')}
+                    error={!!fieldState.error}
+                  />
+                )}
+              />
+              <Controller
+                name="endDate"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <MyDateTimeRangePicker
+                    label={t('End time')}
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder={t('Select date and time')}
+                    error={!!fieldState.error}
+                  />
                 )}
               />
             </div>
