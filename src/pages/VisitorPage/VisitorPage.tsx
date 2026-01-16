@@ -30,7 +30,7 @@ const VisitorPage = () => {
           }}
           allowedRoles={['ADMIN', "HR", "GUARD"]}
           variant="primary"
-          className="[&_svg]:stroke-bg-white w-[160px] text-sm">
+          className="[&_svg]:stroke-bg-white w-auto min-w-[160px] px-4 text-sm whitespace-normal text-center leading-snug">
           {t('Create visitor')}
         </MyButton>
       </div>

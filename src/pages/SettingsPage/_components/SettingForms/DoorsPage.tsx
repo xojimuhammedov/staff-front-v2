@@ -138,7 +138,7 @@ const DoorsPage = () => {
           onClick={() => navigate('/settings/door/create')}
           startIcon={<Plus />}
           variant="primary"
-          className="[&_svg]:stroke-bg-white w-[170px]">
+          className="[&_svg]:stroke-bg-white w-auto min-w-[170px] px-4 text-sm whitespace-normal text-center leading-snug">
           {t('Add new door')}
         </MyButton>
       </div>
