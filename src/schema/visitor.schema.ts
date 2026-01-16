@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const visitorSchema = yup.object().shape({
-  firstName: yup.string() ,
+  firstName: yup.string().required(),
   lastName: yup.string().required(),
   middleName: yup.string(),
   birthday: yup.object().nullable(),
@@ -10,7 +10,8 @@ export const visitorSchema = yup.object().shape({
   pinfl: yup.string(),
   workPlace: yup.string(),
   passportNumber: yup.string(),
-  attachId: yup.number(),
+  attachedId: yup.number().required(),
+  gateId: yup.number().required(),
   organizationId: yup
     .number()
     .when('$role', (role: any, schema) =>

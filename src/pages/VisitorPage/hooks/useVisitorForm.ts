@@ -87,7 +87,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
   });
 
   const onSubmit = (visitorData: any) => {
-    const { attachedId, ...visitorDataWithoutAttachId } = visitorData;
+    const { ...visitorDataWithoutAttachId } = visitorData;
 
     const formattedData = {
       ...visitorDataWithoutAttachId,
