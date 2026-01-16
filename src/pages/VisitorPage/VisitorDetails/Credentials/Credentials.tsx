@@ -43,8 +43,8 @@ const Credentials = () => {
     { label: t("MULTIPLE"), value: "MULTIPLE" },
   ];
 
-  const { mutate: updateOnetimeCode } = usePutQuery({
-    listKeyId: KEYS.getOnetimeCodes,
+  const { mutate: updateOnetimeCode } = usePostQuery({
+    listKeyId: KEYS.activeOneTimeCode,
     hideSuccessToast: true,
   });
 
@@ -56,10 +56,8 @@ const Credentials = () => {
   const onSubmitOnetimeCode = () => {
     updateOnetimeCode(
       {
-        url: `${URLS.getOnetimeCodes}/${active?.id}`,
-        attributes: {
-          isActive: active?.isActive ? false : true,
-        },
+        url: active.isActive ? `${URLS.activeOneTimeCode}/${active?.id}/deactivate` : `${URLS.activeOneTimeCode}/${active?.id}/activate`,
+        attributes: {},
       },
       {
         onSuccess: () => {
@@ -178,7 +176,6 @@ const Credentials = () => {
         open={open}
         setOpen={setOpen}
         confirmationDelete={() => {
-          // Visitors only have onetime codes
           onSubmitOnetimeCode();
         }}
       />
