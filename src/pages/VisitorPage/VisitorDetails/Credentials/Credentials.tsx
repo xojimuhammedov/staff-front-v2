@@ -86,7 +86,6 @@ const Credentials = () => {
   };
 
   const handleModalSubmit = (data: any) => {
-    // API doesn't accept attachId for onetime codes, so we exclude it
     const submitData: any = {
       visitorId: Number(id),
       codeType: data.codeType,
@@ -94,12 +93,6 @@ const Credentials = () => {
       endDate: dayjs().add(1, 'day').toISOString(),
       isActive: true,
     };
-
-    // Only include attachId if it's provided and API supports it
-    // Currently API doesn't support attachId, so we don't include it
-    // if (data.attachId) {
-    //   submitData.attachId = Number(data.attachId);
-    // }
 
     createOnetimeCode(
       {
@@ -110,7 +103,7 @@ const Credentials = () => {
         onSuccess: (onetimeCodesData: any) => {
           toast.success(t('Successfully created!'));
           const visitorWithOnetimeCode = {
-            // ...visitorData,
+            ...onetimeCodesData?.data,
             onetimeCode: {
               startDate: onetimeCodesData?.data?.startDate,
               endDate: onetimeCodesData?.data?.endDate,
@@ -156,13 +149,15 @@ const Credentials = () => {
         </div>
         <Button
           startIcon={<Plus />}
-          onClick={() => setShowModal(true)}
+          onClick={() =>
+            setShowModal(true)
+          }
           className={'[&_svg]:stroke-bg-white'}
           variant="primary"
         >
           {t('Add new type')}
         </Button>
-      </div>
+      </div >
       {onetimeCodesData?.data && onetimeCodesData.data.length > 0 ? (
         <div className="mt-8">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -180,7 +175,8 @@ const Credentials = () => {
         </div>
       ) : (
         <div className="mt-8 text-center text-gray-500">{t('No onetime codes found')}</div>
-      )}
+      )
+      }
       <AddNewTypeModal
         show={showModal}
         onClose={() => setShowModal(false)}

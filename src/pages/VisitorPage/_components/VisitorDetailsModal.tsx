@@ -1,11 +1,10 @@
 import MyModal from 'components/Atoms/MyModal';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle, User, Calendar, Building2, Briefcase, Clock, Download, } from 'lucide-react';
+import { CheckCircle, Download, } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react';
 import html2canvas from "html2canvas";
-import dayjs from 'dayjs';
 
 interface VisitorDetailsModalProps {
   show: boolean;
@@ -25,13 +24,13 @@ const VisitorDetailsModal = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const getOrganizationName = (id: number) => {
-    return organizationData?.data?.find((org: any) => org.id === id)?.fullName || '--';
-  };
+  // const getOrganizationName = (id: number) => {
+  //   return organizationData?.data?.find((org: any) => org.id === id)?.fullName || '--';
+  // };
 
-  const getEmployeeName = (id: number) => {
-    return employeeData?.data?.find((emp: any) => emp.id === id)?.name || '--';
-  };
+  // const getEmployeeName = (id: number) => {
+  //   return employeeData?.data?.find((emp: any) => emp.id === id)?.name || '--';
+  // };
 
   const handleDownloadPDF = async () => {
     const element = document.getElementById("invitation-pdf");
@@ -46,12 +45,14 @@ const VisitorDetailsModal = ({
 
     const link = document.createElement("a");
     link.href = imgData;
-    link.download = `${visitor?.firstName}.png`;
+    link.download = `${visitor?.visitor?.firstName ?? visitor?.firstName}.png`;
 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
+
+  console.log(visitor)
 
   if (!visitor) return null;
 
@@ -60,6 +61,7 @@ const VisitorDetailsModal = ({
       modalProps={{
         show: Boolean(show),
         onClose,
+        size: "md"
       }}
       headerProps={{
         children: (
@@ -89,18 +91,9 @@ const VisitorDetailsModal = ({
               </div>
 
               {/* Visitor Info */}
-              <div className="bg-gray-50 rounded-[12px] p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gray-50 rounded-[12px] p-6 flex flex-col items-center gap-2">
                 {/* Left */}
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-gray-600 font-medium">
-                    <User className="w-4 h-4" />
-                    Visitor Information
-                  </div>
-
-                  <InfoRow label="Full Name" value={`${visitor.firstName} ${visitor.lastName}`} />
-                  <InfoRow label="Phone" value={visitor.phone || '--'} />
-                  <InfoRow label="Organization" value={getOrganizationName(visitor.organizationId)} />
-                </div>
+                <h2 className="font-medium text-center text-gray-800 text-2xl">{`${visitor?.visitor?.firstName ?? visitor?.firstName} ${visitor?.visitor?.lastName ?? visitor?.lastName}`}</h2>
 
                 {/* QR */}
                 <div className="flex flex-col items-center justify-center gap-3">
@@ -117,21 +110,6 @@ const VisitorDetailsModal = ({
                   <span className="text-sm text-gray-500">Scan to check-in</span>
                 </div>
               </div>
-
-              {/* Visit Details */}
-              <div className="bg-gray-50 rounded-[12px] p-6 space-y-4">
-                <h2 className="font-medium text-gray-700 flex items-center gap-2">
-                  <Briefcase className="w-4 h-4" />
-                  Visit Details
-                </h2>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <DetailRow icon={<User />} label="Host" value={getEmployeeName(visitor?.attachId)} />
-                  <DetailRow icon={<Calendar />} label="Visit Date" value={dayjs(visitor?.onetimeCode?.startDate).format("YYYY-MM-DD, HH:mm")} />
-                  <DetailRow icon={<Building2 />} label="Department" value="IT Department" />
-                  <DetailRow icon={<Clock />} label="Time" value="10:00 – 12:00" />
-                </div>
-              </div>
             </div>
             <div className="flex flex-wrap gap-3 justify-between items-center p-4 space-y-4">
               <MyButton
@@ -141,8 +119,10 @@ const VisitorDetailsModal = ({
               >
                 Download PDF
               </MyButton>
-              <MyButton onClick={() => navigate("/visitor")} className="px-6 py-2 rounded-lg bg-black text-white hover:opacity-90">
-                 Done
+              <MyButton onClick={() => {
+                visitor.visitor ? onClose() : navigate("/visitor")
+              }} className="px-6 py-2 rounded-lg bg-black text-white hover:opacity-90">
+                Done
               </MyButton>
             </div>
           </div>
@@ -152,33 +132,5 @@ const VisitorDetailsModal = ({
   );
 };
 
-function InfoRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <p className="text-xs uppercase text-gray-400">{label}</p>
-      <p className="font-medium text-gray-800">{value}</p>
-    </div>
-  );
-}
-
-function DetailRow({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="text-gray-400">{icon}</div>
-      <div>
-        <p className="text-xs text-gray-400">{label}</p>
-        <p className="font-medium">{value}</p>
-      </div>
-    </div>
-  );
-}
 
 export default VisitorDetailsModal;

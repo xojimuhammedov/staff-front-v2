@@ -153,6 +153,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       {
         onSuccess: (onetimeCodeResponse: any) => {
           toast.success(t("Onetime code created successfully!"))
+          console.log(onetimeCodeResponse?.data)
           const visitorWithOnetimeCode = {
             ...visitorCacheRef.current,
             onetimeCode: {
