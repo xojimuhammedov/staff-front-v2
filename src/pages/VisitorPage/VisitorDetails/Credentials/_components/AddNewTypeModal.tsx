@@ -50,7 +50,7 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
       bodyProps={{
         children: (
           <form onSubmit={handleSubmit(onSubmit)} className="p-4">
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <Controller
                 name="attachId"
                 control={control}
@@ -117,8 +117,11 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
               />
             </div>
             <div className="mt-6 flex w-full justify-end gap-4">
+              <MyButton onClick={onClose} variant="secondary">
+                {t('Cancel')}
+              </MyButton>
               <MyButton type="submit" variant="primary">
-                {t('Done')}
+                {t('Create')}
               </MyButton>
             </div>
           </form>
