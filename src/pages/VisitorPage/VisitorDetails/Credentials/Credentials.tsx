@@ -1,7 +1,7 @@
 import Button from 'components/Atoms/MyButton';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery, usePutQuery, usePostQuery } from 'hooks/api';
+import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
