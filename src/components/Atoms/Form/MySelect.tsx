@@ -169,8 +169,11 @@ function MySelect(props: FormSelectProps) {
             clsx('text-text-muted text-c-m', isDisabled && 'text-text-disabled'),
           input: () => clsx('[&>input]:focus:shadow-none multiple-input'),
           menu: () =>
-            'mt-2 bg-bg-base rounded-m shadow-flyout p-1 pagination-size',
-          option: () => clsx('px-3 py-2 hover:bg-bg-subtle')
+            'mt-2 bg-bg-base dark:bg-bg-dark-theme rounded-m shadow-flyout p-1 pagination-size',
+          option: () =>
+            clsx(
+              'px-3 py-2 text-text-base dark:text-text-title-dark hover:bg-bg-subtle dark:hover:bg-gray-700'
+            )
         }}
         placeholder={placeholder || ''}
         styles={{

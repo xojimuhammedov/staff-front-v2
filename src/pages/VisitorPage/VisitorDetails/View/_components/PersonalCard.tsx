@@ -69,8 +69,8 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data, organizationName,
     ];
 
     return (
-        <div className="bg-[#FFF8E1] p-6 shadow-lg w-2/5 rounded-lg border border-gray-100">
-            <h2 className="text-lg font-semibold mb-6 text-gray-800">
+        <div className="bg-[#FFF8E1] dark:bg-dark-dashboard-cards p-6 shadow-lg w-2/5 rounded-lg border border-gray-100 dark:border-dark-line">
+            <h2 className="text-lg font-semibold mb-6 text-gray-800 dark:text-text-title-dark">
                 {t("Personal Information")}
             </h2>
             {
@@ -78,10 +78,10 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data, organizationName,
                     <div className="flex items-start my-4 space-x-4">
                         <IconByName name={item?.Icon} width={'22px'} />
                         <div className="flex flex-col">
-                            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <span className="text-xs font-medium text-gray-500 dark:text-text-muted uppercase tracking-wider">
                                 {item.label}
                             </span>
-                            <span className="text-lg font-normal text-gray-900 mt-0.5">
+                            <span className="text-lg font-normal text-gray-900 dark:text-text-title-dark mt-0.5">
                                 {item?.value}
                             </span>
                         </div>
