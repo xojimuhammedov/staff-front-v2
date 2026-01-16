@@ -15,7 +15,7 @@ interface EmployeeRowProps {
 
 const EmployeeRow: React.FC<EmployeeRowProps> = ({ employee }) => {
     return (
-        <div className="bg-gray-50 rounded-2xl px-4 py-2 mb-4">
+        <div className="bg-gray-50 dark:bg-bg-dark-theme rounded-2xl px-4 py-2 mb-4">
             <div className="flex items-center gap-4">
                 <img
                     src={employee.avatar}
@@ -23,17 +23,17 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({ employee }) => {
                     className="w-12 h-12 rounded-full object-cover"
                 />
                 <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-text-title-dark">
                         {employee.name}
                     </h3>
                     <div className="flex items-center gap-1">
-                        <div className="flex-1 bg-gray-200 rounded-full h-1 overflow-hidden">
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1 overflow-hidden">
                             <div
-                                className="bg-green-500 h-full rounded-full transition-all duration-500"
+                                className="bg-green-500 dark:bg-green-400 h-full rounded-full transition-all duration-500"
                                 style={{ width: `${employee.score}%` }}
                             />
                         </div>
-                        <span className="text-xl font-bold text-green-500 min-w-[80px] text-right">
+                        <span className="text-xl font-bold text-green-500 dark:text-green-400 min-w-[80px] text-right">
                             {employee.score}%
                         </span>
                     </div>
@@ -79,16 +79,16 @@ const ProgressCard: React.FC = () => {
     ];
 
     return (
-        <div className="bg-white rounded-2xl p-4 shadow-lg">
+        <div className="bg-bg-base dark:bg-dark-dashboard-cards rounded-2xl p-4 shadow-lg">
             <div className="flex items-center gap-4 mb-8">
-                <div className="bg-green-100 w-12 h-12 rounded-2xl flex items-center justify-center">
-                    <CheckCircle2 size={24} className="text-green-600" strokeWidth={2} />
+                <div className="bg-green-100 dark:bg-green-900/30 w-12 h-12 rounded-2xl flex items-center justify-center">
+                    <CheckCircle2 size={24} className="text-green-600 dark:text-green-300" strokeWidth={2} />
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold text-gray-900">
+                    <h1 className="text-xl font-bold text-gray-900 dark:text-text-title-dark">
                        {t("Top Effective Employees")}
                     </h1>
-                    <p className="text-gray-500 text-xs">
+                    <p className="text-gray-500 dark:text-gray-400 text-xs">
                         {t("Highest productivity scores")}
                     </p>
                 </div>

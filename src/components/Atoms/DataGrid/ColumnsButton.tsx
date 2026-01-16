@@ -28,7 +28,6 @@ const ColumnsButton = () => {
 
   const isAllSelected = !comeStatus && !leftStatus;
 
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -95,10 +94,24 @@ const ColumnsButton = () => {
       buttonProps={{
         children: t('Status Filters'),
         variant: 'secondary',
-        className: 'w-max dark:bg-bg-button',
-        startIcon: <Filter />,
-        endIcon: open ? <ChevronUp /> : <ChevronDown />
-      }}>
+        className: `
+      w-max 
+      bg-white text-gray-900 border border-gray-300 
+      hover:bg-gray-100
+
+      dark:bg-gray-800 
+      dark:text-gray-100 
+      dark:border-gray-700 
+      dark:hover:bg-gray-700
+    `,
+        startIcon: <Filter className="text-gray-600 dark:text-gray-300" />,
+        endIcon: open ? (
+          <ChevronUp className="text-gray-600 dark:text-gray-300" />
+        ) : (
+          <ChevronDown className="text-gray-600 dark:text-gray-300" />
+        ),
+      }}
+    >
       <div ref={dropdownRef} className="py-2">
         <DropdownItemWrapper className="cursor-default px-4 py-2">
           <p className="text-sm font-medium text-text-subtle">{t('Come Status')}</p>
@@ -126,7 +139,10 @@ const ColumnsButton = () => {
         </DropdownItemWrapper>
 
         {statusOptions.map((option) => (
-          <DropdownItemWrapper key={`arrivalStatus-${option.value}`} className="px-4 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <DropdownItemWrapper
+            key={`arrivalStatus-${option.value}`}
+            className="px-4 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
             <div className="flex items-center">
               <input
                 id={`arrivalStatus-${option.value}`}
@@ -162,7 +178,10 @@ const ColumnsButton = () => {
         </DropdownItemWrapper>
 
         {statusOptionsLeft.map((option) => (
-          <DropdownItemWrapper key={`goneStatus-${option.value}`} className="px-4 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <DropdownItemWrapper
+            key={`goneStatus-${option.value}`}
+            className="px-4 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
             <div className="flex items-center">
               <input
                 id={`goneStatus-${option.value}`}

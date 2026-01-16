@@ -19,11 +19,11 @@ const StatCard: React.FC<StatCardProps> = ({
         
         switch (changeType) {
             case 'increase':
-                return 'bg-green-100 text-green-600';
+                return 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-300';
             case 'neutral':
-                return 'bg-gray-100 text-gray-600';
+                return 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300';
             default:
-                return 'bg-gray-100 text-gray-600';
+                return 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300';
         }
     };
     
@@ -40,16 +40,16 @@ const StatCard: React.FC<StatCardProps> = ({
    
 
     return (
-        <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className={`${bgColor} w-16 h-16 rounded-[20px] flex items-center justify-center mb-4`}>
+        <div className="bg-bg-base dark:bg-dark-dashboard-cards rounded-2xl p-6 shadow-lg">
+            <div className={`${bgColor} dark:bg-opacity-20 w-16 h-16 rounded-[20px] flex items-center justify-center mb-4`}>
                 <div className={iconColor}>
                     {icon}
                 </div>
             </div>
-            <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
+            <div className="text-sm font-semibold text-gray-500 dark:text-text-title-dark uppercase tracking-wide mb-2">
                 {title}
             </div>
-            <div className="text-4xl font-bold text-gray-900 mb-3">
+            <div className="text-4xl font-bold text-gray-900 dark:text-text-title-dark mb-3">
                 {value}
             </div>
             <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${getChangeStyles()}`}>
