@@ -40,5 +40,8 @@ export const KEYS = {
   getOnetimeCodes: "getOnetimeCodes",
   visitorByAttendancesCard: "visitorByAttendancesCard",
   removeAssignEmployee: "removeAssignEmployee",
-  activeOneTimeCode: "activeOneTimeCode"
+  activeOneTimeCode: "activeOneTimeCode",
+  getDeviceSettingsInfo: "getDeviceSettingsInfo",
+  deviceDisplay: "deviceDisplay",
+  deviceCredentialType: "deviceCredentialType"
 };

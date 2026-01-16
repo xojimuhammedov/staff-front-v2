@@ -113,6 +113,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       },
       {
         onSuccess: (response: any) => {
+          toast.success(t("Visitor created successfully!"))
           const visitorId = response?.data?.id || response?.id;
           if (!visitorId) return;
 
@@ -151,6 +152,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       },
       {
         onSuccess: (onetimeCodeResponse: any) => {
+          toast.success(t("Onetime code created successfully!"))
           const visitorWithOnetimeCode = {
             ...visitorCacheRef.current,
             onetimeCode: {

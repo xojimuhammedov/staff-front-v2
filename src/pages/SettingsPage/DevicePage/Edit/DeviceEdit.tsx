@@ -8,6 +8,7 @@ import EmployeeAssign from './_components/EmployeeAssign';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { SidebarMenuType } from 'types/sidebar';
+import DeviceSettings from './_components/DeviceSettings';
 
 const DeviceEdit = () => {
     const { t } = useTranslation();
@@ -17,6 +18,11 @@ const DeviceEdit = () => {
         {
             title: t('Enter a device name and description'),
             stepper_title: t('Device details'),
+            items: []
+        },
+        {
+            title: t('Enter a device details'),
+            stepper_title: t('Device settings'),
             items: []
         },
         {
@@ -43,7 +49,6 @@ const DeviceEdit = () => {
         setSearchParams(searchParams);
     };
 
-    console.log(id)
     return (
         <PageContentWrapper>
             <div className="flex items-center justify-between">
@@ -52,9 +57,9 @@ const DeviceEdit = () => {
             <MyDivider />
             <div className="flex w-full gap-8">
                 <Stepper complete={complete} currentStep={currentStep} steps={sidebar_menu} />
-                {currentStep === 2 ? (
+                {currentStep === 3 ? (
                     <EmployeeAssign deviceId={Number(id)} />
-                ) : (
+                ) : currentStep === 2 ? <DeviceSettings deviceId={Number(id)} handleClick={handleClick} /> : (
                     <EditForm deviceId={Number(id)} handleClick={handleClick} />
                 )}
             </div>
