@@ -7,46 +7,37 @@ interface DarkModeContextType {
 
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
 
-interface DarkLightProviderProps {
-  children: ReactNode;
-}
+const DarkLightProvider = ({ children }: { children: ReactNode }) => {
+  // Initialize from localStorage or system preference
+  const getInitialTheme = (): boolean => {
+    if (typeof window === 'undefined') return false;
 
-const DarkLightProvider = ({ children }: DarkLightProviderProps) => {
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    const saved = localStorage.getItem('theme');
-    // Agar localStorage'da mavjud bo'lmasa, system preference bo'yicha aniqlaymiz
-    if (saved === 'dark' || saved === 'light') {
-      return saved === 'dark';
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      return savedTheme === 'dark';
     }
+
+    // Fallback to system preference if no saved theme
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+  };
+
+  const [darkMode, setDarkMode] = useState(getInitialTheme);
+
+  // Sync with DOM and localStorage on mount
+  useEffect(() => {
+    const isDark = getInitialTheme();
+    setDarkMode(isDark);
+    document.documentElement.classList.toggle('dark', isDark);
+  }, []);
 
   const toggleTheme = () => {
     setDarkMode(prev => {
-      const newTheme = !prev;
-      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-      return newTheme;
+      const next = !prev;
+      document.documentElement.classList.toggle('dark', next);
+      localStorage.setItem('theme', next ? 'dark' : 'light');
+      return next;
     });
   };
-
-  // Faqat darkMode o'zgarganda HTML ga class qo'shamiz
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
-  }, [darkMode]);
-
-  // Sahifa yuklanganda localStorage'dan to'g'ri o'qish (bir marta!)
-  useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') setDarkMode(true);
-    else if (saved === 'light') setDarkMode(false);
-    // agar yo'q bo'lsa — system preference bo'yicha qoldiramiz
-  }, []);
 
   return (
     <DarkModeContext.Provider value={{ darkMode, toggleTheme }}>
