@@ -45,10 +45,10 @@ const VisitorTable = () => {
                 cellRender: (row) => <div className="department-text">{row?.email ?? '--'}</div>
             },
             {
-                key: 'phone',
-                label: t('Phone Number'),
+                key: 'attached',
+                label: t('Visiting'),
                 headerClassName: 'w-1/3',
-                cellRender: (row) => <>{row?.phone ?? '--'}</>
+                cellRender: (row) => <>{row?.attached?.name ?? '--'}</>
             },
             {
                 key: 'workPlace',
@@ -73,7 +73,7 @@ const VisitorTable = () => {
         },
         {
             id: 3,
-            label: t('Phone Number'),
+            label: t('Visiting'),
             headerClassName: 'w-1/3'
         },
         {

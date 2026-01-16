@@ -5,7 +5,6 @@ import { CheckCircle, User, Calendar, Building2, Briefcase, Clock, Download, } f
 import { useNavigate } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react';
 import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import dayjs from 'dayjs';
 
 interface VisitorDetailsModalProps {
