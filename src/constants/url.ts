@@ -39,5 +39,6 @@ export const URLS = {
   devicesGateEmployee: "/api/v1/devices/gate",
   deviceGateSyncEmployee: "/api/v1/devices/gate/sync-credentials",
   visitorByAttendancesCard: "/api/v1/reports/attendance/statics",
-  removeAssignEmployee: "/api/v1/devices/remove-employees"
+  removeAssignEmployee: "/api/v1/devices/remove-employees",
+  activeOneTimeCode: "/api/v1/onetime-codes"
 };

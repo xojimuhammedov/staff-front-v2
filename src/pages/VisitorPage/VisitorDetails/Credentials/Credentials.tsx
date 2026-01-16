@@ -1,7 +1,7 @@
 import Button from 'components/Atoms/MyButton';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery, usePutQuery, usePostQuery } from 'hooks/api';
+import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +35,9 @@ const Credentials = () => {
   const { data: employeeData } = useGetAllQuery<any>({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
-    params: {},
+    params: {
+      limit: 100
+    },
   });
 
   const codeTypeOptions = [
@@ -43,8 +45,8 @@ const Credentials = () => {
     { label: t("MULTIPLE"), value: "MULTIPLE" },
   ];
 
-  const { mutate: updateOnetimeCode } = usePutQuery({
-    listKeyId: KEYS.getOnetimeCodes,
+  const { mutate: updateOnetimeCode } = usePostQuery({
+    listKeyId: KEYS.activeOneTimeCode,
     hideSuccessToast: true,
   });
 
@@ -56,10 +58,8 @@ const Credentials = () => {
   const onSubmitOnetimeCode = () => {
     updateOnetimeCode(
       {
-        url: `${URLS.getOnetimeCodes}/${active?.id}`,
-        attributes: {
-          isActive: active?.isActive ? false : true,
-        },
+        url: active.isActive ? `${URLS.activeOneTimeCode}/${active?.id}/deactivate` : `${URLS.activeOneTimeCode}/${active?.id}/activate`,
+        attributes: {},
       },
       {
         onSuccess: () => {
@@ -178,7 +178,6 @@ const Credentials = () => {
         open={open}
         setOpen={setOpen}
         confirmationDelete={() => {
-          // Visitors only have onetime codes
           onSubmitOnetimeCode();
         }}
       />

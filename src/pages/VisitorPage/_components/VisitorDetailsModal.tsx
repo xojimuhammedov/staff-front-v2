@@ -50,10 +50,8 @@ const VisitorDetailsModal = ({
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("visitor-invitation.pdf");
+    pdf.save(`${visitor?.firstName}.pdf`);
   };
-
-  console.log(visitor)
 
 
   if (!visitor) return null;
@@ -81,62 +79,62 @@ const VisitorDetailsModal = ({
       }}
       bodyProps={{
         children: (
-          <div id="invitation-pdf" className="w-full max-w-3xl rounded-2xl p-4 space-y-4">
-            {/* Header */}
-            <div className="text-center space-y-3">
-              <p className="text-sm text-gray-500">
-                This QR code is your entry pass <br />
-                Ushbu QR kod bino kirishi uchun mo‘ljallangan
-              </p>
-            </div>
-
-            {/* Visitor Info */}
-            <div className="bg-gray-50 rounded-[12px] p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-gray-600 font-medium">
-                  <User className="w-4 h-4" />
-                  Visitor Information
-                </div>
-
-                <InfoRow label="Full Name" value={`${visitor.firstName} ${visitor.lastName}`} />
-                <InfoRow label="Phone" value={visitor.phone || '--'} />
-                <InfoRow label="Organization" value={getOrganizationName(visitor.organizationId)} />
+          <div>
+            <div id="invitation-pdf" className="w-full max-w-3xl rounded-2xl p-4 space-y-4">
+              {/* Header */}
+              <div className="text-center space-y-3">
+                <p className="text-sm text-gray-500">
+                  This QR code is your entry pass <br />
+                  Ushbu QR kod bino kirishi uchun mo‘ljallangan
+                </p>
               </div>
 
-              {/* QR */}
-              <div className="flex flex-col items-center justify-center gap-3">
-                <div className="bg-white p-4 rounded-[12px] shadow">
-                  {/* QR image o‘rniga */}
-                  <div className="w-40 h-40 bg-gray-200 flex items-center justify-center text-gray-500">
-                    <QRCodeCanvas
-                      value={visitor?.onetimeCode?.code}
-                      size={180}
-                      includeMargin
-                    />
+              {/* Visitor Info */}
+              <div className="bg-gray-50 rounded-[12px] p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-gray-600 font-medium">
+                    <User className="w-4 h-4" />
+                    Visitor Information
                   </div>
+
+                  <InfoRow label="Full Name" value={`${visitor.firstName} ${visitor.lastName}`} />
+                  <InfoRow label="Phone" value={visitor.phone || '--'} />
+                  <InfoRow label="Organization" value={getOrganizationName(visitor.organizationId)} />
                 </div>
-                <span className="text-sm text-gray-500">Scan to check-in</span>
+
+                {/* QR */}
+                <div className="flex flex-col items-center justify-center gap-3">
+                  <div className="bg-white p-4 rounded-[12px] shadow">
+                    {/* QR image o‘rniga */}
+                    <div className="w-40 h-40 bg-gray-200 flex items-center justify-center text-gray-500">
+                      <QRCodeCanvas
+                        value={visitor?.onetimeCode?.code}
+                        size={180}
+                        includeMargin
+                      />
+                    </div>
+                  </div>
+                  <span className="text-sm text-gray-500">Scan to check-in</span>
+                </div>
+              </div>
+
+              {/* Visit Details */}
+              <div className="bg-gray-50 rounded-[12px] p-6 space-y-4">
+                <h2 className="font-medium text-gray-700 flex items-center gap-2">
+                  <Briefcase className="w-4 h-4" />
+                  Visit Details
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <DetailRow icon={<User />} label="Host" value={getEmployeeName(visitor?.attachId)} />
+                  <DetailRow icon={<Calendar />} label="Visit Date" value={dayjs(visitor?.onetimeCode?.startDate).format("YYYY-MM-DD, HH:mm")} />
+                  <DetailRow icon={<Building2 />} label="Department" value="IT Department" />
+                  <DetailRow icon={<Clock />} label="Time" value="10:00 – 12:00" />
+                </div>
               </div>
             </div>
-
-            {/* Visit Details */}
-            <div className="bg-gray-50 rounded-[12px] p-6 space-y-4">
-              <h2 className="font-medium text-gray-700 flex items-center gap-2">
-                <Briefcase className="w-4 h-4" />
-                Visit Details
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <DetailRow icon={<User />} label="Host" value={getEmployeeName(visitor?.attachId)} />
-                <DetailRow icon={<Calendar />} label="Visit Date" value={dayjs(visitor?.onetimeCode?.startDate).format("YYYY-MM-DD, HH:mm")} />
-                <DetailRow icon={<Building2 />} label="Department" value="IT Department" />
-                <DetailRow icon={<Clock />} label="Time" value="10:00 – 12:00" />
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex flex-wrap gap-3 justify-between items-center">
+            <div className="flex flex-wrap gap-3 justify-between items-center p-4 space-y-4">
               <MyButton
                 onClick={handleDownloadPDF}
                 startIcon={<Download className="w-4 h-4" />}
@@ -144,8 +142,8 @@ const VisitorDetailsModal = ({
               >
                 Download PDF
               </MyButton>
-              <MyButton className="px-6 py-2 rounded-lg bg-black text-white hover:opacity-90">
-                 Done
+              <MyButton onClick={() => navigate("/visitor")} className="px-6 py-2 rounded-lg bg-black text-white hover:opacity-90">
+                Done
               </MyButton>
             </div>
           </div>

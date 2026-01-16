@@ -39,5 +39,6 @@ export const KEYS = {
   getAllListDepartmentSelf: "getAllListDepartmentSelf",
   getOnetimeCodes: "getOnetimeCodes",
   visitorByAttendancesCard: "visitorByAttendancesCard",
-  removeAssignEmployee: "removeAssignEmployee"
+  removeAssignEmployee: "removeAssignEmployee",
+  activeOneTimeCode: "activeOneTimeCode"
 };
