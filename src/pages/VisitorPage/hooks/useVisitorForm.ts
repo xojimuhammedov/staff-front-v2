@@ -8,7 +8,7 @@ import { URLS } from 'constants/url';
 import dayjs from 'dayjs';
 import storage from 'services/storage';
 import { visitorSchema, onetimeCodeSchema } from 'schema/visitor.schema';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { t } from 'i18next';
 const codeTypeOptions = [
   { label: t("ONETIME"), value: "ONETIME" },
@@ -20,6 +20,8 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
   const userRole = JSON.parse(userData)?.role;
   const [createdVisitor, setCreatedVisitor] = useState<any>(null);
   const [showVisitorDetailsModal, setShowVisitorDetailsModal] = useState(false);
+  const visitorIdRef = useRef<number | null>(null);
+  const visitorCacheRef = useRef<any>(null);
 
   const { data: organizationData } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
@@ -86,13 +88,21 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
     hideSuccessToast: true,
   });
 
-  const onSubmit = (visitorData: any) => {
-    const { ...visitorDataWithoutAttachId } = visitorData;
 
+  const onSubmit = (visitorData: any) => {
+    const onetimeCodeData = getOnetimeCodeValues();
+
+    // 👉 Agar visitor allaqachon yaratilgan bo‘lsa
+    if (visitorIdRef.current) {
+      submitOnetimeCode(visitorIdRef.current, onetimeCodeData);
+      return;
+    }
+
+    // 👉 Aks holda 1-API chaqiriladi
     const formattedData = {
-      ...visitorDataWithoutAttachId,
+      ...visitorData,
       birthday: visitorData.birthday?.startDate
-        ? dayjs(visitorData.birthday.startDate).format('YYYY-MM-DD')
+        ? dayjs(visitorData.birthday.startDate).format("YYYY-MM-DD")
         : null,
     };
 
@@ -104,79 +114,92 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       {
         onSuccess: (response: any) => {
           const visitorId = response?.data?.id || response?.id;
-          if (visitorId) {
-            const onetimeCodeData = getOnetimeCodeValues();
-            if (onetimeCodeData.codeType && onetimeCodeData.startDate && onetimeCodeData.endDate) {
-              const formattedOnetimeCodeData = {
-                visitorId: visitorId,
-                codeType: onetimeCodeData.codeType,
-                startDate: dayjs(onetimeCodeData.startDate).toISOString(),
-                endDate: dayjs(onetimeCodeData.endDate).toISOString(),
-                additionalDetails: onetimeCodeData.additionalDetails || '',
-                isActive: onetimeCodeData.isActive ?? true,
-              };
+          if (!visitorId) return;
 
-              createOnetimeCode(
-                {
-                  url: URLS.getOnetimeCodes,
-                  attributes: formattedOnetimeCodeData,
-                },
-                {
-                  onSuccess: (onetimeCodeResponse: any) => {
-                    const visitorData = response?.data || response;
-                    // Add onetime code data to visitor object for modal display
-                    const visitorWithOnetimeCode = {
-                      ...visitorData,
-                      onetimeCode: {
-                        startDate: onetimeCodeResponse?.data?.startDate,
-                        endDate: onetimeCodeResponse?.data?.endDate,
-                        codeType: onetimeCodeResponse?.data?.codeType,
-                        code: onetimeCodeResponse?.data?.code
-                      }
-                    };
-                    setCreatedVisitor(visitorWithOnetimeCode);
-                    if (setShowCreateModal) setShowCreateModal(false);
-                    reset();
-                    resetOnetimeCode();
-                    if (refetch) refetch();
-                    setTimeout(() => {
-                      console.log('Opening modal, visitor:', visitorWithOnetimeCode);
-                      setShowVisitorDetailsModal(true);
-                    }, 100);
-                  },
-                  onError: (e: any) => {
-                    console.log(e);
-                    toast.error(e?.response?.data?.error?.message || t('Error creating onetime code'));
-                  },
-                }
-              );
-            } else {
-              const visitorData = response?.data || response;
-              setCreatedVisitor(visitorData);
-              if (setShowCreateModal) setShowCreateModal(false);
-              reset();
-              if (refetch) refetch();
-              setTimeout(() => {
-                setShowVisitorDetailsModal(true);
-              }, 100);
-            }
-          } else {
-            const visitorData = response?.data || response;
-            setCreatedVisitor(visitorData);
-            if (setShowCreateModal) setShowCreateModal(false);
-            reset();
-            if (refetch) refetch();
-            setTimeout(() => {
-              setShowVisitorDetailsModal(true);
-            }, 100);
-          }
+          // 🔐 CACHE QILAMIZ
+          visitorIdRef.current = visitorId;
+          visitorCacheRef.current = response?.data || response;
+
+          submitOnetimeCode(visitorId, onetimeCodeData);
         },
         onError: (e: any) => {
-          console.log(e);
           toast.error(e?.response?.data?.error?.message);
         },
       }
     );
+  };
+
+  const submitOnetimeCode = (visitorId: number, onetimeCodeData: any) => {
+    if (!onetimeCodeData.codeType) {
+      openSuccessModal(visitorCacheRef.current);
+      return;
+    }
+
+    const formattedOnetimeCodeData = {
+      visitorId,
+      codeType: onetimeCodeData.codeType,
+      startDate: dayjs(onetimeCodeData.startDate).toISOString(),
+      endDate: dayjs(onetimeCodeData.endDate).toISOString(),
+      additionalDetails: onetimeCodeData.additionalDetails || "",
+      isActive: onetimeCodeData.isActive ?? true,
+    };
+
+    createOnetimeCode(
+      {
+        url: URLS.getOnetimeCodes,
+        attributes: formattedOnetimeCodeData,
+      },
+      {
+        onSuccess: (onetimeCodeResponse: any) => {
+          const visitorWithOnetimeCode = {
+            ...visitorCacheRef.current,
+            onetimeCode: {
+              code: onetimeCodeResponse?.data?.code,
+              startDate: onetimeCodeResponse?.data?.startDate,
+              endDate: onetimeCodeResponse?.data?.endDate,
+              codeType: onetimeCodeResponse?.data?.codeType,
+            },
+          };
+
+          openSuccessModal(visitorWithOnetimeCode);
+
+          // 🔄 HAMMASINI TOZALAYMIZ
+          visitorIdRef.current = null;
+          visitorCacheRef.current = null;
+          reset({
+            firstName: '',
+            lastName: '',
+            middleName: '',
+            birthday: { startDate: null, endDate: null },
+            additionalDetails: '',
+            phone: '',
+            pinfl: '',
+            workPlace: '',
+            passportNumber: '',
+            organizationId: null,
+            gateId: null,
+            attachedId: null,
+          });
+          resetOnetimeCode();
+        },
+        onError: (e: any) => {
+          // ❗ HECH NIMA TOZALANMAYDI
+          toast.error(
+            e?.response?.data?.error?.message ||
+            t("Error creating onetime code")
+          );
+        },
+      }
+    );
+  };
+
+  const openSuccessModal = (visitorData: any) => {
+    setCreatedVisitor(visitorData);
+    if (setShowCreateModal) setShowCreateModal(false);
+    if (refetch) refetch();
+    setTimeout(() => {
+      setShowVisitorDetailsModal(true);
+    }, 100);
   };
 
   return {

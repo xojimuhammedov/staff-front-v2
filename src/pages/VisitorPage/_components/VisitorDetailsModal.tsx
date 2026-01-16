@@ -138,12 +138,12 @@ const VisitorDetailsModal = ({
               <MyButton
                 onClick={handleDownloadPDF}
                 startIcon={<Download className="w-4 h-4" />}
-                className="flex items-center gap-2 px-5 py-2 rounded-lg bg-black text-white"
+                className="flex items-center gap-2 px-5 py-2 rounded-lg bg-black text-white [&_svg]:stroke-bg-white"
               >
                 Download PDF
               </MyButton>
               <MyButton onClick={() => navigate("/visitor")} className="px-6 py-2 rounded-lg bg-black text-white hover:opacity-90">
-                Done
+                 Done
               </MyButton>
             </div>
           </div>
