@@ -35,7 +35,9 @@ const Credentials = () => {
   const { data: employeeData } = useGetAllQuery<any>({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
-    params: {},
+    params: {
+      limit: 100
+    },
   });
 
   const codeTypeOptions = [

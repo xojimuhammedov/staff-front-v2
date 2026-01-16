@@ -13,17 +13,11 @@ import { IFilter } from 'interfaces/filter.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
-import EditForm from './EditForm';
 import { useNavigate } from 'react-router-dom';
-
-// interface VisitorTableProps {
-//     organizationId?: number | null;
-// }
 
 const VisitorTable = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [showEdit, setShowEdit] = useState(false)
     const [open, setOpen] = useState(false)
     const [visitorId, setVisitorId] = useState(null)
     const { data, isLoading, refetch } = useGetAllQuery({
@@ -110,10 +104,7 @@ const VisitorTable = () => {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
                 type: 'primary',
                 name: t('Edit'),
-                action: (row, $e) => {
-                    setShowEdit(true)
-                    setVisitorId(row?.id)
-                },
+                action: (row, $e) => {},
                 allowedRoles: ['ADMIN', 'HR'],
             },
             {
@@ -169,7 +160,6 @@ const VisitorTable = () => {
                 title={t("Bu mehmonni o'chirmoqchimisiz?")}
                 subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
                 open={open} setOpen={setOpen} confirmationDelete={deleteItem} />
-            <EditForm show={showEdit} setShow={setShowEdit} refetch={refetch} visitorId={visitorId} />
         </>
     );
 }

@@ -31,7 +31,9 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
   const { data: employeeData } = useGetAllQuery<any>({
     key: KEYS.getEmployeeList,
     url: URLS.getEmployeeList,
-    params: {},
+    params: {
+      limit: 100
+    },
   });
 
   const { data: gateData } = useGetAllQuery<any>({
