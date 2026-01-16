@@ -131,7 +131,7 @@ function Form() {
             )}
           />
           <Controller
-            name="attachId"
+            name="attachedId"
             control={control}
             render={({ field, fieldState }) => (
               <MySelect

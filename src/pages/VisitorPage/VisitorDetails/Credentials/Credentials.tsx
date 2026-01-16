@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import { Controller, useForm } from 'react-hook-form';
 import { MySelect } from 'components/Atoms/Form';
 import { ISelect } from 'interfaces/select.interface';
+import VisitorDetailsModal from 'pages/VisitorPage/_components/VisitorDetailsModal';
 
 const Credentials = () => {
   const { id } = useParams();
@@ -21,6 +22,8 @@ const Credentials = () => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<any>();
   const [showModal, setShowModal] = useState(false);
+  const [visitorsModal, setVisitorsModal] = useState(false)
+  const [createdVisitor, setCreatedVisitor] = useState<any>(null);
   const { control, watch } = useForm();
 
   const { data: onetimeCodesData, refetch: refetchOnetimeCodes }: any = useGetAllQuery({
@@ -30,6 +33,13 @@ const Credentials = () => {
       visitorId: Number(id),
       codeType: watch("type")
     },
+  });
+
+  const { data: organizationData } = useGetAllQuery<any>({
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
+    params: {},
+    hideErrorMsg: true,
   });
 
   const { data: employeeData } = useGetAllQuery<any>({
@@ -97,9 +107,19 @@ const Credentials = () => {
         attributes: submitData,
       },
       {
-        onSuccess: () => {
+        onSuccess: (onetimeCodesData: any) => {
           toast.success(t('Successfully created!'));
-          setShowModal(false);
+          const visitorWithOnetimeCode = {
+            // ...visitorData,
+            onetimeCode: {
+              startDate: onetimeCodesData?.data?.startDate,
+              endDate: onetimeCodesData?.data?.endDate,
+              codeType: onetimeCodesData?.data?.codeType,
+              code: onetimeCodesData?.data?.code
+            }
+          };
+          setVisitorsModal(true);
+          setCreatedVisitor(visitorWithOnetimeCode)
           refetchOnetimeCodes();
         },
         onError: (e: any) => {
@@ -180,6 +200,15 @@ const Credentials = () => {
         confirmationDelete={() => {
           onSubmitOnetimeCode();
         }}
+      />
+      <VisitorDetailsModal
+        show={visitorsModal}
+        onClose={() => {
+          setVisitorsModal(false);
+        }}
+        visitor={createdVisitor}
+        organizationData={organizationData}
+        employeeData={employeeData}
       />
     </>
   );

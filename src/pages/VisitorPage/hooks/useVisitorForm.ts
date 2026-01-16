@@ -87,7 +87,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
   });
 
   const onSubmit = (visitorData: any) => {
-    const { attachId, ...visitorDataWithoutAttachId } = visitorData;
+    const { attachedId, ...visitorDataWithoutAttachId } = visitorData;
 
     const formattedData = {
       ...visitorDataWithoutAttachId,
@@ -124,7 +124,6 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
                 {
                   onSuccess: (onetimeCodeResponse: any) => {
                     const visitorData = response?.data || response;
-                    console.log(onetimeCodeResponse)
                     // Add onetime code data to visitor object for modal display
                     const visitorWithOnetimeCode = {
                       ...visitorData,
@@ -135,7 +134,6 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
                         code: onetimeCodeResponse?.data?.code
                       }
                     };
-                    console.log('Visitor data to save:', visitorWithOnetimeCode);
                     setCreatedVisitor(visitorWithOnetimeCode);
                     if (setShowCreateModal) setShowCreateModal(false);
                     reset();
