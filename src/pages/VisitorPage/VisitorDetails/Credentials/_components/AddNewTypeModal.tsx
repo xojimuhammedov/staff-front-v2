@@ -126,7 +126,7 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
             </div>
           </form>
         ),
-        className: 'py-4',
+        className: '',
       }}
     />
   );

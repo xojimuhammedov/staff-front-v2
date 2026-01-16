@@ -33,6 +33,7 @@ function EmployeeAssign({ deviceId }: any) {
     const [removeSelectIds, setRemoveSelectIds] = useState<number[]>([]);
     const [openModal, setOpenModal] = useState(false);
     const [removeModal, setRemoveModal] = useState(false);
+    const navigate = useNavigate()
     const currentSearch = searchParams.get("search") || "";
 
     const { data: employeesData, isLoading } =
@@ -86,10 +87,6 @@ function EmployeeAssign({ deviceId }: any) {
         );
     };
 
-    const toggleSelectAll = () =>
-        setTempSelectedIds((p) =>
-            p.length === employees.length ? [] : employees.map((e) => e.id));
-
     const deviceTypeOptions =
         deviceType?.map((d: any) => ({
             label: d.label,
@@ -108,6 +105,10 @@ function EmployeeAssign({ deviceId }: any) {
         (emp) => !alreadySelectedIds.has(emp.id)
     );
 
+    const toggleSelectAll = () =>
+        setTempSelectedIds((p) =>
+            p.length === leftEmployees.length ? [] : leftEmployees.map((e) => e.id));
+
     return (
         <>
             <div className="mt-12 w-full rounded-md bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
@@ -117,10 +118,9 @@ function EmployeeAssign({ deviceId }: any) {
                         title={deviceId ? t("Edit employees") : t("Add employees")}
                         subtitle={t("Create group and link to door")}
                     />
-
-                    {/* <MyButton variant="primary" onClick={handleAssign} type="submit">
+                    <MyButton variant="primary" onClick={() => navigate("/settings?current-setting=deviceControl")} type="submit">
                         Save changes
-                    </MyButton> */}
+                    </MyButton>
                 </div>
 
                 <MyDivider />
@@ -141,12 +141,12 @@ function EmployeeAssign({ deviceId }: any) {
                             <MyCheckbox
                                 label={t("Select all")}
                                 checked={
-                                    tempSelectedIds.length === employees.length &&
-                                    employees.length > 0
+                                    tempSelectedIds.length === leftEmployees.length &&
+                                    leftEmployees.length > 0
                                 }
                                 indeterminate={
                                     tempSelectedIds.length > 0 &&
-                                    tempSelectedIds.length < employees.length
+                                    tempSelectedIds.length < leftEmployees.length
                                 }
                                 onChange={toggleSelectAll}
                             />

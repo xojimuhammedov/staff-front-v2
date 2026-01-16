@@ -21,28 +21,6 @@ const Form = ({ refetch, open, setOpen }: any) => {
   const userRole = JSON.parse(userData)?.role
   const [departmentId, setDepartmentId] = useState<number[]>([])
 
-  const { mutate: create } = usePostQuery({
-    listKeyId: KEYS.getListUsersManagment,
-    hideSuccessToast: true
-  });
-
-  const { data } = useGetAllQuery<any>({
-    key: KEYS.getAllListOrganization,
-    url: URLS.getAllListOrganization,
-    params: {}
-  })
-
-  const { data: departmentData } = useGetAllQuery<any>({
-    key: KEYS.getAllListDepartment,
-    url: URLS.getAllListDepartment,
-    params: {}
-  })
-
-  const { data: userRoles } = useGetAllQuery<any>({
-    key: KEYS.getUserRoles,
-    url: URLS.getUserRoles
-  })
-
   const schema = object().shape({
     name: string().required(),
     username: string().required(),
@@ -68,6 +46,30 @@ const Form = ({ refetch, open, setOpen }: any) => {
     resolver: yupResolver(schema),
     context: { role: userRole }
   });
+
+  const { mutate: create } = usePostQuery({
+    listKeyId: KEYS.getListUsersManagment,
+    hideSuccessToast: true
+  });
+
+  const { data } = useGetAllQuery<any>({
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
+    params: {}
+  })
+
+  const { data: departmentData } = useGetAllQuery<any>({
+    key: KEYS.getAllListDepartment,
+    url: URLS.getAllListDepartment,
+    params: {
+      organizationId: watch("organizationId")
+    }
+  })
+
+  const { data: userRoles } = useGetAllQuery<any>({
+    key: KEYS.getUserRoles,
+    url: URLS.getUserRoles
+  })
 
   const options =
     departmentData?.data?.map((item: any) => ({

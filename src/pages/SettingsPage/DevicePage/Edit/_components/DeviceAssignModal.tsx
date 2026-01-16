@@ -5,7 +5,7 @@ import MyModal from "components/Atoms/MyModal";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { usePostQuery } from "hooks/api";
+import { useGetOneQuery, usePostQuery } from "hooks/api";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import deviceType from "configs/deviceType";
@@ -35,10 +35,17 @@ export default function DeviceAssignModal({
         defaultValues: { credentialTypes: [] },
     });
 
+    const { data: deviceData } = useGetOneQuery({
+        id: deviceId,
+        url: URLS.getDoorForDevices,
+        params: {},
+        enabled: !!deviceId,
+    });
+
     const deviceTypeOptions =
-        deviceType?.map((d: any) => ({
-            label: d.label,
-            value: d.value,
+        deviceData?.data?.type?.map((d: any) => ({
+            label: d,
+            value: d,
         })) ?? [];
 
     const { mutate: assignEmployees } = usePostQuery({
@@ -85,7 +92,7 @@ export default function DeviceAssignModal({
                                     isMulti
                                     label={t("Device types")}
                                     options={deviceTypeOptions}
-                                    value={deviceTypeOptions.filter(o =>
+                                    value={deviceTypeOptions.filter((o: any) =>
                                         field.value?.includes(o.value)
                                     )}
                                     onChange={(val: any) =>
@@ -106,7 +113,8 @@ export default function DeviceAssignModal({
                             </MyButton>
                         </div>
                     </form>
-                )
+                ),
+                className:"py-4"
             }}
         />
     );

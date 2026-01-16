@@ -91,14 +91,14 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
 
   const rowActions: IAction[] = useMemo(
     () => [
-      {
-        icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
-        name: t('Deactive'),
-        action: (row, $e) => {
-          //   navigate(`/employees/${row.id}`);
-        }
-      },
+      // {
+      //   icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
+      //   type: 'primary',
+      //   name: t('Deactive'),
+      //   action: (row, $e) => {
+      //     //   navigate(`/employees/${row.id}`);
+      //   }
+      // },
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',

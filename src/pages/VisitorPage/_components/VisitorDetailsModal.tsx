@@ -53,7 +53,6 @@ const VisitorDetailsModal = ({
     document.body.removeChild(link);
   };
 
-
   if (!visitor) return null;
 
   return (

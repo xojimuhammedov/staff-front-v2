@@ -96,7 +96,7 @@ const VisitorTable = () => {
                 type: 'secondary',
                 name: t('Details'),
                 action: (row, $e) => {
-                    navigate(`/visitor/about/${row?.id}?current-setting=attendance`);
+                    navigate(`/visitor/about/${row?.id}`);
                 },
                 allowedRoles: ['ADMIN', 'HR', 'GUARD'],
             },
@@ -104,7 +104,7 @@ const VisitorTable = () => {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
                 type: 'primary',
                 name: t('Edit'),
-                action: (row, $e) => {},
+                action: (row, $e) => { },
                 allowedRoles: ['ADMIN', 'HR'],
             },
             {
