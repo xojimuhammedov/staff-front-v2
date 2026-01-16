@@ -31,8 +31,8 @@ function Form() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-2 gap-4 w-2/4">
+      <form className='w-3/4' onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-3 gap-4">
           <MyInput
             {...register('firstName')}
             error={Boolean(errors?.firstName?.message)}

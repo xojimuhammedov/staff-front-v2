@@ -40,7 +40,7 @@ const VisitorTable = () => {
                 headerClassName: 'w-1/3',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
-                        {row?.firstName ?? '--'} {row?.lastName ?? '--'} {row?.middleName ?? '--'}
+                        {row?.firstName ?? '--'} {row?.lastName ?? '--'}
                     </div>
                 )
             },

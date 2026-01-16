@@ -15,14 +15,15 @@ import { Organization } from 'pages/OrganizationPage/interface/organization.inte
 import { ISelect } from 'interfaces/select.interface';
 import * as yup from "yup";
 import MyTimePicker from 'components/Atoms/Form/MyTimePicker';
-import weekDay from 'configs/weekday';
 import { useEffect, useState } from 'react';
 import storage from 'services/storage';
 import extraDate from 'configs/extraDate';
+import useWeekDays from 'configs/weekday';
 
 const GeneralDetails = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const weekDay = useWeekDays()
   const userData: any = storage.get("userData")
   const userRole = JSON.parse(userData)?.role
   const [workingWeekDays, setWorkingWeekDays] = useState<string[]>([]);

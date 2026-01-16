@@ -1,8 +1,12 @@
 import MyModal from 'components/Atoms/MyModal';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle, User, Phone, MapPin, Calendar, Building2, Briefcase, FileText, Hash, Clock } from 'lucide-react';
+import { CheckCircle, User, Calendar, Building2, Briefcase, Clock, Download, } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { QRCodeCanvas } from 'qrcode.react';
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import dayjs from 'dayjs';
 
 interface VisitorDetailsModalProps {
   show: boolean;
@@ -30,6 +34,28 @@ const VisitorDetailsModal = ({
     return employeeData?.data?.find((emp: any) => emp.id === id)?.name || '--';
   };
 
+  const handleDownloadPDF = async () => {
+    const element = document.getElementById("invitation-pdf");
+    if (!element) return;
+
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      backgroundColor: "#ffffff",
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("visitor-invitation.pdf");
+  };
+
+  console.log(visitor)
+
+
   if (!visitor) return null;
 
   return (
@@ -48,9 +74,6 @@ const VisitorDetailsModal = ({
               <h2 className="text-xl font-semibold text-text-base dark:text-text-title-dark">
                 {t('Visitor Created Successfully')}
               </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                {t('Visitor information has been saved')}
-              </p>
             </div>
           </div>
         ),
@@ -58,80 +81,71 @@ const VisitorDetailsModal = ({
       }}
       bodyProps={{
         children: (
-          <div className="p-6">
-            <div className="mb-6">
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
-                    {t('Full Name')}
-                  </p>
-                  <p className="text-base font-medium text-text-base dark:text-text-title-dark">
-                    {visitor.firstName || '--'} {visitor.lastName || '--'}
-                  </p>
+          <div id="invitation-pdf" className="w-full max-w-3xl rounded-2xl p-4 space-y-4">
+            {/* Header */}
+            <div className="text-center space-y-3">
+              <p className="text-sm text-gray-500">
+                This QR code is your entry pass <br />
+                Ushbu QR kod bino kirishi uchun mo‘ljallangan
+              </p>
+            </div>
+
+            {/* Visitor Info */}
+            <div className="bg-gray-50 rounded-[12px] p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-gray-600 font-medium">
+                  <User className="w-4 h-4" />
+                  Visitor Information
                 </div>
-                <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <Phone className="text-gray-400" size={14} />
-                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                      {t('Phone Number')}
-                  </p>
+
+                <InfoRow label="Full Name" value={`${visitor.firstName} ${visitor.lastName}`} />
+                <InfoRow label="Phone" value={visitor.phone || '--'} />
+                <InfoRow label="Organization" value={getOrganizationName(visitor.organizationId)} />
+              </div>
+
+              {/* QR */}
+              <div className="flex flex-col items-center justify-center gap-3">
+                <div className="bg-white p-4 rounded-[12px] shadow">
+                  {/* QR image o‘rniga */}
+                  <div className="w-40 h-40 bg-gray-200 flex items-center justify-center text-gray-500">
+                    <QRCodeCanvas
+                      value={visitor?.onetimeCode?.code}
+                      size={180}
+                      includeMargin
+                    />
+                  </div>
                 </div>
-                  <p className="text-base font-medium text-text-base dark:text-text-title-dark">
-                    {visitor.phone || '--'}
-                  </p>
-                </div>
+                <span className="text-sm text-gray-500">Scan to check-in</span>
               </div>
             </div>
-            <div className="mb-6">
-              <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
-                <Briefcase className="text-orange-600 dark:text-orange-400" size={20} />
-                <h3 className="text-lg font-semibold text-text-base dark:text-text-title-dark">
-                  {t('Work Information')}
-                </h3>
-              </div>
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <MapPin className="text-gray-400" size={14} />
-                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                    {t('Work Place')}
-                  </p>
-                  </div>
-                  <p className="text-base font-medium text-text-base dark:text-text-title-dark">
-                    {visitor.workPlace || '--'}
-                  </p>
-                </div>
-                {visitor.organizationId && (
-                  <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <Building2 className="text-gray-400" size={14} />
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                      {t('Organization')}
-                    </p>
-                    </div>
-                    <p className="text-base font-medium text-text-base dark:text-text-title-dark">
-                      {getOrganizationName(visitor.organizationId)}
-                    </p>
-                  </div>
-                )}
-                {visitor.attachId && (
-                  <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <User className="text-gray-400" size={14} />
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                        {t('Attached Employee')}
-                    </p>
-                    </div>
-                    <p className="text-base font-medium text-text-base dark:text-text-title-dark">
-                      {getEmployeeName(visitor.attachId)}
-                    </p>
-                  </div>
-                )}
+
+            {/* Visit Details */}
+            <div className="bg-gray-50 rounded-[12px] p-6 space-y-4">
+              <h2 className="font-medium text-gray-700 flex items-center gap-2">
+                <Briefcase className="w-4 h-4" />
+                Visit Details
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <DetailRow icon={<User />} label="Host" value={getEmployeeName(visitor?.attachId)} />
+                <DetailRow icon={<Calendar />} label="Visit Date" value={dayjs(visitor?.onetimeCode?.startDate).format("YYYY-MM-DD, HH:mm")} />
+                <DetailRow icon={<Building2 />} label="Department" value="IT Department" />
+                <DetailRow icon={<Clock />} label="Time" value="10:00 – 12:00" />
               </div>
             </div>
-            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
-              <MyButton onClick={() => navigate('/visitor')} variant="primary" className="min-w-[120px]">
-                {t('Done')}
+
+            {/* Actions */}
+            <div className="flex flex-wrap gap-3 justify-between items-center">
+              <MyButton
+                onClick={handleDownloadPDF}
+                startIcon={<Download className="w-4 h-4" />}
+                className="flex items-center gap-2 px-5 py-2 rounded-lg bg-black text-white"
+              >
+                Download PDF
+              </MyButton>
+              <MyButton className="px-6 py-2 rounded-lg bg-black text-white hover:opacity-90">
+                 Done
               </MyButton>
             </div>
           </div>
@@ -140,5 +154,34 @@ const VisitorDetailsModal = ({
     />
   );
 };
+
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-xs uppercase text-gray-400">{label}</p>
+      <p className="font-medium text-gray-800">{value}</p>
+    </div>
+  );
+}
+
+function DetailRow({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="text-gray-400">{icon}</div>
+      <div>
+        <p className="text-xs text-gray-400">{label}</p>
+        <p className="font-medium">{value}</p>
+      </div>
+    </div>
+  );
+}
 
 export default VisitorDetailsModal;

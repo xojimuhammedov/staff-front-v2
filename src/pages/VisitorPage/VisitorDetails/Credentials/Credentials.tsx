@@ -21,13 +21,14 @@ const Credentials = () => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<any>();
   const [showModal, setShowModal] = useState(false);
-  const { control } = useForm();
+  const { control, watch } = useForm();
 
   const { data: onetimeCodesData, refetch: refetchOnetimeCodes }: any = useGetAllQuery({
     key: KEYS.getOnetimeCodes,
     url: URLS.getOnetimeCodes,
     params: {
       visitorId: Number(id),
+      codeType: watch("type")
     },
   });
 
@@ -37,10 +38,10 @@ const Credentials = () => {
     params: {},
   });
 
-const codeTypeOptions = [ 
-  { label: t("ONETIME"), value: "ONETIME" },
-  { label: t("MULTIPLE"), value: "MULTIPLE" },
-];
+  const codeTypeOptions = [
+    { label: t("ONETIME"), value: "ONETIME" },
+    { label: t("MULTIPLE"), value: "MULTIPLE" },
+  ];
 
   const { mutate: updateOnetimeCode } = usePutQuery({
     listKeyId: KEYS.getOnetimeCodes,
@@ -139,7 +140,7 @@ const codeTypeOptions = [
           className={'[&_svg]:stroke-bg-white'}
           variant="primary"
         >
-        {t('Add new type')}
+          {t('Add new type')}
         </Button>
       </div>
       {onetimeCodesData?.data && onetimeCodesData.data.length > 0 ? (
