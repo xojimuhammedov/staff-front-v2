@@ -157,7 +157,7 @@ const Credentials = () => {
         >
           {t('Add new type')}
         </Button>
-      </div >
+      </div>
       {onetimeCodesData?.data && onetimeCodesData.data.length > 0 ? (
         <div className="mt-8">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
