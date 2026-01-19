@@ -43,5 +43,6 @@ export const KEYS = {
   activeOneTimeCode: "activeOneTimeCode",
   getDeviceSettingsInfo: "getDeviceSettingsInfo",
   deviceDisplay: "deviceDisplay",
-  deviceCredentialType: "deviceCredentialType"
+  deviceCredentialType: "deviceCredentialType",
+  dashboardToday: "dashboardToday"
 };

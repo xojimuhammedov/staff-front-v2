@@ -33,6 +33,12 @@ export const useDashboard = () => {
         }
     })
 
+    const { data: dashboardToday } = useGetAllQuery<any>({
+        key: KEYS.dashboardToday,
+        url: URLS.dashboardToday,
+        params: {}
+    })
+
     const { data: chartData } = useGetAllQuery<LineChartData>({
         key: KEYS.dashboardLineChart,
         url: URLS.dashboardLineChart,
@@ -63,7 +69,8 @@ export const useDashboard = () => {
     return {
         data,
         lineChartData,
-        control
+        control,
+        todayData: dashboardToday
     }
 }
 

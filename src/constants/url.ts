@@ -43,5 +43,6 @@ export const URLS = {
   activeOneTimeCode: "/api/v1/onetime-codes",
   getDeviceSettingsInfo: "/api/v1/devices/get-capabilities",
   deviceDisplay: "/api/v1/devices/display",
-  deviceCredentialType:"/api/v1/devices/credential-auth"
+  deviceCredentialType: "/api/v1/devices/credential-auth",
+  dashboardToday: "/api/v1/dashboard/today"
 };

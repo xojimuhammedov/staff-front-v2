@@ -7,6 +7,7 @@ import AttendancesLine from "./_components/AttendancesLine";
 import MyTailwindPicker from "components/Atoms/Form/MyTailwindDatePicker";
 import { Calendar } from "lucide-react";
 import { useDashboard } from "./hooks/useDashboard";
+import AttendancesCard from "./_components/AttendancesCard";
 
 
 const DashboardPage = () => {
@@ -18,7 +19,9 @@ const DashboardPage = () => {
     }
   ];
 
-  const { data, control, lineChartData } = useDashboard()
+  const { data, control, lineChartData, todayData } = useDashboard()
+
+  console.log(todayData)
 
   return (
     <PageContentWrapper className="dark:bg-bg-dark-bg">
@@ -49,6 +52,12 @@ const DashboardPage = () => {
         newDepartmentsCount={data?.newDepartmentsCount}
         totalOrganizations={data?.totalOrganizations}
         newOrganizationsCount={data?.newOrganizationsCount}
+      />
+      <AttendancesCard
+        totalEmployees={todayData?.total}
+        totalLate={todayData?.late}
+        totalOnTime={todayData?.onTime}
+        totalAbsent={todayData?.absent}
       />
       <div className="rounded-m bg-bg-base p-4 mt-8 shadow-base dark:bg-dark-dashboard-cards">
         <AttendancesLine

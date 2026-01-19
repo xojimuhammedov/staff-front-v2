@@ -34,11 +34,11 @@ export interface DashboardCardProps {
 }
 
 export interface StatCardProps {
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     title: string;
     value: string;
-    change: string;
-    changeType: 'increase' | 'neutral' | 'none';
-    bgColor: string;
-    iconColor: string;
+    change?: string;
+    changeType?: 'increase' | 'neutral' | 'none';
+    bgColor?: string;
+    iconColor?: string;
 }
