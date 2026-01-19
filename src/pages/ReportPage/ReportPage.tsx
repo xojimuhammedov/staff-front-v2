@@ -1,34 +1,27 @@
-import NoData from 'assets/icons/NoData';
 import MyDivider from 'components/Atoms/MyDivider';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import dayjs from 'dayjs';
 import { useGetAllQuery } from 'hooks/api';
 import { useDownloadExcel } from 'hooks/useExcel';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import TimeSheet from './_components/TimeSheet';
 import Loading from 'assets/icons/Loading';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { Calendar } from 'lucide-react';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
-import { useForm } from 'react-hook-form';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import { useDateParams } from './hooks/useDateParams';
 dayjs.extend(isoWeek);
 
 const ReportPage = () => {
     const { t } = useTranslation();
     const currentTableRef = useRef<any>(null);
-    const { control, watch }: any = useForm({
-        defaultValues: {
-            date: {
-                endDate: dayjs().format("YYYY-MM-DD"),
-                startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
-            }
-        }
-    })
+    const { control, paramsValue } = useDateParams(7);
+    
     const filename = `timesheet_${dayjs(new Date()).format('YYYY-MM-DD_hh:mm:ss')}`;
     const sheet = 'users';
 
@@ -40,20 +33,10 @@ const ReportPage = () => {
         }
     ];
 
-
-    const paramsValue = watch('date') ? {
-        startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
-        endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
-    } : {
-        endDate: dayjs().format("YYYY-MM-DD"),
-        startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
-    };
-
     const { data, isLoading } = useGetAllQuery({
         key: KEYS.employeeTimesheet,
         url: URLS.employeeTimesheet,
         params: {
-            organizationId: 1,
             ...paramsValue
         }
     });

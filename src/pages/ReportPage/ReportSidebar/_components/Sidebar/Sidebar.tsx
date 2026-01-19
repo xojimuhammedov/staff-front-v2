@@ -25,7 +25,7 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
         {
           icon: 'CheckSquare',
           name: t('Report attendance'),
-          path: 'view',
+          path: 'attendance',
           isSwitch: false,
         }
       ],

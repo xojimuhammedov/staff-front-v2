@@ -7,27 +7,20 @@ import { useDownloadExcel } from 'hooks/useExcel';
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import TimeSheet from '../../_components/TimeSheet';
-import Loading from 'assets/icons/Loading';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { Calendar } from 'lucide-react';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
-import { useForm } from 'react-hook-form';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import { useDateParams } from '../../hooks/useDateParams';
 dayjs.extend(isoWeek);
 
 const ReportInfo = () => {
     const { t } = useTranslation();
     const currentTableRef = useRef<any>(null);
-    const { control, watch }: any = useForm({
-        defaultValues: {
-            date: {
-                endDate: dayjs().format("YYYY-MM-DD"),
-                startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
-            }
-        }
-    })
+    const { control, paramsValue } = useDateParams(7);
+    
     const filename = `timesheet_${dayjs(new Date()).format('YYYY-MM-DD_hh:mm:ss')}`;
     const sheet = 'users';
 
@@ -39,34 +32,13 @@ const ReportInfo = () => {
         }
     ];
 
-
-    const paramsValue = watch('date') ? {
-        startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
-        endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
-    } : {
-        endDate: dayjs().format("YYYY-MM-DD"),
-        startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
-    };
-
-    const employeeIds = [40, 39, 31];
-    const queryParams = new URLSearchParams();
-    queryParams.append('startDate', paramsValue.startDate);
-    queryParams.append('endDate', paramsValue.endDate);
-    employeeIds.forEach((id) => queryParams.append('employeeIds', String(id)));
-
     const { data, isLoading } = useGetAllQuery({
-        key: `${KEYS.employeeTimesheet}-${paramsValue.startDate}-${paramsValue.endDate}-${employeeIds.join(',')}`,
-        url: `${URLS.employeeTimesheet}?${queryParams.toString()}`,
-        params: {}
+        key: `${KEYS.employeeTimesheet}-${paramsValue.startDate}-${paramsValue.endDate}`,
+        url: URLS.employeeTimesheet,
+        params: {
+            ...paramsValue
+        }
     });
-
-    // if (isLoading) {
-    //     return (
-    //         <div className="absolute -mt-8 flex h-full w-full items-center justify-center">
-    //             <Loading />
-    //         </div>
-    //     )
-    // }
 
     return (
         <PageContentWrapper>

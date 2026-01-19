@@ -9,14 +9,14 @@ const ReportSidebar = () => {
     const { t } = useTranslation()
     const breadCrumbs = [
         {
-            label: t('Visitors'),
+            label: t('Report'),
             url: '#'
         }
     ];
     return (
         <PageContentWrapper>
             <div className="flex items-center justify-between">
-                <MyBreadCrumb pageTitle={t('Visitors')} items={breadCrumbs} />
+                <MyBreadCrumb pageTitle={t('Report')} items={breadCrumbs} />
             </div>
             <MyDivider />
             <div className="flex gap-6">
