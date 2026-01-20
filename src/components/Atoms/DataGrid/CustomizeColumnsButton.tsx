@@ -118,41 +118,44 @@ const EmployeeMultiSelectDropdown = ({
         </p>
       </DropdownItemWrapper>
 
-      <div ref={dropdownRef} className="dark:bg-bg-button h-[250px] overflow-y-scroll">
-        {items.map((emp) => {
-          const label = emp.label ?? emp.fio ?? emp.name ?? String(emp.id);
-          const checked = selected.has(emp.id);
+      <div ref={dropdownRef} className="dark:bg-bg-button">
+        <div className='h-[250px] overflow-y-scroll'>
+          {items.map((emp) => {
+            const label = emp.label ?? emp.fio ?? emp.name ?? String(emp.id);
+            const checked = selected.has(emp.id);
 
-          return (
-            <DropdownItemWrapper
-              key={emp.id}
-              onClick={() => toggleOne(emp.id)}
-              className="flex flex-row items-center gap-2"
-            >
-              {/* MUHIM: controlled checkbox */}
-              <MyCheckbox checked={checked} onChange={() => toggleOne(emp.id)} />
-              <label className="text-c-s text-text-base dark:text-text-title-dark">
-                {label}
-              </label>
-            </DropdownItemWrapper>
-          );
-        })}
-      </div>
-      <div className="flex w-full flex-row items-center gap-2 p-3">
-        <MyButton onClick={handleReset} variant="secondary" size="base" className="flex-1">
-          {t("Reset")}
-        </MyButton>
+            return (
+              <DropdownItemWrapper
+                key={emp.id}
+                onClick={() => toggleOne(emp.id)}
+                className="flex flex-row items-center gap-2"
+              >
+                {/* MUHIM: controlled checkbox */}
+                <MyCheckbox checked={checked} onChange={() => toggleOne(emp.id)} />
+                <label className="text-c-s text-text-base dark:text-text-title-dark">
+                  {label}
+                </label>
+              </DropdownItemWrapper>
+            );
+          })}
+        </div>
+        <div className="flex w-full flex-row items-center gap-2 p-3">
+          <MyButton onClick={handleReset} variant="secondary" size="base" className="flex-1">
+            {t("Reset")}
+          </MyButton>
 
-        <MyButton
-          onClick={handleApply}
-          disabled={isApplying}
-          variant="primary"
-          size="base"
-          className="flex-1"
-        >
-          {t("Apply")}
-        </MyButton>
+          <MyButton
+            onClick={handleApply}
+            disabled={isApplying}
+            variant="primary"
+            size="base"
+            className="flex-1"
+          >
+            {t("Apply")}
+          </MyButton>
+        </div>
       </div>
+
     </MyDropdown>
   );
 };

@@ -39,12 +39,13 @@ const ReportInfo = () => {
         return selectIds.map((id) => `employeeIds=${id}`).join("&");
     }, [selectIds]);
 
-    const { data, isLoading, refetch } = useGetAllQuery({
+    const { data, refetch, isLoading } = useGetAllQuery({
         key: KEYS.employeeTimesheet,
         url: `${URLS.employeeTimesheet}?${employeeIdsQuery}`,
         params: {
             ...paramsValue
-        }
+        },
+        hideErrorMsg: false
     });
 
     const { data: employeeData } = useGetAllQuery<any>({
