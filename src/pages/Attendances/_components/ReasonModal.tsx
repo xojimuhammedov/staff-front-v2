@@ -35,15 +35,15 @@ function ReasonModal({ row }: any) {
           size: 'md',
         }}
         headerProps={{
-          children: <h2 className="dark:text-text-title-dark">{t('Reasonably')}</h2>,
+          children: <h2 className="text-text-base dark:text-text-title-dark">{t('Reasonably')}</h2>,
         }}
         bodyProps={{
           children: (
             <>
               {row?.reasons ? (
                 <>
-                  <p className="dark:text-text-title-dark">{t('Reason')}</p>
-                  <h2 className="mt-2 text-base dark:text-text-title-dark font-medium leading-7">
+                  <p className="text-text-base dark:text-text-title-dark">{t('Reason')}</p>
+                  <h2 className="mt-2 text-base text-text-base dark:text-text-title-dark font-medium leading-7">
                     {row?.reasons?.uz === 'Boshqa' ? row.reason : row?.reasons?.[`${currentLang}`]}
                   </h2>
                   <MyDivider />

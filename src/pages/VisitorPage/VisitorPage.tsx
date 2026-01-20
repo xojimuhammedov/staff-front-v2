@@ -7,18 +7,18 @@ import { Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const VisitorPage = () => {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const breadCrumbs = [
     {
       label: t('Visitor'),
-      url: '#'
-    }
+      url: '#',
+    },
   ];
 
   return (
     <PageContentWrapper>
-      <div className='flex items-center justify-between'>
+      <div className="flex items-center justify-between">
         <div className="flex flex-col">
           <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('Visitor')}</h1>
           <MyBreadCrumb items={breadCrumbs} />
@@ -28,15 +28,20 @@ const VisitorPage = () => {
           onClick={() => {
             navigate('/visitor/create');
           }}
-          allowedRoles={['ADMIN', "HR", "GUARD"]}
-          variant="primary"
-          className="[&_svg]:stroke-bg-white w-auto min-w-[160px] px-4 text-sm whitespace-normal text-center leading-snug">
+          allowedRoles={['ADMIN', 'HR', 'GUARD']}
+          className={`
+    mt-3 text-sm w-[160px]
+    bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
+    dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
+    [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
+  `}
+        >
           {t('Create visitor')}
         </MyButton>
       </div>
       <VisitorTable />
     </PageContentWrapper>
   );
-}
+};
 
 export default VisitorPage;

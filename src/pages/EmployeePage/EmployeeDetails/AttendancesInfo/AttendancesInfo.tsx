@@ -66,7 +66,7 @@ const AttendancesInfo = () => {
             <div className='flex items-center justify-between'>
                 <div className='flex flex-col gap-2'>
                     <h1 className='headers-core dark:text-text-title-dark text-text-base'>{t('Attendance & Arrival/Leave Tracking')}</h1>
-                    <p>{t('Monitor employee attendance patterns and punctuality')}</p>
+                    <p className="text-text-base dark:text-text-title-dark">{t('Monitor employee attendance patterns and punctuality')}</p>
                 </div>
                 <div className="flex items-center w-[240px]">
                     <MyTailwindPicker
@@ -75,7 +75,7 @@ const AttendancesInfo = () => {
                         asSingle={false}
                         control={control}
                         placeholder={t('Today')}
-                        startIcon={<Calendar stroke="#9096A1" />}
+                        startIcon={<Calendar className="stroke-text-muted dark:stroke-text-title-dark" />}
                     />
                 </div>
             </div>

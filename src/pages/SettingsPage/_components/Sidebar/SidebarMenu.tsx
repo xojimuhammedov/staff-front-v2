@@ -39,7 +39,7 @@ const SidebarMenu: FC<SidebarMenuProps> = ({ menu, sidebar_menu_type }) => {
               <IconByName
                 name={'ChevronDown'}
                 className={twMerge(
-                  'h-5 w-5 cursor-pointer text-text-muted transition-all duration-300',
+                  'h-5 w-5 cursor-pointer text-text-muted dark:text-text-title-dark transition-all duration-300',
                   openMenu ? '-rotate-180' : ''
                 )}
                 onClick={() => setOpenMenu(!openMenu)}
@@ -59,10 +59,10 @@ const SidebarMenu: FC<SidebarMenuProps> = ({ menu, sidebar_menu_type }) => {
             <li
               key={index}
               className={twMerge(
-                'flex items-center justify-between rounded-m px-xs py-3xs ',
+                'flex items-center justify-between rounded-m px-xs py-3xs',
                 selected === path
-                  ? 'bg-bg-subtle text-c-m text-black'
-                  : ' dark:text-text-title-dark'
+                  ? 'bg-bg-subtle dark:bg-gray-800 text-c-m text-black dark:text-text-title-dark'
+                  : 'text-text-base dark:text-text-title-dark'
               )}>
               <div
                 className="flex cursor-pointer items-center gap-2"
@@ -70,8 +70,10 @@ const SidebarMenu: FC<SidebarMenuProps> = ({ menu, sidebar_menu_type }) => {
                 {/* <IconByName name={icon} className="h-5 w-5 text-text-subtle" /> */}
                 <span
                   className={twMerge(
-                    'settings-text text-text-base',
-                    selected === path ? 'text-black' : 'dark:text-white'
+                    'settings-text',
+                    selected === path 
+                      ? 'text-black dark:text-text-title-dark font-medium' 
+                      : 'text-text-base dark:text-text-title-dark'
                   )}>
                   {name}
                 </span>

@@ -80,7 +80,7 @@ export const createColumns = ({ refetch }: any) => {
         cellRender: (row) => {
           if (row?.startTime) {
             return (
-              <div className="department-text">
+              <div className="department-text text-text-base dark:text-text-title-dark">
                 {' '}
                 {getTimeDifference(row?.startTime, row?.endTime)}{' '}
               </div>
@@ -95,7 +95,7 @@ export const createColumns = ({ refetch }: any) => {
         cellRender: (row) => {
           if (row?.startTime) {
             return (
-              <div className="department-text">
+              <div className="department-text text-text-base dark:text-text-title-dark">
                 {' '}
                 {dayjs(row?.startTime).format('YYYY-MM-DD, HH:mm')}{' '}
               </div>

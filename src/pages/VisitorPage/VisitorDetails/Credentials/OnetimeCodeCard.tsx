@@ -32,20 +32,20 @@ const OnetimeCodeCard = ({ code, onToggle }: OnetimeCodeCardProps) => {
     }
   ];
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col">
+    <div className="bg-white dark:bg-bg-dark-bg border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 flex flex-col">
       <div className="mb-4 space-y-2">
         {infoItems.map(({ icon: Icon, color, label, value }, idx) => (
           <div key={idx} className="flex items-center gap-2">
             <Icon className={color} size={18} />
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-text-title-dark">
               <span className="font-medium">{label}:</span>{' '}
-              <span className="font-semibold text-gray-800">{value}</span>
+              <span className="font-semibold text-gray-800 dark:text-text-title-dark">{value}</span>
             </p>
           </div>
         ))}
         {code?.codeType && (
           <div className="mt-2">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 dark:text-text-subtle">
               {t('Type')}: <span className="font-semibold">{code.codeType}</span>
             </p>
           </div>
@@ -53,8 +53,13 @@ const OnetimeCodeCard = ({ code, onToggle }: OnetimeCodeCardProps) => {
       </div>
       <div className="flex items-center gap-2 mt-auto">
         <Button
-          variant='destructive'
-          className='w-full font-medium'
+          variant='secondary'
+          className={`
+            w-full font-medium
+            bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
+            dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
+            [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
+          `}
           onClick={() => onToggle(code)}
         >
           {code?.isActive ? t('Inactive') : t('Active')}

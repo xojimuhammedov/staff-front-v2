@@ -31,7 +31,7 @@ function Form() {
 
   return (
     <>
-      <form className='w-3/4' onSubmit={handleSubmit(onSubmit)}>
+      <form className="w-3/4" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-3 gap-4">
           <MyInput
             {...register('firstName')}
@@ -197,7 +197,15 @@ function Form() {
           />
         </div>
         <MyDivider />
-        <MyButton type="submit" className="mt-3" variant="primary">
+        <MyButton
+          type="submit"
+          className={`
+    mt-3 text-sm w-[160px]
+    bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
+    dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
+    [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
+  `}
+        >
           {t('Add & Save')}
         </MyButton>
       </form>
