@@ -43,7 +43,7 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
             const formData = new FormData();
             formData.append('file', avatar);
 
-            const response = await request.post(URLS.uploadPhotoByEmployee, formData, {
+            const response = await request.post(URLS.employeeCredentialFileUpload, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
