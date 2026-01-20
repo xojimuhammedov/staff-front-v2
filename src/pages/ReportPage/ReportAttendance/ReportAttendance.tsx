@@ -17,19 +17,19 @@ const ReportAttendance = () => {
     
     const { control, watch } = useForm({
         defaultValues: {
-            organizationId: undefined
+            departmentId: undefined
         }
     });
 
-    const { data: getOrganization } = useGetAllQuery<any>({
-        key: KEYS.getAllListOrganization,
-        url: URLS.getAllListOrganization,
+    const { data: getDepartment } = useGetAllQuery<any>({
+        key: KEYS.getAllListDepartment,
+        url: URLS.getAllListDepartment,
         hideErrorMsg: true,
         params: {},
     });
 
-    const organizationId = watch('organizationId');
-    const { data, isLoading, refetch } = useReportAttendance(organizationId);
+    const departmentId = watch('departmentId');
+    const { data, isLoading, refetch } = useReportAttendance(departmentId);
     
     return (
         <>
@@ -39,11 +39,11 @@ const ReportAttendance = () => {
                 <div className='flex items-center gap-4'>
                     <div className='flex items-center w-[240px]'>
                         <Controller
-                            name="organizationId"
+                            name="departmentId"
                             control={control}
                             render={({ field }) => (
                                 <MySelect
-                                    options={getOrganization?.data?.map((evt: any) => ({
+                                    options={getDepartment?.data?.map((evt: any) => ({
                                         label: evt.fullName,
                                         value: evt.id,
                                     })) || []}
@@ -52,7 +52,7 @@ const ReportAttendance = () => {
                                     onBlur={field.onBlur}
                                     isClearable
                                     allowedRoles={['ADMIN', 'HR']}
-                                    placeholder={t('Select organization')}
+                                    placeholder={t('Select department')}
                                 />
                             )}
                         />
