@@ -32,7 +32,7 @@ const ReportAttendance = () => {
     const { data, isLoading, refetch } = useReportAttendance(organizationId);
     
     return (
-        <PageContentWrapper>
+        <>
             <div className='flex justify-between items-center'>
                 <div className="flex flex-col">
                 </div>
@@ -70,7 +70,7 @@ const ReportAttendance = () => {
                 </div>
             </div>
             <ReportAttendanceList data={data} isLoading={isLoading} refetch={refetch} />
-        </PageContentWrapper>
+        </>
     );
 }
 

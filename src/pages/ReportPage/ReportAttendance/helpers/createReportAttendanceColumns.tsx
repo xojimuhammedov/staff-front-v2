@@ -103,12 +103,6 @@ export const createReportAttendanceColumns = ({ refetch }: any) => {
           } else return '--';
         },
       },
-      {
-        key: 'reason',
-        label: t('Reason'),
-        headerClassName: 'w-28',
-        cellRender: (row) => <ReportReasonModal row={row} refetch={refetch} />,
-      },
     ],
     [t]
   );
@@ -139,24 +133,9 @@ export const createReportAttendanceColumns = ({ refetch }: any) => {
       label: t('Arrival time'),
       headerClassName: 'w-1/4',
     },
-    {
-      id: 7,
-      label: t('Reason'),
-      headerClassName: 'w-28',
-    },
   ];
   const rowActions: IAction[] = useMemo(
-    () => [
-      {
-        icon: <View size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
-        name: t('View'),
-        action: (row, $e) => {
-          navigate(`/employees/about/${row?.employee?.id}?current-setting=attendance`);
-        },
-        allowedRoles: ['ADMIN', 'HR'],
-      },
-    ],
+    () => [],
     [t]
   );
 
