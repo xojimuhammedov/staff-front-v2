@@ -32,6 +32,7 @@ const ReportPage = lazy(() => import('pages/ReportPage/ReportSidebar'))
 const DeviceCreatePage = lazy(() => import('pages/SettingsPage/DevicePage/Create'))
 const DeviceEditPage = lazy(() => import('pages/SettingsPage/DevicePage/Edit'))
 const ViewDevice = lazy(() => import('pages/SettingsPage/DevicePage/_components/ViewDevice'))
+const GuardPage = lazy(() => import('pages/GuardPage'))
 
 export const PublicRoutes = [
   {
@@ -190,6 +191,11 @@ export const PrivateRoutes = [
     path: '/settings/device/:id',
     element: <ViewDevice />,
     roles: ["ADMIN", "HR"]
+  },
+  {
+    path: '/guards',
+    element: <GuardPage />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
   }
 ];
 
