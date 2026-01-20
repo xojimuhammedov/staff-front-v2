@@ -4,7 +4,7 @@ import { URLS } from 'constants/url';
 import dayjs from 'dayjs';
 import { useGetAllQuery } from 'hooks/api';
 import { useDownloadExcel } from 'hooks/useExcel';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TimeSheet from '../_components/TimeSheet';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
@@ -56,10 +56,6 @@ const ReportInfo = () => {
         }
     });
 
-    useEffect(() => {
-        refetch?.();
-    }, [employeeIdsQuery, paramsValue, refetch]);
-
     return (
         <>
             <div className="flex items-center justify-between gap-4">
@@ -73,10 +69,9 @@ const ReportInfo = () => {
                     <EmployeeMultiSelectDropdown
                         employeeList={employeeData?.data}
                         initialSelectedIds={selectIds}
-                        onApply={async (ids: any) => {
-                            setSelectIds(ids);  // state update
-                            // agar "yopilish" refetch tugagandan keyin bo'lsin desangiz:
-                            await refetch?.();  // refetch Promise qaytarsa
+                        onApply={(ids: any) => {
+                            // `useGetAllQuery` will refetch automatically when `employeeIdsQuery` changes.
+                            setSelectIds(ids);
                         }}
                     />
                     <div className="w-[240px]">
