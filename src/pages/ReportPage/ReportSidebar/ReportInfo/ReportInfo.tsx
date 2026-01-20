@@ -6,18 +6,17 @@ import { useGetAllQuery } from 'hooks/api';
 import { useDownloadExcel } from 'hooks/useExcel';
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import TimeSheet from './_components/TimeSheet';
-import Loading from 'assets/icons/Loading';
+import TimeSheet from '../../_components/TimeSheet';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { Calendar } from 'lucide-react';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { useDateParams } from './hooks/useDateParams';
+import { useDateParams } from '../../hooks/useDateParams';
 dayjs.extend(isoWeek);
 
-const ReportPage = () => {
+const ReportInfo = () => {
     const { t } = useTranslation();
     const currentTableRef = useRef<any>(null);
     const { control, paramsValue } = useDateParams(7);
@@ -34,20 +33,12 @@ const ReportPage = () => {
     ];
 
     const { data, isLoading } = useGetAllQuery({
-        key: KEYS.employeeTimesheet,
+        key: `${KEYS.employeeTimesheet}-${paramsValue.startDate}-${paramsValue.endDate}`,
         url: URLS.employeeTimesheet,
         params: {
             ...paramsValue
         }
     });
-
-    if (isLoading) {
-        return (
-            <div className="absolute -mt-8 flex h-full w-full items-center justify-center">
-                <Loading />
-            </div>
-        )
-    }
 
     return (
         <PageContentWrapper>
@@ -78,4 +69,4 @@ const ReportPage = () => {
     );
 }
 
-export default ReportPage;
+export default ReportInfo;

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { parseColor } from 'tailwindcss/lib/util/color';
 import { get, set } from 'lodash';
-import { useTranslation } from 'react-i18next';
+import { t as i18nT } from 'i18next';
 
 dayjs.extend(duration);
 
@@ -115,12 +115,11 @@ const isset = (obj: object | string) => {
 };
 
 const timeLine = (time: number | null | undefined): string => {
-  const { t } = useTranslation();
   if (time == null) return "-";
   const hours = Math.floor(time / 60);
   const remainderMinutes = time % 60;
 
-  return `${hours} ${t('hours')}, ${remainderMinutes} ${t('minutes')}`;
+  return `${hours} ${i18nT('hours')}, ${remainderMinutes} ${i18nT('minutes')}`;
 };
 
 const toRaw = (obj: object) => {

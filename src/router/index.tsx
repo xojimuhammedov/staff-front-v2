@@ -27,7 +27,7 @@ const WorkSchedule = lazy(() => import('pages/WorkSchedule'))
 const CreateSchedulePage = lazy(() => import('pages/WorkSchedule/CreateSchedulePage'))
 const EditSchedulePage = lazy(() => import('pages/WorkSchedule/EditSchedulePage'))
 const ViewDepartment = lazy(() => import('pages/ViewDepartment'))
-const ReportPage = lazy(() => import('pages/ReportPage'))
+const ReportPage = lazy(() => import('pages/ReportPage/ReportSidebar'))
 
 const DeviceCreatePage = lazy(() => import('pages/SettingsPage/DevicePage/Create'))
 const DeviceEditPage = lazy(() => import('pages/SettingsPage/DevicePage/Edit'))
