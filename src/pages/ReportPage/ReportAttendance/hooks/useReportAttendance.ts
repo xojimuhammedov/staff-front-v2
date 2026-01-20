@@ -7,7 +7,7 @@ import { searchValue } from 'types/search';
 import { paramsStrToObj } from 'utils/helper';
 import { useDateParams } from '../../hooks/useDateParams';
 
-export const useReportAttendance = (organizationId?: number) => {
+export const useReportAttendance = (departmentId?: number) => {
     const location = useLocation();
     const { control, watch, paramsValue } = useDateParams(0);
     const { search, setSearch, handleSearch } = useSearch();
@@ -25,7 +25,7 @@ export const useReportAttendance = (organizationId?: number) => {
             limit: apiParams?.limit || 10,
             startDate: paramsValue.startDate,
             endDate: paramsValue.endDate,
-            ...(organizationId ? { organizationId } : {}),
+            ...(departmentId ? { departmentId } : {}),
         }
     });
 
