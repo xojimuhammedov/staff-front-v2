@@ -1,6 +1,6 @@
 import MyButton from '../MyButton/MyButton';
-import { useEffect, useRef, useState } from 'react';
-import { Columns, ChevronDown, ChevronUp } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Columns, ChevronDown, ChevronUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import MyDropdown, { DropdownItemWrapper } from '../MyDropdown';
 import useTableContext from 'providers/TableProvider/useTableContext';
@@ -20,12 +20,42 @@ import { TABLE_ACTION_TYPES } from 'providers/TableProvider/useTableProvider';
  * - Supports internationalization for text displayed within the component.
  */
 
-const CustomizeColumnsButton = () => {
+type Employee = {
+  id: number | string;
+  fio?: string; // yoki name
+  name?: string;
+  label?: string; // agar tayyor label bo'lsa
+};
+
+type Props = {
+  employeeList: Employee[];
+  initialSelectedIds?: Array<number | string>;
+  onApply: (selectedIds: Array<number | string>) => void | Promise<void>;
+  onReset?: () => void;
+
+  // ixtiyoriy:
+  buttonText?: string;
+};
+
+const EmployeeMultiSelectDropdown = ({
+  employeeList,
+  initialSelectedIds = [],
+  onApply,
+  onReset,
+  buttonText,
+}: Props) => {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
-  const { columns, columnHash, dispatch } = useTableContext();
-  const [values, setValues] = useState(() => columnHash);
+  const [isApplying, setIsApplying] = useState(false);
+  const [selected, setSelected] = useState<Set<number | string>>(
+    () => new Set(initialSelectedIds)
+  );
+
+  // employeeList o'zgarsa, initialSelectedIds bo'yicha yangilab qo'yish
+  useEffect(() => {
+    setSelected(new Set(initialSelectedIds));
+  }, [initialSelectedIds, employeeList]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -36,79 +66,95 @@ const CustomizeColumnsButton = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const selectedCount = selected.size;
+
+  const items = useMemo(() => employeeList ?? [], [employeeList]);
+
+  const toggleOne = (id: number | string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const handleReset = () => {
+    setSelected(new Set());
+    onReset?.();
+    setOpen(false);
+  };
+
+  const handleApply = async () => {
+    try {
+      setIsApplying(true);
+      await onApply(Array.from(selected)); // <-- resolve bo'lishini kutadi
+      setOpen(false);                      // <-- keyin yopiladi
+    } finally {
+      setIsApplying(false);
+    }
+  };
+
 
   return (
     <MyDropdown
       open={open}
       setOpen={setOpen}
       buttonProps={{
-        children: t('Customize columns'),
-        variant: 'secondary',
-        className: 'w-max dark:bg-bg-button',
-        startIcon: <Columns />,
-        endIcon: open ? <ChevronUp /> : <ChevronDown />
-      }}>
+        children: buttonText ?? t("Select employees"),
+        variant: "secondary",
+        className: "w-max dark:bg-bg-button",
+        startIcon: <Users />,
+        endIcon: open ? <ChevronUp /> : <ChevronDown />,
+      }}
+    >
       <DropdownItemWrapper className="cursor-default">
-        <p className="text-c-xs-p text-text-subtle">{t('Select column to show')}</p>
+        <p className="text-c-xs-p text-text-subtle">
+          {t("Selected")}: {selectedCount}
+        </p>
       </DropdownItemWrapper>
-      <div ref={dropdownRef} className="dark:bg-bg-button">
-        {columns.map((column: any, i: number) => (
-          <DropdownItemWrapper
-            onClick={() => {
-              setValues((prev: any) => ({
-                ...prev,
-                [column.key]: { ...column, visible: !prev[column.key].visible }
-              }));
-            }}
-            key={i}
-            className="flex flex-row items-center gap-2">
-            <MyCheckbox defaultChecked={values[column.key].visible} />
-            <label className="text-c-s text-text-base dark:text-text-title-dark">
-              {column.label}
-            </label>
-          </DropdownItemWrapper>
-        ))}
 
-        <div className="flex w-full flex-row items-center gap-2 p-3">
-          <MyButton
-            onClick={() => {
-              dispatch({ type: TABLE_ACTION_TYPES.RESET_COLUMNS_VISIBILITY });
-              setValues((prev: any) =>
-                Object.entries(prev).reduce(
-                  (acc, [key, value]: any) => ({ ...acc, [key]: { ...value, visible: true } }),
-                  {}
-                )
-              );
-              setOpen(false);
-            }}
-            variant="secondary"
-            size="base"
-            className="flex-1">
-            {t('Reset')}
-          </MyButton>
-          <MyButton
-            onClick={() => {
-              dispatch({
-                type: TABLE_ACTION_TYPES.TOGGLE_MULTIPLE_COLUMNS_VISIBILITY,
-                payload: values
-              });
-              setOpen(false);
-            }}
-            variant="primary"
-            size="base"
-            className="flex-1">
-            {t('Apply')}
-          </MyButton>
-        </div>
+      <div ref={dropdownRef} className="dark:bg-bg-button h-[250px] overflow-y-scroll">
+        {items.map((emp) => {
+          const label = emp.label ?? emp.fio ?? emp.name ?? String(emp.id);
+          const checked = selected.has(emp.id);
+
+          return (
+            <DropdownItemWrapper
+              key={emp.id}
+              onClick={() => toggleOne(emp.id)}
+              className="flex flex-row items-center gap-2"
+            >
+              {/* MUHIM: controlled checkbox */}
+              <MyCheckbox checked={checked} onChange={() => toggleOne(emp.id)} />
+              <label className="text-c-s text-text-base dark:text-text-title-dark">
+                {label}
+              </label>
+            </DropdownItemWrapper>
+          );
+        })}
+      </div>
+      <div className="flex w-full flex-row items-center gap-2 p-3">
+        <MyButton onClick={handleReset} variant="secondary" size="base" className="flex-1">
+          {t("Reset")}
+        </MyButton>
+
+        <MyButton
+          onClick={handleApply}
+          disabled={isApplying}
+          variant="primary"
+          size="base"
+          className="flex-1"
+        >
+          {t("Apply")}
+        </MyButton>
       </div>
     </MyDropdown>
   );
 };
 
-export default CustomizeColumnsButton;
+export default EmployeeMultiSelectDropdown;
