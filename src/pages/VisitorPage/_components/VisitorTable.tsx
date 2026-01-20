@@ -14,6 +14,7 @@ import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const VisitorTable = () => {
   const { t } = useTranslation();
@@ -49,7 +50,7 @@ const VisitorTable = () => {
         label: t('Created Time'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <>{row?.createdAt ? new Date(row?.createdAt).toLocaleString() : '--'}</>
+          <>{row?.createdAt ? dayjs(row?.createdAt).format("YYYY-MM-DD, HH:mm") : '--'}</>
         ),
       },
       {
@@ -113,7 +114,7 @@ const VisitorTable = () => {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',
         name: t('Edit'),
-        action: (row, $e) => {},
+        action: (row, $e) => { },
         allowedRoles: ['ADMIN', 'HR'],
       },
       {

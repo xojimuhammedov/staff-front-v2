@@ -24,7 +24,7 @@ export const createReportAttendanceColumns = () => {
               size="medium"
               imageUrl={
                 row?.employee?.photo
-                  ? `${config.FILE_URL}api/storage/employees/${row?.employee?.photo}`
+                  ? `${config.FILE_URL}api/storage/${row?.employee?.photo}`
                   : AvatarIcon
               }
             />

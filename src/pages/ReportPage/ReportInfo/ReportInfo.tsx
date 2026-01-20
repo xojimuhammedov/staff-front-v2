@@ -6,21 +6,22 @@ import { useGetAllQuery } from 'hooks/api';
 import { useDownloadExcel } from 'hooks/useExcel';
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import TimeSheet from '../../_components/TimeSheet';
+import TimeSheet from '../_components/TimeSheet';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
-import { Calendar } from 'lucide-react';
+import { Calendar, Download } from 'lucide-react';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { useDateParams } from '../../hooks/useDateParams';
+import { useDateParams } from '../hooks/useDateParams';
+import { twMerge } from 'tailwind-merge';
 dayjs.extend(isoWeek);
 
 const ReportInfo = () => {
     const { t } = useTranslation();
     const currentTableRef = useRef<any>(null);
     const { control, paramsValue } = useDateParams(7);
-    
+
     const filename = `timesheet_${dayjs(new Date()).format('YYYY-MM-DD_hh:mm:ss')}`;
     const sheet = 'users';
 
@@ -41,7 +42,7 @@ const ReportInfo = () => {
     });
 
     return (
-        <PageContentWrapper>
+        <>
             <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col">
                     <h1 className="headers-core dark:text-text-title-dark text-text-base">
@@ -60,12 +61,16 @@ const ReportInfo = () => {
                             startIcon={<Calendar stroke="#9096A1" />}
                         />
                     </div>
-                    <MyButton onClick={downloadExcel.onDownload} variant='primary'>{t("Download")}</MyButton>
+                    <MyButton
+                        startIcon={<Download />}
+                        onClick={downloadExcel.onDownload} variant='primary'>{t("Download")}</MyButton>
                 </div>
             </div>
             <MyDivider />
-            <TimeSheet data={data} currentTableRef={currentTableRef} />
-        </PageContentWrapper>
+            <PageContentWrapper className={'mt-0 min-h-0 rounded-none p-0 shadow-none'}>
+                <TimeSheet data={data} currentTableRef={currentTableRef} />
+            </PageContentWrapper>
+        </>
     );
 }
 
