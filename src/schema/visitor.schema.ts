@@ -7,9 +7,8 @@ export const visitorSchema = yup.object().shape({
   birthday: yup.object().nullable(),
   additionalDetails: yup.string(),
   phone: yup.string(),
-  pinfl: yup.string(),
+  passportNumberOrPinfl: yup.string().required(),
   workPlace: yup.string(),
-  passportNumber: yup.string(),
   attachedId: yup.number().required(),
   gateId: yup.number().required(),
   organizationId: yup

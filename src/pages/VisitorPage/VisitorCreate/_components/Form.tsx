@@ -81,18 +81,11 @@ function Form() {
             startIcon={<Calendar stroke="#9096A1" />}
           />
           <MyInput
-            {...register('pinfl')}
-            error={Boolean(errors?.pinfl?.message)}
-            helperText={t(`${errors?.pinfl?.message}`)}
+            {...register('passportNumberOrPinfl')}
+            error={Boolean(errors?.passportNumberOrPinfl?.message)}
+            helperText={t(`${errors?.passportNumberOrPinfl?.message}`)}
             type="tel"
-            label={t('Pinfl')}
-          />
-          <MyInput
-            {...register('passportNumber')}
-            error={Boolean(errors?.passportNumber?.message)}
-            helperText={t(`${errors?.passportNumber?.message}`)}
-            type="tel"
-            label={t('Passport Number')}
+            label={t('Pinfl or Passport Number')}
           />
           <Controller
             name="organizationId"
