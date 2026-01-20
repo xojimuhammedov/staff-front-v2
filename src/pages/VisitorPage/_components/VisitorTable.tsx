@@ -14,6 +14,8 @@ import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+
 
 const VisitorTable = () => {
   const { t } = useTranslation();
@@ -25,6 +27,8 @@ const VisitorTable = () => {
     url: URLS.getVisitorList,
     params: {},
   });
+
+  // const { data: validateMap, isLoading: validating } = useValidateCodes(uniqueCodes);
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -49,7 +53,7 @@ const VisitorTable = () => {
         label: t('Created Time'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <>{row?.createdAt ? new Date(row?.createdAt).toLocaleString() : '--'}</>
+          <>{row?.createdAt ? dayjs(row?.createdAt).format("YYYY-MM-DD, HH:mm") : '--'}</>
         ),
       },
       {
@@ -64,6 +68,12 @@ const VisitorTable = () => {
         headerClassName: 'w-1/3',
         cellRender: (row) => <>{row?.workPlace ?? '--'}</>,
       },
+      // {
+      //   key: 'status',
+      //   label: t('Using type'),
+      //   headerClassName: 'w-1/3',
+      //   cellRender: (row) => <>{useValidateCodes(row?.onetimeCodes)}</>,
+      // },
     ],
     [t]
   );
@@ -94,6 +104,11 @@ const VisitorTable = () => {
       label: t('Work Place'),
       headerClassName: 'w-1/3',
     },
+    // {
+    //   id: 6,
+    //   label: t('Using type'),
+    //   headerClassName: 'w-1/3',
+    // },
   ];
 
   const filter: IFilter[] = useMemo(() => [], [t]);
@@ -113,7 +128,7 @@ const VisitorTable = () => {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',
         name: t('Edit'),
-        action: (row, $e) => {},
+        action: (row, $e) => { },
         allowedRoles: ['ADMIN', 'HR'],
       },
       {
