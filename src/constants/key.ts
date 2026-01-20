@@ -44,5 +44,6 @@ export const KEYS = {
   getDeviceSettingsInfo: "getDeviceSettingsInfo",
   deviceDisplay: "deviceDisplay",
   deviceCredentialType: "deviceCredentialType",
-  dashboardToday: "dashboardToday"
+  dashboardToday: "dashboardToday",
+  employeeCredentialFileUpload: "employeeCredentialFileUpload"
 };

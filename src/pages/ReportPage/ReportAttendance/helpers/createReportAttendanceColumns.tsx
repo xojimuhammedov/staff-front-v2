@@ -2,20 +2,15 @@ import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types
 import MyAvatar from 'components/Atoms/MyAvatar';
 import MyBadge from 'components/Atoms/MyBadge';
 import config from 'configs';
-import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import dayjs from 'dayjs';
 import { IAction } from 'interfaces/action.interface';
-import { View } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getTimeDifference } from 'utils/helper';
-import ReportReasonModal from '../_components/ReportReasonModal';
-import { useNavigate } from 'react-router-dom';
 import AvatarIcon from '../../../../assets/icons/avatar.jpg';
 
-export const createReportAttendanceColumns = ({ refetch }: any) => {
+export const createReportAttendanceColumns = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
