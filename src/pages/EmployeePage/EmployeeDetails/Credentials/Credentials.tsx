@@ -43,7 +43,7 @@ const Credentials = () => {
 
     const typeData = [
         {
-            label: "All",
+            label: t('All'),
             value: null
         },
         ...credentialTypeData
@@ -94,7 +94,7 @@ const Credentials = () => {
             },
             {
                 onSuccess: () => {
-                    toast.success(t('Edit successfully!'));
+                    toast.success(t('Successfully edited!'));
                     refetch()
                     setOpen(false)
                 },
@@ -176,7 +176,7 @@ const Credentials = () => {
 
                         <div className='mb-6'>
                             <p className='text-sm text-gray-600'>
-                                Type: <span className='font-semibold'>{item?.type}</span>
+                                {t('Type')}: <span className='font-semibold'>{item?.type}</span>
                             </p>
                         </div>
 
@@ -189,7 +189,7 @@ const Credentials = () => {
                                     setOpen(true)
                                 }}
                             >
-                                {item?.isActive ? "Inactive" : "Active"}
+                                {item?.isActive ? t('Inactive') : t('Active')}
                             </Button>
                             {/* <Button
                                 variant='secondary'
@@ -236,7 +236,11 @@ const Credentials = () => {
                 }}
             />
             <ConfirmationCredential
-                title={active?.isActive ? t("Buning holatini faolsizlantirmoqchimisiz?") : t("Buning holatini faollashtirmoqchimisiz?")}
+                title={
+                    active?.isActive
+                        ? t('Are you sure you want to deactivate this credential?')
+                        : t('Are you sure you want to activate this credential?')
+                }
                 subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
                 open={open} setOpen={setOpen} confirmationDelete={onSubmit}
             />

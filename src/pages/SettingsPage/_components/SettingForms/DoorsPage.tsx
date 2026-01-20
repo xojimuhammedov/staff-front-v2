@@ -158,8 +158,8 @@ const DoorsPage = () => {
         />
       </TableProvider>
       <ConfirmationModal
-        title={t("Bu xonani o'chirmoqchimisiz?")}
-        subTitle={t("Bu amalni qaytarib bo'lmaydi! Xona o'chiriladi va unga bog'langan barcha qurilmalar o'chiriladi.")}
+        title={t("Are you sure you want to delete this door?")}
+        subTitle={t("This action cannot be undone. The door will be deleted and all devices linked to it will be removed.")}
         open={show} setOpen={setShow} confirmationDelete={deleteItem} />
     </>
   );

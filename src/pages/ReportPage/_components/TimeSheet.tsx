@@ -98,7 +98,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
               }}
               rowSpan={2}
             >
-              {t('По плану')}
+              {t('According to plan')}
             </th>
             <th
               style={{
@@ -109,7 +109,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
               }}
               rowSpan={2}
             >
-              {t('Опоздание')}
+              {t('Late2')}
             </th>
             <th
               style={{
@@ -120,7 +120,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
               }}
               rowSpan={2}
             >
-              {t('Ранний уход')}
+              {t('Early departure')}
             </th>
             <th
               style={{
@@ -131,7 +131,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
               }}
               rowSpan={2}
             >
-              {t('Отработано')}
+              {t('Completed')}
             </th>
             <th
               style={{
@@ -142,7 +142,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
               }}
               rowSpan={2}
             >
-              {t('Вовремя')}
+              {t('During')}
             </th>
             <th
               style={{
@@ -153,7 +153,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
               }}
               rowSpan={2}
             >
-              {t('Сверхурочно')}
+              {t('Overtime')}
             </th>
             <th
               style={{
@@ -164,7 +164,7 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
               }}
               rowSpan={2}
             >
-              {t('Вне графика')}
+              {t('Off schedule')}
             </th>
             <th
               style={{

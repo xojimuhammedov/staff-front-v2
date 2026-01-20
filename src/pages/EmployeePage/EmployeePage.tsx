@@ -75,7 +75,7 @@ function EmployeePage() {
                 variant="secondary"
                 startIcon={<ArrowLeft />}
               >
-                {t('Back to employee list')}
+                {t('Back to employees list')}
               </MyButton>
             )}
           </div>

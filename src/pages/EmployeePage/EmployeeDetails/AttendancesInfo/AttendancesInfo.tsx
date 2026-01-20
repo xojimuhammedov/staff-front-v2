@@ -66,7 +66,7 @@ const AttendancesInfo = () => {
             <div className='flex items-center justify-between'>
                 <div className='flex flex-col gap-2'>
                     <h1 className='headers-core dark:text-text-title-dark text-text-base'>{t('Attendance & Arrival/Leave Tracking')}</h1>
-                    <p>Monitor employee attendance patterns and punctuality</p>
+                    <p>{t('Monitor employee attendance patterns and punctuality')}</p>
                 </div>
                 <div className="flex items-center w-[240px]">
                     <MyTailwindPicker
@@ -83,7 +83,7 @@ const AttendancesInfo = () => {
             <div className='grid grid-cols-5 gap-4'>
                 <AttendanceCard
                     averageArrival={toHHmm(cardData?.averageArrivalTime) || "-"}
-                    title='Average Arrival Time'
+                    title={t('Average Arrival Time')}
                     statusText={`${cardData?.avgArrivalEarlyMinutes === 0 ? timeLine(cardData?.avgArrivalLateMinutes) : timeLine(cardData?.avgArrivalEarlyMinutes)}`}
                     statusClass={cardData?.avgArrivalEarlyMinutes === 0 ? "late" : "early"}
                     icon={<LogIn color='green' />}
@@ -91,7 +91,7 @@ const AttendancesInfo = () => {
 
                 <AttendanceCard
                     averageArrival={toHHmm(cardData?.averageLeaveTime) || "-"}
-                    title='Average Leave Time'
+                    title={t('Average Leave Time')}
                     statusText={`${cardData?.avgLeaveOvertimeMinutes === 0 ? timeLine(cardData?.avgLeaveEarlyMinutes) : timeLine(cardData?.avgLeaveOvertimeMinutes)}`}
                     statusClass={cardData?.avgLeaveOvertimeMinutes === 0 ? "early" : "late"}
                     icon={<LogOut color='green' />}
@@ -100,17 +100,17 @@ const AttendancesInfo = () => {
                 <AttendanceCard
                     averageArrival={cardData?.totalTrackedHours || "-"}
                     icon={<Clock />}
-                    title='Total tracked hours' />
+                    title={t('Total tracked hours')} />
 
                 <AttendanceCard
                     averageArrival={cardData?.lateArrivalsCount || "-"}
                     icon={<LogIn color='red' />}
-                    title='Late Arrivals' />
+                    title={t('Late arrivals')} />
 
                 <AttendanceCard
                     averageArrival={cardData?.earlyLeavesCount || "-"}
                     icon={<LogOut color='red' />}
-                    title='Early Leaves' />
+                    title={t('Early leaves')} />
             </div>
             <ArrivalDepartureTimeline data={data} />
         </>

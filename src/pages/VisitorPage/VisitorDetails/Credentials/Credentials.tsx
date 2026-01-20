@@ -73,7 +73,7 @@ const Credentials = () => {
       },
       {
         onSuccess: () => {
-          toast.success(t('Edit successfully!'));
+          toast.success(t('Successfully edited!'));
           refetchOnetimeCodes();
           setOpen(false);
         },
@@ -187,10 +187,10 @@ const Credentials = () => {
       <ConfirmationCredential
         title={
           active?.isActive
-            ? t('Buning holatini faolsizlantirmoqchimisiz?')
-            : t('Buning holatini faollashtirmoqchimisiz?')
+            ? t('Are you sure you want to deactivate this code?')
+            : t('Are you sure you want to activate this code?')
         }
-        subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+        subTitle={t('This action cannot be undone!')}
         open={open}
         setOpen={setOpen}
         confirmationDelete={() => {

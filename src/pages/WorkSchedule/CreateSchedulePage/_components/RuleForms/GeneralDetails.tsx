@@ -143,7 +143,7 @@ const GeneralDetails = () => {
                 render={({ field, fieldState }) => (
                   <MyTimePicker
                     {...field}
-                    label="Start work time"
+                    label={t("Start work time")}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
                   />
@@ -219,7 +219,7 @@ const GeneralDetails = () => {
                         label: evt.fullName,
                         value: evt.id,
                       }))}
-                      placeholder='Select organization'
+                      placeholder={t('Select organization')}
                       value={field.value as any}  // 👈 cast to any
                       onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                       onBlur={field.onBlur}

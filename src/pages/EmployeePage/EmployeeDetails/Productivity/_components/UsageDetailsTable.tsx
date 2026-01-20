@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Ma'lumotlar modeli va funksiyalari (avvalgidek bir xil)
 export interface UsageDetail {
@@ -43,16 +44,17 @@ const getScoreStyles = (scoreColor: UsageDetail['scoreColor']) => {
 };
 
 const UsageDetailsTable: React.FC = () => {
+    const { t } = useTranslation();
     return (
         <div className="bg-white p-4 mt-6 sm:p-6 rounded-[12px] border shadow-lg w-full max-w-7xl mx-auto">
-            <h2 className="text-xl font-semibold text-gray-800 mb-6">Usage Details</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-6">{t('Usage Details')}</h2>
 
             {/* Jadvallarning ustun sarlavhalari - faqat Desktopda ko'rinadi */}
             <div className="grid grid-cols-4 border-b border-gray-200 py-3 text-sm font-medium text-gray-500">
-                <div className="px-4 text-gray-400">App / Site Name</div>
-                <div className="px-4 text-gray-400">Category</div>
-                <div className="px-4 text-gray-400">Total Usage Time</div>
-                <div className="px-4 text-gray-400">Activity Score</div>
+                <div className="px-4 text-gray-400">{t('App / Site Name')}</div>
+                <div className="px-4 text-gray-400">{t('Category')}</div>
+                <div className="px-4 text-gray-400">{t('Total Usage Time')}</div>
+                <div className="px-4 text-gray-400">{t('Activity Score')}</div>
             </div>
 
             {/* Ma'lumotlar qatorlari */}
@@ -70,7 +72,7 @@ const UsageDetailsTable: React.FC = () => {
 
                         <div className="px-4">
                             <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border ${getCategoryStyles(detail.category)}`}>
-                                {detail.category}
+                                {t(detail.category)}
                             </span>
                         </div>
 

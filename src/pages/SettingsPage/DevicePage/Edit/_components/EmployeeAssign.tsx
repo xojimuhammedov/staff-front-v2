@@ -116,10 +116,10 @@ function EmployeeAssign({ deviceId }: any) {
                 <div className="flex items-center justify-between">
                     <LabelledCaption
                         title={deviceId ? t("Edit employees") : t("Add employees")}
-                        subtitle={t("Create group and link to door")}
+                        subtitle={t("Create employees group and link to the door")}
                     />
                     <MyButton variant="primary" onClick={() => navigate("/settings?current-setting=deviceControl")} type="submit">
-                        Save changes
+                        {t('Save changes')}
                     </MyButton>
                 </div>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ProductivityScoreCardProps {
     score: number;
@@ -13,6 +14,7 @@ const ProductivityScoreCard: React.FC<ProductivityScoreCardProps> = ({
     description,
     progressBarText,
 }) => {
+    const { t } = useTranslation();
     // Calculate the percentage for the progress bar
     const progressPercentage = (score / maxScore) * 100;
 
@@ -41,10 +43,10 @@ const ProductivityScoreCard: React.FC<ProductivityScoreCardProps> = ({
             <div className="flex justify-between items-start mb-8">
                 <div>
                     <h3 className="text-[#FBC02D] text-base font-medium">
-                        Total Productivity Score
+                        {t('Total Productivity Score')}
                     </h3>
                     <p className="text-gray-500 text-sm">
-                        Based on app usage analysis
+                        {t('Based on app usage analysis')}
                     </p>
                 </div>
                 {LightningIcon}

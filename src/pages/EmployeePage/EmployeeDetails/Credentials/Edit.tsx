@@ -64,7 +64,7 @@ const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => 
             },
             {
                 onSuccess: () => {
-                    toast.success(t('Edit successfully!'));
+                    toast.success(t('Successfully edited!'));
                     reset();
                     refetch()
                     onClose()
@@ -109,7 +109,7 @@ const EditForm = ({ onClose, refetch, data, credentialId, employeeId }: any) => 
                         {...register("additionalDetails")}
                         error={Boolean(errors?.additionalDetails?.message)}
                         helperText={t(`${errors?.additionalDetails?.message}`)}
-                        label={t('Details...')}
+                        label={t('Details')}
                     />
                     <Controller
                         name="organizationId"

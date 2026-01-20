@@ -182,8 +182,8 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
             </TableProvider>
 
             <ConfirmationModal
-                title={t("Bu device o'chirmoqchimisiz?")}
-                subTitle={t("Bu amalni qaytarib bo'lmaydi! Device o'chiriladi va unga bog'langan barcha qurilmalar o'chiriladi.")}
+                title={t("Are you sure you want to delete this device?")}
+                subTitle={t("This action cannot be undone. The device will be deleted and all linked devices will be removed.")}
                 open={show} setOpen={setShow} confirmationDelete={deleteItem} />
         </>
     );

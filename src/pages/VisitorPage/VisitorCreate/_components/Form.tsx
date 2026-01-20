@@ -49,7 +49,7 @@ function Form() {
             {...register('middleName')}
             error={Boolean(errors?.middleName?.message)}
             helperText={t(`${errors?.middleName?.message}`)}
-            label={t('Visitor middle name')}
+            label={t('Visitor email')}
           />
           <MyInput
             {...register('workPlace')}
@@ -75,7 +75,7 @@ function Form() {
             name="birthday"
             control={control}
             asSingle={true}
-            placeholder="Select birthday"
+            placeholder={t('Select birthday')}
             label={t('Birthday')}
             useRange={false}
             startIcon={<Calendar stroke="#9096A1" />}
