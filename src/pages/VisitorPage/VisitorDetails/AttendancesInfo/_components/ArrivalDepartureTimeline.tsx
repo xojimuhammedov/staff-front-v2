@@ -82,7 +82,6 @@ export default function ArrivalDepartureTimeline({ data }: any) {
                 ))}
               </div>
             </div>
-
             <div className="border-b dark:border-gray-700" />
           </div>
         ))}
