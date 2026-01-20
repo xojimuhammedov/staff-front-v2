@@ -37,7 +37,7 @@ const DoorsPage = () => {
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.getDoorGates,
     url: URLS.getDoorGates,
-    params: {}
+    params: {},
   });
 
   const columns: DataGridColumnType[] = useMemo(
@@ -46,12 +46,14 @@ const DoorsPage = () => {
         key: 'name',
         label: t('Door name'),
         headerClassName: 'sm:w-1/4 lg:flex-1',
-        cellRender: (row) => <div className="dark:text-text-title-dark">{row?.name ?? '--'}</div>
+        cellRender: (row) => <div className="dark:text-text-title-dark">{row?.name ?? '--'}</div>,
       },
       {
         key: 'countDevices',
         label: t('Devices'),
-        cellRender: (row) => <div className="dark:text-text-title-dark">{row?._count?.devices ?? '--'}</div>
+        cellRender: (row) => (
+          <div className="dark:text-text-title-dark">{row?._count?.devices ?? '--'}</div>
+        ),
       },
     ],
     [t]
@@ -61,11 +63,11 @@ const DoorsPage = () => {
     {
       id: 1,
       label: t('Door name'),
-      headerClassName: 'sm:w-1/4 lg:flex-1'
+      headerClassName: 'sm:w-1/4 lg:flex-1',
     },
     {
       id: 2,
-      label: t('Devices')
+      label: t('Devices'),
     },
   ];
 
@@ -77,15 +79,15 @@ const DoorsPage = () => {
         name: t('View door'),
         action: (row) => {
           navigate(`/settings/maingate/${row.id}`);
-        }
+        },
       },
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',
         name: t('Edit'),
         action: (row, $e) => {
-          navigate(`/settings/door/edit/${row?.id}`)
-        }
+          navigate(`/settings/door/edit/${row?.id}`);
+        },
       },
       {
         icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
@@ -94,27 +96,27 @@ const DoorsPage = () => {
         action: (row) => {
           setDoorId(row?.id);
           setShow(true);
-        }
-      }
+        },
+      },
     ],
     [t]
   );
 
   const { mutate: deleteRequest } = useDeleteQuery({
-    listKeyId: KEYS.getDoorGates
+    listKeyId: KEYS.getDoorGates,
   });
 
   const deleteItem = () => {
     if (!doorId) return;
     deleteRequest(
       {
-        url: `${URLS.getDoorGates}/${doorId}`
+        url: `${URLS.getDoorGates}/${doorId}`,
       },
       {
         onSuccess: () => {
           refetch();
           setShow(false);
-        }
+        },
       }
     );
   };
@@ -137,8 +139,13 @@ const DoorsPage = () => {
         <MyButton
           onClick={() => navigate('/settings/door/create')}
           startIcon={<Plus />}
-          variant="primary"
-          className="[&_svg]:stroke-bg-white w-auto min-w-[170px] px-4 text-sm whitespace-normal text-center leading-snug">
+          className={`
+                text-sm w-[170px]
+                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
+                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
+                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
+              `}
+            >
           {t('Add new door')}
         </MyButton>
       </div>
@@ -148,8 +155,9 @@ const DoorsPage = () => {
           columns,
           filter: { search: '' },
           rows: get(data, 'data', []),
-          keyExtractor: 'id'
-        }}>
+          keyExtractor: 'id',
+        }}
+      >
         <DataGrid
           hasCustomizeColumns={false}
           dataColumn={dataColumn}
@@ -158,9 +166,14 @@ const DoorsPage = () => {
         />
       </TableProvider>
       <ConfirmationModal
-        title={t("Bu xonani o'chirmoqchimisiz?")}
-        subTitle={t("Bu amalni qaytarib bo'lmaydi! Xona o'chiriladi va unga bog'langan barcha qurilmalar o'chiriladi.")}
-        open={show} setOpen={setShow} confirmationDelete={deleteItem} />
+        title={t('Are you sure you want to delete this door?')}
+        subTitle={t(
+          'This action cannot be undone. The door will be deleted and all devices linked to it will be removed.'
+        )}
+        open={show}
+        setOpen={setShow}
+        confirmationDelete={deleteItem}
+      />
     </>
   );
 };

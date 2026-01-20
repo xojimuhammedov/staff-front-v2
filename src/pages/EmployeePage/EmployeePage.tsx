@@ -53,7 +53,6 @@ function EmployeePage() {
               }}
               allowedRoles={['ADMIN', 'HR']}
               startIcon={<Plus />}
-              variant="primary"
               className={`
                 text-sm w-[230px]
                 bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
@@ -75,7 +74,7 @@ function EmployeePage() {
                 variant="secondary"
                 startIcon={<ArrowLeft />}
               >
-                {t('Back to employee list')}
+                {t('Back to employees list')}
               </MyButton>
             )}
           </div>

@@ -15,8 +15,8 @@ const Productivity = () => {
             <div className='flex items-center gap-4'>
                 <ProductivityScoreCard
                     score={85}
-                    description="out of 100"
-                    progressBarText="Excellent productivity"
+                    description={t("Total Productivity Score")}
+                    progressBarText={t("Excellent productivity")}
                 />
                 <UsageBreakdownCard productivePercentage={78}
                     productiveTime="33h 10m"

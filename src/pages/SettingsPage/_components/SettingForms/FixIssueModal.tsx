@@ -22,7 +22,7 @@ const FixIssueModal = ({ row }: any) => {
                 }}
                 headerProps={{
                     children: (
-                        <h2 className="text-20 leading-32 font-inter tracking-tight text-black">
+                        <h2 className="text-20 leading-32 font-inter tracking-tight text-black dark:text-text-title-dark">
                             {t('Error issue')}
                         </h2>
                     )
@@ -30,7 +30,7 @@ const FixIssueModal = ({ row }: any) => {
                 bodyProps={{
                     children: (
                         <>
-                            <h2 className="mt-2 text-base dark:text-text-title-dark font-medium leading-7">
+                            <h2 className="mt-2 text-base text-text-base dark:text-text-title-dark font-medium leading-7">
                                 {row?.message}
                             </h2>
                         </>

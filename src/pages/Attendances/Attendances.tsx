@@ -94,7 +94,7 @@ const Attendances = () => {
                             asSingle={false}
                             control={control}
                             placeholder={t('Today')}
-                            startIcon={<Calendar stroke="#9096A1" />}
+                            startIcon={<Calendar className="stroke-text-muted dark:stroke-text-title-dark" />}
                         />
                     </div>
                 </div>

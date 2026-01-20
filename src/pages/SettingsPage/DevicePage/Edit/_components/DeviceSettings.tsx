@@ -184,7 +184,7 @@ const DeviceSettings = ({ handleClick, deviceId }: any) => {
                                     checked={field.value}
                                     onChange={field.onChange}
                                     className='w-full'
-                                    label={t("show Name")}
+                                    label={t("Show name")}
                                 />
                             )}
                         />
@@ -220,7 +220,7 @@ const DeviceSettings = ({ handleClick, deviceId }: any) => {
                                     checked={field.value}
                                     onChange={field.onChange}
                                     className='w-full'
-                                    label={t("Show EmployeeNo")}
+                                    label={t("Show employee no")}
                                 />
                             )}
                         />

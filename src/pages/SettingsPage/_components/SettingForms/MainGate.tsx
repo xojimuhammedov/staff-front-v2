@@ -57,7 +57,7 @@ function MainGate() {
         label: t('Employee name'),
         headerClassName: 'flex-1',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
+          <div className="flex items-center gap-4 text-text-base dark:text-text-title-dark">
             {row?.employee?.name}
           </div>
         )
@@ -67,7 +67,7 @@ function MainGate() {
         label: t('Organization name'),
         headerClassName: 'flex-1',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
+          <div className="flex items-center gap-4 text-text-base dark:text-text-title-dark">
             {row?.organization?.fullName}
           </div>
         )
@@ -77,7 +77,7 @@ function MainGate() {
         label: t('Credential name'),
         headerClassName: 'flex-1',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
+          <div className="flex items-center gap-4 text-text-base dark:text-text-title-dark">
             {row?.credential?.type ?? "--"}
           </div>
         )
@@ -87,7 +87,7 @@ function MainGate() {
         label: t('Device name'),
         headerClassName: 'flex-1',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
+          <div className="flex items-center gap-4 text-text-base dark:text-text-title-dark">
             {row?.device?.name ?? "--"}
           </div>
         )
@@ -157,8 +157,14 @@ function MainGate() {
         <div className='flex items-center gap-4'>
           <MyButton
             onClick={() => navigate('/settings')}
-            variant="secondary"
-            startIcon={<ArrowLeft />}>
+            startIcon={<ArrowLeft />}
+            className={`
+              text-sm w-[230px]
+              bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
+              dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
+              [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
+            `}
+          >
             {t('Back to gates list')}
           </MyButton>
         </div>

@@ -27,8 +27,7 @@ const EditEmployee = () => {
         </div>
         <MyButton
           onClick={() => navigate('/employees')}
-          
-          variant="secondary"
+          // variant="secondary"
           startIcon={<ArrowLeft />}>
           {t('Back to employees list')}
         </MyButton>

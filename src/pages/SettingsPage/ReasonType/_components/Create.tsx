@@ -75,8 +75,12 @@ const Create = ({ refetch }: any) => {
                 }}
                 allowedRoles={['ADMIN', "HR"]}
                 startIcon={<Plus />}
-                variant="primary"
-                className="[&_svg]:stroke-bg-white w-[160px] text-sm">
+                 className={`
+                text-sm w-[160px]
+                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
+                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
+                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
+              `}>
                 {t('Create reason')}
             </MyButton>
             <MyModal

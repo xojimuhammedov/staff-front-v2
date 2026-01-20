@@ -14,28 +14,27 @@ import { ISelect } from 'interfaces/select.interface';
 import * as yup from 'yup'
 import { useNavigate } from 'react-router-dom';
 
-const checkType = [
-    {
-        id: 1,
-        label: "Both",
-        value: "BOTH"
-    },
-    {
-        id: 2,
-        label: "Check in",
-        value: "ENTER"
-    },
-    {
-        id: 3,
-        label: "Check out",
-        value: "EXIT"
-    }
-]
-
 const Form = () => {
     const { t } = useTranslation();
     const navigate = useNavigate()
     const [selectGates, setSelectGates] = useState<number[]>([]);
+    const checkType = [
+        {
+            id: 1,
+            label: t("Both"),
+            value: "BOTH"
+        },
+        {
+            id: 2,
+            label: t("Check in"),
+            value: "ENTER"
+        },
+        {
+            id: 3,
+            label: t("Check out"),
+            value: "EXIT"
+        }
+    ]
 
     const { data } = useGetAllQuery<any>({
         key: KEYS.getDoorGates,

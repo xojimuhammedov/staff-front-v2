@@ -73,7 +73,7 @@ const Credentials = () => {
       },
       {
         onSuccess: () => {
-          toast.success(t('Edit successfully!'));
+          toast.success(t('Successfully edited!'));
           refetchOnetimeCodes();
           setOpen(false);
         },
@@ -132,6 +132,7 @@ const Credentials = () => {
             control={control}
             render={({ field, fieldState }) => (
               <MySelect
+                placeholder={t('Select type')}
                 options={codeTypeOptions?.map((evt: any) => ({
                   label: evt.label,
                   value: evt.value,
@@ -152,7 +153,12 @@ const Credentials = () => {
           onClick={() =>
             setShowModal(true)
           }
-          className={'[&_svg]:stroke-bg-white'}
+          className={`
+                text-sm w-[170px]
+                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
+                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
+                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
+              `}
           variant="primary"
         >
           {t('Add new type')}
@@ -187,10 +193,10 @@ const Credentials = () => {
       <ConfirmationCredential
         title={
           active?.isActive
-            ? t('Buning holatini faolsizlantirmoqchimisiz?')
-            : t('Buning holatini faollashtirmoqchimisiz?')
+            ? t('Are you sure you want to deactivate this code?')
+            : t('Are you sure you want to activate this code?')
         }
-        subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+        subTitle={t('This action cannot be undone!')}
         open={open}
         setOpen={setOpen}
         confirmationDelete={() => {

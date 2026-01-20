@@ -173,7 +173,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         />
       </TableProvider>
       <ConfirmationModal
-        title={t("Bu hodimni o'chirmoqchimisiz?")}
+        title={t('Are you sure you want to delete this employee?')}
         subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
         open={show} setOpen={setShow} confirmationDelete={deleteItem} />
     </>

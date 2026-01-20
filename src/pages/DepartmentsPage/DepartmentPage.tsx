@@ -61,8 +61,7 @@ const DepartmentPage = () => {
           <div className='flex items-center gap-4'>
             <MyButton
               startIcon={<Plus />}
-              onClick={() => setShowModal(true)}
-              variant="primary"
+              onClick={() => setShowModal(true)}    
               allowedRoles={['ADMIN', "HR"]}
               className={`
                 text-sm w-[230px]

@@ -182,8 +182,8 @@ const VisitorTable = () => {
         />
       </TableProvider>
       <ConfirmationModal
-        title={t("Bu mehmonni o'chirmoqchimisiz?")}
-        subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+        title={t('Are you sure you want to delete this visitor?')}
+        subTitle={t('This action cannot be undone!')}
         open={open}
         setOpen={setOpen}
         confirmationDelete={deleteItem}

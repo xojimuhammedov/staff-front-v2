@@ -112,13 +112,13 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
             case 'PHOTO':
                 return (
                     <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Upload Photo
+                        <label className="block text-sm font-medium text-gray-700 dark:text-text-title-dark mb-2">
+                            {t('Upload image')}
                         </label>
                         <div
                             className={`border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer ${isDragging
-                                ? 'border-blue-500 bg-blue-50'
-                                : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+                                ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-400'
+                                : 'border-gray-300 dark:border-gray-600 hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
                                 }`}
                             onDragOver={handleDragOver}
                             onDragLeave={handleDragLeave}
@@ -139,24 +139,24 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
                                         alt="Preview"
                                         className="mx-auto max-h-36 rounded-lg mb-3"
                                     />
-                                    <p className="text-sm text-gray-600">{selectedFile.name}</p>
+                                    <p className="text-sm text-gray-600 dark:text-text-title-dark">{selectedFile.name}</p>
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setSelectedFile(null);
                                         }}
-                                        className="mt-2 text-sm text-red-600 hover:text-red-700"
+                                        className="mt-2 text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
                                     >
-                                        Remove
+                                        {t('Remove')}
                                     </button>
                                 </div>
                             ) : (
                                 <div>
-                                    <Upload className="mx-auto h-12 w-12 text-gray-400 mb-3" />
-                                    <p className="text-sm text-gray-600 mb-1">
-                                        Drag & drop your photo here, or click to select
+                                    <Upload className="mx-auto h-12 w-12 text-gray-400 dark:text-text-title-dark mb-3" />
+                                    <p className="text-sm text-gray-600 dark:text-text-title-dark mb-1">
+                                        {t('Drag & Drop your files or Browse')}
                                     </p>
-                                    <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+                                    <p className="text-xs text-gray-500 dark:text-text-subtle">{t('PNG, JPG up to 10MB')}</p>
                                 </div>
                             )}
                         </div>
@@ -166,8 +166,8 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
             case 'CARD':
                 return (
                     <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Card Number
+                        <label className="block text-sm font-medium text-gray-700 dark:text-text-title-dark mb-2">
+                            {t('Card Number')}
                         </label>
                         <MyInput
                             value={cardNumber}
@@ -175,25 +175,27 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
                                 const value = e.target.value.replace(/\D/g, '').slice(0, 10);
                                 setCardNumber(value);
                             }}
-                            placeholder="Enter 10-digit card number"
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                            placeholder={t('Enter 10-digit card number')}
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                             maxLength={10}
                         />
-                        <p className="text-xs text-gray-500 mt-1">{cardNumber.length}/10 digits</p>
+                        <p className="text-xs text-gray-500 dark:text-text-subtle mt-1">
+                            {cardNumber.length}/10 {t('digits')}
+                        </p>
                     </div>
                 );
 
             case 'CAR':
                 return (
                     <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Car Number
+                        <label className="block text-sm font-medium text-gray-700 dark:text-text-title-dark mb-2">
+                            {t('Car Number')}
                         </label>
                         <MyInput
                             value={carNumber}
                             onChange={(e) => setCarNumber(e.target.value.toUpperCase())}
                             placeholder="01A001AA"
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-mono text-lg"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-mono text-lg"
                         />
                     </div>
                 );
@@ -201,8 +203,8 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
             case 'QR':
                 return (
                     <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Generated QR Code
+                        <label className="block text-sm font-medium text-gray-700 dark:text-text-title-dark mb-2">
+                            {t('Generated QR Code')}
                         </label>
                         <div className="flex flex-col items-center">
                             <QRCodeCanvas
@@ -213,7 +215,7 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
                             <MyButton variant='secondary'
                                 onClick={handleGenerate}
                                 startIcon={<Download className="h-4 w-4" />}>
-                                Generate QR Code
+                                {t('Generate QR Code')}
                             </MyButton>
                         </div>
                     </div>
@@ -222,8 +224,8 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
             case 'PERSONAL_CODE':
                 return (
                     <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Personal Code
+                        <label className="block text-sm font-medium text-gray-700 dark:text-text-title-dark mb-2">
+                            {t('Personal Code')}
                         </label>
                         <MyInput
                             type="text"
@@ -232,10 +234,12 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
                                 const value = e.target.value.replace(/\D/g, '').slice(0, 10);
                                 setPersonalCode(value);
                             }}
-                            placeholder="Enter 10-digit personal code"
+                            placeholder={t('Enter 10-digit personal code')}
                             maxLength={10}
                         />
-                        <p className="text-xs text-gray-500 mt-1">{personalCode.length}/10 digits</p>
+                        <p className="text-xs text-gray-500 dark:text-text-subtle mt-1">
+                            {personalCode.length}/10 {t('digits')}
+                        </p>
                     </div>
                 );
             default:
@@ -253,7 +257,7 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
                     size: 'md'
                 }}
                 headerProps={{
-                    children: <h2 className="text-gray-800">{t('Profile picture')}</h2>
+                    children: <h2 className="text-gray-800 dark:text-text-title-dark">{t('Profile picture')}</h2>
                 }}
                 bodyProps={{
                     children: (

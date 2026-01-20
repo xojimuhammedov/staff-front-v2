@@ -85,8 +85,8 @@ const VisitorDetailsModal = ({
               {/* Header */}
               <div className="text-center space-y-3">
                 <p className="text-sm text-gray-500">
-                  This QR code is your entry pass <br />
-                  Ushbu QR kod bino kirishi uchun mo‘ljallangan
+                  {t('This QR code is your entry pass')} <br />
+                  {t('This QR code is intended for building entry')}
                 </p>
               </div>
 
@@ -107,7 +107,7 @@ const VisitorDetailsModal = ({
                       />
                     </div>
                   </div>
-                  <span className="text-sm text-gray-500">Scan to check-in</span>
+                  <span className="text-sm text-gray-500">{t('Scan to check in')}</span>
                 </div>
               </div>
             </div>
@@ -117,12 +117,12 @@ const VisitorDetailsModal = ({
                 startIcon={<Download className="w-4 h-4" />}
                 className="flex items-center gap-2 px-5 py-2 rounded-lg bg-black text-white [&_svg]:stroke-bg-white"
               >
-                Download PDF
+                {t('Download PDF')}
               </MyButton>
               <MyButton onClick={() => {
                 visitor.visitor ? onClose() : navigate("/visitor")
               }} className="px-6 py-2 rounded-lg bg-black text-white hover:opacity-90">
-                Done
+                {t('Done')}
               </MyButton>
             </div>
           </div>
