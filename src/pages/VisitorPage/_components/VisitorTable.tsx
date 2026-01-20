@@ -16,6 +16,7 @@ import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
+
 const VisitorTable = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ const VisitorTable = () => {
     url: URLS.getVisitorList,
     params: {},
   });
+
+  // const { data: validateMap, isLoading: validating } = useValidateCodes(uniqueCodes);
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -65,6 +68,12 @@ const VisitorTable = () => {
         headerClassName: 'w-1/3',
         cellRender: (row) => <>{row?.workPlace ?? '--'}</>,
       },
+      // {
+      //   key: 'status',
+      //   label: t('Using type'),
+      //   headerClassName: 'w-1/3',
+      //   cellRender: (row) => <>{useValidateCodes(row?.onetimeCodes)}</>,
+      // },
     ],
     [t]
   );
@@ -95,6 +104,11 @@ const VisitorTable = () => {
       label: t('Work Place'),
       headerClassName: 'w-1/3',
     },
+    // {
+    //   id: 6,
+    //   label: t('Using type'),
+    //   headerClassName: 'w-1/3',
+    // },
   ];
 
   const filter: IFilter[] = useMemo(() => [], [t]);

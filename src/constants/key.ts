@@ -45,5 +45,6 @@ export const KEYS = {
   deviceDisplay: "deviceDisplay",
   deviceCredentialType: "deviceCredentialType",
   dashboardToday: "dashboardToday",
-  employeeCredentialFileUpload: "employeeCredentialFileUpload"
+  employeeCredentialFileUpload: "employeeCredentialFileUpload",
+  oneTimeCodeExpire: "oneTimeCodeExpire"
 };

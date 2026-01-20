@@ -45,5 +45,6 @@ export const URLS = {
   deviceDisplay: "/api/v1/devices/display",
   deviceCredentialType: "/api/v1/devices/credential-auth",
   dashboardToday: "/api/v1/dashboard/today",
-  employeeCredentialFileUpload:"/api/v1/credentials/upload-photo"
+  employeeCredentialFileUpload: "/api/v1/credentials/upload-photo",
+  oneTimeCodeExpire: "/api/v1/onetime-codes/validate"
 };
