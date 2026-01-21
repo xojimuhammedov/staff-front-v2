@@ -26,18 +26,18 @@ const MyModal: FC<MyModalProps> = ({
   children
 }) => {
   return (
-    <Modal dismissible {...modalProps} className={twMerge([modalProps?.className])}>
+    <Modal dismissible {...modalProps} className={twMerge(['dark:bg-bg-dark-bg', modalProps?.className])}>
       <Modal.Header
         {...headerProps}
-        className={twMerge(['border-none px-4 pt-4', headerProps?.className])}>
+        className={twMerge(['border-none px-4 pt-4 dark:bg-bg-dark-bg dark:border-gray-700', headerProps?.className])}>
         {headerProps?.children}
       </Modal.Header>
-      <Modal.Body {...bodyProps} className={twMerge(['px-4 py-0', bodyProps?.className])}>
+      <Modal.Body {...bodyProps} className={twMerge(['px-4 py-0 dark:bg-bg-dark-bg', bodyProps?.className])}>
         {bodyProps?.children || children}
       </Modal.Body>
       <Modal.Footer
         {...footerProps}
-        className={twMerge(['pb-t border-none px-4 pt-0', footerProps?.className])}>
+        className={twMerge(['pb-t border-none px-4 pt-0 dark:bg-bg-dark-bg dark:border-gray-700', footerProps?.className])}>
         {footerProps?.children}
       </Modal.Footer>
     </Modal>

@@ -260,12 +260,12 @@
   "Early departure": "Ertalab ketish",
   "Completed": "Bajarildi",
   "During": "Davrining o'rtasida",
-  "Overtime": "Overtime",
+  "Overtime":"Ish vaqtidan tashqari",
   "Off schedule": "Grafikdan tashqari",
   "Total": "Jami",
   "Days worked": "Ishlangan kunlar",
-  "Because of": "Sabiabli",
-  "Without a reason": "Sabiqsiz",
+  "Because of": "Sababli",
+  "Without a reason": "Sababsiz",
   "TimeSheet": "Ish vaqti hisoboti",
   "Select": "Tanlash",
   "End work time": "Ishni tugatish vaqti",
@@ -624,5 +624,8 @@
   "Activity Score": "Faollik bali",
   "Unproductive": "Foydasiz",
   "Neutral": "Neytral",
-  "Excellent productivity": "Ajoyib samaradorlik"
+  "Excellent productivity": "Ajoyib samaradorlik",
+  "Guard": "Qo‘riqchi",
+  "Visitor lists": "Mehmonlar ro‘yxati",
+  "Visitor actions": "Mehmon harakatlari"
 }
