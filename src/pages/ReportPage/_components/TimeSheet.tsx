@@ -7,11 +7,11 @@ const TimeSheet = ({ currentTableRef, data }: any) => {
   const { t } = useTranslation();
 
   return (
-    <div className="w-full max-w-full overflow-x-auto">
-      <div className="min-w-max">
+    <div className="w-full overflow-x-auto">
+      <div className="">
         <table
           ref={currentTableRef}
-          className='w-[2000px] border-collapse'
+          className='border-collapse'
           style={{
             borderCollapse: 'collapse',
             border: '1px solid rgb(204, 204, 204)',

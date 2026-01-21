@@ -90,7 +90,7 @@ const ReportInfo = () => {
                 </div>
             </div>
             <MyDivider />
-            <PageContentWrapper className={'mt-0 min-h-0 rounded-none p-0 shadow-none'}>
+            <PageContentWrapper className={'mt-0 rounded-none p-0 shadow-none'}>
                 <TimeSheet data={data} currentTableRef={currentTableRef} />
             </PageContentWrapper>
         </>
