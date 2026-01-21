@@ -52,8 +52,6 @@ const VisitorDetailsModal = ({
     document.body.removeChild(link);
   };
 
-  console.log(visitor)
-
   if (!visitor) return null;
 
   return (

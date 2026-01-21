@@ -73,6 +73,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       endDate: null,
       additionalDetails: '',
       isActive: true,
+      carNumber: ""
     },
     mode: 'onChange',
     resolver: yupResolver(onetimeCodeSchema),
@@ -176,12 +177,12 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
             birthday: { startDate: null, endDate: null },
             additionalDetails: '',
             phone: '',
-            pinfl: '',
+            passportNumberOrPinfl: '',
             workPlace: '',
-            passportNumber: '',
             organizationId: null,
             gateId: null,
             attachedId: null,
+            carNumber: ""
           });
           resetOnetimeCode();
         },

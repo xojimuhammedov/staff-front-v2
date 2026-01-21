@@ -187,7 +187,7 @@ const NavbarMenu = () => {
       label: t('Guard'),
       to: '/guards',
       isSubMenu: false,
-      allowedRoles: ['ADMIN', "HR", "DEPARTMENT_LEAD", "GUARD"]
+      allowedRoles: ["GUARD"]
     }
   ];
 

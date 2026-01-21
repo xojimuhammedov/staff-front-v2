@@ -3,12 +3,14 @@ import { useSearchParams } from 'react-router-dom';
 
 const VisitorActions = lazy(() => import('./VisitorActions'));
 const VisitorActionsTimeline = lazy(() => import('./VisitorActionsTimeline'));
+const DeviceList = lazy(() => import('./DevicePage'))
 
-type RulesType = 'view' | 'actions';
+type RulesType = 'view' | 'actions' | 'deviceList';
 
 const contents: Record<RulesType, LazyExoticComponent<(props?: any) => JSX.Element>> = {
   view: VisitorActions,
-  actions: VisitorActionsTimeline
+  actions: VisitorActionsTimeline,
+  deviceList: DeviceList
 };
 
 const MainContent = () => {

@@ -9,6 +9,7 @@ export const visitorSchema = yup.object().shape({
   phone: yup.string(),
   passportNumberOrPinfl: yup.string().required(),
   workPlace: yup.string(),
+  carNumber: yup.string(),
   attachedId: yup.number().required(),
   gateId: yup.number().required(),
   organizationId: yup
@@ -24,4 +25,5 @@ export const onetimeCodeSchema = yup.object().shape({
   endDate: yup.mixed().required(),
   additionalDetails: yup.string(),
   isActive: yup.boolean(),
+  carNumber: yup.string()
 });

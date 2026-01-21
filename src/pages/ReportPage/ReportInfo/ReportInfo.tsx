@@ -45,7 +45,7 @@ const ReportInfo = () => {
         params: {
             ...paramsValue
         },
-        hideErrorMsg: false
+        hideErrorMsg: true
     });
 
     const { data: employeeData } = useGetAllQuery<any>({
@@ -58,13 +58,7 @@ const ReportInfo = () => {
 
     return (
         <>
-            <div className="flex items-center justify-between gap-4">
-                <div className="flex flex-col">
-                    <h1 className="headers-core dark:text-text-title-dark text-text-base">
-                        {t('Report')}
-                    </h1>
-                    <MyBreadCrumb items={breadCrumbs} />
-                </div>
+            <div className="flex items-center justify-end gap-4">
                 <div className='flex items-center gap-4'>
                     <EmployeeMultiSelectDropdown
                         employeeList={employeeData?.data}
@@ -90,9 +84,9 @@ const ReportInfo = () => {
                 </div>
             </div>
             <MyDivider />
-            <PageContentWrapper className={'mt-0 min-h-0 rounded-none p-0 shadow-none'}>
+            {/* <div className={'w-full max-w-full overflow-x-hidden'}>
                 <TimeSheet data={data} currentTableRef={currentTableRef} />
-            </PageContentWrapper>
+            </div> */}
         </>
     );
 }
