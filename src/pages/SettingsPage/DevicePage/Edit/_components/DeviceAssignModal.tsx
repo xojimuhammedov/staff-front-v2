@@ -15,7 +15,9 @@ type Props = {
     onClose: () => void;
     deviceTypeOptions: { label: string; value: string }[];
     deviceId: any,
-    tempSelectedIds: number[]
+    tempSelectedIds: number[],
+    hikvisionRefetch: () => void;
+    refetch: () => void;
 };
 
 type FormValues = {
@@ -27,6 +29,8 @@ export default function DeviceAssignModal({
     onClose,
     deviceId,
     tempSelectedIds,
+    hikvisionRefetch,
+    refetch
 }: Props) {
     const navigate = useNavigate()
     const { t } = useTranslation();
@@ -68,8 +72,10 @@ export default function DeviceAssignModal({
             },
             {
                 onSuccess: () => {
+                    refetch();
+                    hikvisionRefetch()
                     toast.success(t("Saved successfully"));
-                    navigate("/settings?current-setting=deviceControl");
+                    // navigate("/settings?current-setting=deviceControl");
                 },
                 onError: (e: any) =>
                     console.log(e)
@@ -114,7 +120,7 @@ export default function DeviceAssignModal({
                         </div>
                     </form>
                 ),
-                className:"py-4"
+                className: "py-4"
             }}
         />
     );

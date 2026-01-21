@@ -1,91 +1,31 @@
-import { MyCheckbox, MyInput } from "components/Atoms/Form";
+import { MyCheckbox } from "components/Atoms/Form";
 import MyButton from "components/Atoms/MyButton/MyButton";
 import MyDivider from "components/Atoms/MyDivider";
 import LabelledCaption from "components/Molecules/LabelledCaption";
-import { KEYS } from "constants/key";
-import { URLS } from "constants/url";
-import { useGetAllQuery } from "hooks/api";
-import { Search } from "lucide-react";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import deviceType from "configs/deviceType";
 import DeviceAssignModal from "./DeviceAssignModal";
 import RemoveAssignModal from "./RemoveAssignModal";
 
-interface Employee {
-    id: number;
-    name: string;
-    avatar?: string;
-}
 
-interface EmployeeResponse {
-    data: Employee[];
-}
-
-
-function EmployeeAssign({ deviceId }: any) {
+function EmployeeAssign({ deviceId, employeesData, isLoading, refetch, deviceData, deviceRefetch }: any) {
     const { t } = useTranslation();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [searchInput, setSearchInput] = useState("");
     const [tempSelectedIds, setTempSelectedIds] = useState<number[]>([]);
     const [rightSelectIds, setRightSelectIds] = useState<number[]>([]);
     const [removeSelectIds, setRemoveSelectIds] = useState<number[]>([]);
     const [openModal, setOpenModal] = useState(false);
     const [removeModal, setRemoveModal] = useState(false);
     const navigate = useNavigate()
-    const currentSearch = searchParams.get("search") || "";
-
-    const { data: employeesData, isLoading } =
-        useGetAllQuery<EmployeeResponse>({
-            key: KEYS.getEmployeeList,
-            url: URLS.getEmployeeList,
-            params: { search: currentSearch || undefined, limit: 100 },
-        });
-
-    const employees = employeesData?.data ?? [];
-
-    const { data } = useGetAllQuery<any>({
-        key: KEYS.hikvisionEmployeeSync,
-        url: URLS.hikvisionEmployeeSync,
-        params: {
-            deviceId: deviceId,
-            userType: 'EMPLOYEE',
-            limit: 100
-        }
-    });
 
     useEffect(() => {
-        if (data?.data) {
+        if (deviceData?.data?.employees) {
             setRightSelectIds(
-                data?.data?.map((e: any) => e?.employee?.id)
+                deviceData?.data?.employees?.map((e: any) => e?.id)
             );
         }
-    }, [data?.data]);
-
-    useEffect(() => setSearchInput(currentSearch), [currentSearch]);
-
-    const handleSearch = useCallback(() => {
-        const p = new URLSearchParams(searchParams);
-        if (searchInput.trim()) p.set("search", searchInput.trim());
-        else p.delete("search");
-        setSearchParams(p);
-    }, [searchInput, searchParams, setSearchParams]);
-
-    const handleKeyUp = (e: any) => e.key === "Enter" && handleSearch();
-
-    // ---- TEMP SELECT ----
-    const toggleTempSelect = (id: number) => {
-        setTempSelectedIds((prev) =>
-            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-        );
-    };
-
-    const toggleRemoveTempSelect = (id: number) => {
-        setRemoveSelectIds((prev) =>
-            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-        );
-    };
+    }, [deviceData?.data?.employees]);
 
     const deviceTypeOptions =
         deviceType?.map((d: any) => ({
@@ -93,21 +33,49 @@ function EmployeeAssign({ deviceId }: any) {
             value: d.value,
         })) ?? [];
 
+    const rightSet = useMemo(() => new Set(rightSelectIds), [rightSelectIds]);
     const finalEmployees = useMemo(
-        () => employees.filter((e) => rightSelectIds.includes(e.id)),
-        [employees, rightSelectIds]
+        () => employeesData?.data.filter((e: any) => rightSet.has(e.id)),
+        [employeesData?.data, rightSet]
     );
 
-    const alreadySelectedIds = new Set(rightSelectIds);
+    const alreadySelectedIds = useMemo(() => new Set(rightSelectIds), [rightSelectIds]);
 
-    // LEFT PANEL LIST
-    const leftEmployees = employees.filter(
-        (emp) => !alreadySelectedIds.has(emp.id)
+    const leftEmployees = useMemo(
+        () => employeesData?.data?.filter((emp: any) => !alreadySelectedIds.has(emp.id)),
+        [employeesData?.data, alreadySelectedIds]
     );
 
-    const toggleSelectAll = () =>
-        setTempSelectedIds((p) =>
-            p.length === leftEmployees.length ? [] : leftEmployees.map((e) => e.id));
+    const leftIds = useMemo(() => leftEmployees?.map((e: any) => e?.id), [leftEmployees]);
+
+    const isAllLeftSelected = useMemo(
+        () => leftIds?.length > 0 && leftIds?.every((id: number) => tempSelectedIds.includes(id)),
+        [leftIds, tempSelectedIds]
+    );
+
+    const toggleSelectAll = () => {
+        setTempSelectedIds(prev => (isAllLeftSelected ? [] : leftIds));
+    };
+
+    useEffect(() => {
+        if (!deviceData?.data?.employees) return;
+
+        const ids = deviceData?.data?.employees.map((x: any) => x?.id).filter(Boolean);
+
+        setRightSelectIds(ids);
+
+        // ixtiyoriy: attaching/selectionlar ham eski bo‘lib qolmasin
+        setTempSelectedIds([]);
+        setRemoveSelectIds([]);
+    }, [deviceData?.data?.employees]);
+
+    const toggleId = (setFn: React.Dispatch<React.SetStateAction<number[]>>, id: number) => {
+        setFn(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));
+    };
+
+    // usage
+    const toggleTempSelect = (id: number) => toggleId(setTempSelectedIds, id);
+    const toggleRemoveTempSelect = (id: number) => toggleId(setRemoveSelectIds, id);
 
     return (
         <>
@@ -129,24 +97,24 @@ function EmployeeAssign({ deviceId }: any) {
 
                     {/* LEFT PANEL */}
                     <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border p-4">
-                        <MyInput
+                        {/* <MyInput
                             startIcon={<Search />}
                             placeholder={t("Search")}
                             value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)}
-                            onKeyUp={handleKeyUp}
-                        />
+                            // onChange={(e) => setSearchInput(e.target.value)}
+                            // onKeyUp={handleKeyUp}
+                        /> */}
 
                         <div className="flex items-center justify-between mt-4">
                             <MyCheckbox
                                 label={t("Select all")}
                                 checked={
-                                    tempSelectedIds.length === leftEmployees.length &&
-                                    leftEmployees.length > 0
+                                    tempSelectedIds?.length === leftEmployees?.length &&
+                                    leftEmployees?.length > 0
                                 }
                                 indeterminate={
-                                    tempSelectedIds.length > 0 &&
-                                    tempSelectedIds.length < leftEmployees.length
+                                    tempSelectedIds?.length > 0 &&
+                                    tempSelectedIds?.length < leftEmployees?.length
                                 }
                                 onChange={toggleSelectAll}
                             />
@@ -163,10 +131,10 @@ function EmployeeAssign({ deviceId }: any) {
                         <div className="mt-4 space-y-2">
                             {isLoading ? (
                                 <p>{t("Loading...")}</p>
-                            ) : employees.length === 0 ? (
+                            ) : employeesData?.data?.length === 0 ? (
                                 <p>{t("No employees found")}</p>
                             ) : (
-                                leftEmployees.map((emp) => (
+                                leftEmployees?.map((emp: any) => (
                                     <div key={emp.id} className="flex items-center p-4 rounded-md bg-white hover:bg-gray-50 transition-colors border">
                                         <MyCheckbox
                                             checked={tempSelectedIds.includes(emp.id)}
@@ -183,22 +151,22 @@ function EmployeeAssign({ deviceId }: any) {
                     <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border">
                         <div className="flex items-center justify-between bg-gray-100 p-2">
                             <h3 className="font-medium">
-                                {t("Selected employees")} ({finalEmployees.length})
+                                {t("Selected employees")} ({finalEmployees?.length})
                             </h3>
                             <MyButton
                                 variant="secondary"
-                                disabled={!removeSelectIds.length}
+                                disabled={!removeSelectIds?.length}
                                 onClick={() => setRemoveModal(true)}
                             >
-                                {t("Remove")} ({removeSelectIds.length})
+                                {t("Remove")} ({removeSelectIds?.length})
                             </MyButton>
                         </div>
 
                         <div className="overflow-y-auto h-full space-y-2 mt-4">
-                            {!finalEmployees.length ? (
+                            {!finalEmployees?.length ? (
                                 <p className="text-center mt-10">{t("Nothing selected yet")}</p>
                             ) : (
-                                finalEmployees.map((emp) => (
+                                finalEmployees?.map((emp: any) => (
                                     <div key={emp.id} className="flex items-center p-4 mx-2 rounded-md bg-white hover:bg-gray-50 transition-colors border">
                                         <MyCheckbox
                                             label={emp.name}
@@ -219,6 +187,8 @@ function EmployeeAssign({ deviceId }: any) {
                 deviceTypeOptions={deviceTypeOptions}
                 tempSelectedIds={tempSelectedIds}
                 deviceId={deviceId}
+                refetch={refetch}
+                hikvisionRefetch={deviceRefetch}
             />
 
             <RemoveAssignModal
@@ -226,6 +196,8 @@ function EmployeeAssign({ deviceId }: any) {
                 open={removeModal}
                 onClose={() => setRemoveModal(false)}
                 tempSelectedIds={removeSelectIds}
+                refetch={refetch}
+                hikvisionRefetch={deviceRefetch}
             />
         </>
     );

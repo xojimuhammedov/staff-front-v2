@@ -43,7 +43,7 @@ const AttendanceCard: React.FC<ArrivalCardProps> = ({
 
       {statusText && statusClass && (
         <p className={`text-sm text-gray-500 dark:text-text-subtle ${statusTextColor} ${darkStatusTextColor}`}>
-          {statusText} {averageArrival} {t("minutes")} {t(statusClass)}
+          {statusText} {t(statusClass)}
         </p>
       )}
     </div>

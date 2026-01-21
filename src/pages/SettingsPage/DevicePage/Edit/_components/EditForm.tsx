@@ -28,7 +28,7 @@ interface FormValues {
     entryType: string;
 }
 
-const EditForm = ({ handleClick, deviceId }: any) => {
+const EditForm = ({ handleClick, deviceId, deviceData, isLoading }: any) => {
     const { t } = useTranslation();
 
     const schema = object().shape({
@@ -40,13 +40,6 @@ const EditForm = ({ handleClick, deviceId }: any) => {
         ipAddress: string().required(t("IP address is required")),
         login: string().required(t("Login is required")),
         entryType: string().required(t("Entry type is required")),
-    });
-
-    const { data: deviceData, isLoading } = useGetOneQuery({
-        id: deviceId,
-        url: URLS.getDoorForDevices,
-        params: {},
-        enabled: !!deviceId,
     });
 
     const { data } = useGetAllQuery<any>({

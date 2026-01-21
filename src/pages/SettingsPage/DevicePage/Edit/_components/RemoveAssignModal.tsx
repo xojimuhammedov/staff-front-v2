@@ -14,7 +14,9 @@ type Props = {
     open: boolean;
     onClose: () => void;
     deviceId: any,
-    tempSelectedIds: number[]
+    tempSelectedIds: number[];
+    refetch: () => void;
+    hikvisionRefetch: () => void;
 };
 
 type FormValues = {
@@ -26,6 +28,8 @@ export default function RemoveAssignModal({
     onClose,
     deviceId,
     tempSelectedIds,
+    refetch,
+    hikvisionRefetch
 }: Props) {
     const navigate = useNavigate()
     const { t } = useTranslation();
@@ -67,8 +71,11 @@ export default function RemoveAssignModal({
             },
             {
                 onSuccess: () => {
+                    refetch();
+                    hikvisionRefetch()
                     toast.success(t("Saved successfully"));
-                    navigate("/settings?current-setting=deviceControl");
+                    onClose()
+                    // navigate("/settings?current-setting=deviceControl");
                 },
                 onError: (e: any) =>
                     console.log(e)
