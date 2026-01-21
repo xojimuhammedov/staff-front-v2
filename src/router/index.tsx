@@ -27,12 +27,12 @@ const WorkSchedule = lazy(() => import('pages/WorkSchedule'))
 const CreateSchedulePage = lazy(() => import('pages/WorkSchedule/CreateSchedulePage'))
 const EditSchedulePage = lazy(() => import('pages/WorkSchedule/EditSchedulePage'))
 const ViewDepartment = lazy(() => import('pages/ViewDepartment'))
-const ReportPage = lazy(() => import('pages/ReportPage/ReportSidebar'))
 
 const DeviceCreatePage = lazy(() => import('pages/SettingsPage/DevicePage/Create'))
 const DeviceEditPage = lazy(() => import('pages/SettingsPage/DevicePage/Edit'))
 const ViewDevice = lazy(() => import('pages/SettingsPage/DevicePage/_components/ViewDevice'))
 const GuardPage = lazy(() => import('pages/GuardPage'))
+const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
 
 export const PublicRoutes = [
   {
@@ -173,8 +173,8 @@ export const PrivateRoutes = [
     roles: ["ADMIN", "HR"],
   },
   {
-    path: '/reports',
-    element: <ReportPage />,
+    path: '/reports/attendance',
+    element: <ReportAttendance />,
     roles: ["ADMIN", "HR"],
   },
   {

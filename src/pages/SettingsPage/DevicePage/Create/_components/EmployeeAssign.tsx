@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AvatarIcon from "assets/icons/avatar.png";
 import deviceType from "configs/deviceType"; // <-- deviceType import qilindi
+import { useEventsSocket } from "hooks/useSocket";
 
 interface Employee {
     id: number;
@@ -46,6 +47,36 @@ function EmployeeAssign() {
     const [openModal, setOpenModal] = useState<boolean>(false);
 
     const currentSearch = searchParams.get("search") || "";
+
+    const [jobId, setJobId] = useState<string | number | undefined>(undefined);
+    const [loading, setLoading] = useState(false);
+
+    useEventsSocket({
+        jobId,
+        onStart: () => {
+            setLoading(true);
+        },
+        onProgress: (p) => {
+        },
+        onError: (msg) => {
+            setLoading(false);
+            toast.error(msg);
+            setJobId(undefined);
+        },
+        onDone: ({ status, data }) => {
+            setLoading(false);
+
+            if (status === "failed") {
+                toast.error("Job failed");
+                setJobId(undefined);
+                return;
+            }
+
+            toast.success(t("Employees successfully assigned with device types!"));
+            navigate("/settings?current-setting=deviceControl");
+            setJobId(undefined);
+        },
+    });
 
     const { data: employeesData, isLoading } = useGetAllQuery<EmployeeResponse>({
         key: KEYS.getEmployeeList,
@@ -129,24 +160,34 @@ function EmployeeAssign() {
             credentialTypes: selectedDeviceTypes,
             deviceIds: [Number(searchParams.get("deviceId"))]
         };
-
+        setLoading(true);
         assignEmployees(
             {
                 url: URLS.devicesEmployeeAssign,
                 attributes: submitData,
             },
             {
-                onSuccess: () => {
-                    toast.success(t("Employees successfully assigned with device types!"));
-                    navigate("/settings?current-setting=deviceControl");
+                onSuccess: (response) => {
+                    const ok = response?.data?.success;
+                    const jid = response?.data?.jobId;
+
+                    if (ok && jid) {
+                        // ✅ API success + jobId => socket ishga tushadi
+                        setJobId(jid);
+                        // loading true qoladi, socket completed/failed bo‘lganda false bo‘ladi
+                    } else {
+                        setLoading(false);
+                        toast.error("JobId not found or success=false");
+                    }
                 },
-                onError: (error: any) => {
-                    toast.error(
-                        error?.response?.data?.error?.message || t("Assignment failed")
-                    );
+                onError: (e: any) => {
+                    setLoading(false);
+                    console.log(e);
+                    toast.error("Request failed");
                 },
             }
         );
+        [tempSelectedIds, Number(searchParams.get("deviceId"))]
     };
 
     const finalEmployees = employees.filter((emp) =>
@@ -328,7 +369,7 @@ function EmployeeAssign() {
                     <MyButton
                         onClick={handleAssign}
                         variant="primary">
-                        Save changes
+                        {loading ? t("Processing...") : t("Confirm and Add Employees")}
                     </MyButton>
                 </div>
             </div>
