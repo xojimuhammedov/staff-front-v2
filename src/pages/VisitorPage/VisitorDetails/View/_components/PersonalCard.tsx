@@ -6,8 +6,7 @@ import dayjs from 'dayjs';
 interface VisitorInfoData {
     phone: string;
     workPlace: string;
-    pinfl: string;
-    passportNumber: string;
+    passportNumberOrPinfl: string;
     birthday: string;
     organizationId?: number;
     attachId?: number;
@@ -37,14 +36,8 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data, organizationName,
             iconColor: 'text-blue-500'
         },
         {
-            label: t("Pinfl"),
-            value: data?.pinfl,
-            Icon: 'Hash',
-            iconColor: 'text-gray-500'
-        },
-        {
-            label: t("Passport Number"),
-            value: data?.passportNumber,
+            label: t("Passport Number or PINFl"),
+            value: data?.passportNumberOrPinfl,
             Icon: 'FileText',
             iconColor: 'text-purple-500'
         },

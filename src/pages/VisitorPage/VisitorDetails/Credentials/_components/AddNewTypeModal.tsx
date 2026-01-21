@@ -2,10 +2,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
 import MyModal from 'components/Atoms/MyModal';
-import { MySelect } from 'components/Atoms/Form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { ISelect } from 'interfaces/select.interface';
 import MyDateTimeRangePicker from 'components/Atoms/Form/MyDateTimeRangePicker';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { onetimeCodeSchema } from 'schema/visitor.schema';
+import { Dayjs } from 'dayjs';
 
 interface AddNewTypeModalProps {
   show: boolean;
@@ -23,12 +26,23 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
   codeTypeOptions,
 }) => {
   const { t } = useTranslation();
-  const { control, handleSubmit, reset } = useForm({
+
+
+  interface FormValues {
+    codeType: string | undefined;
+    carNumber?: string;
+    startDate: Dayjs | null;
+    endDate: Dayjs | null;
+  }
+
+  const { control, handleSubmit, reset, register, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
       codeType: undefined,
-      startDate: undefined,
-      endDate: undefined,
+      startDate: null,
+      endDate: null,
     },
+    mode: 'onChange',
+    resolver: yupResolver(onetimeCodeSchema) as any,
   });
 
   const handleClose = () => {
@@ -50,6 +64,12 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
         children: (
           <form onSubmit={handleSubmit(onSubmit)} className="p-4">
             <div className="grid grid-cols-2 gap-4">
+              <MyInput
+                {...register('carNumber')}
+                error={Boolean(errors?.carNumber?.message)}
+                helperText={t(`${errors?.carNumber?.message}`)}
+                label={t('Car Number')}
+              />
               <Controller
                 name="codeType"
                 control={control}

@@ -195,7 +195,7 @@ export const PrivateRoutes = [
   {
     path: '/guards',
     element: <GuardPage />,
-    roles: ["GUARD"]
+    roles: ["GUARD", "ADMIN"]
   }
 ];
 

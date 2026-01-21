@@ -2,6 +2,7 @@ import React from "react";
 import { CarFront, Clock, CreditCard, LockKeyhole, QrCode, UserRound } from "lucide-react";
 import dayjs from "dayjs";
 import { t } from 'i18next';
+import config from "configs";
 
 // --------------------
 // Types
@@ -21,7 +22,6 @@ interface EventCardProps {
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
     const isArrival = event?.entryType === "ENTER";
 
-
     return (
         <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 rounded-lg px-4 py-2 shadow-sm">
             <div
@@ -29,7 +29,17 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                     }`}
             >
                 {
-                    event?.credential?.type === "PHOTO" ? <UserRound size={20} /> : event?.credential?.type === "CAR" ? <CarFront size={20} /> : event?.credential?.type === "PERSONAL_CODE" ? <LockKeyhole size={20} /> : event?.credential?.type === "CARD" ? <CreditCard size={20} /> : event?.credential?.type === "QR" ? <QrCode /> : <Clock />
+                    event?.credential?.type === "PHOTO" ?
+                        <>
+                            {
+                                event.image ? <img
+                                    className="w-8 h-8 rounded-full object-cover"
+                                    src={`${config.FILE_URL}api/storage/${event?.image}`}
+                                    alt="User photo"
+                                /> : <UserRound size={20} />
+                            }
+                        </>
+                        : event?.credential?.type === "CAR" ? <CarFront size={20} /> : event?.credential?.type === "PERSONAL_CODE" ? <LockKeyhole size={20} /> : event?.credential?.type === "CARD" ? <CreditCard size={20} /> : event?.credential?.type === "QR" ? <QrCode /> : <Clock />
                 }
             </div>
             <div>

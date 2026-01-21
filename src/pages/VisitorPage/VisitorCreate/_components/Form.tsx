@@ -128,7 +128,7 @@ function Form() {
             control={control}
             render={({ field, fieldState }) => (
               <MySelect
-                label={t('Select employee for attach')}
+                label={t('Select employee')}
                 options={employeeData?.data?.map((evt: any) => ({
                   label: evt.name,
                   value: evt.id,
@@ -161,6 +161,12 @@ function Form() {
                 allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
               />
             )}
+          />
+          <MyInput
+            {...register('carNumber')}
+            error={Boolean(errors?.carNumber?.message)}
+            helperText={t(`${errors?.carNumber?.message}`)}
+            label={t('Car Number')}
           />
           <Controller
             name="startDate"

@@ -28,6 +28,12 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
           path: 'actions',
           isSwitch: false,
         },
+        {
+          icon: 'Calendar',
+          name: t('Device list'),
+          path: 'deviceList',
+          isSwitch: false,
+        },
       ],
     },
   ];

@@ -134,7 +134,7 @@ const Credentials = () => {
         <Button
           startIcon={<Plus />}
           onClick={() => setShowModal(true)}
-         className={`
+          className={`
                 text-sm w-[170px]
                 bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
                 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
@@ -202,14 +202,6 @@ const Credentials = () => {
               >
                 {item?.isActive ? t('Inactive') : t('Active')}
               </Button>
-              {/* <Button
-                                variant='secondary'
-                                onClick={() => {
-                                    setCredentialId(item?.id);
-                                    setShow(true);
-                                }}
-                                startIcon={<Edit />}
-                            /> */}
             </div>
           </div>
         ))}
