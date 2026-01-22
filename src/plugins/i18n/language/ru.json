@@ -625,6 +625,9 @@
   "Excellent productivity": "Отличная продуктивность",
   "Guard": "Охранник",
   "Visitor lists": "Списки посетителей",
-  "Visitor actions": "Действия посетителей"
+  "Visitor actions": "Действия посетителей",
+  "Organization name":"Название организации",
+  "Device name":"Название устройства",
+  "Back to gates list": "Вернуться к списку входов"
 
 }

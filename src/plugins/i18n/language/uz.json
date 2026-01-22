@@ -627,5 +627,8 @@
   "Excellent productivity": "Ajoyib samaradorlik",
   "Guard": "Qo‘riqchi",
   "Visitor lists": "Mehmonlar ro‘yxati",
-  "Visitor actions": "Mehmon harakatlari"
-}
+  "Visitor actions": "Mehmon harakatlari" ,
+  "Organization name": "Tashkilot nomi" ,
+  "Device name": "Qurilma nomi" ,
+  "Back to gates list": "Darvozalarga qaytish"
+ }

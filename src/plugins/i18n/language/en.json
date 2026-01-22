@@ -499,13 +499,13 @@
   "Select role": "Select role",
   "Role": "Role",
   "Computers": "Computers",
-  "Average Arrival Time" : "Average Arrival Time",
-  "Average Leave Time" : "Average Leave Time",
-  "Total tracked hours" : "Total tracked hours",
-  "Late arrivals" : "Late arrivals",
-  "Early leaves" : "Early leaves" ,
+  "Average Arrival Time": "Average Arrival Time",
+  "Average Leave Time": "Average Leave Time",
+  "Total tracked hours": "Total tracked hours",
+  "Late arrivals": "Late arrivals",
+  "Early leaves": "Early leaves",
   "early": "early",
-  "on-time": "on time" ,
+  "on-time": "on time",
   "Monitor employee attendance patterns and punctuality": "Monitor employee attendance patterns and punctuality",
   "Edit profile": "Edit profile",
   "Employee credentials": "Employee credentials",
@@ -625,6 +625,8 @@
   "Excellent productivity": "Excellent productivity",
   "Guard": "Guard",
   "Visitor lists": "Visitor lists",
-  "Visitor actions": "Visitor actions"
-
+  "Visitor actions": "Visitor actions",
+  "Organization name": "Organization name",
+  "Device name": "Device name" ,
+  "Back to gates list": "Back to gatest list"
 }
