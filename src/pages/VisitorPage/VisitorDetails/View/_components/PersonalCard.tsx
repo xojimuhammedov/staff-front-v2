@@ -24,7 +24,7 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data, organizationName,
 
     const infoItems = [
         {
-            label: t("Phone Number"),
+            label: t("Phone number"),
             value: data?.phone,
             Icon: "Phone",
             iconColor: 'text-yellow-500'

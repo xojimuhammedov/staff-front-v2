@@ -85,7 +85,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
     },
     {
       id: 3,
-      label: t('Phone Number'),
+      label: t('Phone number'),
       headerClassName: 'w-1/3'
     }
   ];

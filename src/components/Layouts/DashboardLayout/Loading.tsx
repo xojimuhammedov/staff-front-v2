@@ -2,7 +2,7 @@ import React from 'react';
 
 function Loading() {
   return (
-    <div className="h-[100vh] max-h-full relative block max-w-full items-center rounded-lg border border-gray-100 bg-white p-6 shadow-md dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+    <div className="h-[100vh] max-h-full relative block max-w-full items-center border border-gray-100 bg-white p-6 shadow-md dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
       <div role="status" className="absolute left-1/2 top-2/4 -translate-x-1/2 -translate-y-1/2">
         <svg
           aria-hidden="true"
