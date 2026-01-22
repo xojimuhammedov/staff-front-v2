@@ -16,7 +16,7 @@ const PageContentWrapper: FC<PageContentWrapperProps> = ({ children, className, 
          className={'dark:bg-bg-dark-bg m-auto pt-[12px]'}>
         <div
           className={twMerge([
-            'mt-8 rounded-m p-4 shadow-base dark:bg-bg-dark-bg',
+            'mt-8 rounded-m min-h-[648px] max-h-[100vh] p-4 shadow-base dark:bg-bg-dark-bg',
             className
           ])}
           {...rest}>
