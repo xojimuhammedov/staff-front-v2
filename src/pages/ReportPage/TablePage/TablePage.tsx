@@ -3,23 +3,24 @@ import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useTranslation } from 'react-i18next';
 import MyDivider from 'components/Atoms/MyDivider';
 import { useSearchParams } from 'react-router-dom';
-import Stepper from './_components/TableForm/Stepper';
-import FormDoor from './_components/TableForm/FormDoor';
+import Stepper from './_components/Stepper';
+import FormTable from './TableForm/FormTable';
 import { SidebarMenuType } from 'types/sidebar';
+import TableData from './_components/TableData';
 
 const TablePage = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
-  
+
   const sidebar_menu: SidebarMenuType[] = [
     {
-      title: t('Enter a door name and description'),
-      stepper_title: t('Door details'),
+      title: t('Enter a table data details'),
+      stepper_title: t('Table details'),
       items: []
     },
     {
-      title: t('Select and pair with device'),
-      stepper_title: t('Connect device'),
+      title: t('Select information for employees'),
+      stepper_title: t('Table data'),
       items: []
     }
   ];
@@ -42,7 +43,9 @@ const TablePage = () => {
       <MyDivider />
       <div className="flex w-full gap-8">
         <Stepper complete={complete} currentStep={currentStep} steps={sidebar_menu} />
-        <FormDoor />
+        {
+          currentStep === 2 ? <TableData /> : <FormTable />
+        }
       </div>
     </PageContentWrapper>
   );

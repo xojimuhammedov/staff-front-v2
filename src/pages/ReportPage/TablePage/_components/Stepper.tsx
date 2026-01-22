@@ -4,7 +4,7 @@ const Stepper = ({ steps, currentStep, complete }: any | boolean) => {
 
   return (
     <>
-      <div className="mt-10 flex justify-between">
+      <div className="mt-4 flex justify-between">
         <ul className="flex  w-full flex-col">
           {steps?.map((step: any, i: number) => (
             <li key={i} className={twMerge('flex items-center')}>

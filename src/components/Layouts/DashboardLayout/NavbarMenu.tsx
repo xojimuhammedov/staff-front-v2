@@ -142,35 +142,53 @@ const NavbarMenu = () => {
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
     },
     {
-      label: t('Report'),
+      label: t('Reports'),
       to: '/reports',
-      isSubMenu: false,
+      isSubMenu: true,
+      subRoutes: [
+        {
+          label: t('Table'),
+          to: '/reports/table',
+          icon: 'AppWindow'
+        },
+        {
+          label: t('Attendance report'),
+          to: '/reports/attendance',
+          icon: 'AppWindow'
+        },
+      ],
       allowedRoles: ['ADMIN', "HR"]
     },
+    // {
+    //   label: t('Report'),
+    //   to: '/reports',
+    //   isSubMenu: false,
+    //   allowedRoles: ['ADMIN', "HR"]
+    // },
     {
       label: t('Users'),
       to: '/users',
       isSubMenu: false,
       allowedRoles: ['ADMIN']
     },
-    {
-      label: t('Policy'),
-      to: '/policy',
-      isSubMenu: true,
-      subRoutes: [
-        {
-          label: t('Policy list'),
-          to: '/policy',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Policy groups'),
-          to: '/policy/groups',
-          icon: 'AppWindow'
-        },
-      ],
-      allowedRoles: ['ADMIN']
-    },
+    // {
+    //   label: t('Policy'),
+    //   to: '/policy',
+    //   isSubMenu: true,
+    //   subRoutes: [
+    //     {
+    //       label: t('Policy list'),
+    //       to: '/policy',
+    //       icon: 'AppWindow'
+    //     },
+    //     {
+    //       label: t('Policy groups'),
+    //       to: '/policy/groups',
+    //       icon: 'AppWindow'
+    //     },
+    //   ],
+    //   allowedRoles: ['ADMIN']
+    // },
     {
       label: t('Settings'),
       to: '/settings',
@@ -188,13 +206,6 @@ const NavbarMenu = () => {
       to: '/guards',
       isSubMenu: false,
       allowedRoles: ["GUARD"]
-    }
-    ,
-    {
-      label: t('Table'),
-      to: '/table',
-      isSubMenu: false,
-      allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
     }
   ];
 

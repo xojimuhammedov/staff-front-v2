@@ -6,38 +6,28 @@ import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { KeyTypeEnum } from 'enums/key-type.enum';
-import { useGetAllQuery, useGetOneQuery, usePostQuery } from 'hooks/api';
+import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import { Search } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { searchValue } from 'types/search';
 import { paramsStrToObj } from 'utils/helper';
 
-interface EditEmployeeGroupProps {
-  departmentId?: number;
-  onEmployeesSelected?: (employeeIds: number[]) => void;
-}
+type EditEmployeeGroupProps = {
+    departmentId?: number;
+    onSelectedIdsChange?: (ids: number[]) => void;
+};
 
-const EditEmployeeGroup = ({ departmentId, onEmployeesSelected }: EditEmployeeGroupProps) => {
+const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGroupProps) => {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const { t } = useTranslation()
-    const scheduleId = useParams()
-    const navigate = useNavigate()
     const [search, setSearch] = useState<any>("");
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation()
     const searchValue: searchValue = paramsStrToObj(location.search)
-
-    const { data: getOneSchedule } = useGetOneQuery({
-        id: scheduleId?.id,
-        url: URLS.employeeSchedulePlan,
-        params: {},
-        enabled: !!scheduleId?.id
-    })
+    const lastSentRef = useRef<string>("");
 
 
     const { data } = useGetAllQuery<any>({
@@ -45,34 +35,24 @@ const EditEmployeeGroup = ({ departmentId, onEmployeesSelected }: EditEmployeeGr
         url: URLS.getEmployeeList,
         params: {
             search: searchParams.get("search"),
-            departmentId: departmentId, 
+            departmentId: departmentId,
             page: searchValue?.page || 1,
             limit: searchValue?.limit || 10,
         },
     });
 
-
     useEffect(() => {
-        if (getOneSchedule?.data?.employees?.length) {
-            const ids = getOneSchedule?.data?.employees?.map((item: any) => item.id);
-            setSelectedIds(ids);
-        }
-    }, [getOneSchedule?.data]);
+        // ✅ faqat kerak bo‘lsa reset
+        setSelectedIds((prev) => (prev.length ? [] : prev));
 
-    useEffect(() => {
-        setSelectedIds([]);
-        if (searchParams.has('page')) {
-            searchParams.delete('page');
-            setSearchParams(searchParams);
-        }
-    }, [departmentId]);
-
-    // Tanlangan employeelar o'zgarganda parent komponentga yuborish
-    useEffect(() => {
-        if (onEmployeesSelected) {
-            onEmployeesSelected(selectedIds);
-        }
-    }, [selectedIds, onEmployeesSelected]);
+        // ✅ page bo‘lsa — o‘chirib, yangi instance qaytaramiz
+        setSearchParams((prev) => {
+            const next = new URLSearchParams(prev);
+            if (!next.has("page")) return prev; // o‘zgarmasa navigatsiya bo‘lmasin
+            next.delete("page");
+            return next;
+        }, { replace: true }); // ✅ history’ga spam qo‘shmaydi
+    }, [departmentId, setSearchParams]);
 
     // Barcha IDlarni olish
     const allIds = data?.data?.map((item: any) => item?.id) || [];
@@ -101,13 +81,26 @@ const EditEmployeeGroup = ({ departmentId, onEmployeesSelected }: EditEmployeeGr
 
 
     const handleSearch = () => {
-        if (search) {
-            searchParams.set("search", search);
-        } else {
-            searchParams.delete("search");
-        }
-        setSearchParams(searchParams);
+        setSearchParams((prev) => {
+            const next = new URLSearchParams(prev);
+
+            if (search?.trim()) next.set("search", search.trim());
+            else next.delete("search");
+
+            next.delete("page"); // ✅ qidirganda page reset bo‘lsin
+            return next;
+        }, { replace: true });
     };
+
+    useEffect(() => {
+        if (!onSelectedIdsChange) return;
+
+        const sig = selectedIds.join(","); // signature
+        if (sig === lastSentRef.current) return;
+
+        lastSentRef.current = sig;
+        onSelectedIdsChange(selectedIds);
+    }, [selectedIds, onSelectedIdsChange]);
 
 
     return (
@@ -134,8 +127,8 @@ const EditEmployeeGroup = ({ departmentId, onEmployeesSelected }: EditEmployeeGr
                     />
                 </div>
             </div>
-            <form className='min-h-[63vh]'>
-                <div className='border p-4 mt-6 rounded-lg'>
+            <div className='min-h-[63vh]'>
+                <div className='border dark:border-dark-line p-4 mt-6 rounded-lg'>
                     <div className='grid grid-cols-3 w-full'>
                         <div className='flex items-center gap-2'>
                             <MyCheckbox checked={isAllSelected}
@@ -160,12 +153,7 @@ const EditEmployeeGroup = ({ departmentId, onEmployeesSelected }: EditEmployeeGr
                         ))
                     }
                 </div>
-                <div className="flex justify-end mt-4">
-                    <MyButton type="submit" variant="primary">
-                        {t('Update')}
-                    </MyButton>
-                </div>
-            </form>
+            </div>
             <MyPagination total={get(data, 'total')} />
         </>
     );
