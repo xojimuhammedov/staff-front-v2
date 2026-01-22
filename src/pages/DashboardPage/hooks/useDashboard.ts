@@ -39,6 +39,17 @@ export const useDashboard = () => {
         params: {}
     })
 
+    const { data: topEmployee } = useGetAllQuery<any>({
+        key: KEYS.dashboardTodayTop,
+        url: URLS.dashboardTodayTop,
+        params: {}
+    })
+    const { data: bottomEmployee } = useGetAllQuery<any>({
+        key: KEYS.dashboardTodayBottom,
+        url: URLS.dashboardTodayBottom,
+        params: {}
+    })
+
     const { data: chartData } = useGetAllQuery<LineChartData>({
         key: KEYS.dashboardLineChart,
         url: URLS.dashboardLineChart,
@@ -70,7 +81,9 @@ export const useDashboard = () => {
         data,
         lineChartData,
         control,
-        todayData: dashboardToday
+        todayData: dashboardToday,
+        topEmployee,
+        bottomEmployee
     }
 }
 

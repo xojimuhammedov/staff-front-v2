@@ -83,7 +83,7 @@ const MyButton: ButtonComponent = forwardRef(
     // TODO static shadow value
     const primary = [
       // 'text-white [& svg:first-of-type]:w-5  [&>svg]:h-5 shadow-button-primary primary-button focus:shadow-border-interactive-active'
-      'text-white [& svg:first-of-type]:w-5  [&>svg]:h-5 shadow-button-primary primary-button focus:shadow-border-interactive-active'
+      'text-white [& svg:first-of-type]:w-5 [&>svg]:h-5 shadow-button-primary primary-button focus:shadow-border-interactive-active'
     ];
 
     const disabledStyle = [

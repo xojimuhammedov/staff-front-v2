@@ -23,7 +23,7 @@ const MyBadge: FC<MyBadgeProps> = ({ children, variant, className }) => {
   return (
     <div
       className={twMerge([
-        'inline-flex flex-row items-center gap-[7px] rounded-full border border-border-base px-[6px] py-[3px]',
+        'inline-flex flex-row items-center gap-[7px] rounded-full border border-border-base dark:border-dark-line px-[6px] py-[3px]',
         className
       ])}>
       <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full border border-border-base bg-bg-base">

@@ -19,9 +19,7 @@ const DashboardPage = () => {
     }
   ];
 
-  const { data, control, lineChartData, todayData } = useDashboard()
-
-  console.log(todayData)
+  const { data, control, lineChartData, todayData, topEmployee, bottomEmployee } = useDashboard()
 
   return (
     <PageContentWrapper className="dark:bg-bg-dark-bg">
@@ -68,8 +66,8 @@ const DashboardPage = () => {
         />
       </div>
       <div className="grid grid-cols-2 mt-8 gap-6">
-        <ProgressCard />
-        <ProgressCard />
+        <ProgressCard topEmployee={topEmployee} />
+        <ProgressCard topEmployee={bottomEmployee} />
       </div>
     </PageContentWrapper>
   );

@@ -81,7 +81,7 @@ function EmployeeAssign() {
     const { data: employeesData, isLoading } = useGetAllQuery<EmployeeResponse>({
         key: KEYS.getEmployeeList,
         url: URLS.getEmployeeList,
-        params: { search: currentSearch || undefined },
+        params: { search: currentSearch || undefined, limit: 100 },
     });
 
 

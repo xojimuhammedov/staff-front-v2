@@ -82,7 +82,12 @@ module.exports = {
         'border-interactive-active': 'var(--box-shadow-border-interactive-active)',
         'border-interactive': '0px 0px 0px 1px #3B82F6, 0px 1px 2px 0px rgba(30, 58, 138, 0.50)',
         'button-primary': 'var(--box-shadow-primary-button)',
-        'button-destructive': 'var(--box-shadow-destructive-button)'
+        'button-destructive': 'var(--box-shadow-destructive-button)',
+        'dark-card': `
+          0px 2px 4px 0px rgba(3,7,18,0.04),
+          0px 1px 2px -1px rgba(3,7,18,0.08),
+          0px 0px 0px 1px rgba(3,7,18,0.08)
+        `,
       },
       // NOTE imported from Figma 👉 https://www.figma.com/file/71ymV744Lh9WoMCtrsPdLT/Base-%E2%9C%A8?type=design&node-id=24-3080&mode=dev
       spacing: {
@@ -206,7 +211,8 @@ module.exports = {
         ['bg-switch']: 'rgb(var(--color-bg-switch) / <alpha-value>)',
         ['bg-form']: 'rgb(var(--color-bg-form-dark))',
         ['shadow-pagination-dark']: 'rgb(var(--box-shadow-dark-pagination) / <alpha-value>)',
-        ['pagination-background-dark']: 'rgb(var(--pagination-button-background) / <alpha-value>)'
+        ['pagination-background-dark']: 'rgb(var(--pagination-button-background) / <alpha-value>)',
+        'bg-dark-base': '#1B1B1F',
       },
       fontFamily: {
         'public-sans': ['Public Sans'],
@@ -220,7 +226,13 @@ module.exports = {
         'chevron-white':
           "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff95' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")",
         'chevron-black':
-          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300000095' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")"
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300000095' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")",
+        
+        'btn-light':
+          'linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(180deg, rgba(3,7,18,0) 0%, rgba(3,7,18,0.03) 100%)',
+
+        'btn-dark':
+          'linear-gradient(0deg, #EDEEF0, #EDEEF0), linear-gradient(360deg, rgba(24,24,26,0.12) 0%, rgba(24,24,26,0) 99%)',
       },
       width: {
         orgChartWidth: '320px'

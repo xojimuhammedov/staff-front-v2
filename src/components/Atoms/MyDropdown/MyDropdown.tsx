@@ -51,7 +51,7 @@ const MyDropdown: FC<MyDropdownProps> = ({ buttonProps, children, ...rest }: any
   return (
     <div
       ref={dropdownRef}
-      className="relative inline-block rounded-md text-left dark:bg-text-title-dark ">
+      className="relative inline-block rounded-md text-left">
       <div>
         <MyButton
           onClick={($e: any) => {

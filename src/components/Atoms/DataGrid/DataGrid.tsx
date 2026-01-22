@@ -97,10 +97,6 @@ const DataGrid = forwardRef(
     const [element, setElement] = useState<DivRef>(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const [search, setSearch] = useState<string>('');
-    // const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
-    // const [allSelected, setAllSelected] = useState(false);
-
-
 
     const headerCellGeneralStyle =
       'px-[16px] py-[14px] text-left dark:text-text-title-dark sm:text-xs lg:text-sm font-normal text-c-m text-text-base';
@@ -112,10 +108,6 @@ const DataGrid = forwardRef(
 
       setElement(ref);
     }, []);
-
-    // useEffect(() => {
-    //   setAllSelected(isAllSelected());
-    // }, [JSON.stringify(rows), JSON.stringify(selectedItems)]);
 
     const el = document.getElementById('table-container');
 
@@ -142,47 +134,6 @@ const DataGrid = forwardRef(
       }
       setSearchParams(searchParams);
     };
-
-    // const handleSelectAll = ($e: any) => {
-    //   if (rows instanceof Array) {
-    //     let tmpSelectedItems = [...selectedItems];
-    //     const rowIds = rows.map((row) => get(row, 'id', get(row, '_id')));
-    //     if (get($e, 'target.checked')) {
-    //       rowIds.forEach((id) => {
-    //         if (!tmpSelectedItems.includes(id)) {
-    //           tmpSelectedItems.push(id);
-    //         }
-    //       });
-    //     } else {
-    //       tmpSelectedItems = tmpSelectedItems.filter((id) => !rowIds.includes(id));
-    //     }
-    //     setSelectedItems(tmpSelectedItems);
-    //   }
-    // };
-
-    // const handleSelectOne = (item: any) => {
-    //   let tmpSelectedItems = [...selectedItems];
-    //   const itemId = get(item, 'id', get(item, '_id'));
-    //   if (!tmpSelectedItems.includes(itemId)) {
-    //     tmpSelectedItems.push(itemId);
-    //   } else {
-    //     tmpSelectedItems = tmpSelectedItems.filter((id) => id !== itemId);
-    //   }
-    //   setSelectedItems(tmpSelectedItems);
-    // };
-
-    // const isAllSelected = () => {
-    //   if (rows instanceof Array && !isEmpty(rows)) {
-    //     const rowIds = rows.map((row) => get(row, 'id', get(row, '_id')));
-    //     for (let id of rowIds) {
-    //       if (!selectedItems.includes(id)) {
-    //         return false;
-    //       }
-    //     }
-    //     return true;
-    //   }
-    //   return false;
-    // };
 
     return (
       <>
@@ -220,15 +171,6 @@ const DataGrid = forwardRef(
           <>
             <div ref={ref}>
               <div className="grid-header item-center flex border-b border-border-base dark:border-dark-line dark:bg-bg-darkBg">
-                {/* {hasCheckbox && (
-                  <div
-                    className={twMerge(
-                      headerCellGeneralStyle,
-                      'flex h-12  w-12 flex-none items-center justify-center bg-bg-subtle px-[16px] py-[14px] dark:bg-bg-darkBg'
-                    )}>
-                    <MyCheckbox checked={allSelected} onChange={handleSelectAll} />
-                  </div>
-                )} */}
                 {hasOrderColumn && (
                   <div
                     className={twMerge(
@@ -240,10 +182,6 @@ const DataGrid = forwardRef(
                 )}
 
                 {dataColumn.map((column: any, i: number) => {
-                  // if (!columnHash[column.key].visible) {
-                  //   return null;
-                  // }
-
                   return (
                     <div
                       key={i}
@@ -285,21 +223,6 @@ const DataGrid = forwardRef(
                             'data-grid-row  flex items-center odd:bg-bg-subtle dark:odd:bg-[#1B1B1F]',
                             rowClassName
                           ])}>
-                          {/* {hasCheckbox && (
-                            <div
-                              onClick={(e) => e.stopPropagation()}
-                              className={twMerge(
-                                headerCellGeneralStyle,
-                                'flex h-12 w-12 flex-none items-center justify-center px-[16px] py-[14px] text-text-base'
-                              )}>
-                              <MyCheckbox
-                                checked={selectedItems.includes(
-                                  get(row, 'id', get(row, '_id', ''))
-                                )}
-                                onChange={($e) => handleSelectOne(row)}
-                              />
-                            </div>
-                          )} */}
                           {hasOrderColumn && (
                             <div
                               className={twMerge(
