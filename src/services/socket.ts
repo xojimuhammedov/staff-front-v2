@@ -13,10 +13,33 @@ export type JobEvents = {
 let socket: Socket<JobEvents> | null = null;
 
 export function connectEventsSocket() {
-  const token = storage.get('accessToken');
-  
-  // Agar socket mavjud bo'lsa va ulanishda bo'lsa
-  if (socket?.connected) {
+    const token = storage.get('accessToken');
+    
+    // Agar socket mavjud bo'lsa va token o'zgarmagan bo'lsa, mavjud socketni qaytaradi
+    if (socket && socket.connected) {
+        return socket;
+    }
+
+    // Agar socket mavjud bo'lsa lekin token o'zgargansa, eski socketni disconnect qiladi
+    if (socket) {
+        socket.disconnect();
+        socket = null;
+    }
+
+    socket = io("http://192.168.100.115:3000/events", {
+        transports: ["polling", "websocket"],
+        upgrade: true,
+        reconnection: true,
+        reconnectionAttempts: 5,
+        timeout: 15000,
+        auth: {
+            token: token || undefined,
+        },
+        extraHeaders: token ? {
+            Authorization: `Bearer ${token}`,
+        } : {},
+    });
+
     return socket;
   }
 
