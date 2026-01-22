@@ -98,6 +98,21 @@ export const createReportAttendanceColumns = () => {
           } else return '--';
         },
       },
+      {
+        key: 'endTime',
+        label: t('End time'),
+        headerClassName: 'w-1/4',
+        cellRender: (row) => {
+          if (row?.endTime) {
+            return (
+              <div className="department-text">
+                {' '}
+                {dayjs(row?.endTime).format('YYYY-MM-DD, HH:mm')}{' '}
+              </div>
+            );
+          } else return '--';
+        },
+      },
     ],
     [t]
   );
@@ -126,6 +141,11 @@ export const createReportAttendanceColumns = () => {
     {
       id: 6,
       label: t('Arrival time'),
+      headerClassName: 'w-1/4',
+    },
+    {
+      id: 7,
+      label: t('End time'),
       headerClassName: 'w-1/4',
     },
   ];

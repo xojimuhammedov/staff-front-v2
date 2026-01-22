@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import TableProvider from 'providers/TableProvider/TableProvider';
 import DataGrid from 'components/Atoms/DataGrid';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
@@ -9,10 +9,6 @@ import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import MyBadge from 'components/Atoms/MyBadge';
 import Loading from 'assets/icons/Loading';
-import { IAction } from 'interfaces/action.interface';
-import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { ExternalLink, } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 
 type FilterType = {

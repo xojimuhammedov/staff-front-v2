@@ -9,11 +9,25 @@ import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { SidebarMenuType } from 'types/sidebar';
 import DeviceSettings from './_components/DeviceSettings';
+import { useGetAllQuery, useGetOneQuery } from 'hooks/api';
+import { KEYS } from 'constants/key';
+import { URLS } from 'constants/url';
+
+interface Employee {
+    id: number;
+    name: string;
+    avatar?: string;
+}
+
+interface EmployeeResponse {
+    data: Employee[];
+}
 
 const DeviceEdit = () => {
     const { t } = useTranslation();
     const { id } = useParams()
     const [searchParams, setSearchParams] = useSearchParams();
+    const currentSearch = searchParams.get("search") || "";
     const sidebar_menu: SidebarMenuType[] = [
         {
             title: t('Enter a device name and description'),
@@ -38,6 +52,20 @@ const DeviceEdit = () => {
         }
     ];
 
+    const { data: employeesData, isLoading, refetch } =
+        useGetAllQuery<EmployeeResponse>({
+            key: KEYS.getEmployeeList,
+            url: URLS.getEmployeeList,
+            params: { search: currentSearch || undefined, limit: 100 },
+        });
+
+    const { data: deviceData, isLoading: deviceLoading, refetch: deviceRefetch } = useGetOneQuery({
+        id: id,
+        url: URLS.getDoorForDevices,
+        params: {},
+        enabled: !!id,
+    });
+
     const currentStep: any = Number(searchParams.get('current-step')) || 1;
     const complete: boolean = currentStep === sidebar_menu.length ? true : false;
 
@@ -58,9 +86,18 @@ const DeviceEdit = () => {
             <div className="flex w-full gap-8">
                 <Stepper complete={complete} currentStep={currentStep} steps={sidebar_menu} />
                 {currentStep === 3 ? (
-                    <EmployeeAssign deviceId={Number(id)} />
+                    <EmployeeAssign
+                        employeesData={employeesData}
+                        isLoading={isLoading}
+                        refetch={refetch}
+                        deviceData={deviceData}
+                        deviceRefetch={deviceRefetch}
+                        deviceId={Number(id)} />
                 ) : currentStep === 2 ? <DeviceSettings deviceId={Number(id)} handleClick={handleClick} /> : (
-                    <EditForm deviceId={Number(id)} handleClick={handleClick} />
+                    <EditForm
+                        deviceData={deviceData}
+                        isLoading={deviceLoading}
+                        deviceId={Number(id)} handleClick={handleClick} />
                 )}
             </div>
         </PageContentWrapper>
