@@ -42,12 +42,16 @@ export const useDashboard = () => {
     const { data: topEmployee } = useGetAllQuery<any>({
         key: KEYS.dashboardTodayTop,
         url: URLS.dashboardTodayTop,
-        params: {}
+        params: {
+            ...paramsValue
+        }
     })
     const { data: bottomEmployee } = useGetAllQuery<any>({
         key: KEYS.dashboardTodayBottom,
         url: URLS.dashboardTodayBottom,
-        params: {}
+        params: {
+            ...paramsValue
+        }
     })
 
     const { data: chartData } = useGetAllQuery<LineChartData>({
