@@ -25,7 +25,7 @@ export function connectEventsSocket() {
         socket = null;
     }
 
-    socket = io("ws://192.168.100.115:3000/events", {
+    socket = io("http://192.168.100.115:3000/events", {
         transports: ["polling", "websocket"],
         upgrade: true,
         reconnection: true,
