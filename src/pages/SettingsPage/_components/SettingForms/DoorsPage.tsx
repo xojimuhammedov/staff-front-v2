@@ -81,14 +81,14 @@ const DoorsPage = () => {
           navigate(`/settings/maingate/${row.id}`);
         },
       },
-      {
-        icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
-        name: t('Edit'),
-        action: (row, $e) => {
-          navigate(`/settings/door/edit/${row?.id}`);
-        },
-      },
+      // {
+      //   icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
+      //   type: 'primary',
+      //   name: t('Edit'),
+      //   action: (row, $e) => {
+      //     navigate(`/settings/door/edit/${row?.id}`);
+      //   },
+      // },
       {
         icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
         type: 'danger',

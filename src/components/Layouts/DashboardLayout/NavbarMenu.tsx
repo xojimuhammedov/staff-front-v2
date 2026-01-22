@@ -159,12 +159,6 @@ const NavbarMenu = () => {
       ],
       allowedRoles: ['ADMIN', "HR"]
     },
-    // {
-    //   label: t('Report'),
-    //   to: '/reports',
-    //   isSubMenu: false,
-    //   allowedRoles: ['ADMIN', "HR"]
-    // },
     {
       label: t('Users'),
       to: '/users',

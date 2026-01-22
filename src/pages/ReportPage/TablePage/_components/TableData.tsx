@@ -5,7 +5,7 @@ import { URLS } from 'constants/url';
 import dayjs from 'dayjs';
 import { useGetAllQuery } from 'hooks/api';
 import { useDownloadExcel } from 'hooks/useExcel';
-import { Download } from 'lucide-react';
+import { Backpack, Download } from 'lucide-react';
 import React, { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
@@ -15,7 +15,7 @@ import { addHours, timeLine } from 'utils/helper';
 const TableData = () => {
     const { t } = useTranslation()
     const currentTableRef = useRef<any>(null);
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const employeeIds = searchParams.getAll("employeeIds").map(Number);
     const darkLight = storage.get('theme');
 
@@ -86,6 +86,17 @@ const TableData = () => {
     };
 
 
+    // const handleBack = () => {
+    //     setSearchParams((prev) => {
+    //         const current = prev.get("current-step");
+    //         if (current === "1") return prev; // ortiqcha navigate bo‘lmasin
+    //         const next = new URLSearchParams(prev);
+    //         next.set("current-step", "1");
+    //         return next;
+    //     }, { replace: true });
+    // };
+
+
     if (isLoading) {
         return (
             <div className="flex h-full items-center justify-center">
@@ -95,7 +106,8 @@ const TableData = () => {
     }
     return (
         <div className='flex flex-col w-full h-full overflow-hidden'>
-            <div className='flex items-center mb-4 justify-end'>
+            <div className='flex items-center mb-4 gap-4 justify-end'>
+                {/* <MyButton variant='secondary' onClick={handleBack} startIcon={<Backpack />}>{t("Previous")}</MyButton> */}
                 <MyButton onClick={downloadExcel.onDownload} startIcon={<Download />} variant='secondary'>{t("Download")}</MyButton>
             </div>
             <div className='min-h-0 flex-1 overflow-hidden'>

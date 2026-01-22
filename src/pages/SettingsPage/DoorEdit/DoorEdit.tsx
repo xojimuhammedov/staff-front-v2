@@ -1,9 +1,8 @@
 import MyDivider from 'components/Atoms/MyDivider';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
-import { paramsStrToObj } from 'utils/helper';
 import Stepper from '../_components/SettingForms/Stepper';
 import FormDoorEdit from './_components/FormDoorEdit';
 import FormDeviceEdit from './_components/FormDeviceEdit';
