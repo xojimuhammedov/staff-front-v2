@@ -189,6 +189,13 @@ const NavbarMenu = () => {
       isSubMenu: false,
       allowedRoles: ["GUARD"]
     }
+    ,
+    {
+      label: t('Table'),
+      to: '/table',
+      isSubMenu: false,
+      allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
+    }
   ];
 
   const filteredMenuItems = menuItems?.filter((item: any) =>
