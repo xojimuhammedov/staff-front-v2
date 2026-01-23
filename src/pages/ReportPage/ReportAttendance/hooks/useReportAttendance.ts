@@ -23,9 +23,8 @@ export const useReportAttendance = (departmentId?: number) => {
             search: apiParams?.search,
             page: apiParams?.page || 1,
             limit: apiParams?.limit || 10,
-            startDate: paramsValue.startDate,
-            endDate: paramsValue.endDate,
             ...searchValue,
+            ...paramsValue,
             ...(departmentId ? { departmentId } : {}),
         }
     });

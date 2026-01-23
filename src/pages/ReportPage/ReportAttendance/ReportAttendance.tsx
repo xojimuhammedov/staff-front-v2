@@ -12,13 +12,48 @@ import { ISelect } from 'interfaces/select.interface';
 import { useReportAttendance } from './hooks/useReportAttendance';
 import ColumnsButton from 'components/Atoms/DataGrid/ColumnsButton';
 import { searchValue } from 'types/search';
+import { useSearch } from 'hooks/useSearch';
+import { paramsStrToObj } from 'utils/helper';
+import { useLocation } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const ReportAttendance = () => {
     const { t } = useTranslation();
-    const { control: dateControl } = useReportAttendance();
+    // const { control: dateControl } = useReportAttendance();
+    const location = useLocation();
+    const searchValue: searchValue = paramsStrToObj(location.search);
+
+    const { 'current-setting': _, ...apiParams } = searchValue as any;
     const { control, watch } = useForm({
         defaultValues: {
-            departmentId: undefined
+            departmentId: undefined,
+            date: {
+                endDate: dayjs().format("YYYY-MM-DD"),
+                startDate: dayjs().format("YYYY-MM-DD"),
+            }
+        }
+    });
+
+    const departmentId = watch('departmentId');
+
+    const paramsValue = watch('date') ? {
+        startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
+        endDate: dayjs(watch('date')?.endDate)?.format("YYYY-MM-DD")
+    } : {
+        endDate: dayjs().format("YYYY-MM-DD"),
+        startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
+    }
+
+    const { data, isLoading, refetch } = useGetAllQuery({
+        key: KEYS.attendacesForEmployee,
+        url: URLS.attendacesForEmployee,
+        params: {
+            search: apiParams?.search,
+            page: apiParams?.page || 1,
+            limit: apiParams?.limit || 10,
+            departmentId: departmentId,
+            ...searchValue,
+            ...paramsValue,
         }
     });
 
@@ -29,8 +64,7 @@ const ReportAttendance = () => {
         params: {},
     });
 
-    const departmentId = watch('departmentId');
-    const { data, isLoading, refetch } = useReportAttendance(departmentId);
+    // const { data, isLoading, refetch } = useReportAttendance(departmentId);
 
     return (
         <PageContentWrapper>
@@ -66,7 +100,7 @@ const ReportAttendance = () => {
                             useRange={true}
                             name='date'
                             asSingle={false}
-                            control={dateControl}
+                            control={control}
                             placeholder={t('Today')}
                             startIcon={<Calendar stroke="#9096A1" />}
                         />
