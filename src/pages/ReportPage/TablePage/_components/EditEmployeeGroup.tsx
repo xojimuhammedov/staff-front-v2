@@ -1,5 +1,4 @@
 import { MyCheckbox, MyInput } from 'components/Atoms/Form';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import MyPagination from 'components/Atoms/MyPagination/Pagination';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
@@ -9,11 +8,10 @@ import { KeyTypeEnum } from 'enums/key-type.enum';
 import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import { Search } from 'lucide-react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { readEmployeeIds, uniqSorted } from 'pages/ReportPage/helper/report';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useSearchParams } from 'react-router-dom';
-import { searchValue } from 'types/search';
-import { paramsStrToObj } from 'utils/helper';
+import { useSearchParams } from 'react-router-dom';
 
 type EditEmployeeGroupProps = {
     departmentId?: number;
@@ -25,39 +23,51 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
     const { t } = useTranslation()
     const [search, setSearch] = useState<any>("");
     const [searchParams, setSearchParams] = useSearchParams();
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
-    const location = useLocation()
-    const searchValue: searchValue = paramsStrToObj(location.search)
     const lastSentRef = useRef<string>("");
+    const hydratedRef = useRef(false);
+    const prevDepRef = useRef<number | undefined>(undefined);
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const page = Number(searchParams.get("page") ?? 1);
+    const limit = Number(searchParams.get("limit") ?? 10);
 
     const { data } = useGetAllQuery<any>({
         key: KEYS.getEmployeeList,
         url: URLS.getEmployeeList,
         params: {
             search: searchParams.get("search"),
-            departmentId: departmentId,
-            page: searchValue?.page || 1,
-            limit: searchValue?.limit || 10,
+            page,
+            limit,
+            departmentId,
         },
     });
 
     useEffect(() => {
-        // ✅ faqat kerak bo‘lsa reset
-        setSelectedIds((prev) => (prev.length ? [] : prev));
+        if (hydratedRef.current) return;
+        const idsFromUrl = readEmployeeIds(searchParams);
+        setSelectedIds(idsFromUrl);
+        lastSentRef.current = uniqSorted(idsFromUrl).join(",");
+        hydratedRef.current = true;
+    }, []);
 
-        // ✅ page bo‘lsa — o‘chirib, yangi instance qaytaramiz
-        setSearchParams((prev) => {
-            const next = new URLSearchParams(prev);
-            if (!next.has("page")) return prev; // o‘zgarmasa navigatsiya bo‘lmasin
-            next.delete("page");
-            return next;
-        }, { replace: true }); // ✅ history’ga spam qo‘shmaydi
-    }, [departmentId, setSearchParams]);
+    useEffect(() => {
+        const prev = prevDepRef.current;
+        if (prev !== undefined && departmentId !== undefined && prev !== departmentId) {
+            setSelectedIds([]);
+            lastSentRef.current = "";
+          
+            setSearchParams((prevParams) => {
+                const next = new URLSearchParams(prevParams);
+                next.delete("page");
+                next.delete("search");
+                return next;
+            }, { replace: true });
+        }
+        
+        prevDepRef.current = departmentId;
+    }, [departmentId]);
 
-    // Barcha IDlarni olish
     const allIds = data?.data?.map((item: any) => item?.id) || [];
 
-    // Barchasini tanlash / bekor qilish
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
             setSelectedIds(allIds);
@@ -68,14 +78,11 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
 
     // Bitta checkbox o‘zgarganda
     const handleSelectOne = (id: number, checked: boolean) => {
-        if (checked) {
-            setSelectedIds((prev) => [...prev, id]);
-        } else {
-            setSelectedIds((prev) => prev.filter((i) => i !== id));
-        }
+        setSelectedIds((prev) => {
+            if (checked) return uniqSorted([...prev, id]);
+            return prev.filter((i) => i !== id);
+        });
     };
-
-    // Barchasi tanlanganligini aniqlash
     const isAllSelected =
         allIds.length > 0 && selectedIds.length === allIds.length;
 
@@ -95,11 +102,11 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
     useEffect(() => {
         if (!onSelectedIdsChange) return;
 
-        const sig = selectedIds?.join(","); // signature
+        const sig = uniqSorted(selectedIds).join(",");
         if (sig === lastSentRef.current) return;
 
         lastSentRef.current = sig;
-        onSelectedIdsChange(selectedIds);
+        onSelectedIdsChange(uniqSorted(selectedIds));
     }, [selectedIds, onSelectedIdsChange]);
 
 

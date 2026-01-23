@@ -28,19 +28,19 @@ interface PaginationProps {
 
 const sizeData = [
   {
-    id: 1,
+    id: 10,
     size: 10
   },
   {
-    id: 1,
+    id: 25,
     size: 25
   },
   {
-    id: 2,
+    id: 50,
     size: 50
   },
   {
-    id: 3,
+    id: 100,
     size: 100
   }
 ];
@@ -72,10 +72,15 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
               };
             })}
             onChange={(evt: any) => {
-              if (evt.value) {
-                searchParams.set('limit', evt.value);
-              }
-              setSearchParams(searchParams);
+              const nextLimit = evt?.value;
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (nextLimit) next.set("limit", String(nextLimit));
+                else next.delete("limit");
+            
+                next.delete("page"); // yoki next.set("page","1")
+                return next;
+              }, { replace: true });
             }}
             allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
             value={Number(searchParams.get('limit')) || DEFAULT_LIMIT}
@@ -103,11 +108,12 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
             variant={page === 1 ? 'ghost' : 'secondary'}
             className={page === 1 ? 'dark-prev' : 'prev-button dark:text-text-title-dark'}
             onClick={() => {
-              if (page) {
-                searchParams.set('page', `${page - 1}`);
-              }
-              setSearchParams(searchParams);
-              // setSearchParams({ ...searchParams, page: `${page - 1}` });
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                const currentPage = Number(next.get("page") ?? DEFAULT_PAGE);
+                next.set("page", String(Math.max(1, currentPage - 1)));
+                return next;
+              }, { replace: true });
             }}
             startIcon={<ChevronLeft width={20} height={20} />}>
             {t('Prev')}
@@ -118,10 +124,12 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
             disabled={Math.ceil(totalNumber / limit) === page}
             variant={Math.ceil(totalNumber / limit) === page ? 'ghost' : 'secondary'}
             onClick={() => {
-              if (page) {
-                searchParams.set('page', `${page + 1}`);
-              }
-              setSearchParams(searchParams);
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                const currentPage = Number(next.get("page") ?? DEFAULT_PAGE);
+                next.set("page", String(currentPage + 1));
+                return next;
+              }, { replace: true });
             }}
             endIcon={<ChevronRight width={20} height={20} />}>
             {t('Next')}

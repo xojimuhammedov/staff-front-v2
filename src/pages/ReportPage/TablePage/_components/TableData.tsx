@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { useGetAllQuery } from 'hooks/api';
 import { useDownloadExcel } from 'hooks/useExcel';
 import { ArrowLeftToLine, Backpack, Download } from 'lucide-react';
-import  { useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import storage from 'services/storage';
@@ -88,14 +88,11 @@ const TableData = () => {
 
     const handleBack = () => {
         setSearchParams((prev) => {
-            const current = prev.get("current-step");
-            if (current === "1") return prev; // ortiqcha navigate bo‘lmasin
             const next = new URLSearchParams(prev);
             next.set("current-step", "1");
             return next;
         }, { replace: true });
     };
-
 
     if (isLoading) {
         return (

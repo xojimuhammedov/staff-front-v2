@@ -18,6 +18,7 @@ import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'react-router-dom';
+import { readDraftFromSearchParams, toPickerRange, uniqSorted } from 'pages/ReportPage/helper/report';
 
 type FormValues = {
   departmentId: number;
@@ -42,17 +43,6 @@ function normalizeDate(d?: string | Date) {
 function FormTable() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [draftParams, setDraftParams] = useState<DraftParams>({
-    employeeIds: [],
-  });
-
-  const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({
-    key: KEYS.getAllListDepartment,
-    url: URLS.getAllListDepartment,
-    params: {
-      limit: 100
-    },
-  });
 
   const schema = useMemo(
     () =>
@@ -62,13 +52,39 @@ function FormTable() {
     []
   );
 
-  const { control, watch } = useForm<FormValues>({
+  const { control, watch, reset } = useForm<FormValues>({
     defaultValues: {},
-    mode: 'onChange',
+    mode: "onChange",
     resolver: yupResolver(schema),
   });
 
+  const [draftParams, setDraftParams] = useState<DraftParams>({
+    employeeIds: [],
+  });
+
   const date = useWatch({ control, name: "date" });
+
+  const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({
+    key: KEYS.getAllListDepartment,
+    url: URLS.getAllListDepartment,
+    params: {
+      limit: 100
+    },
+  });
+
+  useEffect(() => {
+    const departmentIdRaw = searchParams.get("departmentId");
+    const departmentId = departmentIdRaw ? Number(departmentIdRaw) : undefined;
+
+    const draft = readDraftFromSearchParams(searchParams);
+
+    setDraftParams(draft);
+
+    reset({
+      departmentId: departmentId as any,
+      date: toPickerRange(draft.startDate, draft.endDate),
+    });
+  }, [searchParams, reset]);
 
   useEffect(() => {
     const startDate = normalizeDate(date?.startDate);
@@ -81,22 +97,29 @@ function FormTable() {
     }));
   }, [date?.startDate, date?.endDate]);
 
-  // ✅ EmployeeGroup’dan kelgan ids larni draftga yozish
   const handleEmployeesSelected = useCallback((ids: number[]) => {
+    const nextIds = uniqSorted(ids);
+
     setDraftParams((prev) => {
-      if (prev.employeeIds.length === ids.length &&
-        prev.employeeIds.every((v, i) => v === ids[i])) {
+      const prevIds = uniqSorted(prev.employeeIds);
+      if (
+        prevIds.length === nextIds.length &&
+        prevIds.every((v, i) => v === nextIds[i])
+      ) {
         return prev;
       }
-      return { ...prev, employeeIds: ids };
+      return { ...prev, employeeIds: nextIds };
     });
   }, []);
 
   const handleSaveClick = () => {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
-
       next.set("current-step", "2");
+
+      const depId = watch("departmentId");
+      if (depId) next.set("departmentId", String(depId));
+      else next.delete("departmentId");
 
       if (draftParams.startDate) next.set("startDate", draftParams.startDate);
       else next.delete("startDate");
@@ -104,17 +127,27 @@ function FormTable() {
       if (draftParams.endDate) next.set("endDate", draftParams.endDate);
       else next.delete("endDate");
 
-      // ✅ bracketsiz
       next.delete("employeeIds");
+      next.delete("employeeIds[]");
       draftParams.employeeIds.forEach((id) => {
         next.append("employeeIds", String(id));
       });
 
-      next.delete("employeeIds[]");
-
       return next;
     }, { replace: true });
   };
+
+  const canSave = useMemo(() => {
+    return Boolean(
+      draftParams.startDate &&
+      draftParams.endDate &&
+      draftParams.employeeIds.length > 0
+    );
+  }, [
+    draftParams.startDate,
+    draftParams.endDate,
+    draftParams.employeeIds.length,
+  ]);
 
 
   return (
@@ -130,7 +163,7 @@ function FormTable() {
             subtitle={t('')}
           />
         </div>
-        <MyButton onClick={handleSaveClick} variant="primary">
+        <MyButton onClick={handleSaveClick} disabled={!canSave} variant="primary">
           {t('Save changes')}
         </MyButton>
       </div>
