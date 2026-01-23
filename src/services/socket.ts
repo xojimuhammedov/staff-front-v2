@@ -27,7 +27,7 @@ export function connectEventsSocket() {
   }
 
   socket = io("http://192.168.100.115:3000/events", {
-    transports: ["polling", "websocket"],
+    transports: ["websocket", "polling"],
     upgrade: true,
     reconnection: true,
     reconnectionAttempts: 5,
@@ -38,6 +38,14 @@ export function connectEventsSocket() {
     extraHeaders: token ? {
       Authorization: `Bearer ${token}`,
     } : {},
+  });
+
+  socket.on('connect', () => {
+    console.log('✅ Socket ulandi:', socket?.id);
+  });
+
+  socket.on('connect_error', (error) => {
+    console.error('❌ Ulanish xatosi:', error.message);
   });
 
   return socket;
