@@ -145,16 +145,26 @@ function EmployeeDragDrop({ employeeData, gateId, refetch: hikvisionRefetch }: a
           </MyButton>
         </div>
 
-        <MySelect
-          isMulti
-          options={options}
-          value={selectedValues}        // Bu yerda to'g'ri tanlanganlar ko'rinadi
-          onChange={(selected: any) => {
-            const ids = selected ? selected.map((s: any) => s.value) : [];
-            setSelectDevices(ids);
-          }}
-          allowedRoles={["ADMIN"]}
-        />
+        <MyDivider />
+
+        <div className="flex items-center my-4 justify-between">
+          <LabelledCaption
+            title={t("Select devices")}
+            subtitle={t("")}
+          />
+          <div className="w-1/2">
+            <MySelect
+              isMulti
+              options={options}
+              value={selectedValues}        // Bu yerda to'g'ri tanlanganlar ko'rinadi
+              onChange={(selected: any) => {
+                const ids = selected ? selected.map((s: any) => s.value) : [];
+                setSelectDevices(ids);
+              }}
+              allowedRoles={["ADMIN"]}
+            />
+          </div>
+        </div>
 
         <MyDivider />
 

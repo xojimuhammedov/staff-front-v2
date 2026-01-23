@@ -198,7 +198,8 @@ function Form() {
         <MyDivider />
         <MyButton
           type="submit"
-          className={`text-sm w-[230px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+          variant="primary"
+          className={`text-sm [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
         >
           {t('Add & Save')}
         </MyButton>

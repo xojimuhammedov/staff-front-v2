@@ -50,12 +50,7 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
         <MyButton
           variant="secondary"
           allowedRoles={['ADMIN']}
-          className={`
-      w-2/5
-      bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-      dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-      [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-    `}
+          className={`w-2/5 [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-black-300`}
           onClick={() => navigate(`/view?organizationId=${item?.id}&current-setting=department`)}
           startIcon={<Eye />}
         >
@@ -65,12 +60,7 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
         <MyButton
           variant="secondary"
           allowedRoles={['ADMIN']}
-          className={`
-      w-2/5
-      bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-      dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-      [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-    `}
+          className={`w-2/5 [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-black-300`}
           onClick={() => {
             setShow(true);
             setOrganizationId(item?.id);
@@ -82,12 +72,7 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
         <MyButton
           allowedRoles={['ADMIN']}
           variant="secondary"
-          className={`
-      w-1/5
-      bg-white border border-gray-300 hover:bg-red-50
-      dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-red-900/20
-      [&_svg]:stroke-red-600 dark:[&_svg]:stroke-red-400
-    `}
+          className={`w-1/5 [&_svg]:stroke-red-600 dark:[&_svg]:stroke-red-400`}
           onClick={() => {
             setOpen(true);
             setOrganizationId(item?.id);

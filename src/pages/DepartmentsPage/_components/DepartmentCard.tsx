@@ -70,12 +70,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
         <MyButton
           variant="secondary"
           allowedRoles={['ADMIN', 'HR']}
-          className={`
-      w-2/5
-      bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-      dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-      [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-    `}
+          className={`w-2/5 [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-black-300`}
           onClick={() => handleViewClick(item)}
           startIcon={<Eye />}
         >
@@ -84,12 +79,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
         <MyButton
           variant="secondary"
           allowedRoles={['ADMIN', 'HR']}
-          className={`
-      w-2/5
-      bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-      dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-      [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-    `}
+          className={`w-2/5 [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-black-300`}
           onClick={() => {
             setShow(true);
             setEditId(item?.id);
@@ -104,12 +94,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
             setOpen(true);
             setDepartmentId(item?.id);
           }}
-          className={`
-      w-1/5
-      bg-white border border-gray-300 hover:bg-red-50
-      dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-red-900/20
-      [&_svg]:stroke-red-600 dark:[&_svg]:stroke-red-400
-    `}
+          className={`w-1/5 [&_svg]:stroke-red-600 dark:[&_svg]:stroke-red-400`}
           variant="secondary"
           startIcon={<Trash2 color="red" />}
         ></MyButton>
