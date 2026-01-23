@@ -1,6 +1,6 @@
 import MyDivider from 'components/Atoms/MyDivider';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import Stepper from '../_components/SettingForms/Stepper';
@@ -8,9 +8,13 @@ import FormDoorEdit from './_components/FormDoorEdit';
 import FormDeviceEdit from './_components/FormDeviceEdit';
 import EmployeeDragDrop from './_components/EmployeeDragDrop';
 import { SidebarMenuType } from 'types/sidebar';
+import { KEYS } from 'constants/key';
+import { useGetAllQuery } from 'hooks/api';
+import { URLS } from 'constants/url';
 
 function DoorEdit() {
   const { t } = useTranslation();
+  const { id } = useParams()
   const [searchParams, setSearchParams] = useSearchParams();
   const sidebar_menu: SidebarMenuType[] = [
     {
@@ -46,6 +50,16 @@ function DoorEdit() {
     setSearchParams(searchParams);
   };
 
+  const { data, isLoading, refetch } = useGetAllQuery<any>({
+    key: KEYS.hikvisionEmployeeSync,
+    url: URLS.hikvisionEmployeeSync,
+    params: {
+      gateId: Number(id),
+      limit: 100
+    }
+  })
+
+
   return (
     <PageContentWrapper>
       <div className="flex items-center justify-between">
@@ -57,7 +71,11 @@ function DoorEdit() {
         {currentStep === 2 ? (
           <FormDeviceEdit handleClick={handleClick} />
         ) : currentStep === 3 ? (
-          <EmployeeDragDrop />
+          <EmployeeDragDrop
+            employeeData={data?.data}
+            gateId={Number(id)}
+            refetch={refetch}
+          />
         ) : (
           <FormDoorEdit handleClick={handleClick} />
         )}

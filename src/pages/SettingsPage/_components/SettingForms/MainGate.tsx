@@ -37,7 +37,7 @@ function MainGate() {
   const { id } = useParams()
   const location = useLocation()
   const searchValue: searchValue = paramsStrToObj(location?.search)
-  const { search, setSearch, handleSearch } = useSearch();
+  // const { search, setSearch, handleSearch } = useSearch();
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.hikvisionEmployeeSync,
     url: URLS.hikvisionEmployeeSync,

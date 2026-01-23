@@ -5,16 +5,17 @@ import MyModal from "components/Atoms/MyModal";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useGetOneQuery, usePostQuery } from "hooks/api";
+import { usePostQuery } from "hooks/api";
 import { KEYS } from "constants/key";
 import { URLS } from "constants/url";
 import { useState } from "react";
 import { useEventsSocket } from "hooks/useSocket";
+import deviceType from "configs/deviceType";
+import { ISelect } from "interfaces/select.interface";
 
 type Props = {
     open: boolean;
     onClose: () => void;
-    deviceTypeOptions: { label: string; value: string }[];
     deviceId: any,
     tempSelectedIds: number[],
     hikvisionRefetch: () => void;
@@ -24,6 +25,8 @@ type Props = {
 type FormValues = {
     credentialTypes: string[];
 };
+
+type Option = { label: string; value: string };
 
 export default function DeviceAssignModal({
     open,
@@ -37,6 +40,16 @@ export default function DeviceAssignModal({
     const { t } = useTranslation();
     const [jobId, setJobId] = useState<string | number | undefined>(undefined);
     const [loading, setLoading] = useState(false);
+
+    const { control, handleSubmit, reset } = useForm<FormValues>({
+        defaultValues: { credentialTypes: [] },
+    });
+
+    const options: Option[] =
+        deviceType?.map((evt: any) => ({
+            label: evt.label,
+            value: evt.value,
+        })) ?? [];
 
     useEventsSocket({
         jobId,
@@ -62,28 +75,12 @@ export default function DeviceAssignModal({
             refetch();
             hikvisionRefetch();
             onClose();
+            reset()
             toast.success(t("Saved successfully"));
-            navigate("/settings?current-setting=deviceControl");
+            // navigate("/settings?current-setting=deviceControl");
             setJobId(undefined);
         },
     });
-
-    const { control, handleSubmit } = useForm<FormValues>({
-        defaultValues: { credentialTypes: [] },
-    });
-
-    const { data: deviceData } = useGetOneQuery({
-        id: deviceId,
-        url: URLS.getDoorForDevices,
-        params: {},
-        enabled: !!deviceId,
-    });
-
-    const deviceTypeOptions =
-        deviceData?.data?.type?.map((d: any) => ({
-            label: d,
-            value: d,
-        })) ?? [];
 
     const { mutate: assignEmployees } = usePostQuery({
         listKeyId: KEYS.devicesEmployeeAssign,
@@ -99,7 +96,7 @@ export default function DeviceAssignModal({
                 url: URLS.devicesEmployeeAssign,
                 attributes: {
                     employeeIds: tempSelectedIds,
-                    deviceIds: [deviceId],
+                    deviceIds: deviceId,
                     ...data
                 },
             },
@@ -109,9 +106,7 @@ export default function DeviceAssignModal({
                     const jid = response?.data?.jobId;
 
                     if (ok && jid) {
-                        // ✅ API success + jobId => socket ishga tushadi
                         setJobId(jid);
-                        // loading true qoladi, socket completed/failed bo‘lganda false bo‘ladi
                     } else {
                         setLoading(false);
                         toast.error("JobId not found or success=false");
@@ -137,20 +132,25 @@ export default function DeviceAssignModal({
                         <Controller
                             name="credentialTypes"
                             control={control}
-                            render={({ field }) => (
-                                <MySelect
-                                    isMulti
-                                    label={t("Device types")}
-                                    options={deviceTypeOptions}
-                                    value={deviceTypeOptions.filter((o: any) =>
-                                        field.value?.includes(o.value)
-                                    )}
-                                    onChange={(val: any) =>
-                                        field.onChange(val?.map((v: any) => v.value) || [])
-                                    }
-                                    allowedRoles={["ADMIN", "HR"]}
-                                />
-                            )}
+                            render={({ field }) => {
+                                const selectedOptions = options.filter((opt: any) =>
+                                    Array.isArray(field.value) ? field.value.includes(opt.value) : false
+                                );
+                                return (
+                                    <MySelect
+                                        isMulti
+                                        label={t("Device types")}
+                                        options={options}
+                                        value={selectedOptions as any}
+                                        onChange={(vals: ISelect | ISelect[] | string | string[] | number | number[]) => {
+                                            const selectedArray = Array.isArray(vals) ? vals : [];
+                                            const arr = selectedArray.map((v) => (typeof v === 'object' && 'value' in v ? v.value : v));
+                                            field.onChange(arr);
+                                        }}
+                                        allowedRoles={["ADMIN", "HR"]}
+                                    />
+                                );
+                            }}
                         />
 
                         <div className="flex justify-end gap-4 mb-4">
