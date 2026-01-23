@@ -16,17 +16,24 @@ import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types
 import Form from './Form';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import EditForm from './EditForm';
+import { paramsStrToObj } from 'utils/helper';
+import { searchValue } from 'types/search';
+import { useLocation } from 'react-router-dom';
 
 const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { t } = useTranslation()
+  const location = useLocation()
   const [show, setShow] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
   const [userId, setUserId] = useState<string | number | null>(null)
   const [editUserId, setEditUserId] = useState<string | number | null>(null)
+  const searchValue: searchValue = paramsStrToObj(location.search)
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.getListUsersManagment,
     url: URLS.getListUsersManagment,
-    params: {}
+    params: {
+      search: searchValue?.search
+    }
   })
 
   const { mutate: deleteRequest } = useDeleteQuery({

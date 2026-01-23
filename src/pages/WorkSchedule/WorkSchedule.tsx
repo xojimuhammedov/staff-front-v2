@@ -47,12 +47,8 @@ const WorkSchedule = () => {
               onClick={() => navigate('/workschedule/create')}
               startIcon={<Plus />}
               allowedRoles={['ADMIN', 'HR']}
-              className={`
-                text-sm w-[180px]
-                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-              `}
+              variant='primary'
+              className={`text-sm w-[180px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
             >
               {t('Create a schedule')}
             </MyButton>

@@ -73,7 +73,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       endDate: null,
       additionalDetails: '',
       isActive: true,
-      carNumber: ""
+      carNumber: null
     },
     mode: 'onChange',
     resolver: yupResolver(onetimeCodeSchema),

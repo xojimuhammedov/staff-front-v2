@@ -10,11 +10,16 @@ import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import { IAction } from 'interfaces/action.interface';
-import { Edit3, Plus, Trash2, Eye } from 'lucide-react';
+import { Edit3, Plus, Trash2, Eye, Search } from 'lucide-react';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import Loading from 'assets/icons/Loading';
+import { MyInput } from 'components/Atoms/Form';
+import { useSearch } from 'hooks/useSearch';
+import { KeyTypeEnum } from 'enums/key-type.enum';
+import { searchValue } from 'types/search';
+import { paramsStrToObj } from 'utils/helper';
 
 type FilterType = {
   search: string;
@@ -30,14 +35,18 @@ type TItem = {
 
 const DoorsPage = () => {
   const { t } = useTranslation();
+  const location = useLocation()
   const navigate = useNavigate();
   const [doorId, setDoorId] = useState<string | null>(null);
   const [show, setShow] = useState(false);
-
+  const { search, setSearch, handleSearch } = useSearch();
+  const searchValue: searchValue = paramsStrToObj(location.search)
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.getDoorGates,
     url: URLS.getDoorGates,
-    params: {},
+    params: {
+      search: searchValue?.search
+    },
   });
 
   const columns: DataGridColumnType[] = useMemo(
@@ -136,18 +145,29 @@ const DoorsPage = () => {
           title={t('Doors')}
           subtitle={t('System notifications for selected employees')}
         />
-        <MyButton
-          onClick={() => navigate('/settings/door/create')}
-          startIcon={<Plus />}
-          className={`
-                text-sm w-[230px]
-                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-              `}
-            >
-          {t('Add new door')}
-        </MyButton>
+        <div className='flex items-center gap-4'>
+          <MyInput
+            onKeyUp={(event) => {
+              if (event.key === KeyTypeEnum.enter) {
+                handleSearch();
+              } else {
+                setSearch((event.target as HTMLInputElement).value);
+              }
+            }}
+            defaultValue={search}
+            startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+            className="dark:bg-bg-input-dark"
+            placeholder={t('Search...')}
+          />
+          <MyButton
+            onClick={() => navigate('/settings/door/create')}
+            startIcon={<Plus />}
+            variant='primary'
+            className={` text-sm w-[230px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+          >
+            {t('Add new door')}
+          </MyButton>
+        </div>
       </div>
 
       <TableProvider<TItem, FilterType>

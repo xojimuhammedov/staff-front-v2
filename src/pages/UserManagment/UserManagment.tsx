@@ -4,11 +4,15 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import UserTable from './_components/UserTable';
 import MyButton from 'components/Atoms/MyButton/MyButton';
-import { Plus } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
+import { MyInput } from 'components/Atoms/Form';
+import { KeyTypeEnum } from 'enums/key-type.enum';
+import { useSearch } from 'hooks/useSearch';
 
 const UserManagment = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const { search, setSearch, handleSearch } = useSearch();
   const breadCrumbs = [
     {
       label: t('Users'),
@@ -22,20 +26,31 @@ const UserManagment = () => {
           <h1 className="headers-core dark:text-text-title-dark text-text-base">{t('Users')}</h1>
           <MyBreadCrumb items={breadCrumbs} />
         </div>
-        <MyButton
-          onClick={() => {
-            setOpen(true);
-          }}
-          startIcon={<Plus />}
-          className={`
-                text-sm w-[180px]
-                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300 
-              `}
-        >
-          {t('Add a user')}
-        </MyButton>
+        <div className='flex items-center gap-4'>
+          <MyInput
+            onKeyUp={(event) => {
+              if (event.key === KeyTypeEnum.enter) {
+                handleSearch();
+              } else {
+                setSearch((event.target as HTMLInputElement).value);
+              }
+            }}
+            defaultValue={search}
+            startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+            className="dark:bg-bg-input-dark"
+            placeholder={t('Search...')}
+          />
+          <MyButton
+            onClick={() => {
+              setOpen(true);
+            }}
+            startIcon={<Plus />}
+            variant='primary'
+            className={`text-sm w-[170px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+          >
+            {t('Add a user')}
+          </MyButton>
+        </div>
       </div>
       <UserTable open={open} setOpen={setOpen} />
     </PageContentWrapper>

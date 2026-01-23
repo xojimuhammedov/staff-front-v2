@@ -3,20 +3,30 @@ import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { useTranslation } from 'react-i18next';
 import DeviceList from './_components/DeviceList';
 import MyButton from 'components/Atoms/MyButton/MyButton';
-import { Plus } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { KEYS } from 'constants/key';
 import { useGetAllQuery } from 'hooks/api';
 import { URLS } from 'constants/url';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { MyInput } from 'components/Atoms/Form';
+import { KeyTypeEnum } from 'enums/key-type.enum';
+import { paramsStrToObj } from 'utils/helper';
+import { searchValue } from 'types/search';
+import { useSearch } from 'hooks/useSearch';
 
 const DevicePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation()
+  const { search, setSearch, handleSearch } = useSearch();
+  const searchValue: searchValue = paramsStrToObj(location.search)
 
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.getDoorForDevices,
     url: URLS.getDoorForDevices,
-    params: {},
+    params: {
+      search: searchValue?.search
+    },
   });
 
   return (
@@ -26,21 +36,32 @@ const DevicePage = () => {
           title={t('Device control')}
           subtitle={t('System notifications for selected employees')}
         />
-        <MyButton
-          onClick={() => {
-            navigate('/device/create');
-          }}
-          allowedRoles={['ADMIN', 'HR']}
-          startIcon={<Plus />}
-          className={`
-                text-sm w-[180px]
-                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-              `}
-        >
-          {t('Create device')}
-        </MyButton>
+        <div className='flex items-center gap-4'>
+          <MyInput
+            onKeyUp={(event) => {
+              if (event.key === KeyTypeEnum.enter) {
+                handleSearch();
+              } else {
+                setSearch((event.target as HTMLInputElement).value);
+              }
+            }}
+            defaultValue={search}
+            startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+            className="dark:bg-bg-input-dark"
+            placeholder={t('Search...')}
+          />
+          <MyButton
+            onClick={() => {
+              navigate('/device/create');
+            }}
+            allowedRoles={['ADMIN', 'HR']}
+            startIcon={<Plus />}
+            variant='primary'
+            className={`text-sm w-[230px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+          >
+            {t('Create device')}
+          </MyButton>
+        </div>
       </div>
       <MyDivider />
       <DeviceList data={data} isLoading={isLoading} refetch={refetch} />
