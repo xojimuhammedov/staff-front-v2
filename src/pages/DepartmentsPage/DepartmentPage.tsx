@@ -63,12 +63,8 @@ const DepartmentPage = () => {
               startIcon={<Plus />}
               onClick={() => setShowModal(true)}    
               allowedRoles={['ADMIN', "HR"]}
-              className={`
-                text-sm w-[230px]
-                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300 
-              `}
+              variant='primary'
+              className={`text-sm w-[230px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
             >
               {t('Add department')}
             </MyButton>

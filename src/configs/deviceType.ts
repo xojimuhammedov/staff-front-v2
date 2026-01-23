@@ -23,11 +23,6 @@ const deviceType = [
         id: 5,
         value: "PERSONAL_CODE",
         label: "PASSWORD"
-    },
-    {
-        id: 6,
-        value: "ONE_TIME_ID",
-        label: "ONE_TIME_ID"
     }
 ]
 

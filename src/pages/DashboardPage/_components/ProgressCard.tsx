@@ -2,6 +2,7 @@ import React from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import config from 'configs';
+import AvatarIcon from '../../../assets/icons/avatar.jpg';
 
 
 const EmployeeRow = ({ employee }: any) => {
@@ -9,7 +10,7 @@ const EmployeeRow = ({ employee }: any) => {
         <div className="bg-gray-50 dark:bg-bg-dark-theme rounded-2xl px-4 py-2 mb-4">
             <div className="flex items-center gap-4">
                 <img
-                    src={`${config.FILE_URL}api/storage/${employee?.photo}`}
+                    src={employee?.photo ? `${config.FILE_URL}api/storage/${employee?.photo}` : AvatarIcon}
                     alt={employee.name}
                     className="w-12 h-12 rounded-full object-cover"
                 />
