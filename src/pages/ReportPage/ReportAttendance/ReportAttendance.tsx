@@ -9,17 +9,14 @@ import { useGetAllQuery } from 'hooks/api';
 import { useForm, Controller } from 'react-hook-form';
 import { MySelect } from 'components/Atoms/Form';
 import { ISelect } from 'interfaces/select.interface';
-import { useReportAttendance } from './hooks/useReportAttendance';
 import ColumnsButton from 'components/Atoms/DataGrid/ColumnsButton';
 import { searchValue } from 'types/search';
-import { useSearch } from 'hooks/useSearch';
 import { paramsStrToObj } from 'utils/helper';
 import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 const ReportAttendance = () => {
     const { t } = useTranslation();
-    // const { control: dateControl } = useReportAttendance();
     const location = useLocation();
     const searchValue: searchValue = paramsStrToObj(location.search);
 
@@ -63,8 +60,6 @@ const ReportAttendance = () => {
         hideErrorMsg: true,
         params: {},
     });
-
-    // const { data, isLoading, refetch } = useReportAttendance(departmentId);
 
     return (
         <PageContentWrapper>

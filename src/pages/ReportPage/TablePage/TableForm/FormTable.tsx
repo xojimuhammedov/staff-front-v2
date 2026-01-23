@@ -43,7 +43,7 @@ function FormTable() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [draftParams, setDraftParams] = useState<DraftParams>({
-    employeeIds: searchParams.getAll("employeeIds").map(Number) || [],
+    employeeIds: [],
   });
 
   const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({
@@ -110,7 +110,6 @@ function FormTable() {
         next.append("employeeIds", String(id));
       });
 
-      // ❗️agar oldin "employeeIds[]" yozilib qolgan bo‘lsa — tozalab ketamiz
       next.delete("employeeIds[]");
 
       return next;
@@ -131,7 +130,7 @@ function FormTable() {
             subtitle={t('')}
           />
         </div>
-        <MyButton onClick={handleSaveClick} type="submit" variant="primary">
+        <MyButton onClick={handleSaveClick} variant="primary">
           {t('Save changes')}
         </MyButton>
       </div>

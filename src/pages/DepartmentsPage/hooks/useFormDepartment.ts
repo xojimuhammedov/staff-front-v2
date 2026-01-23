@@ -76,7 +76,7 @@ export const useFormDepartment = ({ onClose }: any) => {
                     toast.success(t('Successfully created!'));
                     reset();
                     refetch()
-                    // onClose()
+                    onClose()
                 },
                 onError: (e: any) => {
                     console.log(e);

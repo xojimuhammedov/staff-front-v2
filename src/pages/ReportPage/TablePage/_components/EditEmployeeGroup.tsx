@@ -9,7 +9,7 @@ import { KeyTypeEnum } from 'enums/key-type.enum';
 import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import { Search } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { searchValue } from 'types/search';
@@ -21,14 +21,14 @@ type EditEmployeeGroupProps = {
 };
 
 const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGroupProps) => {
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
     const { t } = useTranslation()
     const [search, setSearch] = useState<any>("");
     const [searchParams, setSearchParams] = useSearchParams();
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const location = useLocation()
     const searchValue: searchValue = paramsStrToObj(location.search)
     const lastSentRef = useRef<string>("");
-
 
     const { data } = useGetAllQuery<any>({
         key: KEYS.getEmployeeList,
@@ -87,7 +87,7 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
             if (search?.trim()) next.set("search", search.trim());
             else next.delete("search");
 
-            next.delete("page"); // ✅ qidirganda page reset bo‘lsin
+            next.delete("page");
             return next;
         }, { replace: true });
     };
@@ -95,7 +95,7 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
     useEffect(() => {
         if (!onSelectedIdsChange) return;
 
-        const sig = selectedIds.join(","); // signature
+        const sig = selectedIds?.join(","); // signature
         if (sig === lastSentRef.current) return;
 
         lastSentRef.current = sig;
