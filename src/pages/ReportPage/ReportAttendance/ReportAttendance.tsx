@@ -10,11 +10,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { MySelect } from 'components/Atoms/Form';
 import { ISelect } from 'interfaces/select.interface';
 import { useReportAttendance } from './hooks/useReportAttendance';
+import ColumnsButton from 'components/Atoms/DataGrid/ColumnsButton';
+import { searchValue } from 'types/search';
 
 const ReportAttendance = () => {
     const { t } = useTranslation();
     const { control: dateControl } = useReportAttendance();
-    
     const { control, watch } = useForm({
         defaultValues: {
             departmentId: undefined
@@ -30,7 +31,7 @@ const ReportAttendance = () => {
 
     const departmentId = watch('departmentId');
     const { data, isLoading, refetch } = useReportAttendance(departmentId);
-    
+
     return (
         <PageContentWrapper>
             <div className='flex justify-between items-center'>
@@ -56,6 +57,9 @@ const ReportAttendance = () => {
                                 />
                             )}
                         />
+                    </div>
+                    <div>
+                        <ColumnsButton />
                     </div>
                     <div className='flex items-center w-[240px]'>
                         <MyTailwindPicker

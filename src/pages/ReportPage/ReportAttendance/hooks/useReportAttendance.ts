@@ -25,6 +25,7 @@ export const useReportAttendance = (departmentId?: number) => {
             limit: apiParams?.limit || 10,
             startDate: paramsValue.startDate,
             endDate: paramsValue.endDate,
+            ...searchValue,
             ...(departmentId ? { departmentId } : {}),
         }
     });
