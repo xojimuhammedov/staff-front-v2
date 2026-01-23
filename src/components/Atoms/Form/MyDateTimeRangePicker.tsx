@@ -1,12 +1,9 @@
-import {
-  ReactNode,
-  forwardRef,
-} from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/flatpickr.css';
+import 'flatpickr/dist/themes/dark.css';
 
 interface FormDateTimePickerProps {
   error?: boolean;
@@ -28,10 +25,17 @@ interface FormDateTimePickerProps {
   format?: string;
 }
 
-/**
- * `MyDateTimePicker` is a customizable date and time picker component based on MUI.
- */
+const toFlatpickrFormat = (format: string) =>
+  format
+    .replace(/HH/g, 'H')
+    .replace(/mm/g, 'i')
+    .replace(/DD/g, 'd')
+    .replace(/MM/g, 'm')
+    .replace(/YYYY/g, 'Y');
 
+/**
+ * `MyDateTimePicker` is a customizable date and time picker component based on Flatpickr.
+ */
 const MyDateTimePicker = forwardRef<HTMLDivElement, FormDateTimePickerProps>((props, ref) => {
   const {
     error = false,
@@ -60,6 +64,8 @@ const MyDateTimePicker = forwardRef<HTMLDivElement, FormDateTimePickerProps>((pr
 
   const helperTextErrorStyles = ['text-text-error'];
 
+  const flatpickrFormat = toFlatpickrFormat(format);
+
   return (
     <div className={twMerge(['w-full', rootClassName])} ref={ref}>
       {label && (
@@ -82,77 +88,27 @@ const MyDateTimePicker = forwardRef<HTMLDivElement, FormDateTimePickerProps>((pr
             {startIcon}
           </div>
         )}
-        
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimePicker
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-            format={format}
-            slotProps={{
-              textField: {
-                fullWidth: fullWidth,
-                size: size === 'small' ? 'small' : 'medium',
-                placeholder: placeholder,
-                name: name,
-                error: error,
-                className: twMerge([
-                  'appearance-none',
-                  startIcon && '[&_.MuiInputBase-input]:pl-9',
-                  endIcon && '[&_.MuiInputBase-input]:pr-9',
-                  className
-                ]),
-                sx: {
-                  '& .MuiOutlinedInput-root': {
-                    backgroundColor: 'var(--bg-field, #fff)',
-                    borderRadius: '4px',
-                    border: 0,
-                    boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-                    fontSize: '0.875rem',
-                    '& fieldset': {
-                      border: 0,
-                    },
-                    '&:hover': {
-                      backgroundColor: 'var(--bg-field-hover, #f9fafb)',
-                    },
-                    '&.Mui-focused': {
-                      backgroundColor: 'var(--bg-field, #fff)',
-                      boxShadow: '0 0 0 3px var(--bg-brand-alpha, rgba(59, 130, 246, 0.1))',
-                      outline: '2px solid var(--bg-brand, #3b82f6)',
-                    },
-                    '&.Mui-disabled': {
-                      backgroundColor: 'var(--bg-disabled, #f3f4f6)',
-                      color: 'var(--text-disabled, #9ca3af)',
-                    },
-                    '&.Mui-error': {
-                      outline: '2px solid var(--text-error, #ef4444)',
-                    }
-                  },
-                  '& .MuiInputBase-input': {
-                    padding: size === 'small' ? '8px 12px' : '10px 16px',
-                    color: 'var(--text-base, #111827)',
-                    '&::placeholder': {
-                      color: 'var(--text-muted, #6b7280)',
-                      opacity: 1,
-                    }
-                  },
-                  '& .MuiInputLabel-root': {
-                    display: 'none', // Label yuqorida custom holatda
-                  }
-                }
-              },
-              popper: {
-                sx: {
-                  '& .MuiPaper-root': {
-                    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-                    borderRadius: '8px',
-                    marginTop: '4px',
-                  }
-                }
-              }
-            }}
-          />
-        </LocalizationProvider>
+
+        <Flatpickr
+          options={{
+            enableTime: true,
+            dateFormat: flatpickrFormat,
+            time_24hr: false,
+          }}
+          value={value ? value.toDate() : undefined}
+          onChange={(dates: Date[]) => onChange?.(dates?.[0] ? dayjs(dates[0]) : null)}
+          placeholder={placeholder}
+          disabled={disabled}
+          className={twMerge([
+            'appearance-none py-xs px-3 text-c-m text-text-base border-0 rounded-sm shadow-base bg-bg-field placeholder-text-muted hover:bg-bg-field-hover focus:bg-bg-field focus:ring-bg-brand focus:shadow-border-interactive-active focus:border-bg-brand disabled:bg-bg-disabled disabled:shadow-base disabled:text-text-disabled dark:bg-bg-form dark:text-text-title-dark dark:placeholder-text-muted dark:hover:bg-bg-form dark:focus:bg-bg-form',
+            size === 'small' ? 'h-8' : 'h-10',
+            fullWidth && 'w-full',
+            startIcon && 'pl-9',
+            endIcon && 'pr-9',
+            className,
+          ])}
+          {...computedProps}
+        />
 
         {endIcon && (
           <div className="absolute right-2.5 top-2/4 z-10 -translate-y-2/4 [&>svg]:h-5 [&>svg]:w-5">
