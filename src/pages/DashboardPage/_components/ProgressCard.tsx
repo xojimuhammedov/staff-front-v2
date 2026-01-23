@@ -1,5 +1,4 @@
 import React from 'react';
-import { CheckCircle2, XCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import config from 'configs';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
@@ -40,7 +39,7 @@ const EmployeeColumn = ({ employees, title, icon: Icon, iconBgColor, iconColor, 
 
     return (
         <div className="flex-1">
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-4">
                 <div className={`${iconBgColor} w-12 h-12 rounded-2xl flex items-center justify-center`}>
                     <Icon size={24} className={iconColor} strokeWidth={2} />
                 </div>
@@ -59,27 +58,17 @@ const EmployeeColumn = ({ employees, title, icon: Icon, iconBgColor, iconColor, 
     );
 };
 
-const ProgressCard = ({ topEmployee, bottomEmployee }: any) => {
+const ProgressCard = ({ topEmployee, title, icon, iconBgColor, iconColor, isEffective }: any) => {
     return (
-        <div className="bg-bg-base dark:bg-dark-dashboard-cards rounded-2xl p-4 shadow-lg">
-            <div className="flex gap-6">
-                <EmployeeColumn
-                    employees={topEmployee}
-                    title="Effective employees"
-                    icon={CheckCircle2}
-                    iconBgColor="bg-green-100 dark:bg-green-900/30"
-                    iconColor="text-green-600 dark:text-green-300"
-                    isEffective={true}
-                />
-                <EmployeeColumn
-                    employees={bottomEmployee}
-                    title="Uneffective employees"
-                    icon={XCircle}
-                    iconBgColor="bg-red-100 dark:bg-red-900/30"
-                    iconColor="text-red-600 dark:text-red-300"
-                    isEffective={false}
-                />
-            </div>
+        <div className="bg-bg-base w-full dark:bg-dark-dashboard-cards rounded-2xl p-4 shadow-lg">
+            <EmployeeColumn
+                employees={topEmployee}
+                title={title}
+                icon={icon}
+                iconBgColor={iconBgColor}
+                iconColor={iconColor}
+                isEffective={isEffective}
+            />
         </div>
     );
 };

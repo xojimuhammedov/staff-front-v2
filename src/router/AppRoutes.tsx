@@ -11,14 +11,13 @@ import Components404 from 'components/Layouts/DashboardLayout/404';
 
 function AppRoutes() {
   const [loading, setLoading] = useState<boolean>(false);
-  const darkLight = storage.get('theme');
 
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <div className={twMerge(darkLight === 'dark' ? 'dark' : 'light')}>
+    // <ThemeProvider storageKey='staff-ui-theme'>
       <Routes>
         {PublicRoutes.map((evt: any, key: number) => (
           <Route key={key} path={evt.path} element={evt.element} />
@@ -37,7 +36,7 @@ function AppRoutes() {
         ))}
         <Route path="*" element={<Components404 />} />
       </Routes>
-    </div>
+    // </ThemeProvider>
   );
 }
 

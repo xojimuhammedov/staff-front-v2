@@ -95,14 +95,13 @@ const ColumnsButton = () => {
         children: t('Status Filters'),
         variant: 'secondary',
         className: `
-      w-max 
-      bg-white text-gray-900 border border-gray-300 
-      hover:bg-gray-100
-
-      dark:bg-gray-800 
-      dark:text-gray-100 
-      dark:border-gray-700 
-      dark:hover:bg-gray-700
+          w-max 
+          bg-white text-gray-900 border border-gray-300 
+          hover:bg-gray-100
+          dark:bg-gray-800 
+          dark:text-gray-100 
+          dark:border-gray-700 
+          dark:hover:bg-gray-700
     `,
         startIcon: <Filter className="text-gray-600 dark:text-gray-300" />,
         endIcon: open ? (

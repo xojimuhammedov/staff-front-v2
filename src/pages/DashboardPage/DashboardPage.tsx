@@ -9,6 +9,7 @@ import { Calendar } from "lucide-react";
 import { useDashboard } from "./hooks/useDashboard";
 import AttendancesCard from "./_components/AttendancesCard";
 
+import { CheckCircle2, XCircle } from 'lucide-react';
 
 const DashboardPage = () => {
   const { t } = useTranslation();
@@ -65,8 +66,21 @@ const DashboardPage = () => {
           onTime={lineChartData.onTimes}
         />
       </div>
-      <div className="mt-8">
-        <ProgressCard topEmployee={topEmployee} bottomEmployee={bottomEmployee} />
+      <div className="mt-8 flex w-full gap-6">
+        <ProgressCard
+          topEmployee={topEmployee}
+          title='Effective employees'
+          icon={CheckCircle2}
+          iconBgColor="bg-green-100 dark:bg-green-900/30"
+          iconColor="text-green-600 dark:text-green-300"
+          isEffective={true}
+        />
+        <ProgressCard
+          iconBgColor="bg-red-100 dark:bg-red-900/30"
+          iconColor="text-red-600 dark:text-red-300"
+          isEffective={false}
+          icon={XCircle} title="Uneffective employees"
+          topEmployee={bottomEmployee} />
       </div>
     </PageContentWrapper>
   );

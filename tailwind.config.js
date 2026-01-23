@@ -10,12 +10,12 @@ const toRGB = (value) => {
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class"],
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
     'node_modules/flowbite-react/lib/esm/**/*.js',
     './node_modules/react-tailwindcss-datepicker/dist/index.esm.js'
   ],
-  darkMode: 'class',
   theme: {
     fontFamily: {
       inter: ['Inter', 'sans-serif']
