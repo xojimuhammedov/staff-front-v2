@@ -10,9 +10,9 @@ const Details = (props: any) => {
         <div className='flex items-center gap-4'>
             <MyAvatar size='large' imageUrl={`${config.FILE_URL}api/storage/${props?.avatar}`} className='rounded-full w-full h-full object-cover' />
             <div className='flex flex-col'>
-                <h2 className='text-xl font-bold mb-2'>{props?.title}</h2>
-                <p className='text-base'>{props?.position?.[`${currentLang}`]}</p>
-                <p className='text-base '><b>{t("Department")}</b>: {props?.department?.fullName}</p>
+                <h2 className='text-2xl  text-gray-900 dark:text-white'>{props?.title}</h2>
+                <p className='text-sm text-gray-900 dark:text-white'>{props?.position?.[`${currentLang}`]}</p>
+                <p className='text-base text-gray-700 dark:text-white'><b>{t("Department")}</b>: {props?.department?.fullName}</p>
             </div>
         </div>
     );
