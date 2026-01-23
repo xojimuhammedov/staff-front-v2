@@ -65,9 +65,8 @@ const DashboardPage = () => {
           onTime={lineChartData.onTimes}
         />
       </div>
-      <div className="grid grid-cols-2 mt-8 gap-6">
-        <ProgressCard topEmployee={topEmployee} />
-        <ProgressCard topEmployee={bottomEmployee} />
+      <div className="mt-8">
+        <ProgressCard topEmployee={topEmployee} bottomEmployee={bottomEmployee} />
       </div>
     </PageContentWrapper>
   );

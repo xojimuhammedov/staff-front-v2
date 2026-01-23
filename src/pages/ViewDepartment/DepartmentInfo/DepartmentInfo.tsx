@@ -7,7 +7,7 @@ import PersonalCard from './_components/PersonalCard';
 import Productivity from 'pages/EmployeePage/EmployeeDetails/View/_components/Productivity';
 
 const DepartmentInfo = () => {
-    const { lineChartData, control, departmentInfo } = useDepartment()
+    const { lineChartData, control, departmentInfo, topEmployee, bottomEmployee } = useDepartment()
     return (
         <div>
             <DetailsInfo departmentInfo={departmentInfo} />
@@ -23,10 +23,9 @@ const DepartmentInfo = () => {
                     onTime={lineChartData.onTimes}
                 />
             </div>
-            <div className="grid grid-cols-2 mt-8 gap-6">
-                <ProgressCard />
-                <ProgressCard />
-            </div>
+           <div className="mt-8">
+                <ProgressCard topEmployee={topEmployee} bottomEmployee={bottomEmployee} />
+           </div>
         </div>
     );
 }

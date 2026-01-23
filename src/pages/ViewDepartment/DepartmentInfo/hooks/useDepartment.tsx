@@ -46,6 +46,26 @@ export const useDepartment = () => {
         }
     });
 
+    const departmentId = Number(searchValue?.parentDepartmentId) || Number(searchValue.subdepartmentId);
+
+    const { data: topEmployee } = useGetAllQuery<any>({
+        key: KEYS.dashboardTodayTop,
+        url: URLS.dashboardTodayTop,
+        params: {
+            departmentId: departmentId,
+            ...paramsValue
+        },
+    });
+
+    const { data: bottomEmployee } = useGetAllQuery<any>({
+        key: KEYS.dashboardTodayBottom,
+        url: URLS.dashboardTodayBottom,
+        params: {
+            departmentId: departmentId,
+            ...paramsValue
+        }
+    });
+
     const lineChartData = useMemo(() => {
         const items = get(chartData, 'data', []) as chartData[];
 
@@ -68,7 +88,9 @@ export const useDepartment = () => {
     return {
         lineChartData,
         control,
-        departmentInfo: getOne?.data
+        departmentInfo: getOne?.data,
+        topEmployee: topEmployee?.data,
+        bottomEmployee: bottomEmployee?.data
     }
 }
 

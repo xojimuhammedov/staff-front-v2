@@ -42,7 +42,7 @@ const AttendanceCard: React.FC<ArrivalCardProps> = ({
       </div>
 
       {statusText && statusClass && (
-        <p className={`text-sm text-gray-500 dark:text-text-subtle ${statusTextColor} ${darkStatusTextColor}`}>
+        <p className={`text-sm ${statusTextColor} dark:text-white`}>
           {statusText} {t(statusClass)}
         </p>
       )}
