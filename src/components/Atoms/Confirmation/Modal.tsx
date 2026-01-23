@@ -19,14 +19,14 @@ export default function ConfirmationModal({ open, setOpen, confirmationDelete, t
                       {title}
                     </Dialog.Title>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500 dark:text-text-subtle">
+                      <p className="text-sm text-gray-500 dark:text-text-title-dark">
                         {subTitle}
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+              <div className="bg-gray-50 dark:bg-bg-dark-bg px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
                   onClick={confirmationDelete}

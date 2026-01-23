@@ -43,7 +43,7 @@ function FormTable() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [draftParams, setDraftParams] = useState<DraftParams>({
-    employeeIds: [],
+    employeeIds: searchParams.getAll("employeeIds").map(Number) || [],
   });
 
   const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({

@@ -5,7 +5,7 @@ import { URLS } from 'constants/url';
 import dayjs from 'dayjs';
 import { useGetAllQuery } from 'hooks/api';
 import { useDownloadExcel } from 'hooks/useExcel';
-import { Backpack, Download } from 'lucide-react';
+import { ArrowLeftToLine, Backpack, Download } from 'lucide-react';
 import  { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
@@ -86,15 +86,15 @@ const TableData = () => {
     };
 
 
-    // const handleBack = () => {
-    //     setSearchParams((prev) => {
-    //         const current = prev.get("current-step");
-    //         if (current === "1") return prev; // ortiqcha navigate bo‘lmasin
-    //         const next = new URLSearchParams(prev);
-    //         next.set("current-step", "1");
-    //         return next;
-    //     }, { replace: true });
-    // };
+    const handleBack = () => {
+        setSearchParams((prev) => {
+            const current = prev.get("current-step");
+            if (current === "1") return prev; // ortiqcha navigate bo‘lmasin
+            const next = new URLSearchParams(prev);
+            next.set("current-step", "1");
+            return next;
+        }, { replace: true });
+    };
 
 
     if (isLoading) {
@@ -105,15 +105,16 @@ const TableData = () => {
         );
     }
     return (
-        <div className='flex flex-col w-full h-full overflow-hidden'>
+        <div className='flex flex-col w-full h-full overflow-hidden border p-4 rounded-m'>
             <div className='flex items-center mb-4 gap-4 justify-end'>
-                {/* <MyButton variant='secondary' onClick={handleBack} startIcon={<Backpack />}>{t("Previous")}</MyButton> */}
+                <MyButton variant='secondary' onClick={handleBack} startIcon={<ArrowLeftToLine />}>{t("Previous")}</MyButton>
                 <MyButton onClick={downloadExcel.onDownload} startIcon={<Download />} variant='secondary'>{t("Download")}</MyButton>
             </div>
             <div className='min-h-0 flex-1 overflow-hidden'>
                 <div className='w-full h-full min-w-0 overflow-auto'>
                     <table
                         className="border-collapse"
+                        ref={currentTableRef}
                         style={{
                             borderCollapse: 'collapse',
                             border: `1px solid ${darkLight === 'dark' ? '#4b5563' : '#ccc'}`,
