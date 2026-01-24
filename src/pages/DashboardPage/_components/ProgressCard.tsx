@@ -6,7 +6,7 @@ import AvatarIcon from '../../../assets/icons/avatar.jpg';
 
 const EmployeeRow = ({ employee, isEffective = true }: any) => {
     return (
-        <div className="bg-gray-50 dark:bg-bg-dark-theme rounded-2xl px-4 py-2 mb-4">
+        <div className="bg-gray-50 dark:bg-bg-dark-theme rounded-2xl px-4 py-2">
             <div className="flex items-center gap-4">
                 <img
                     src={employee?.photo ? `${config.FILE_URL}api/storage/${employee?.photo}` : AvatarIcon}
@@ -49,7 +49,7 @@ const EmployeeColumn = ({ employees, title, icon: Icon, iconBgColor, iconColor, 
                     </h1>
                 </div>
             </div>
-            <div className="space-y-0">
+            <div className="space-y-4">
                 {employees?.map((employee: any) => (
                     <EmployeeRow key={employee.id} employee={employee} isEffective={isEffective} />
                 ))}
