@@ -27,7 +27,7 @@ const EditPolicyRulePage = () => {
       <div className="flex items-center justify-between">
         <MyBreadCrumb pageTitle={t('Edit schedule')} items={breadCrumbs} />
         <MyButton
-          onClick={() => navigate('/workschedule')}
+          onClick={() => navigate('/settings?current-setting=schedule')}
           variant="secondary"
           startIcon={<ArrowLeft />}>
           {t('Back to schedule list')}
