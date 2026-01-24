@@ -29,7 +29,7 @@ const EmployeeCreate = () => {
         <MyButton
           onClick={() => navigate('/employees')}
           variant="primary"
-            className={`text-sm w-[230px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+          className={`text-sm dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
           startIcon={<ArrowLeft />}>
           {t('Back to employees list')}
         </MyButton>

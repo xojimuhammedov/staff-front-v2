@@ -48,7 +48,7 @@ const WorkSchedule = () => {
               startIcon={<Plus />}
               allowedRoles={['ADMIN', 'HR']}
               variant='primary'
-              className={`text-sm w-[180px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+              className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
             >
               {t('Create a schedule')}
             </MyButton>

@@ -134,10 +134,10 @@ const Credentials = () => {
         <Button
           startIcon={<Plus />}
           onClick={() => setShowModal(true)}
-          className={`text-sm [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-black-300`}
-          variant='primary'
+          className={`text-sm [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+          variant="primary"
         >
-          {t('Add new typse')}
+          {t('Add new type')}
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">

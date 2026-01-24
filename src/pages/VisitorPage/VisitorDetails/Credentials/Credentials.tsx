@@ -153,7 +153,7 @@ const Credentials = () => {
           onClick={() =>
             setShowModal(true)
           }
-          className={`text-sm [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-black-300`}
+          className={`text-sm [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
           variant="primary"
         >
           {t('Add new type')}

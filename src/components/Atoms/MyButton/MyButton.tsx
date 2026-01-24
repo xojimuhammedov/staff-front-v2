@@ -77,7 +77,7 @@ const MyButton: ButtonComponent = forwardRef(
     const xlarge = ['h-12', !children && 'w-12'];
 
     const generalStyles = [
-      'dark:bg-text-title-dark flex items-center justify-center px-[8px] py-[6px] rounded-lg text-c-m-p [&_svg]:w-5 [&_svg]:h-5 [&_svg]:stroke-text-subtle dark:text-black dark:font-medium dark:hover:bg-dark-text'
+      'dark:bg-text-title-dark flex items-center justify-center px-[8px] py-[6px] rounded-lg text-c-m-p [&_svg]:w-5 [&_svg]:h-5 [&_svg]:stroke-text-subtle dark:text-black dark:font-medium dark:hover:bg-dark-form'
     ];
 
     // TODO static shadow value
@@ -91,7 +91,7 @@ const MyButton: ButtonComponent = forwardRef(
     ];
 
     const secondary = [
-      'secondary  shadow-border-base text-text-base focus:shadow-border-interactive-active'
+      'secondary shadow-border-base text-text-base focus:shadow-border-interactive-active'
     ];
 
     const destructive = [

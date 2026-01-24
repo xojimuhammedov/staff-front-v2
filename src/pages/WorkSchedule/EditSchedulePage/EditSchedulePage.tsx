@@ -28,7 +28,8 @@ const EditPolicyRulePage = () => {
         <MyBreadCrumb pageTitle={t('Edit schedule')} items={breadCrumbs} />
         <MyButton
           onClick={() => navigate('/settings?current-setting=schedule')}
-          variant="secondary"
+          variant="primary"
+          className={`text-sm min-w-max dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
           startIcon={<ArrowLeft />}>
           {t('Back to schedule list')}
         </MyButton>

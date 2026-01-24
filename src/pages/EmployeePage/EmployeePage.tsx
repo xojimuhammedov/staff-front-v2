@@ -54,15 +54,15 @@ function EmployeePage() {
               allowedRoles={['ADMIN', 'HR']}
               startIcon={<Plus />}
               variant='primary'
-              className={`text-sm w-[230px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+              className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
             >
               {t('Create an employee')}
             </MyButton>
             {searchValue?.subdepartmentId && (
               <MyButton
                 onClick={() => navigate('/employees')}
-                className={`text-sm w-[230px] [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
-                variant="secondary"
+                variant="primary"
+                className={`text-sm min-w-max dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
                 startIcon={<ArrowLeft />}
               >
                 {t('Back to employees list')}
