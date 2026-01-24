@@ -14,7 +14,7 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
         <h3 className="text-xl font-inter font-medium dark:text-text-title-dark">
           {item?.fullName}
         </h3>
-        <MyBadge variant="green">{item?.isActive ? 'Active' : 'isActive'}</MyBadge>
+        <MyBadge variant={item?.isActive ? "green" : "red"}>{item?.isActive ? t("Active") : t("Inactive")}</MyBadge>
       </div>
       <div className="grid grid-cols-2 gap-2 my-4">
         <div className="rounded-lg bg-[#F9FAFB] dark:bg-bg-dark-theme p-3">

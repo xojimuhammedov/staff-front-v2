@@ -46,13 +46,11 @@ export const useDepartment = () => {
         }
     });
 
-    const departmentId = Number(searchValue?.parentDepartmentId) || Number(searchValue.subdepartmentId);
-
     const { data: topEmployee } = useGetAllQuery<any>({
         key: KEYS.dashboardTodayTop,
         url: URLS.dashboardTodayTop,
         params: {
-            departmentId: departmentId,
+            departmentId: Number(searchValue?.parentDepartmentId) || Number(searchValue.subdepartmentId),
             ...paramsValue
         },
     });
@@ -61,7 +59,7 @@ export const useDepartment = () => {
         key: KEYS.dashboardTodayBottom,
         url: URLS.dashboardTodayBottom,
         params: {
-            departmentId: departmentId,
+            departmentId: Number(searchValue?.parentDepartmentId) || Number(searchValue.subdepartmentId),
             ...paramsValue
         }
     });

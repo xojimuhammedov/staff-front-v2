@@ -21,7 +21,7 @@ function ReasonModal({ row }: any) {
     <>
       <MyButton
         variant="secondary"
-        className="text-sm w-[100px] bg-white text-gray-900 border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
+        className="text-sm min-w-max text-gray-900 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100"
         disabled={disabled}
         onClick={() => setOpen(true)}
       >
