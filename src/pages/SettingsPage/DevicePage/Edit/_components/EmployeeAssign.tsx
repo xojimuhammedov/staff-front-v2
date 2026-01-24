@@ -135,7 +135,7 @@ function EmployeeAssign({ deviceId, employeesData, isLoading, refetch, deviceDat
                                 <p>{t("No employees found")}</p>
                             ) : (
                                 leftEmployees?.map((emp: any) => (
-                                    <div key={emp.id} className="flex items-center p-4 rounded-md bg-white hover:bg-gray-50 transition-colors border">
+                                    <div key={emp.id} className="flex items-center p-4 rounded-md dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035] transition-colors">
                                         <MyCheckbox
                                             checked={tempSelectedIds.includes(emp.id)}
                                             onChange={() => toggleTempSelect(emp.id)}
@@ -167,7 +167,7 @@ function EmployeeAssign({ deviceId, employeesData, isLoading, refetch, deviceDat
                                 <p className="text-center mt-10">{t("Nothing selected yet")}</p>
                             ) : (
                                 finalEmployees?.map((emp: any) => (
-                                    <div key={emp.id} className="flex items-center p-4 mx-2 rounded-md bg-white hover:bg-gray-50 transition-colors border">
+                                    <div key={emp.id} className="flex items-center p-4 mx-2 rounded-md dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035] transition-colors">
                                         <MyCheckbox
                                             label={emp.name}
                                             checked={removeSelectIds.includes(emp.id)}

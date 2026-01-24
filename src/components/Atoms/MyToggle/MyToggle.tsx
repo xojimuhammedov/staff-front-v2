@@ -21,7 +21,7 @@ const MyToggle: React.FC<ToggleProps> = ({
 }) => {
   return (
     <div
-      className={`flex items-center justify-between border rounded-lg px-3 py-2 ${className}`}
+      className={`flex items-center justify-between border dark:border-dark-line rounded-lg px-3 py-2 ${className}`}
     >
       <div className="flex items-center space-x-2">
         <button
@@ -37,7 +37,7 @@ const MyToggle: React.FC<ToggleProps> = ({
             }`}
           />
         </button>
-        {label && <span className="text-gray-800">{label}</span>}
+        {label && <span className="text-gray-800 dark:text-text-title-dark">{label}</span>}
       </div>
 
       {/* optional icon button */}

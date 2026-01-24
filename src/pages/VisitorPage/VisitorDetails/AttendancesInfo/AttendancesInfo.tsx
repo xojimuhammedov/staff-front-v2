@@ -47,7 +47,7 @@ const AttendancesInfo = () => {
           <h1 className="headers-core dark:text-text-title-dark text-text-base">
             {t('Attendance & Arrival/Leave Tracking System')} 
           </h1>
-          <p>{t("Monitor visitor attendance patterns and punctuality")}</p>
+          <p className='dark:text-text-title-dark'>{t("Monitor visitor attendance patterns and punctuality")}</p>
         </div>
         <div className="flex items-center w-[240px]">
           <MyTailwindPicker

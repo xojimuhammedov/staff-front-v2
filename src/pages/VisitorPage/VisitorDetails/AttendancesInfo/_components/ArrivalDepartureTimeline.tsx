@@ -64,7 +64,7 @@ export default function ArrivalDepartureTimeline({ data }: any) {
           <div key={day?.id} className="space-y-3">
             <div>
               <p className="font-bold text-lg text-text-base dark:text-text-title-dark">{day?.dayName}</p>
-              <p className="text-xs text-gray-500 dark:text-text-subtle">{day.date}</p>
+              <p className="text-xs text-gray-500 dark:text-text-title-dark">{day.date}</p>
             </div>
 
             {/* Timeline */}

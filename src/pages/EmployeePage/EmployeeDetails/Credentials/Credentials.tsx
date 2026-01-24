@@ -183,7 +183,6 @@ const Credentials = () => {
 
             <div className="flex items-center gap-2 mt-auto">
               <Button
-                // variant="secondary"
                 className={`
                   w-full rounded-md
                   bg-red-600 dark:bg-red-700 text-sm font-semibold text-white dark:text-white shadow-xs hover:bg-red-500 dark:hover:bg-red-600

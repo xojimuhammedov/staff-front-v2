@@ -170,9 +170,7 @@ function EmployeeDragDrop({ employeeData, gateId, refetch: hikvisionRefetch }: a
 
         <div className="mt-6 flex flex-col lg:flex-row gap-6">
 
-          {/* LEFT PANEL */}
           <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border p-4">
-
             <div className="flex items-center justify-between mt-4">
               <MyCheckbox
                 label={t("Select all")}
@@ -203,7 +201,7 @@ function EmployeeDragDrop({ employeeData, gateId, refetch: hikvisionRefetch }: a
                 <p>{t("No employees found")}</p>
               ) : (
                 leftEmployees.map((emp) => (
-                  <div key={emp.id} className="flex items-center p-4 rounded-md bg-white hover:bg-gray-50 transition-colors border">
+                  <div key={emp.id} className="flex items-center p-4 rounded-md dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035] transition-colors">
                     <MyCheckbox
                       checked={tempSelectedIds.includes(emp.id)}
                       onChange={() => toggleTempSelect(emp.id)}
@@ -235,7 +233,7 @@ function EmployeeDragDrop({ employeeData, gateId, refetch: hikvisionRefetch }: a
                 <p className="text-center mt-10">{t("Nothing selected yet")}</p>
               ) : (
                 finalEmployees.map((emp) => (
-                  <div key={emp.id} className="flex items-center p-4 mx-2 rounded-md bg-white hover:bg-gray-50 transition-colors border">
+                  <div key={emp.id} className="flex items-center p-4 mx-2 rounded-md dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035] transition-colors">
                     <MyCheckbox
                       label={emp.name}
                       checked={removeSelectIds.includes(emp.id)}

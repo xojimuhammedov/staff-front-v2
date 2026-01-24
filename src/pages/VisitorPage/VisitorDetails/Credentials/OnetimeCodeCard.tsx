@@ -45,7 +45,7 @@ const OnetimeCodeCard = ({ code, onToggle }: OnetimeCodeCardProps) => {
         ))}
         {code?.codeType && (
           <div className="mt-2">
-            <p className="text-xs text-gray-500 dark:text-text-subtle">
+            <p className="text-xs text-gray-500 dark:text-text-title-dark">
               {t('Type')}: <span className="font-semibold">{code.codeType}</span>
             </p>
           </div>
@@ -53,12 +53,9 @@ const OnetimeCodeCard = ({ code, onToggle }: OnetimeCodeCardProps) => {
       </div>
       <div className="flex items-center gap-2 mt-auto">
         <Button
-          variant='secondary'
+          variant='primary'
           className={`
-            w-full font-medium
-            bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-            dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-            [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
+            w-full rounded-md bg-red-600 dark:bg-red-700 text-sm font-semibold text-white dark:text-white shadow-xs hover:bg-red-500 dark:hover:bg-red-600 [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
           `}
           onClick={() => onToggle(code)}
         >

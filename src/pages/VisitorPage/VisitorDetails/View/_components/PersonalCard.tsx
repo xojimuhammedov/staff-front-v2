@@ -69,7 +69,7 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data, organizationName,
             {
                 infoItems?.map((item) => (
                     <div className="flex items-start my-4 space-x-4">
-                        <IconByName name={item?.Icon} width={'22px'} />
+                        <IconByName name={item?.Icon} width={'22px'} className='text-gray-700 dark:text-white' />
                         <div className="flex flex-col">
                             <span className="text-xs font-medium text-gray-500 dark:text-text-muted uppercase tracking-wider">
                                 {item.label}

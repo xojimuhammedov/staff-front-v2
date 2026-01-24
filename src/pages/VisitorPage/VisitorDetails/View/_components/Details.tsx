@@ -11,9 +11,9 @@ const Details = (props: any) => {
                 <User size={48} className='text-gray-400' />
             </div>
             <div className='flex flex-col'>
-                <h2 className='text-xl font-bold mb-2'>{props?.title || '--'}</h2>
+                <h2 className='text-xl font-bold mb-2 dark:text-text-title-dark'>{props?.title || '--'}</h2>
                 <p className='text-base text-gray-600 dark:text-gray-400'>{props?.email || '--'}</p>
-              <p className='text-base '><b>{t("Department")}</b>: {props?.department?.fullName}</p>
+              <p className='text-base dark:text-text-title-dark'><b>{t("Department")}</b>: {props?.department?.fullName}</p>
             </div>
         </div>
     );

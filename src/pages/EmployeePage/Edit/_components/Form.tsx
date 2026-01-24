@@ -37,7 +37,6 @@ function Form() {
           const formData = new FormData();
           formData.append('file', avatar);
 
-          // 🧩 2. API'ga yuboramiz
           const response = request.post(URLS.uploadPhotoByEmployee, formData, {
             headers: {
               "Content-Type": "multipart/form-data"

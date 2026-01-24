@@ -319,7 +319,7 @@ function EmployeeDragDrop() {
                   employees.map((emp) => (
                     <div
                       key={emp.id}
-                      className="flex items-center p-4 rounded-md bg-white hover:bg-gray-50 transition-colors border"
+                      className="flex items-center p-4 rounded-md dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035] transition-colors"
                     >
                       <MyCheckbox
                         checked={tempSelectedIds.includes(emp.id)}
@@ -350,7 +350,7 @@ function EmployeeDragDrop() {
                   {finalEmployees.map((emp) => (
                     <div
                       key={emp.id}
-                      className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                      className="flex items-center justify-between p-4 dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035]"
                     >
                       <div className="flex items-center gap-4">
                         <MyAvatar imageUrl={emp.avatar || AvatarIcon} size="medium" alt={emp.name} />

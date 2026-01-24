@@ -88,6 +88,7 @@ module.exports = {
           0px 1px 2px -1px rgba(3,7,18,0.08),
           0px 0px 0px 1px rgba(3,7,18,0.08)
         `,
+        'dark-base': '0px -1px 0px rgba(255,255,255,0.02), 0px 6px 14px rgba(0,0,0,0.45)',
       },
       // NOTE imported from Figma 👉 https://www.figma.com/file/71ymV744Lh9WoMCtrsPdLT/Base-%E2%9C%A8?type=design&node-id=24-3080&mode=dev
       spacing: {
@@ -401,6 +402,3 @@ module.exports = {
     })
   ]
 };
-
-// background: var(--buttons-button-neutral-dark, linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(35, 38, 45, 0.05) 100%), #262628);
-// box-shadow: 0px 0px 0px 1px rgba(3, 7, 18, 0.08);
