@@ -49,15 +49,13 @@ const UsageDetailsTable: React.FC = () => {
         <div className="bg-white dark:bg-bg-dark-bg p-4 mt-6 sm:p-6 rounded-[12px] border dark:border-gray-700 shadow-lg w-full max-w-7xl mx-auto">
             <h2 className="text-xl font-semibold text-gray-800 dark:text-text-title-dark mb-6">{t('Usage Details')}</h2>
 
-            {/* Jadvallarning ustun sarlavhalari - faqat Desktopda ko'rinadi */}
             <div className="grid grid-cols-4 border-b border-gray-200 dark:border-gray-700 py-3 text-sm font-medium text-gray-500 dark:text-text-subtle">
-                <div className="px-4 text-gray-400 dark:text-text-subtle">{t('App / Site Name')}</div>
-                <div className="px-4 text-gray-400 dark:text-text-subtle">{t('Category')}</div>
-                <div className="px-4 text-gray-400 dark:text-text-subtle">{t('Total Usage Time')}</div>
-                <div className="px-4 text-gray-400 dark:text-text-subtle">{t('Activity Score')}</div>
+                <div className="px-4 text-gray-400 dark:text-text-title-dark">{t('App / Site Name')}</div>
+                <div className="px-4 text-gray-400 dark:text-text-title-dark">{t('Category')}</div>
+                <div className="px-4 text-gray-400 dark:text-text-title-dark">{t('Total Usage Time')}</div>
+                <div className="px-4 text-gray-400 dark:text-text-title-dark">{t('Activity Score')}</div>
             </div>
 
-            {/* Ma'lumotlar qatorlari */}
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 {usageData.map((detail) => (
                     <div

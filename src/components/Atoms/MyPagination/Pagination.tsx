@@ -77,7 +77,7 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
                 const next = new URLSearchParams(prev);
                 if (nextLimit) next.set("limit", String(nextLimit));
                 else next.delete("limit");
-            
+
                 next.delete("page"); // yoki next.set("page","1")
                 return next;
               }, { replace: true });
@@ -120,16 +120,15 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
           </MyButton>
           <MyButton
             size="base"
+            type='button'
             className={'dark-button dark:text-text-title-dark'}
             disabled={Math.ceil(totalNumber / limit) === page}
             variant={Math.ceil(totalNumber / limit) === page ? 'ghost' : 'secondary'}
-            onClick={() => {
-              setSearchParams((prev) => {
-                const next = new URLSearchParams(prev);
-                const currentPage = Number(next.get("page") ?? DEFAULT_PAGE);
-                next.set("page", String(currentPage + 1));
-                return next;
-              }, { replace: true });
+            onClick={(e) => {
+              e.preventDefault();
+              const params = new URLSearchParams(searchParams); 
+              params.set('page', String(page + 1));
+              setSearchParams(params); 
             }}
             endIcon={<ChevronRight width={20} height={20} />}>
             {t('Next')}

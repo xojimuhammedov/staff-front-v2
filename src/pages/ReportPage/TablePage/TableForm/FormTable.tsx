@@ -168,57 +168,55 @@ function FormTable() {
         </MyButton>
       </div>
       <MyDivider />
-      <form action="">
-        <div className="my-10 flex">
-          <div className="w-[50%]">
-            <LabelledCaption
-              title={t('Select department')}
-              subtitle={t('')}
-            />
-          </div>
-          <div className="w-[50%]">
-            <Controller
-              name="departmentId"
-              control={control}
-              render={({ field, fieldState }) => (
-                <MySelect
-                  placeholder={t('Select department')}
-                  options={
-                    get(getDepartment, 'data')?.map((evt: Department) => ({
-                      label: evt.fullName,
-                      value: evt.id,
-                    })) || []
-                  }
-                  value={field.value as any}
-                  onChange={(val) => {
-                    const id = Number((val as ISelect)?.value ?? val); field.onChange(id);
-                  }}
-                  onBlur={field.onBlur}
-                  error={!!fieldState.error}
-                  allowedRoles={['ADMIN', 'HR']}
-                />
-              )}
-            />
-          </div>
+      <div className="my-10 flex">
+        <div className="w-[50%]">
+          <LabelledCaption
+            title={t('Select department')}
+            subtitle={t('')}
+          />
         </div>
-        <div className="my-10 flex">
-          <div className="w-[50%]">
-            <LabelledCaption title={t('Department list')} subtitle={t('')} />
-          </div>
-          <div className="flex items-center w-[50%]">
-            <MyTailwindPicker
-              useRange={true}
-              name="date"
-              asSingle={false}
-              control={control}
-              placeholder={t('Today')}
-              startIcon={<Calendar stroke="#9096A1" />}
-            />
-          </div>
+        <div className="w-[50%]">
+          <Controller
+            name="departmentId"
+            control={control}
+            render={({ field, fieldState }) => (
+              <MySelect
+                placeholder={t('Select department')}
+                options={
+                  get(getDepartment, 'data')?.map((evt: Department) => ({
+                    label: evt.fullName,
+                    value: evt.id,
+                  })) || []
+                }
+                value={field.value as any}
+                onChange={(val) => {
+                  const id = Number((val as ISelect)?.value ?? val); field.onChange(id);
+                }}
+                onBlur={field.onBlur}
+                error={!!fieldState.error}
+                allowedRoles={['ADMIN', 'HR']}
+              />
+            )}
+          />
         </div>
-        <MyDivider />
-        <EditEmployeeGroup onSelectedIdsChange={handleEmployeesSelected} departmentId={watch("departmentId")} />
-      </form>
+      </div>
+      <div className="my-10 flex">
+        <div className="w-[50%]">
+          <LabelledCaption title={t('Department list')} subtitle={t('')} />
+        </div>
+        <div className="flex items-center w-[50%]">
+          <MyTailwindPicker
+            useRange={true}
+            name="date"
+            asSingle={false}
+            control={control}
+            placeholder={t('Today')}
+            startIcon={<Calendar stroke="#9096A1" />}
+          />
+        </div>
+      </div>
+      <MyDivider />
+      <EditEmployeeGroup onSelectedIdsChange={handleEmployeesSelected} departmentId={watch("departmentId")} />
     </div>
   );
 }

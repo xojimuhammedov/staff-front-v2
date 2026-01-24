@@ -134,13 +134,8 @@ const Credentials = () => {
         <Button
           startIcon={<Plus />}
           onClick={() => setShowModal(true)}
-          className={`
-                text-sm w-[170px]
-                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-                [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-              `}
-          variant="primary"
+          className={`text-sm [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-black-300`}
+          variant='primary'
         >
           {t('Add new typse')}
         </Button>
@@ -188,11 +183,10 @@ const Credentials = () => {
 
             <div className="flex items-center gap-2 mt-auto">
               <Button
-                variant="secondary"
+                // variant="secondary"
                 className={`
-                  w-full font-medium
-                  bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-                  dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
+                  w-full rounded-md
+                  bg-red-600 dark:bg-red-700 text-sm font-semibold text-white dark:text-white shadow-xs hover:bg-red-500 dark:hover:bg-red-600
                   [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
                 `}
                 onClick={() => {

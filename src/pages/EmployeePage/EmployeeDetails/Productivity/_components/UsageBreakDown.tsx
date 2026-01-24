@@ -51,7 +51,7 @@ const UsageBreakdownCard: React.FC<UsageBreakdownCardProps> = ({
                         <span className="text-2xl font-bold text-gray-800 dark:text-text-title-dark">
                             {productivePercentage}%
                         </span>
-                        <span className="text-sm text-gray-500 dark:text-text-subtle">
+                        <span className="text-sm text-gray-500 dark:text-text-title-dark">
                             {t('Productive')}
                         </span>
                     </div>
@@ -64,7 +64,7 @@ const UsageBreakdownCard: React.FC<UsageBreakdownCardProps> = ({
                             <span className="text-gray-700 dark:text-text-title-dark font-medium">{t('Useful Apps & Websites')}</span>
                         </div>
                         <p className="text-gray-600 dark:text-text-title-dark ml-5">{productiveTime}</p>
-                        <p className="text-gray-500 dark:text-text-subtle text-sm ml-5">
+                        <p className="text-gray-500 dark:text-text-title-dark text-sm ml-5">
                             {productivePercentage}% {t('of total time')}
                         </p>
                     </div>
@@ -75,7 +75,7 @@ const UsageBreakdownCard: React.FC<UsageBreakdownCardProps> = ({
                             <span className="text-gray-700 dark:text-text-title-dark font-medium">{t('Unproductive Apps & Sites')}</span>
                         </div>
                         <p className="text-gray-600 dark:text-text-title-dark ml-5">{unproductiveTime}</p>
-                        <p className="text-gray-500 dark:text-text-subtle text-sm ml-5">
+                        <p className="text-gray-500 dark:text-text-title-dark text-sm ml-5">
                             {unproductivePercentage}% {t('of total time')}
                         </p>
                     </div>

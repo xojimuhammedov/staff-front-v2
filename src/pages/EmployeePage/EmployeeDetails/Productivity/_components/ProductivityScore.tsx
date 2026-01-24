@@ -45,7 +45,7 @@ const ProductivityScoreCard: React.FC<ProductivityScoreCardProps> = ({
                     <h3 className="text-[#FBC02D] dark:text-yellow-400 text-base font-medium">
                         {t('Total Productivity Score')}
                     </h3>
-                    <p className="text-gray-500 dark:text-text-subtle text-sm">
+                    <p className="text-gray-500 dark:text-text-title-dark text-sm">
                         {t('Based on app usage analysis')}
                     </p>
                 </div>
@@ -56,7 +56,7 @@ const ProductivityScoreCard: React.FC<ProductivityScoreCardProps> = ({
                 <div className="text-5xl font-bold text-green-600 dark:text-green-400 mb-1">
                     {score}
                 </div>
-                <p className="text-gray-400 dark:text-text-subtle text-sm mb-4">
+                <p className="text-gray-400 dark:text-text-title-dark text-sm mb-4">
                     {description}
                 </p>
             </div>
@@ -69,7 +69,7 @@ const ProductivityScoreCard: React.FC<ProductivityScoreCardProps> = ({
                         style={{ width: `${progressPercentage}%` }}
                     ></div>
                 </div>
-                <p className="text-gray-400 dark:text-text-subtle text-sm font-medium">
+                <p className="text-gray-400 dark:text-text-title-dark text-sm font-medium">
                     {progressBarText}
                 </p>
             </div>

@@ -31,19 +31,19 @@ const OrganizationCard = ({ item, setOpen, setOrganizationId, setShow }: any) =>
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <MapPin width={'16px'} />
+        <MapPin width={'16px'} className='text-gray-700 dark:text-white' />
         <p className="dark:text-text-title-dark">{item?.address}</p>
       </div>
       <div className="flex items-center gap-2 mt-2">
-        <Phone width={'16px'} />
+        <Phone width={'16px'} className='text-gray-700 dark:text-white' />
         <p className="dark:text-text-title-dark">{item?.phone}</p>
       </div>
       <div className="flex items-center gap-2 mt-2">
-        <Mail width={'16px'} />
+        <Mail width={'16px'} className='text-gray-700 dark:text-white' />
         <p className="dark:text-text-title-dark">{item?.email}</p>
       </div>
       <div className="flex items-center gap-2 mt-2">
-        <NotebookPen width={'16px'} />
+        <NotebookPen width={'16px'} className='text-gray-700 dark:text-white' />
         <p className="dark:text-text-title-dark">{item?.additionalDetails}</p>
       </div>
       <div className="flex items-center justify-between gap-4 mt-4">

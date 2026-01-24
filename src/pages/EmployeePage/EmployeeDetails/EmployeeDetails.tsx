@@ -23,14 +23,9 @@ const EmployeeDetails = () => {
         <MyBreadCrumb pageTitle={t('Controlled employees')} items={breadCrumbs} />
         <Button
           onClick={() => navigate('/employees')}
-        //   variant="secondary"
+          variant="secondary"
           startIcon={<ArrowLeft />}
-          className={`
-                text-sm w-[230px]
-                bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-                dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-               [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-                    `}
+          className={`text-sm [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-black-300`}
         >
           {t('Back to employees list')}
         </Button>

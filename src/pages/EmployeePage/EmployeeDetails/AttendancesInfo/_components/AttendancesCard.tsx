@@ -30,8 +30,8 @@ const AttendanceCard: React.FC<ArrivalCardProps> = ({
 
   return (
     <div className="bg-white dark:bg-bg-dark-bg p-4 rounded-[12px] shadow-lg border dark:border-gray-700 cursor-pointer">
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="text-gray-500 dark:text-text-title-dark text-base font-medium">
+      <div className="flex justify-between items-start mb-2 gap-1">
+        <h3 className="text-gray-500 dark:text-text-title-dark text-sm font-medium">
           {title}
         </h3>
         {icon}
