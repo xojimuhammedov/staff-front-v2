@@ -6,7 +6,7 @@ import MyDivider from 'components/Atoms/MyDivider';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { Calendar } from 'lucide-react';
 import { ISelect } from 'interfaces/select.interface';
-import MyDateTimeRangePicker from 'components/Atoms/Form/MyDateTimeRangePicker';
+import { MyDateTimePicker } from 'components/Atoms/Form/MyDateTimePicker';
 import { useVisitorForm } from 'pages/VisitorPage/hooks/useVisitorForm';
 import VisitorDetailsModal from 'pages/VisitorPage/_components/VisitorDetailsModal';
 
@@ -168,31 +168,15 @@ function Form() {
             helperText={t(`${errors?.carNumber?.message}`)}
             label={t('Car Number')}
           />
-          <Controller
+          <MyDateTimePicker
             name="startDate"
             control={onetimeCodeControl}
-            render={({ field, fieldState }) => (
-              <MyDateTimeRangePicker
-                label={t('Start time')}
-                value={field.value}
-                onChange={field.onChange}
-                placeholder={t('Select date and time')}
-                error={!!fieldState.error}
-              />
-            )}
+            label={t('Start time')}
           />
-          <Controller
+          <MyDateTimePicker
             name="endDate"
             control={onetimeCodeControl}
-            render={({ field, fieldState }) => (
-              <MyDateTimeRangePicker
-                label={t('End time')}
-                value={field.value}
-                onChange={field.onChange}
-                placeholder={t('Select date and time')}
-                error={!!fieldState.error}
-              />
-            )}
+            label={t('End time')}
           />
         </div>
         <MyDivider />

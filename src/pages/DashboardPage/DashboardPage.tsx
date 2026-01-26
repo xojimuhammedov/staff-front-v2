@@ -79,7 +79,7 @@ const DashboardPage = () => {
           iconBgColor="bg-red-100 dark:bg-red-900/30"
           iconColor="text-red-600 dark:text-red-300"
           isEffective={false}
-          icon={XCircle} title="Uneffective employees"
+          icon={XCircle} title="Ineffective employees"
           topEmployee={bottomEmployee} />
       </div>
     </PageContentWrapper>

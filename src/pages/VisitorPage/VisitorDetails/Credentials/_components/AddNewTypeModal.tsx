@@ -5,10 +5,9 @@ import MyModal from 'components/Atoms/MyModal';
 import { MyInput, MySelect } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { ISelect } from 'interfaces/select.interface';
-import MyDateTimeRangePicker from 'components/Atoms/Form/MyDateTimeRangePicker';
+import { MyDateTimePicker } from 'components/Atoms/Form/MyDateTimePicker';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { onetimeCodeSchema } from 'schema/visitor.schema';
-import { Dayjs } from 'dayjs';
 
 interface AddNewTypeModalProps {
   show: boolean;
@@ -31,8 +30,8 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
   interface FormValues {
     codeType: string | undefined;
     carNumber?: string;
-    startDate: Dayjs | null;
-    endDate: Dayjs | null;
+    startDate: string | null;
+    endDate: string | null;
   }
 
   const { control, handleSubmit, reset, register, formState: { errors } } = useForm<FormValues>({
@@ -90,31 +89,15 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
                   />
                 )}
               />
-              <Controller
+              <MyDateTimePicker
                 name="startDate"
                 control={control}
-                render={({ field, fieldState }) => (
-                  <MyDateTimeRangePicker
-                    label={t('Start time')}
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder={t('Select date and time')}
-                    error={!!fieldState.error}
-                  />
-                )}
+                label={t('Start time')}
               />
-              <Controller
+              <MyDateTimePicker
                 name="endDate"
                 control={control}
-                render={({ field, fieldState }) => (
-                  <MyDateTimeRangePicker
-                    label={t('End time')}
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder={t('Select date and time')}
-                    error={!!fieldState.error}
-                  />
-                )}
+                label={t('End time')}
               />
             </div>
             <div className="mt-6 flex w-full justify-end gap-4">

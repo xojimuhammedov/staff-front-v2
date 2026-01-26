@@ -62,7 +62,7 @@ export const createReportAttendanceColumns = () => {
           if (row?.goneStatus) {
             return (
               <MyBadge variant={row?.goneStatus === 'EARLY' ? 'orange' : 'green'}>
-                {row?.goneStatus}
+                {t(row?.goneStatus)}
               </MyBadge>
             );
           } else return '--';
