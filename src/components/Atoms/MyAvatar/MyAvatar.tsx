@@ -1,5 +1,7 @@
 import { CircleUserRound } from 'lucide-react';
 import { ComponentPropsWithoutRef, FC, ReactNode } from 'react';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 import { twMerge } from 'tailwind-merge';
 
 type ImageWithWithoutRefType = ComponentPropsWithoutRef<'img'>;
@@ -10,6 +12,7 @@ interface MyAvatarProps extends ImageWithWithoutRefType {
   imageUrl?: string;
   children?: ReactNode;
   isString?: boolean;
+  enablePreview?: boolean;
 }
 
 /**
@@ -43,6 +46,7 @@ const MyAvatar: FC<MyAvatarProps> = ({
   imageUrl,
   children,
   isString = true,
+  enablePreview = true,
   ...rest
 }) => {
   const generalStyles = ['shadow-shadow-base bg-base  flex items-center justify-center '];
@@ -71,14 +75,27 @@ const MyAvatar: FC<MyAvatarProps> = ({
           shape === 'square' && squareStyles
         ])}>
         {imageUrl ? (
-          <img
-            className={twMerge(
-              [shape === 'circle' && circleStyles, shape === 'square' && squareStyles],
-              'max-w-full object-cover sm:h-8 min-[320px]:w-8 min-[320px]:h-8 sm:w-8 lg:h-10 lg:w-10'
-            )}
-            src={imageUrl}
-            {...rest}
-          />
+          enablePreview ? (
+            <Zoom>
+              <img
+                className={twMerge(
+                  [shape === 'circle' && circleStyles, shape === 'square' && squareStyles],
+                  'max-w-full object-cover sm:h-8 min-[320px]:w-8 min-[320px]:h-8 sm:w-8 lg:h-10 lg:w-10'
+                )}
+                src={imageUrl}
+                {...rest}
+              />
+            </Zoom>
+          ) : (
+            <img
+              className={twMerge(
+                [shape === 'circle' && circleStyles, shape === 'square' && squareStyles],
+                'max-w-full object-cover sm:h-8 min-[320px]:w-8 min-[320px]:h-8 sm:w-8 lg:h-10 lg:w-10'
+              )}
+              src={imageUrl}
+              {...rest}
+            />
+          )
         ) : isString ? (
           <p
             className={twMerge([
