@@ -6,15 +6,15 @@ import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import OnetimeCodeCard from './OnetimeCodeCard';
 import AddNewTypeModal from './_components/AddNewTypeModal';
 import { toast } from 'react-toastify';
 import ConfirmationCredential from './Confirmation';
-import dayjs from 'dayjs';
 import { Controller, useForm } from 'react-hook-form';
 import { MySelect } from 'components/Atoms/Form';
 import { ISelect } from 'interfaces/select.interface';
 import VisitorDetailsModal from 'pages/VisitorPage/_components/VisitorDetailsModal';
+import OnetimeCodeCardNewUI from './OnetimeCodeCard';
+import Loading from 'assets/icons/Loading';
 
 const Credentials = () => {
   const { id } = useParams();
@@ -26,7 +26,7 @@ const Credentials = () => {
   const [createdVisitor, setCreatedVisitor] = useState<any>(null);
   const { control, watch } = useForm();
 
-  const { data: onetimeCodesData, refetch: refetchOnetimeCodes }: any = useGetAllQuery({
+  const { data: onetimeCodesData, refetch: refetchOnetimeCodes, isLoading }: any = useGetAllQuery({
     key: KEYS.getOnetimeCodes,
     url: URLS.getOnetimeCodes,
     params: {
@@ -123,6 +123,14 @@ const Credentials = () => {
     );
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex justify-end gap-4">
@@ -162,15 +170,18 @@ const Credentials = () => {
       {onetimeCodesData?.data && onetimeCodesData.data.length > 0 ? (
         <div className="mt-8">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {onetimeCodesData.data.map((code: any) => (
-              <OnetimeCodeCard
-                key={code?.id}
-                code={code}
-                onToggle={(code) => {
-                  setActive(code);
-                  setOpen(true);
-                }}
-              />
+            {onetimeCodesData.data.map((code: any, idx: number) => (
+              <div
+                key={code?.id || code?.code || idx}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${100 + idx * 50}ms` }}
+              >
+                <OnetimeCodeCardNewUI code={code}
+                  onToggle={(code) => {
+                    setActive(code);
+                    setOpen(true);
+                  }} />
+              </div>
             ))}
           </div>
         </div>

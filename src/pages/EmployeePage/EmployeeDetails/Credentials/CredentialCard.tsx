@@ -222,7 +222,7 @@ export default function CredentialCard({
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Header */}
-            <div className="p-5 pb-4">
+            <div className="p-5 pb-1">
                 <div className="flex items-start justify-between mb-4">
                     <div
                         className={twMerge(
