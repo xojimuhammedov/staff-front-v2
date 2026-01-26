@@ -39,7 +39,15 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                                 /> : <UserRound size={20} />
                             }
                         </>
-                        : event?.credential?.type === "CAR" ? <CarFront size={20} /> : event?.credential?.type === "PERSONAL_CODE" ? <LockKeyhole size={20} /> : event?.credential?.type === "CARD" ? <CreditCard size={20} /> : event?.credential?.type === "QR" ? <QrCode /> : <Clock />
+                        : event?.credential?.type === "CAR" ? <>
+                            {
+                                event.image ? <img
+                                    className="w-8 h-8 rounded-full object-cover"
+                                    src={`${config.FILE_URL}api/storage/${event?.image}`}
+                                    alt="User photo"
+                                /> : <CarFront size={20} />
+                            }
+                        </> : event?.credential?.type === "PERSONAL_CODE" ? <LockKeyhole size={20} /> : event?.credential?.type === "CARD" ? <CreditCard size={20} /> : event?.credential?.type === "QR" ? <QrCode /> : <Clock />
                 }
             </div>
             <div>

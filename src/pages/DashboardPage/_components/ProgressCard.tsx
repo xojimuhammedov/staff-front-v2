@@ -60,7 +60,7 @@ const EmployeeColumn = ({ employees, title, icon: Icon, iconBgColor, iconColor, 
 
 const ProgressCard = ({ topEmployee, title, icon, iconBgColor, iconColor, isEffective }: any) => {
     return (
-        <div className="bg-bg-base w-full dark:bg-dark-dashboard-cards rounded-2xl p-4 shadow-lg">
+        <div className="bg-bg-base w-full dark:bg-dark-dashboard-cards rounded-2xl p-4 shadow-base">
             <EmployeeColumn
                 employees={topEmployee}
                 title={title}

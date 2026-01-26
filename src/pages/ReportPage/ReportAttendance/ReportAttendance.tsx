@@ -61,6 +61,17 @@ const ReportAttendance = () => {
         params: {},
     });
 
+    const departmentOptions = [
+        {
+            label: t('All'),
+            value: undefined,
+        },
+        ...(getDepartment?.data?.map((evt: any) => ({
+            label: evt.fullName,
+            value: evt.id,
+        })) || []),
+    ];
+
     return (
         <PageContentWrapper>
             <div className='flex justify-between items-center'>
@@ -73,12 +84,15 @@ const ReportAttendance = () => {
                             control={control}
                             render={({ field }) => (
                                 <MySelect
-                                    options={getDepartment?.data?.map((evt: any) => ({
-                                        label: evt.fullName,
-                                        value: evt.id,
-                                    })) || []}
-                                    value={field.value as any}
-                                    onChange={(val) => field.onChange((val as ISelect)?.value ? Number((val as ISelect).value) : undefined)}
+                                    options={departmentOptions}
+                                    value={
+                                        departmentOptions.find(opt => opt.value === field.value) || null
+                                    }
+                                    onChange={(val: any) =>
+                                        field.onChange(
+                                            val && 'value' in val ? val.value : undefined
+                                        )
+                                    }
                                     onBlur={field.onBlur}
                                     isClearable
                                     allowedRoles={['ADMIN', 'HR']}

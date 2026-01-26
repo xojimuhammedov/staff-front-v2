@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 
 const StatCard: React.FC<StatCardProps> = ({
-    
+
     icon,
     title,
     value,
@@ -16,7 +16,7 @@ const StatCard: React.FC<StatCardProps> = ({
     iconColor
 }) => {
     const getChangeStyles = () => {
-        
+
         switch (changeType) {
             case 'increase':
                 return 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-300';
@@ -26,7 +26,7 @@ const StatCard: React.FC<StatCardProps> = ({
                 return 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300';
         }
     };
-    
+
 
     const getChangeIcon = () => {
         if (changeType === 'increase') {
@@ -37,24 +37,54 @@ const StatCard: React.FC<StatCardProps> = ({
         return '';
     };
 
-   
+
 
     return (
-        <div className="bg-bg-base dark:bg-dark-dashboard-cards rounded-2xl p-6 shadow-lg">
-            <div className={`${bgColor} dark:bg-opacity-20 w-16 h-16 rounded-[20px] flex items-center justify-center mb-4`}>
-                <div className={iconColor}>
+        <div
+            className="group w-full rounded-2xl p-4
+    bg-bg-base dark:bg-dark-dashboard-cards rounded-m
+    shadow-base border border-transparent
+    flex items-center gap-4
+    cursor-pointer select-none
+  "
+            role="button"
+            tabIndex={0}
+        >
+            <div
+                className={`
+      ${bgColor} dark:bg-opacity-20
+      w-16 h-16 rounded-[20px]
+      flex items-center justify-center
+      shrink-0
+    
+    `}
+            >
+                <div className={`${iconColor}`}>
                     {icon}
                 </div>
             </div>
-            <div className="text-sm font-semibold text-gray-500 dark:text-text-title-dark uppercase tracking-wide mb-2">
-                {title}
-            </div>
-            <div className="text-4xl font-bold text-gray-900 dark:text-text-title-dark mb-3">
-                {value}
-            </div>
-            <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${getChangeStyles()}`}>
-                {changeType !== 'none' && <span>{getChangeIcon()}</span>}
-                <span>{change}</span>
+
+            <div className="flex flex-col gap-1 w-full min-w-0">
+                <div className="flex items-start justify-between gap-3 w-full">
+                    <div className="text-4xl font-bold text-gray-900 dark:text-text-title-dark leading-none">
+                        {value}
+                    </div>
+
+                    <div
+                        className={`
+                        inline-flex items-center gap-1 px-3 py-1 rounded-full
+                        text-xs font-medium whitespace-nowrap
+                        ${getChangeStyles()}
+                        transition-colors duration-200`}
+                    >
+                        {changeType !== "none" && <span>{getChangeIcon()}</span>}
+                        <span>{change}</span>
+                    </div>
+                </div>
+
+                <div className="text-sm font-semibold text-gray-500 dark:text-text-title-dark uppercase tracking-wide truncate">
+                    {title}
+                </div>
             </div>
         </div>
     );
