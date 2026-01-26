@@ -631,15 +631,18 @@
   "Visitor lists": "Visitor lists",
   "Visitor actions": "Visitor actions",
   "Organization name": "Organization name",
-  "Device name": "Device name" ,
-  "Back to gates list": "Back to gatest list" ,
-  "Effective employees": "Effective employees" ,
-  "Ineffective employees": "Ineffective employees" ,
+  "Device name": "Device name",
+  "Back to gates list": "Back to gatest list",
+  "Effective employees": "Effective employees",
+  "Ineffective employees": "Ineffective employees",
   "Attendance report": " Attendance report",
   "Table": "Table",
   "Enter a table data details": "Enter table details",
   "Table details": "Table details",
   "Select information for employees": "Select information for employees",
-  "Table data": "Table data" ,
- " Create a schedule" : "Jadval tuzish"
+  "Table data": "Table data",
+  " Create a schedule": "Jadval tuzish" ,
+  "Department list": "Department lists",
+  "Back to schedule list": "Back to schedule list"
+
 }

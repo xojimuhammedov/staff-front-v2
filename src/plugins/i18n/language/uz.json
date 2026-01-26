@@ -641,5 +641,7 @@
   "Table details": "Jadval tafsilotlari",
   "Select information for employees": "Xodimlar bo'yicha ma'lumotni tanlang",
   "Table data": "Jadval ma'lumotlari" ,
-  "Create a schedule": "Jadval tuzish"
+  "Create a schedule": "Jadval tuzish" ,
+  "Department list": "Bo‘limlar ro‘yxati",
+  "Back to schedule list": "Jadval ro‘yxatiga qaytish"
  }
