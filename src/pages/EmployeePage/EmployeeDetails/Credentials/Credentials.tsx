@@ -3,11 +3,11 @@ import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
-import { Download, Edit, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import Form from './Create';
 import { useTranslation } from 'react-i18next';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import EditForm from './Edit';
 import config from 'configs';
 import { toast } from 'react-toastify';
@@ -16,8 +16,8 @@ import { MySelect } from 'components/Atoms/Form';
 import { credentialTypeData } from 'configs/type';
 import { ISelect } from 'interfaces/select.interface';
 import ConfirmationCredential from './Confirmation';
-import { QRCodeCanvas } from 'qrcode.react';
-import MyButton from 'components/Atoms/MyButton/MyButton';
+import CredentialCard from './CredentialCard';
+import Loading from 'assets/icons/Loading';
 
 const Credentials = () => {
   const { id } = useParams();
@@ -27,12 +27,11 @@ const Credentials = () => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<any>();
   const [credentialId, setCredentialId] = useState(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const { control, watch } = useForm();
 
   const paramsValue = watch('type')?.label === 'All' ? null : watch('type');
 
-  const { data, refetch }: any = useGetAllQuery({
+  const { data, refetch, isLoading }: any = useGetAllQuery({
     key: KEYS.credentials,
     url: URLS.credentials,
     params: {
@@ -49,28 +48,6 @@ const Credentials = () => {
     ...credentialTypeData,
   ];
 
-  const downloadQR = (code: string) => {
-    if (!canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-
-    // Kattaroq rasm olish uchun yangi canvas yaratamiz
-    const tempCanvas = document.createElement('canvas');
-    const size = 512; // yoki 1024 — qanchalik katta bo'lsa shunchalik aniq
-
-    tempCanvas.width = size;
-    tempCanvas.height = size;
-
-    const ctx = tempCanvas.getContext('2d');
-    if (!ctx) return;
-
-    ctx.drawImage(canvas, 0, 0, size, size);
-
-    const link = document.createElement('a');
-    link.download = `QR_${code}.png`;
-    link.href = tempCanvas.toDataURL('image/png', 1.0);
-    link.click();
-  };
 
   const { data: getOne } = useGetOneQuery({
     id: credentialId,
@@ -106,6 +83,14 @@ const Credentials = () => {
     );
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex justify-end gap-4">
@@ -140,67 +125,33 @@ const Credentials = () => {
           {t('Add new type')}
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
-        {data?.data?.map((item: any) => (
-          <div
-            key={item?.id}
-            className="bg-white dark:bg-bg-dark-bg border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 flex flex-col"
-          >
-            <div className="flex items-center mb-4">
-              {item.type === 'PHOTO' ? (
-                <img
-                  className="w-20 h-20 rounded-full object-cover"
-                  src={`${config.FILE_URL}api/storage/${item?.additionalDetails}`}
-                  alt="User photo"
-                />
-              ) : item?.type === 'QR' ? (
-                <div className="flex justify-between w-full">
-                  <div style={{ opacity: 0.2 }}>
-                    <QRCodeCanvas
-                      value={item?.code}
-                      ref={canvasRef}
-                      size={80}
-                      includeMargin
-                    />
-                  </div>
-
-                  <MyButton
-                    onClick={() => downloadQR(item?.code)}
-                    variant="secondary"
-                    className={'mt-2'}
-                    startIcon={<Download />}
-                  />
-                </div>
-              ) : (
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-text-title-dark">
-                  {item?.code}
-                </h2>
-              )}
-            </div>
-
-            <div className="mb-6">
-              <p className="text-sm text-gray-600 dark:text-text-title-dark">
-                {t('Type')}: <span className="font-semibold">{item?.type}</span>
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2 mt-auto">
-              <Button
-                className={`
-                  w-full rounded-md
-                  bg-red-600 dark:bg-red-700 text-sm font-semibold text-white dark:text-white shadow-xs hover:bg-red-500 dark:hover:bg-red-600
-                  [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-                `}
-                onClick={() => {
-                  setActive(item);
-                  setOpen(true);
-                }}
-              >
-                {item?.isActive ? t('Inactive') : t('Active')}
-              </Button>
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+        {data?.data?.map((item: any) => {
+          const imageUrl =
+            item?.type === "PHOTO"
+              ? `${config.FILE_URL}api/storage/${item?.additionalDetails}`
+              : undefined;
+          const qrImageUrl = undefined;
+          return (
+            <CredentialCard
+              key={item.id}
+              id={item.id}
+              type={item.type}
+              value={item.code}
+              imageUrl={item.type === "QR" ? qrImageUrl : imageUrl}
+              isActive={!!item.isActive}
+              createdAt={item.createdAt}
+              updatedAt={item.updatedAt}
+              organizationId={item.organizationId}
+              onToggleActive={() => {
+                setActive(item);
+                setOpen(true);
+              }}
+              code={item?.code || undefined}
+            />
+          )
+        }
+        )}
       </div>
       <MyModal
         modalProps={{
