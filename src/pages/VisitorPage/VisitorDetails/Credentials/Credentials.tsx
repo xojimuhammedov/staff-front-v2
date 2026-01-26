@@ -89,8 +89,8 @@ const Credentials = () => {
     const submitData: any = {
       visitorId: Number(id),
       codeType: data.codeType,
-      startDate: dayjs().toISOString(),
-      endDate: dayjs().add(1, 'day').toISOString(),
+      startDate: data.startDate,
+      endDate: data.endDate,
       isActive: true,
     };
 
