@@ -39,12 +39,19 @@ export const createColumns = ({ refetch }: any) => {
       },
       {
         key: 'arrivalStatus',
-        label: t('Come status'),
+        label: t('Arrival status'),
         headerClassName: 'w-1/4',
         cellRender: (row) => {
           if (row?.arrivalStatus) {
             return (
               <MyBadge
+                className={
+                  row?.arrivalStatus === 'LATE'
+                    ? 'bg-tag-orange-bg border border-tag-orange-icon [&_p]:text-tag-orange-text'
+                    : row.arrivalStatus === 'ABSENT'
+                      ? 'bg-tag-red-bg border border-tag-red-icon [&_p]:text-tag-red-text'
+                      : 'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text'
+                }
                 variant={
                   row?.arrivalStatus === 'LATE'
                     ? 'orange'
@@ -60,17 +67,65 @@ export const createColumns = ({ refetch }: any) => {
         },
       },
       {
+        key: 'arrivalTime',
+        label: t('Arrival time'),
+        headerClassName: 'w-1/4',
+        cellRender: (row) => {
+          if (row?.startTime) {
+            return (
+              <div className="department-text text-text-base dark:text-text-title-dark">
+                {' '}
+                {dayjs(row?.startTime).format('HH:mm')}{' '}
+              </div>
+            );
+          } else return '--';
+        },
+      },
+      {
         key: 'goneStatus',
         label: t('Left status'),
         headerClassName: 'w-1/4',
         cellRender: (row) => {
           if (row?.goneStatus) {
             return (
-              <MyBadge variant={row?.goneStatus === 'EARLY' ? 'orange' : 'green'}>
+              <MyBadge
+                className={
+                  row?.goneStatus === 'EARLY'
+                    ? 'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text'
+                    : 'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text'
+                }
+                variant={row?.goneStatus === 'EARLY' ? 'blue' : 'green'}
+              >
                 {t(row?.goneStatus)}
               </MyBadge>
             );
           } else return '--';
+        },
+      },
+      {
+        key: 'goneTime',
+        label: t('Gone time'),
+        headerClassName: 'w-1/4',
+        cellRender: (row) => {
+          if (row?.endTime) {
+            return (
+              <div className="department-text text-text-base dark:text-text-title-dark">
+                {' '}
+                {dayjs(row?.endTime).format('HH:mm')}{' '}
+              </div>
+            );
+          }
+          if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
+            return '--';
+          }
+          return (
+            <MyBadge
+              className="bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text"
+              variant="green"
+            >
+              {t('Working now')}
+            </MyBadge>
+          );
         },
       },
       {
@@ -89,15 +144,15 @@ export const createColumns = ({ refetch }: any) => {
         },
       },
       {
-        key: 'startTime',
-        label: t('Arrival time'),
+        key: 'arrivalDate',
+        label: t('Arrival date'),
         headerClassName: 'w-1/4',
         cellRender: (row) => {
           if (row?.startTime) {
             return (
               <div className="department-text text-text-base dark:text-text-title-dark">
                 {' '}
-                {dayjs(row?.startTime).format('YYYY-MM-DD, HH:mm')}{' '}
+                {dayjs(row?.startTime).format('YYYY-MM-DD')}{' '}
               </div>
             );
           } else return '--';
@@ -120,8 +175,13 @@ export const createColumns = ({ refetch }: any) => {
       headerClassName: 'w-1/3',
     },
     {
+      id: 2,
+      label: t('Arrival status'),
+      headerClassName: 'w-1/4',
+    },
+    {
       id: 3,
-      label: t('Come status'),
+      label: t('Arrival time'),
       headerClassName: 'w-1/4',
     },
     {
@@ -131,16 +191,21 @@ export const createColumns = ({ refetch }: any) => {
     },
     {
       id: 5,
-      label: t('Work on time'),
+      label: t('Gone time'),
       headerClassName: 'w-1/4',
     },
     {
       id: 6,
-      label: t('Arrival time'),
+      label: t('Work on time'),
       headerClassName: 'w-1/4',
     },
     {
       id: 7,
+      label: t('Arrival date'),
+      headerClassName: 'w-1/4',
+    },
+    {
+      id: 8,
       label: t('Reason'),
       headerClassName: 'w-28',
     },
