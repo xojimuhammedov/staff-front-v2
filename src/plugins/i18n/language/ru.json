@@ -641,5 +641,8 @@
   "Table details": "Детали таблицы",
   "Select information for employees": "Выберите информацию по сотрудникам",
   "Table data": "Данные таблицы" ,
-  "Create a schedule": "Создать график"
+  "Create a schedule": "Создать график",
+  "Department list": "Список отделов" ,
+  "Back to schedule list": "Вернуться к списку расписаний"
+
 }

@@ -9,6 +9,7 @@ import { Calendar } from "lucide-react";
 import { useDashboard } from "./hooks/useDashboard";
 import AttendancesCard from "./_components/AttendancesCard";
 
+
 import { CheckCircle2, XCircle } from 'lucide-react';
 
 const DashboardPage = () => {
@@ -53,6 +54,7 @@ const DashboardPage = () => {
         newOrganizationsCount={data?.newOrganizationsCount}
       />
       <AttendancesCard
+        overallEmployees={data?.totalEmployees}
         totalEmployees={todayData?.total}
         totalLate={todayData?.late}
         totalOnTime={todayData?.onTime}
