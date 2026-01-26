@@ -155,18 +155,21 @@ const Credentials = () => {
                 />
               ) : item?.type === 'QR' ? (
                 <div className="flex justify-between w-full">
-                  <QRCodeCanvas
-                    value={item?.code}
-                    ref={canvasRef}
-                    size={80}
-                    style={{ opacity: '0.2' }}
-                    includeMargin
-                  />
+                  <div style={{ opacity: 0.2 }}>
+                    <QRCodeCanvas
+                      value={item?.code}
+                      ref={canvasRef}
+                      size={80}
+                      includeMargin
+                    />
+                  </div>
+
                   <MyButton
                     onClick={() => downloadQR(item?.code)}
                     variant="secondary"
+                    className={'mt-2'}
                     startIcon={<Download />}
-                  ></MyButton>
+                  />
                 </div>
               ) : (
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-text-title-dark">
