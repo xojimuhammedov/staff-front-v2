@@ -38,7 +38,7 @@ const DepartmentInfo = () => {
                     iconColor="text-red-600 dark:text-red-300"
                     isEffective={false}
                     icon={XCircle}
-                    title="Uneffective employees"
+                    title="Ineffective employees"
                     topEmployee={bottomEmployee} />
             </div>
             {/* <div className="mt-8">

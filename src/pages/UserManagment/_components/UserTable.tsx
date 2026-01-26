@@ -169,8 +169,8 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
       <EditForm refetch={refetch} setOpen={setShow} open={show} userId={editUserId} />
 
       <ConfirmationModal
-        title={t("Ushbu foydalanuvchini o'chirmoqchimisiz?")}
-        subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+        title={t('Are you sure you want to delete this user?')}
+        subTitle={t('This action cannot be undone!')}
         open={deleteModal} setOpen={setDeleteModal} confirmationDelete={deleteItem} />
     </>
   );

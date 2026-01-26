@@ -63,14 +63,14 @@ const ColumnsButton = () => {
   };
 
   const statusOptions = [
-    { value: 'ON_TIME', label: t('On Time'), color: 'green' },
+    { value: 'ON_TIME', label: t('On time'), color: 'green' },
     { value: 'ABSENT', label: t('Absent'), color: 'red' },
     { value: 'LATE', label: t('Late'), color: 'orange' },
   ];
 
   const statusOptionsLeft = [
-    { value: 'ON_TIME', label: t('On Time'), color: 'green' },
-    { value: 'EARLY', label: t('Early'), color: 'blue' },
+    { value: 'ON_TIME', label: t('On time'), color: 'green' },
+    { value: 'EARLY', label: t('EARLY'), color: 'blue' },
   ];
 
   const getColorClasses = (color: string) => {

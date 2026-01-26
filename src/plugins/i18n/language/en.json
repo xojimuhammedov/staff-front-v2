@@ -309,6 +309,7 @@
   "Select Employees": "Select Employees",
   "Organization": "Organization",
   "Are you sure you want to delete this employee?": "Are you sure you want to delete this employee?",
+  "Are you sure you want to delete this user?": "Are you sure you want to delete this user?",
   "Employee Delete": "Employee Delete",
   "Are you sure you want to delete this department?": "Are you sure you want to delete this department?",
   "Department Delete": "Department Delete",
@@ -483,6 +484,9 @@
   "Tuesday": "Tuesday",
   "Wednesday": "Wednesday",
   "Thursday": "Thursday",
+  "Friday": "Friday",
+  "Saturday": "Saturday",
+  "Sunday": "Sunday",
   "Attendance & Arrival/Leave Tracking": "Attendance & Arrival/Leave Tracking",
   "Code ID": "Code ID",
   "Politics details": "Politics details",
@@ -628,6 +632,14 @@
   "Visitor actions": "Visitor actions",
   "Organization name": "Organization name",
   "Device name": "Device name" ,
-  "Back to gates list": "Back to gatest list" 
-  
+  "Back to gates list": "Back to gatest list" ,
+  "Effective employees": "Effective employees" ,
+  "Ineffective employees": "Ineffective employees" ,
+  "Attendance report": " Attendance report",
+  "Table": "Table",
+  "Enter a table data details": "Enter table details",
+  "Table details": "Table details",
+  "Select information for employees": "Select information for employees",
+  "Table data": "Table data" ,
+ " Create a schedule" : "Jadval tuzish"
 }
