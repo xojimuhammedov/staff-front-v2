@@ -68,7 +68,7 @@ const Form = ({ refetch, onClose, employeeId }: any) => {
             code: selectedType === 'CARD' ? cardNumber :
                 selectedType === 'CAR' ? carNumber :
                     selectedType === 'PERSONAL_CODE' ? personalCode :
-                        selectedType === 'QR' ? code : "."
+                        selectedType === 'QR' ? code : null
         };
         create(
             {

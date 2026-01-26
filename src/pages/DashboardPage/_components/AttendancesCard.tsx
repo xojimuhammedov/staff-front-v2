@@ -10,12 +10,12 @@ const StatCard: React.FC<StatCardProps> = ({
 }) => {
 
     return (
-        <div className="bg-bg-base dark:bg-dark-dashboard-cards rounded-2xl p-6 shadow-lg">
-            <div className="text-sm font-semibold text-gray-500 dark:text-text-title-dark uppercase tracking-wide mb-2">
-                {title}
-            </div>
+        <div className="bg-bg-base dark:bg-dark-dashboard-cards rounded-2xl p-4 shadow-base">
             <div className="text-4xl font-bold text-gray-900 dark:text-text-title-dark mb-3">
                 {value}
+            </div>
+            <div className="text-sm font-semibold text-gray-500 dark:text-text-title-dark uppercase tracking-wide mb-2">
+                {title}
             </div>
         </div>
     );

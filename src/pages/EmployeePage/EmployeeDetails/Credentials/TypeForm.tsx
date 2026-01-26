@@ -16,9 +16,11 @@ import { QRCodeCanvas } from "qrcode.react";
 const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCardNumber, carNumber, setCarNumber, setPersonalCode, personalCode, code, setCode }: any) => {
     const { t } = useTranslation()
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [qrValue, setQrValue] = useState('');
     const [openModal, setOpenModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [isDragging, setIsDragging] = useState(false);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     const handleDragLeave = (e: any) => {
         e.preventDefault();
         setIsDragging(false);
@@ -101,11 +103,32 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
 
 
     function handleGenerate() {
-        const random = Math.floor(100000 + Math.random() * 900000);
-        const newCode = `QR-${random}`;
-
-        setCode(newCode);
+        if (!code.trim()) return;
+        setQrValue(code);
     }
+
+    const downloadQR = (code: string) => {
+        if (!canvasRef.current) return;
+
+        const canvas = canvasRef.current;
+
+        // Kattaroq rasm olish uchun yangi canvas yaratamiz
+        const tempCanvas = document.createElement('canvas');
+        const size = 512; // yoki 1024 — qanchalik katta bo'lsa shunchalik aniq
+
+        tempCanvas.width = size;
+        tempCanvas.height = size;
+
+        const ctx = tempCanvas.getContext('2d');
+        if (!ctx) return;
+
+        ctx.drawImage(canvas, 0, 0, size, size);
+
+        const link = document.createElement('a');
+        link.download = `QR_${code}.png`;
+        link.href = tempCanvas.toDataURL('image/png', 1.0);
+        link.click();
+    };
 
     const renderTypeSpecificField = () => {
         switch (selectedTypeName) {
@@ -206,17 +229,39 @@ const TypeForm = ({ selectedTypeName, setValue, setImageKey, cardNumber, setCard
                         <label className="block text-sm font-medium text-gray-700 dark:text-text-title-dark mb-2">
                             {t('Generated QR Code')}
                         </label>
-                        <div className="flex flex-col items-center">
-                            <QRCodeCanvas
+                        <div className='flex items-center gap-4'>
+                            <MyInput
                                 value={code}
-                                size={180}
-                                includeMargin
+                                onChange={(e) => setCode(e.target.value.toUpperCase())}
+                                placeholder="01A001AA"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600
+                            focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none
+                            transition-all font-mono text-lg"
                             />
                             <MyButton variant='secondary'
                                 onClick={handleGenerate}
+                                className={'min-w-max'}
                                 startIcon={<Download className="h-4 w-4" />}>
                                 {t('Generate QR Code')}
                             </MyButton>
+                        </div>
+                        <div className='flex items-center justify-center'>
+                            {qrValue && (
+                                <div className='flex flex-col'>
+                                    <QRCodeCanvas
+                                        value={qrValue}
+                                        ref={canvasRef}
+                                        size={180}
+                                        includeMargin
+                                    />
+                                    <MyButton variant='secondary'
+                                        onClick={() => downloadQR(code)}
+                                        className={'min-w-max'}
+                                        startIcon={<Download className="h-4 w-4" />}>
+                                        {t('Download QR Code')}
+                                    </MyButton>
+                                </div>
+                            )}
                         </div>
                     </div>
                 );

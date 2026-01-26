@@ -8,8 +8,6 @@ import { useGetAllQuery } from 'hooks/api';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { object, number } from 'yup';
-import { get } from 'lodash';
-import { ISelect } from 'interfaces/select.interface';
 import { Department } from 'pages/DepartmentsPage/interface/department.interface';
 import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import { Calendar } from 'lucide-react';
@@ -149,6 +147,17 @@ function FormTable() {
     draftParams.employeeIds.length,
   ]);
 
+  const departmentOptions = [
+    {
+      label: t('All'),
+      value: undefined,
+    },
+    ...(getDepartment?.data?.map((evt: any) => ({
+      label: evt.fullName,
+      value: evt.id,
+    })) || []),
+  ];
+
 
   return (
     <div
@@ -182,16 +191,15 @@ function FormTable() {
             render={({ field, fieldState }) => (
               <MySelect
                 placeholder={t('Select department')}
-                options={
-                  get(getDepartment, 'data')?.map((evt: Department) => ({
-                    label: evt.fullName,
-                    value: evt.id,
-                  })) || []
+                options={departmentOptions}
+                value={
+                  departmentOptions?.find(opt => opt.value === field.value) || undefined
                 }
-                value={field.value as any}
-                onChange={(val) => {
-                  const id = Number((val as ISelect)?.value ?? val); field.onChange(id);
-                }}
+                onChange={(val: any) =>
+                  field.onChange(
+                    val && 'value' in val ? val.value : undefined
+                  )
+                }
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
                 allowedRoles={['ADMIN', 'HR']}
