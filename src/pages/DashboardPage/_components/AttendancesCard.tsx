@@ -51,17 +51,17 @@ const StatCard: React.FC<StatCardExtendedProps> = ({
             <div className="flex flex-col gap-1 w-full min-w-0">
                 <div className="flex items-start justify-between gap-3 w-full">
                     <div className="flex items-start gap-3">
-                        <span className={`mt-2 h-3 w-3 rounded-full ${dot}`} />
+                        <span className={`mt-2 h-3 w-3 rounded-full ${dot} mt-5`} />
                         <div className="text-4xl font-bold text-gray-900 dark:text-text-title-dark leading-none">
                             {value}
                         </div>
-                        <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${badge}`}>
+                        <div className={`inline-flex items-center gap-1 px-3 dark:text-white py-1 rounded-full text-xs font-medium whitespace-nowrap ${badge}`}>
                             {safePercent}%
                         </div>
                     </div>
 
                     <div className="flex items-center gap-2 min-w-[90px]">
-                        <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                        <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-400 overflow-hidden">
                             <div
                                 className={`h-full rounded-full ${bar}`}
                                 style={{ width: `${safePercent}%` }}

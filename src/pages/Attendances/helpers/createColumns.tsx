@@ -17,6 +17,39 @@ export const createColumns = ({ refetch }: any) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const BADGE_CLASSES: Record<'orange' | 'red' | 'green' | 'blue', string> = {
+    orange:
+      'bg-tag-orange-bg border border-tag-orange-icon [&_p]:text-tag-orange-text dark:bg-tag-orange-bg dark:border-tag-orange-icon dark:[&_p]:text-tag-orange-text',
+    red:
+      'bg-tag-red-bg border border-tag-red-icon [&_p]:text-tag-red-text dark:bg-tag-red-bg dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
+    green:
+      'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text dark:bg-tag-green-bg dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
+    blue:
+      'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text dark:bg-tag-blue-bg dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
+  };
+
+  const renderBadge = (variant: 'orange' | 'red' | 'green' | 'blue', text: string) => (
+    <MyBadge className={BADGE_CLASSES[variant]} variant={variant}>
+      {text}
+    </MyBadge>
+  );
+
+  const renderStatusBadge = (status?: string, map?: Record<string, 'orange' | 'red' | 'green' | 'blue'>) => {
+    if (!status) return '--';
+    const variant = map?.[status] ?? 'green';
+    return renderBadge(variant, t(status));
+  };
+
+  const renderTimeCell = (time?: string, format = 'HH:mm') => {
+    if (!time) return '--';
+    return (
+      <div className="department-text text-text-base dark:text-text-title-dark">
+        {' '}
+        {dayjs(time).format(format)}{' '}
+      </div>
+    );
+  };
+
   const columns: DataGridColumnType[] = useMemo(
     () => [
       {
@@ -41,91 +74,32 @@ export const createColumns = ({ refetch }: any) => {
         key: 'arrivalStatus',
         label: t('Arrival status'),
         headerClassName: 'w-1/4',
-        cellRender: (row) => {
-          if (row?.arrivalStatus) {
-            return (
-              <MyBadge
-                className={
-                  row?.arrivalStatus === 'LATE'
-                    ? 'bg-tag-orange-bg border border-tag-orange-icon [&_p]:text-tag-orange-text'
-                    : row.arrivalStatus === 'ABSENT'
-                      ? 'bg-tag-red-bg border border-tag-red-icon [&_p]:text-tag-red-text'
-                      : 'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text'
-                }
-                variant={
-                  row?.arrivalStatus === 'LATE'
-                    ? 'orange'
-                    : row.arrivalStatus === 'ABSENT'
-                      ? 'red'
-                      : 'green'
-                }
-              >
-                {t(row?.arrivalStatus)}
-              </MyBadge>
-            );
-          } else return '--';
-        },
+        cellRender: (row) =>
+          renderStatusBadge(row?.arrivalStatus, { LATE: 'orange', ABSENT: 'red' }),
       },
       {
         key: 'arrivalTime',
         label: t('Arrival time'),
         headerClassName: 'w-1/4',
-        cellRender: (row) => {
-          if (row?.startTime) {
-            return (
-              <div className="department-text text-text-base dark:text-text-title-dark">
-                {' '}
-                {dayjs(row?.startTime).format('HH:mm')}{' '}
-              </div>
-            );
-          } else return '--';
-        },
+        cellRender: (row) => renderTimeCell(row?.startTime, 'HH:mm'),
       },
       {
         key: 'goneStatus',
         label: t('Left status'),
         headerClassName: 'w-1/4',
-        cellRender: (row) => {
-          if (row?.goneStatus) {
-            return (
-              <MyBadge
-                className={
-                  row?.goneStatus === 'EARLY'
-                    ? 'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text'
-                    : 'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text'
-                }
-                variant={row?.goneStatus === 'EARLY' ? 'blue' : 'green'}
-              >
-                {t(row?.goneStatus)}
-              </MyBadge>
-            );
-          } else return '--';
-        },
+        cellRender: (row) =>
+          renderStatusBadge(row?.goneStatus, { EARLY: 'blue' }),
       },
       {
         key: 'goneTime',
         label: t('Gone time'),
         headerClassName: 'w-1/4',
         cellRender: (row) => {
-          if (row?.endTime) {
-            return (
-              <div className="department-text text-text-base dark:text-text-title-dark">
-                {' '}
-                {dayjs(row?.endTime).format('HH:mm')}{' '}
-              </div>
-            );
-          }
+          if (row?.endTime) return renderTimeCell(row?.endTime, 'HH:mm');
           if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
             return '--';
           }
-          return (
-            <MyBadge
-              className="bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text"
-              variant="green"
-            >
-              {t('Working now')}
-            </MyBadge>
-          );
+          return renderBadge('green', t('Working now'));
         },
       },
       {
@@ -133,11 +107,27 @@ export const createColumns = ({ refetch }: any) => {
         label: t('Work on time'),
         headerClassName: 'w-1/4',
         cellRender: (row) => {
+          if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
+            return '--';
+          }
           if (row?.startTime) {
+            const plannedMinutes = Number(row?.plannedMinutes ?? 0);
+            const effectiveEndTime = row?.endTime ?? dayjs().toISOString();
+            const minutes = Math.max(0, dayjs(effectiveEndTime).diff(dayjs(row?.startTime), 'minute'));
+            const percent =
+              plannedMinutes > 0 ? Math.min(100, Math.round((minutes / plannedMinutes) * 100)) : 0;
             return (
-              <div className="department-text text-text-base dark:text-text-title-dark">
-                {' '}
-                {getTimeDifference(row?.startTime, row?.endTime)}{' '}
+              <div className="flex flex-col gap-1">
+                <div className="text-sm text-text-base dark:text-text-title-dark">
+                  {minutes} min
+                </div>
+                <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                  <div
+                    className="h-2 rounded-full bg-tag-green-icon"
+                    style={{ width: `${percent}%` }}
+                  />
+                </div>
+                <div className="text-xs text-text-muted">{percent}%</div>
               </div>
             );
           } else return '--';
@@ -147,16 +137,7 @@ export const createColumns = ({ refetch }: any) => {
         key: 'arrivalDate',
         label: t('Arrival date'),
         headerClassName: 'w-1/4',
-        cellRender: (row) => {
-          if (row?.startTime) {
-            return (
-              <div className="department-text text-text-base dark:text-text-title-dark">
-                {' '}
-                {dayjs(row?.startTime).format('YYYY-MM-DD')}{' '}
-              </div>
-            );
-          } else return '--';
-        },
+        cellRender: (row) => renderTimeCell(row?.startTime, 'YYYY-MM-DD'),
       },
       {
         key: 'reason',
