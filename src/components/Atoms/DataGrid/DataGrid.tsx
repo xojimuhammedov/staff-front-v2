@@ -192,7 +192,7 @@ const DataGrid = forwardRef(
                         column.align === 'center' && 'text-center',
                         column.headerClassName || 'w-52 dark:text-text-title-dark'
                       )}>
-                      {column.label}
+                      {column.header ?? column.label}
                     </div>
                   );
                 })}
