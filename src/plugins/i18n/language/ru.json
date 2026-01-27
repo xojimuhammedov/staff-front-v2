@@ -395,6 +395,7 @@
   "Left status": "Статус ухода",
   "Gone time": "Время ухода",
   "Work on time": "Приход время",
+  "Join Date": "Дата приема",
   "work_time_format": "{{hours}}ч {{minutes}}м",
   "Working now": "Работает сейчас",
   "Active": "Активен",

@@ -37,6 +37,8 @@ export function CredentialIcons({ credentials }: { credentials: Credential[] }) 
         () => getUniqueTypesWithStatus(credentials),
         [credentials]
     );
+    const activeCount = (credentials || []).filter((c) => c?.isActive).length;
+    const totalCount = (credentials || []).length;
 
     return (
         <div className="flex items-center gap-2.5">
@@ -84,6 +86,17 @@ export function CredentialIcons({ credentials }: { credentials: Credential[] }) 
                     </div>
                 );
             })}
+            {totalCount > 0 ? (
+                <div className="flex items-center gap-1 text-sm font-semibold">
+                    <span className="text-emerald-600 dark:text-emerald-300">{activeCount}</span>
+                    <span className="text-text-muted dark:text-subtext-color-dark">/</span>
+                    <span className="text-text-muted dark:text-subtext-color-dark">{totalCount}</span>
+                </div>
+            ) : (
+                <span className="text-text-muted dark:text-subtext-color-dark text-sm">
+                    No credentials
+                </span>
+            )}
         </div>
     );
 }

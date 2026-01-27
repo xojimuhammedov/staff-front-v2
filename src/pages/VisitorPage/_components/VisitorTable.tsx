@@ -13,6 +13,7 @@ import { IFilter } from 'interfaces/filter.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import MyBadge from 'components/Atoms/MyBadge';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
@@ -29,6 +30,45 @@ const VisitorTable = () => {
   });
 
   // const { data: validateMap, isLoading: validating } = useValidateCodes(uniqueCodes);
+  const STATUS_BADGE_CLASSES: Record<'green' | 'blue' | 'neutral', string> = {
+    green:
+      'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text dark:bg-tag-green-hover dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
+    blue:
+      'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text dark:bg-tag-blue-hover dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
+    neutral:
+      'bg-tag-neutral-bg border border-tag-neutral-icon [&_p]:text-tag-neutral-text dark:bg-tag-neutral-hover dark:border-tag-neutral-icon dark:[&_p]:text-tag-neutral-text',
+  };
+
+  const renderStatus = (row: any) => {
+    const statusRaw =
+      row?.onetimeCodes?.find((code: any) => code?.isActive)?.status ??
+      row?.onetimeCodes?.[0]?.status ??
+      '';
+    if (!statusRaw) return '--';
+    const status = String(statusRaw).toUpperCase();
+    if (status === 'USED') {
+      return (
+        <MyBadge className={STATUS_BADGE_CLASSES.green} variant="green">
+          {t('Used')}
+        </MyBadge>
+      );
+    }
+    if (status === 'EXPIRED') {
+      return (
+        <MyBadge className={STATUS_BADGE_CLASSES.neutral} variant="neutral">
+          {t('Expired')}
+        </MyBadge>
+      );
+    }
+    if (status === 'UNUSED') {
+      return (
+        <MyBadge className={STATUS_BADGE_CLASSES.blue} variant="blue">
+          {t('Unused')}
+        </MyBadge>
+      );
+    }
+    return <>{statusRaw}</>;
+  };
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -85,6 +125,12 @@ const VisitorTable = () => {
           </div>
         ),
       },
+      {
+        key: 'status',
+        label: t('Status'),
+        headerClassName: 'w-1/3',
+        cellRender: renderStatus,
+      },
     ],
     [t]
   );
@@ -113,6 +159,11 @@ const VisitorTable = () => {
     {
       id: 5,
       label: t('Work Place'),
+      headerClassName: 'w-1/3',
+    },
+    {
+      id: 6,
+      label: t('Status'),
       headerClassName: 'w-1/3',
     },
     // {

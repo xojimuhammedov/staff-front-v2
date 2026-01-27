@@ -99,7 +99,7 @@ const DataGrid = forwardRef(
     const [search, setSearch] = useState<string>('');
 
     const headerCellGeneralStyle =
-      'px-[16px] py-[14px] text-left dark:text-text-title-dark sm:text-xs lg:text-sm font-normal text-c-m text-text-base';
+      'px-[16px] py-[14px] text-left dark:text-text-title-dark sm:text-xs lg:text-sm font-normal text-c-m text-text-base flex items-center';
 
     useEffect(() => {
       if (!ref) {
