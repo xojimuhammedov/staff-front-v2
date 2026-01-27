@@ -17,12 +17,6 @@ import Create from './Create';
 import Edit from './Edit';
 import MyModal from 'components/Atoms/MyModal';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
-import { MyInput } from 'components/Atoms/Form';
-import { KeyTypeEnum } from 'enums/key-type.enum';
-import { useLocation } from 'react-router-dom';
-import { useSearch } from 'hooks/useSearch';
-import { searchValue } from 'types/search';
-import { paramsStrToObj } from 'utils/helper';
 
 type FilterType = {
     search: string;
@@ -34,22 +28,12 @@ type TItem = {
     ipAddress: string;
 };
 
-const TypeList = () => {
+const TypeList = ({ data, isLoading, refetch }: any) => {
     const { t, i18n } = useTranslation();
     const [open, setOpen] = useState(false);
     const [show, setShow] = useState(false)
     const [typeId, setTypeId] = useState(null)
     const currentLang = i18n.resolvedLanguage;
-    const location = useLocation()
-    const { search, setSearch, handleSearch } = useSearch();
-    const searchValue: searchValue = paramsStrToObj(location.search)
-    const { data, isLoading, refetch } = useGetAllQuery({
-        key: KEYS.attendancesReason,
-        url: URLS.attendancesReason,
-        params: {
-            search: searchValue?.search
-        }
-    });
 
     const { mutate: deleteRequest } = useDeleteQuery({
         listKeyId: KEYS.attendancesReason
@@ -119,7 +103,7 @@ const TypeList = () => {
 
     if (isLoading) {
         return (
-            <div className="absolute flex h-full w-[calc(100%-350px)] items-center justify-center">
+            <div className="flex h-full w-full items-center justify-center">
                 <Loading />
             </div>
         );
@@ -127,29 +111,6 @@ const TypeList = () => {
 
     return (
         <div>
-            <div className={'flex justify-between'}>
-                <LabelledCaption
-                    title={t('Reason type')}
-                    subtitle={t('Attendances list for reason type')}
-                />
-                <div className='flex items-center gap-4'>
-                    <MyInput
-                        onKeyUp={(event) => {
-                            if (event.key === KeyTypeEnum.enter) {
-                                handleSearch();
-                            } else {
-                                setSearch((event.target as HTMLInputElement).value);
-                            }
-                        }}
-                        defaultValue={search}
-                        startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
-                        className="dark:bg-bg-input-dark"
-                        placeholder={t('Search...')}
-                    />
-                    <Create refetch={refetch} />
-                </div>
-            </div>
-            <MyDivider />
             <TableProvider<TItem, FilterType>
                 values={{
                     columns,

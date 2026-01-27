@@ -132,7 +132,7 @@ const DoorsPage = () => {
 
   if (isLoading) {
     return (
-      <div className="absolute flex h-full w-[calc(100%-350px)] items-center justify-center">
+      <div className="flex h-full w-full items-center justify-center">
         <Loading />
       </div>
     );

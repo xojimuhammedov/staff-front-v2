@@ -5,7 +5,7 @@ import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types
 import { useMemo, useState } from 'react';
 import TableProvider from 'providers/TableProvider/TableProvider';
 import DataGrid from 'components/Atoms/DataGrid';
-import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
+import { useDeleteQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -13,16 +13,9 @@ import Loading from 'assets/icons/Loading';
 import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit3, Search, Trash2 } from 'lucide-react';
-import Create from './Create';
 import MyModal from 'components/Atoms/MyModal';
 import Edit from './Edit';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
-import { MyInput } from 'components/Atoms/Form';
-import { KeyTypeEnum } from 'enums/key-type.enum';
-import { useLocation } from 'react-router-dom';
-import { useSearch } from 'hooks/useSearch';
-import { searchValue } from 'types/search';
-import { paramsStrToObj } from 'utils/helper';
 
 type FilterType = {
     search: string;
@@ -34,22 +27,13 @@ type TItem = {
     ipAddress: string;
 };
 
-const JobList = () => {
+const JobList = ({ data, isLoading, refetch }: any) => {
     const { t, i18n } = useTranslation();
     const [open, setOpen] = useState(false);
     const [show, setShow] = useState(false)
     const [typeId, setTypeId] = useState(null)
     const currentLang = i18n.resolvedLanguage;
-    const location = useLocation()
-    const { search, setSearch, handleSearch } = useSearch();
-    const searchValue: searchValue = paramsStrToObj(location.search)
-    const { data, isLoading, refetch } = useGetAllQuery({
-        key: KEYS.employeeJobPosition,
-        url: URLS.employeeJobPosition,
-        params: {
-            search: searchValue?.search
-        }
-    });
+
 
     const { mutate: deleteRequest } = useDeleteQuery({
         listKeyId: KEYS.employeeJobPosition
@@ -119,7 +103,7 @@ const JobList = () => {
 
     if (isLoading) {
         return (
-            <div className="absolute flex h-full w-[calc(100%-350px)] items-center justify-center">
+            <div className="flex h-full w-full items-center justify-center">
                 <Loading />
             </div>
         );
@@ -127,28 +111,6 @@ const JobList = () => {
 
     return (
         <div>
-            <div className={'flex justify-between'}>
-                <LabelledCaption
-                    title={t('Job name')}
-                    subtitle={t('Employee list for position name')}
-                />
-                <div className='flex items-center gap-4'>
-                    <MyInput
-                        onKeyUp={(event) => {
-                            if (event.key === KeyTypeEnum.enter) {
-                                handleSearch();
-                            } else {
-                                setSearch((event.target as HTMLInputElement).value);
-                            }
-                        }}
-                        defaultValue={search}
-                        startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
-                        className="dark:bg-bg-input-dark"
-                        placeholder={t('Search...')}
-                    />
-                    <Create refetch={refetch} />
-                </div>
-            </div>
             <MyDivider />
             <TableProvider<TItem, FilterType>
                 values={{
