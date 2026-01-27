@@ -397,6 +397,7 @@
   "Left status": "Left status",
   "Gone time": "Gone time",
   "Work on time": "Work on time",
+  "work_time_format": "{{hours}}h {{minutes}}m",
   "Working now": "Working now",
   "Active": "Active",
   "View": "View",

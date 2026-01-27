@@ -114,12 +114,14 @@ export const createColumns = ({ refetch }: any) => {
             const plannedMinutes = Number(row?.plannedMinutes ?? 0);
             const effectiveEndTime = row?.endTime ?? dayjs().toISOString();
             const minutes = Math.max(0, dayjs(effectiveEndTime).diff(dayjs(row?.startTime), 'minute'));
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
             const percent =
               plannedMinutes > 0 ? Math.min(100, Math.round((minutes / plannedMinutes) * 100)) : 0;
             return (
               <div className="flex flex-col gap-1">
                 <div className="text-sm text-text-base dark:text-text-title-dark">
-                  {minutes} min
+                  {t('work_time_format', { hours, minutes: mins })}
                 </div>
                 <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
                   <div

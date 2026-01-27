@@ -397,6 +397,7 @@
   "Left status": "Ketish holati",
   "Gone time": "Ketish vaqti",
   "Work on time": "Ishlash vaqti",
+  "work_time_format": "{{hours}} soat {{minutes}} daqiqa",
   "Working now": "Hozir ishlayapti",
   "Active": "Faol",
   "View": "Ko‘rish",
