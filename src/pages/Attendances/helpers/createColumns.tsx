@@ -27,6 +27,15 @@ export const createColumns = ({ refetch }: any) => {
     blue:
       'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text dark:bg-tag-blue-bg dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
   };
+  const getProgressBarColor = (percent: number) => {
+    if (percent < 50) {
+      return 'bg-yellow-600'; 
+    } else if (percent >= 50 && percent < 80) {
+      return 'bg-blue-600'; 
+    } else {
+      return 'bg-green-600'; 
+    }
+  };
 
   const renderBadge = (variant: 'orange' | 'red' | 'green' | 'blue', text: string) => (
     <MyBadge className={BADGE_CLASSES[variant]} variant={variant}>
@@ -118,6 +127,9 @@ export const createColumns = ({ refetch }: any) => {
             const mins = minutes % 60;
             const percent =
               plannedMinutes > 0 ? Math.min(100, Math.round((minutes / plannedMinutes) * 100)) : 0;
+            
+            const progressBarColor = getProgressBarColor(percent);
+            
             return (
               <div className="flex flex-col gap-1">
                 <div className="text-sm text-text-base dark:text-text-title-dark">
@@ -125,7 +137,7 @@ export const createColumns = ({ refetch }: any) => {
                 </div>
                 <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
                   <div
-                    className="h-2 rounded-full bg-tag-green-icon"
+                    className={`h-2 rounded-full ${progressBarColor}`}
                     style={{ width: `${percent}%` }}
                   />
                 </div>

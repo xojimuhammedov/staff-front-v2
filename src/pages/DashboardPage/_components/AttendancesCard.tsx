@@ -46,6 +46,7 @@ const StatCard: React.FC<StatCardExtendedProps> = ({
     const { dot, badge, bar } = getColorStyles(color);
     const safePercent = Number.isFinite(percent) ? Math.max(0, Math.min(100, percent)) : 0;
 
+
     return (
         <div className="group w-full rounded-2xl p-4 bg-bg-base dark:bg-dark-dashboard-cards shadow-base border border-transparent flex items-center gap-4 cursor-pointer select-none">
             <div className="flex flex-col gap-1 w-full min-w-0">
