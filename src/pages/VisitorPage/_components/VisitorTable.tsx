@@ -54,15 +54,18 @@ const VisitorTable = () => {
       {
         key: 'createdAt',
         label: t('Created Time'),
-        header: (
-          <span className="inline-flex items-center gap-2">
-            <Clock className="h-5 w-5 text-text-muted dark:text-white" />
-            {t('Created Time')}
-          </span>
-        ),
+        // header: (
+        //   <span className="inline-flex items-center gap-2">
+        //     <Clock className="h-5 w-5 text-text-muted dark:text-white" />
+        //     {t('Created Time')}
+        //   </span>
+        // ),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <>{row?.createdAt ? dayjs(row?.createdAt).format("YYYY-MM-DD, HH:mm") : '--'}</>
+          <div className='flex items-center gap-1'>
+            <Clock size={16} className="dark:text-white" />
+            <p className='dark:text-white'>{row?.createdAt ? dayjs(row?.createdAt).format("YYYY-MM-DD, HH:mm") : '--'}</p>
+          </div>
         ),
       },
       {
@@ -74,15 +77,12 @@ const VisitorTable = () => {
       {
         key: 'workPlace',
         label: t('Work Place'),
-        header: (
-          <span className="inline-flex items-center gap-2">
-            <Briefcase className="h-5 w-5 text-text-muted  dark:text-white" />
-            {t('Work Place')}
-          </span>
-        ),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <>{row?.workPlace ?? '--'}</>
+          <div className='flex items-center gap-1'>
+            {row?.workPlace ? <Briefcase size={16} className="dark:text-white" /> : null}
+            <p className='dark:text-white'>{row?.workPlace ?? '--'}</p>
+          </div>
         ),
       },
     ],
@@ -103,12 +103,6 @@ const VisitorTable = () => {
     {
       id: 3,
       label: t('Created Time'),
-      header: (
-        <span className="inline-flex items-center gap-2">
-          <Clock className="h-4 w-4 text-text-muted" />
-          {t('Created Time')}
-        </span>
-      ),
       headerClassName: 'w-1/3',
     },
     {
@@ -119,12 +113,6 @@ const VisitorTable = () => {
     {
       id: 5,
       label: t('Work Place'),
-      header: (
-        <span className="inline-flex items-center gap-2">
-          <Briefcase className="h-4 w-4 text-text-muted" />
-          {t('Work Place')}
-        </span>
-      ),
       headerClassName: 'w-1/3',
     },
     // {
