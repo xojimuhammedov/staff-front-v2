@@ -25,10 +25,9 @@ const StatCard: React.FC<StatCardProps> = ({
 
   const getChangeIcon = () => {
     if (changeType === 'increase') {
-      return <TrendingUp size={14} className="text-green-600 dark:text-green-300" />;
-    } else if (changeType === 'neutral') {
-      return <Minus size={14} className="text-gray-500 dark:text-gray-300" />;
+      return <TrendingUp size={14} className="text-green-600 dark:text-white" />;
     }
+
     return '';
   };
 
@@ -97,8 +96,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       icon: <Users size={28} strokeWidth={2} />,
       title: t('Total Employees'),
       value: String(totalEmployees ?? 0),
-      change: `+${newEmployeesCount}`,
-      changeType: 'increase' as const,
+      change: Number(newEmployeesCount) > 0 ? `+${newEmployeesCount}` : '0',
+      changeType: Number(newEmployeesCount) > 0 ? 'increase' as const : 'neutral' as const,
       bgColor: 'bg-purple-100',
       iconColor: 'text-purple-600',
     },
@@ -106,8 +105,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       icon: <Monitor size={28} strokeWidth={2} />,
       title: t('Total Computers'),
       value: String(totalComputers ?? 0),
-      change: `+${newComputersCount ?? ''}`,
-      changeType: 'increase' as const,
+      change: Number(newComputersCount ?? 0) > 0 ? `+${newComputersCount}` : '0',
+      changeType: Number(newComputersCount ?? 0) > 0 ? 'increase' as const : 'neutral' as const,
       bgColor: 'bg-pink-100',
       iconColor: 'text-pink-600',
     },
@@ -115,8 +114,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       icon: <Grid3x3 size={28} strokeWidth={2} />,
       title: t('Total Departments'),
       value: String(totalDepartments ?? 0),
-      change: `+${newDepartmentsCount} `,
-      changeType: 'increase' as const,
+      change: Number(newDepartmentsCount) > 0 ? `+${newDepartmentsCount}` : '0',
+      changeType: Number(newDepartmentsCount) > 0 ? 'increase' as const : 'neutral' as const,
       bgColor: 'bg-blue-100',
       iconColor: 'text-blue-600',
     },
@@ -124,8 +123,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       icon: <Building2 size={28} strokeWidth={2} />,
       title: t('Total Organizations'),
       value: String(totalOrganizations ?? 0),
-      change: `+${newOrganizationsCount}`,
-      changeType: 'increase' as const,
+      change: Number(newOrganizationsCount) > 0 ? `+${newOrganizationsCount}` : '0',
+      changeType: Number(newOrganizationsCount) > 0 ? 'increase' as const : 'neutral' as const,
       bgColor: 'bg-yellow-100',
       iconColor: 'text-yellow-600',
     },

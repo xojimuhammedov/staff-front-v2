@@ -21,7 +21,7 @@ function ReasonModal({ row }: any) {
     <>
       <MyButton
         variant="secondary"
-        className="text-sm min-w-max text-gray-900 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100"
+        className="text-sm w-[100px] text-gray-900 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100" 
         disabled={disabled}
         onClick={() => setOpen(true)}
       >
@@ -70,7 +70,7 @@ function ReasonModal({ row }: any) {
                             label: evt[`${currentLang}`],
                             value: evt.id,
                           }))}
-                          value={field.value as any} // 👈 cast to any
+                          value={field.value as any}
                           onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                           onBlur={field.onBlur}
                           error={!!fieldState.error}
