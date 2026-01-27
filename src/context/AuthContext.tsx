@@ -1,7 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { get } from 'lodash';
-import { useStore } from '../services/store';
 import { request } from 'services/request';
 import authConfig from 'configs/auth';
 import { toast } from 'react-toastify';
@@ -58,9 +56,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         window.localStorage.setItem(authConfig.storageTokenKeyName, response.data?.accessToken);
         window.localStorage.setItem('refreshToken', response.data?.refreshToken);
         window.localStorage.setItem('userData', JSON.stringify(response?.data?.user));
-        // setUser(response?.data?.data?.user);
-        // window.location.replace('/');
-        navigate("/")
+        if (response?.data?.user?.role === "GUARD") {
+          navigate("/guards")
+        }
+        else {
+          navigate("/")
+        }
         checkAuth(response.data?.jwt);
         toast.success('Siz muvaffaqiyatli kirdingiz!');
       })
