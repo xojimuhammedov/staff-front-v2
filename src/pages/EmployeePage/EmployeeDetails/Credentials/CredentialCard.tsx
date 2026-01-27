@@ -38,8 +38,7 @@ const typeConfig = {
     },
     CAR: {
         icon: Car,
-        accent: "border-l-purple-500",
-        badge: "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800",
+        accent: "border-l-purple-500",        badge: "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800",
         hoverGlow: "hover:shadow-purple-100",
     },
     CARD: {

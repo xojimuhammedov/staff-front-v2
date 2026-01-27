@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { Edit3, AreaChart, Trash2 } from 'lucide-react';
+import { Edit3, AreaChart, Trash2, Briefcase, Clock } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
@@ -37,8 +37,11 @@ const VisitorTable = () => {
         label: t('Full Name'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
-            {row?.firstName ?? '--'} {row?.lastName ?? '--'}
+          <div className="flex flex-col gap-1">
+            <div className="dark:text-text-title-dark">
+              {row?.firstName ?? '--'} {row?.lastName ?? '--'}
+            </div>
+            <div className="text-xs text-text-muted">{row?.phone ?? '--'}</div>
           </div>
         ),
       },
@@ -51,6 +54,12 @@ const VisitorTable = () => {
       {
         key: 'createdAt',
         label: t('Created Time'),
+        header: (
+          <span className="inline-flex items-center gap-2">
+            <Clock className="h-5 w-5 text-text-muted dark:text-white" />
+            {t('Created Time')}
+          </span>
+        ),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <>{row?.createdAt ? dayjs(row?.createdAt).format("YYYY-MM-DD, HH:mm") : '--'}</>
@@ -65,15 +74,17 @@ const VisitorTable = () => {
       {
         key: 'workPlace',
         label: t('Work Place'),
+        header: (
+          <span className="inline-flex items-center gap-2">
+            <Briefcase className="h-5 w-5 text-text-muted  dark:text-white" />
+            {t('Work Place')}
+          </span>
+        ),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.workPlace ?? '--'}</>,
+        cellRender: (row) => (
+          <>{row?.workPlace ?? '--'}</>
+        ),
       },
-      // {
-      //   key: 'status',
-      //   label: t('Using type'),
-      //   headerClassName: 'w-1/3',
-      //   cellRender: (row) => <>{useValidateCodes(row?.onetimeCodes)}</>,
-      // },
     ],
     [t]
   );
@@ -92,6 +103,12 @@ const VisitorTable = () => {
     {
       id: 3,
       label: t('Created Time'),
+      header: (
+        <span className="inline-flex items-center gap-2">
+          <Clock className="h-4 w-4 text-text-muted" />
+          {t('Created Time')}
+        </span>
+      ),
       headerClassName: 'w-1/3',
     },
     {
@@ -102,6 +119,12 @@ const VisitorTable = () => {
     {
       id: 5,
       label: t('Work Place'),
+      header: (
+        <span className="inline-flex items-center gap-2">
+          <Briefcase className="h-4 w-4 text-text-muted" />
+          {t('Work Place')}
+        </span>
+      ),
       headerClassName: 'w-1/3',
     },
     // {
