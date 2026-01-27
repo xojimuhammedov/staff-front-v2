@@ -3,10 +3,10 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { AreaChart, Edit3, Trash2 } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { AreaChart, Edit3, Mail, Phone, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
-import { useDeleteQuery, useGetAllQuery, usePostQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -26,8 +26,9 @@ type EmployeeListProps = {
 };
 
 const EmployeeList = ({ searchValue }: EmployeeListProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const currentLang = i18n.resolvedLanguage;
   const [searchParams] = useSearchParams()
   const [show, setShow] = useState(false)
   const [employeeId, setEmployeeId] = useState<any | null>(null)
@@ -40,7 +41,6 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       departmentId: searchParams.get("current-setting") === "employee_list" ? searchValue?.parentDepartmentId : searchValue?.subdepartmentId,
       page: searchValue?.page || 1,
       limit: searchValue?.limit || 10,
-      // attachedId: searchValue?.attachedId 
     }
   });
   const columns: DataGridColumnType[] = useMemo(
@@ -52,7 +52,10 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         cellRender: (row) => (
           <div className="flex items-center w-full gap-4 dark:text-text-title-dark">
             <MyAvatar size="medium" imageUrl={row?.photo ? `${config.FILE_URL}api/storage/${row?.photo}` : AvatarIcon} />
-            {row?.name}
+            <div className='flex flex-col'>
+              <p className='font-medium'>{row?.name}</p>
+              <span className='text-xs'>{row?.job?.[`${currentLang}`]}</span>
+            </div>
           </div>
         )
       },
@@ -66,7 +69,17 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         key: 'phone',
         label: t('Phone number'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.phone ?? '--'}</>
+        cellRender: (row) =>
+          <div className='flex flex-col gap-1'>
+            <div className='flex items-center gap-1'>
+              {row?.phone ? <Phone size={16} /> : null}
+              <p className='text-sm'>{row?.phone ?? '--'}</p>
+            </div>
+            <div className='flex items-center gap-1'>
+              {row?.email ? <Mail size={16} /> : null}
+              <p className='text-sm'>{row?.email ?? '--'}</p>
+            </div>
+          </div>
       }
     ],
     [t]

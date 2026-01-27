@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Monitor, Grid3x3, Building2 , TrendingUp , TrendingDown , Minus } from 'lucide-react';
+import { Users, Monitor, Grid3x3, Building2, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { DashboardCardProps, StatCardProps } from '../interface/dashboard.interface';
 import { useTranslation } from 'react-i18next';
 
@@ -33,12 +33,11 @@ const StatCard: React.FC<StatCardProps> = ({
 
   return (
     <div
-      className="group w-full rounded-2xl p-4 h-[130px] 
-    bg-bg-base dark:bg-dark-dashboard-cards
-    shadow-base border border-transparent
-    flex items-center gap-4
-    cursor-pointer select-none
-  "
+      className="group w-full rounded-2xl p-4
+        bg-bg-base dark:bg-dark-dashboard-cards
+        shadow-base border border-transparent
+        flex items-center gap-4
+        cursor-pointer select-none"
       role="button"
       tabIndex={0}
     >
