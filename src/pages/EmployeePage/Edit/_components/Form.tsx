@@ -122,9 +122,11 @@ function Form() {
   });
 
   const onSubmit = (data: any) => {
-    const submitData = data.photo ? { ...data } : {
+    const submitData = imageKey ? {
       ...data,
-      photo: imageKey,
+      photo: imageKey
+    } : {
+      ...data,
     }
     update(
       {

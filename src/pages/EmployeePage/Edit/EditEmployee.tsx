@@ -2,10 +2,10 @@ import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyDivider from 'components/Atoms/MyDivider';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { ArrowLeft } from 'lucide-react';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Form from './_components/Form';
+import Button from 'components/Atoms/MyButton';
 
 const EditEmployee = () => {
   const { t } = useTranslation();
@@ -25,12 +25,13 @@ const EditEmployee = () => {
           </h1>
           <MyBreadCrumb items={breadCrumbs} />
         </div>
-        <MyButton
+        <Button
           onClick={() => navigate('/employees')}
-          // variant="secondary"
-          startIcon={<ArrowLeft />}>
+          startIcon={<ArrowLeft />}
+          variant="primary"
+          className={`text-sm min-w-max dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}>
           {t('Back to employees list')}
-        </MyButton>
+        </Button>
       </div>
       <MyDivider />
       <Form />
