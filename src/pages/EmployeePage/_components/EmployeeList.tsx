@@ -3,10 +3,10 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataGrid from 'components/Atoms/DataGrid';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { AreaChart, Edit3, Mail, Phone, Trash2 } from 'lucide-react';
 import { IEmployee } from 'interfaces/employee/employee.interface';
-import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery, usePostQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -17,6 +17,7 @@ import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import MyAvatar from 'components/Atoms/MyAvatar'
 import config from 'configs';
+
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 import { searchValue } from 'types/search';
 

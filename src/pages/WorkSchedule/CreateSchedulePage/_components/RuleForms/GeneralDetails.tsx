@@ -187,11 +187,11 @@ const GeneralDetails = () => {
               <div className="mb-4 mt-6 grid grid-cols-3 gap-8">
                 {weekDay?.map((evt: any, index: number) => (
                   <MyCheckbox
-                    onChange={() => handleChangeWorking(evt.label)}
+                    onChange={() => handleChangeWorking(evt.value)}
                     key={index}
                     label={evt.label}
-                    value={evt.label}
-                    checked={workingWeekDays.includes(evt.label)}
+                    value={evt.value}
+                    checked={workingWeekDays.includes(evt.value)}
                     id={`${evt.id + 20}`}
                     defaultChecked
                   />

@@ -4,18 +4,28 @@ import { useTranslation } from 'react-i18next';
 import EmployeeList from './_components/EmployeeList';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { ArrowLeft, Plus, Search } from 'lucide-react';
-import { MyInput } from 'components/Atoms/Form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
 import { KeyTypeEnum } from 'enums/key-type.enum';
 import { useSearch } from 'hooks/useSearch';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
+import { Controller, useForm } from 'react-hook-form';
+import { useGetAllQuery } from 'hooks/api';
+import { KEYS } from 'constants/key';
+import { URLS } from 'constants/url';
 
 function EmployeePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const searchValue: searchValue = paramsStrToObj(location.search);
+  const { control, watch } = useForm({
+    defaultValues: {
+      departmentId: undefined,
+    }
+  });
+
   const { search, setSearch, handleSearch } = useSearch();
   const breadCrumbs = [
     {
