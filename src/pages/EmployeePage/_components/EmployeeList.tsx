@@ -17,7 +17,6 @@ import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import MyAvatar from 'components/Atoms/MyAvatar'
 import config from 'configs';
-
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 import { searchValue } from 'types/search';
 
