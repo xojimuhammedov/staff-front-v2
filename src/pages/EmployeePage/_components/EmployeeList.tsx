@@ -20,6 +20,7 @@ import config from 'configs';
 
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 import { searchValue } from 'types/search';
+import { CredentialIcons } from './CredentialTooltip';
 
 type EmployeeListProps = {
   searchValue?: searchValue;
@@ -60,6 +61,12 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         )
       },
       {
+        key: 'credential',
+        label: t('Credentials'),
+        headerClassName: 'w-1/3',
+        cellRender: (row) => <CredentialIcons credentials={row?.credentials} />
+      },
+      {
         key: 'department',
         label: t('Department'),
         headerClassName: 'w-1/3',
@@ -93,11 +100,16 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
     },
     {
       id: 2,
-      label: t('Department'),
+      label: t('Credentials'),
       headerClassName: 'w-1/3'
     },
     {
       id: 3,
+      label: t('Department'),
+      headerClassName: 'w-1/3'
+    },
+    {
+      id: 4,
       label: t('Phone number'),
       headerClassName: 'w-1/3'
     }
