@@ -34,7 +34,9 @@ type EmployeeListProps = {
 const EmployeeList = ({ searchValue }: EmployeeListProps) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const currentLang = i18n.resolvedLanguage;
+  const location = useLocation()
+  const isView = location.pathname === '/view';
+  const currentLang: any = i18n.resolvedLanguage;
   const dateLocale = currentLang?.startsWith('ru')
     ? 'ru'
     : currentLang?.startsWith('uz')
@@ -54,49 +56,59 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       limit: searchValue?.limit || 10,
     }
   });
-  const columns: DataGridColumnType[] = useMemo(
-    () => [
+  const columns: DataGridColumnType[] = useMemo(() => {
+    const cols: DataGridColumnType[] = [
       {
         key: 'fullName',
         label: t('Employees'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center w-full gap-4 dark:text-text-title-dark">
-            <MyAvatar size="medium" imageUrl={row?.photo ? `${config.FILE_URL}api/storage/${row?.photo}` : AvatarIcon} />
-            <div className='flex flex-col'>
-              <p className='font-medium'>{row?.name}</p>
-              <span className='text-xs'>{row?.job?.[`${currentLang}`]}</span>
+            <MyAvatar
+              size="medium"
+              imageUrl={row?.photo ? `${config.FILE_URL}api/storage/${row?.photo}` : AvatarIcon}
+            />
+            <div className="flex flex-col">
+              <p className="font-medium">{row?.name}</p>
+              <span className="text-xs">{row?.job?.[currentLang]}</span>
             </div>
           </div>
-        )
+        ),
       },
       {
         key: 'department',
         label: t('Department'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <div className="department-text">{row?.department?.shortName ?? '--'}</div>
+        cellRender: (row) => (
+          <div className="department-text">
+            {row?.department?.shortName ?? '--'}
+          </div>
+        ),
       },
       {
         key: 'credential',
         label: t('Credentials'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <CredentialIcons credentials={row?.credentials} />
+        cellRender: (row) => (
+          <CredentialIcons credentials={row?.credentials} />
+        ),
       },
       {
         key: 'phone',
         label: t('Phone number'),
         headerClassName: 'w-1/3',
-        cellRender: (row) =>
-          <div className='flex flex-col gap-1'>
-            <div className='flex items-center gap-1'>
-              {row?.phone ? <Phone size={16} /> : null}
-              <p className='text-sm'>{row?.phone ?? '--'}</p>
+        cellRender: (row) => (
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-1">
+              {row?.phone && <Phone size={16} />}
+              <p className="text-sm">{row?.phone ?? '--'}</p>
             </div>
-            <div className='flex items-center gap-1'>
-              {row?.email ? <Mail size={16} /> : null}
-              <p className='text-sm'>{row?.email ?? '--'}</p>
+            <div className="flex items-center gap-1">
+              {row?.email && <Mail size={16} />}
+              <p className="text-sm">{row?.email ?? '--'}</p>
             </div>
           </div>
+        ),
       },
       {
         key: 'joinDate',
@@ -106,42 +118,30 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
           <div className="flex items-center gap-2 text-text-base dark:text-text-title-dark">
             <Calendar size={16} className="text-text-muted" />
             <span>
-              {row?.createdAt ? dayjs(row?.createdAt).locale(dateLocale).format('DD MMM YYYY') : '--'}
+              {row?.createdAt
+                ? dayjs(row?.createdAt).locale(dateLocale).format('DD MMM YYYY')
+                : '--'}
             </span>
           </div>
-        )
-      }
-    ],
-    [t]
-  );
+        ),
+      },
+    ];
 
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Employees'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 2,
-      label: t('Department'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 3,
-      label: t('Credentials'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 4,
-      label: t('Phone number'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 5,
-      label: t('Join Date'),
-      headerClassName: 'w-1/3'
-    }
-  ];
+    return isView ? cols.filter((col) => !['credential', 'joinDate'].includes(col.key)) : cols;
+
+  }, [t, isView, currentLang, dateLocale]);
+
+  const dataColumn = useMemo(() => {
+    const base = [
+      { id: 1, label: t('Employees'), headerClassName: 'w-1/3' },
+      { id: 2, label: t('Department'), headerClassName: 'w-1/3' },
+      { id: 3, label: t('Credentials'), headerClassName: 'w-1/3' },
+      { id: 4, label: t('Phone number'), headerClassName: 'w-1/3' },
+      { id: 5, label: t('Join Date'), headerClassName: 'w-1/3' },
+    ];
+
+    return isView ? base.filter((c) => ![3, 5].includes(c.id)) : base;
+  }, [t, isView]);
 
   const filter: IFilter[] = useMemo(
     () => [
