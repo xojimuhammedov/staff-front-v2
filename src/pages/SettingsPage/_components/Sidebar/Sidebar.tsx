@@ -18,13 +18,13 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
       title: t('General info'),
       items: [
         {
-          icon: 'Puzzle',
+          icon: 'DoorOpen',
           name: t('Doors'),
           path: 'doors',
           isSwitch: false
         },
         {
-          icon: 'Bell',
+          icon: 'Cctv',
           name: t('Devices'),
           path: 'deviceControl',
           isSwitch: false
