@@ -23,7 +23,7 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
                     isSwitch: false
                 },
                 {
-                    icon: 'CarTaxiFront',
+                    icon: 'CreditCard',
                     name: t('Employee credentials'),
                     path: 'details',
                     isSwitch: false
@@ -35,13 +35,13 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
                     isSwitch: false
                 },
                 {
-                    icon: 'Attendance',
+                    icon: 'CalendarClock',
                     name: t('Attendance'),
                     path: 'attendance',
                     isSwitch: false
                 },
                 {
-                    icon: 'Productivity',
+                    icon: 'TrendingUp',
                     name: t('Productivity'),
                     path: 'productivity',
                     isSwitch: false
