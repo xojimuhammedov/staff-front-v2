@@ -84,7 +84,7 @@ const DoorsPage = () => {
     () => [
       {
         icon: <Eye size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
+        type: 'secondary',
         name: t('View door'),
         action: (row) => {
           navigate(`/settings/maingate/${row.id}`);
@@ -92,7 +92,7 @@ const DoorsPage = () => {
       },
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
+        type: 'secondary',
         name: t('Edit'),
         action: (row, $e) => {
           navigate(`/settings/door/edit/${row?.id}`);

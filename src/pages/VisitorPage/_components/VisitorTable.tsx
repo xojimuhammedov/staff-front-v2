@@ -14,19 +14,27 @@ import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import MyBadge from 'components/Atoms/MyBadge';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { paramsStrToObj } from 'utils/helper';
+import { searchValue } from 'types/search';
 
 
 const VisitorTable = () => {
   const { t } = useTranslation();
+  const location = useLocation()
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [visitorId, setVisitorId] = useState(null);
+  const searchValue: searchValue = paramsStrToObj(location.search)
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.getVisitorList,
     url: URLS.getVisitorList,
-    params: {},
+    params: {
+      search: searchValue?.search,
+      page: searchValue?.page || 1,
+      limit: searchValue?.limit || 10,
+    },
   });
 
   // const { data: validateMap, isLoading: validating } = useValidateCodes(uniqueCodes);
@@ -94,12 +102,6 @@ const VisitorTable = () => {
       {
         key: 'createdAt',
         label: t('Created Time'),
-        // header: (
-        //   <span className="inline-flex items-center gap-2">
-        //     <Clock className="h-5 w-5 text-text-muted dark:text-white" />
-        //     {t('Created Time')}
-        //   </span>
-        // ),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className='flex items-center gap-1'>
@@ -188,7 +190,7 @@ const VisitorTable = () => {
       },
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
+        type: 'secondary',
         name: t('Edit'),
         action: (row, $e) => { },
         allowedRoles: ['ADMIN', 'HR'],

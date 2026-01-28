@@ -31,7 +31,9 @@ const WorkScheduleList = () => {
     key: KEYS.employeeSchedulePlan,
     url: URLS.employeeSchedulePlan,
     params: {
-      search: searchValue?.search
+      search: searchValue?.search,
+      page: searchValue?.page || 1,
+      limit: searchValue?.limit || 10,
     }
   });
   const columns: DataGridColumnType[] = useMemo(
@@ -111,7 +113,7 @@ const WorkScheduleList = () => {
     () => [
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
+        type: 'secondary',
         name: t('Edit'),
         action: (row, $e) => {
           navigate(`/workschedule/edit/${row?.id}`)

@@ -80,7 +80,7 @@ const TypeList = ({ data, isLoading, refetch }: any) => {
         () => [
             {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-                type: 'primary',
+                type: 'secondary',
                 name: t('Edit'),
                 action: (row) => {
                     setOpen(true)
