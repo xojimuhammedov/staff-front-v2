@@ -28,12 +28,12 @@ export const createColumns = ({ refetch }: any) => {
       'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text dark:bg-tag-blue-bg dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
   };
   const getProgressBarColor = (percent: number) => {
-    if (percent < 50) {
-      return 'bg-yellow-600'; 
-    } else if (percent >= 50 && percent < 80) {
-      return 'bg-blue-600'; 
+    if (percent < 40) {
+      return 'bg-red-500';
+    } else if (percent >= 40 && percent < 70) {
+      return 'bg-yellow-500';
     } else {
-      return 'bg-green-600'; 
+      return 'bg-green-600';
     }
   };
 
