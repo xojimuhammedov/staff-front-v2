@@ -5,30 +5,17 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import storage from 'services/storage';
-import { visitorSchema } from 'schema/visitor.schema';
+import { visitorEditSchema } from 'schema/visitor.schema';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
+import { useNavigate } from 'react-router-dom';
 
 export const useVisitorEditForm = (id: string) => {
   const { t } = useTranslation();
   const userData: any = storage.get('userData');
   const userRole = JSON.parse(userData)?.role;
-
-  const { data: organizationData } = useGetAllQuery<any>({
-    key: KEYS.getAllListOrganization,
-    url: URLS.getAllListOrganization,
-    params: {},
-    hideErrorMsg: true,
-  });
-
-  const { data: employeeData } = useGetAllQuery<any>({
-    key: KEYS.getEmployeeList,
-    url: URLS.getEmployeeList,
-    params: {
-      limit: 100,
-    },
-  });
+  const navigate = useNavigate()
 
   const { data: gateData } = useGetAllQuery<any>({
     key: KEYS.getDoorGates,
@@ -54,9 +41,11 @@ export const useVisitorEditForm = (id: string) => {
       birthday: { startDate: null, endDate: null },
     },
     mode: 'onChange',
-    resolver: yupResolver(visitorSchema),
+    resolver: yupResolver(visitorEditSchema),
     context: { role: userRole },
   });
+
+  console.log(errors)
 
   useEffect(() => {
     const visitor = visitorData?.data ?? visitorData;
@@ -72,9 +61,7 @@ export const useVisitorEditForm = (id: string) => {
       phone: visitor.phone ?? '',
       passportNumberOrPinfl: visitor.passportNumberOrPinfl ?? '',
       workPlace: visitor.workPlace ?? '',
-      organizationId: visitor.organizationId ?? null,
       gateId: visitor.gateId ?? null,
-      attachedId: visitor.attachedId ?? null,
     });
   }, [visitorData, reset]);
 
@@ -98,6 +85,7 @@ export const useVisitorEditForm = (id: string) => {
       },
       {
         onSuccess: () => {
+          navigate("/visitor")
           toast.success(t('Visitor updated successfully!'));
         },
         onError: (e: any) => {
@@ -113,8 +101,6 @@ export const useVisitorEditForm = (id: string) => {
     control,
     errors,
     onSubmit,
-    organizationData,
-    employeeData,
     gateData,
     isLoading,
   };

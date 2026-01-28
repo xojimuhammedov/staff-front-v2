@@ -21,7 +21,13 @@ const VisitorDetails = () => {
         <PageContentWrapper>
             <div className="flex items-center justify-between">
                 <MyBreadCrumb pageTitle={t('Visitors')} items={breadCrumbs} />
-                <Button onClick={() => navigate('/visitor')} variant='secondary' startIcon={<ArrowLeft />} >{t("Back to visitors list")}</Button>
+                <Button
+                    onClick={() => navigate('/visitor')}
+                    startIcon={<ArrowLeft />}
+                    variant="primary"
+                    className={`text-sm min-w-max dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}>
+                    {t('Back to visitors list')}
+                </Button>
             </div>
             <MyDivider />
             <div className="flex gap-6">
