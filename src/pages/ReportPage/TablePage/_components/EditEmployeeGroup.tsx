@@ -9,9 +9,10 @@ import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import { Search } from 'lucide-react';
 import { readEmployeeIds, uniqSorted } from 'pages/ReportPage/helper/report';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
+import { request } from 'services/request';
 
 type EditEmployeeGroupProps = {
     departmentId?: number;
@@ -27,6 +28,8 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
     const hydratedRef = useRef(false);
     const prevDepRef = useRef<number | undefined>(undefined);
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [allEmployeeIds, setAllEmployeeIds] = useState<number[]>([]);
+
     const page = Number(searchParams.get("page") || 1);
     const limit = Number(searchParams.get("limit") || 10);
 
@@ -41,6 +44,19 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
         },
     });
 
+    const fetchAllEmployeeIds = async () => {
+        const res = await request.get(URLS.getEmployeeList, {
+            params: {
+                search: searchParams.get("search"),
+                departmentId,
+                page: 1,
+                limit: data?.total ?? 0,
+            },
+        });
+
+        return (res.data?.data ?? []).map((x: any) => x.id);
+    };
+
     useEffect(() => {
         if (hydratedRef.current) return;
         const idsFromUrl = readEmployeeIds(searchParams);
@@ -54,7 +70,7 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
         if (prev !== undefined && departmentId !== undefined && prev !== departmentId) {
             setSelectedIds([]);
             lastSentRef.current = "";
-          
+
             setSearchParams((prevParams) => {
                 const next = new URLSearchParams(prevParams);
                 next.delete("page");
@@ -62,15 +78,15 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
                 return next;
             }, { replace: true });
         }
-        
+
         prevDepRef.current = departmentId;
     }, [departmentId]);
 
-    const allIds = data?.data?.map((item: any) => item?.id) || [];
-
-    const handleSelectAll = (checked: boolean) => {
+    const handleSelectAll = async (checked: boolean) => {
         if (checked) {
-            setSelectedIds(allIds);
+            const ids = await fetchAllEmployeeIds(); // sizning 2-yechim
+            setAllEmployeeIds(ids);                 // ✅ saqlab qo‘yamiz
+            setSelectedIds(ids);
         } else {
             setSelectedIds([]);
         }
@@ -83,8 +99,12 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
             return prev.filter((i) => i !== id);
         });
     };
+
+    const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
     const isAllSelected =
-        allIds.length > 0 && selectedIds.length === allIds.length;
+        allEmployeeIds.length > 0 &&
+        allEmployeeIds.every((id) => selectedSet.has(id));
+
 
 
     const handleSearch = () => {
@@ -108,6 +128,7 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
         lastSentRef.current = sig;
         onSelectedIdsChange(uniqSorted(selectedIds));
     }, [selectedIds, onSelectedIdsChange]);
+
 
 
     return (

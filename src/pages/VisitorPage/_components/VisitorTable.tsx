@@ -130,7 +130,7 @@ const VisitorTable = () => {
       {
         key: 'status',
         label: t('Status'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'w-1/5',
         cellRender: renderStatus,
       },
     ],
@@ -166,7 +166,7 @@ const VisitorTable = () => {
     {
       id: 6,
       label: t('Status'),
-      headerClassName: 'w-1/3',
+      headerClassName: 'w-1/5',
     },
     // {
     //   id: 6,

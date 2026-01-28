@@ -96,7 +96,7 @@ const TableData = () => {
 
     if (isLoading) {
         return (
-            <div className="flex h-full items-center justify-center">
+            <div className="flex h-full w-full items-center justify-center">
                 <Loading />
             </div>
         );
