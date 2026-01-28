@@ -18,6 +18,7 @@ type MenuItem = {
   label: string;
   to: string;
   isSubMenu: boolean;
+  icon: keyof typeof icons;
   subRoutes?: SubItem[];
   allowedRoles?: any[]
 };
@@ -61,20 +62,32 @@ const CustomDropdownMenu: React.FC<CustomDropdownMenuProps> = ({ menuItem }) => 
         }}
         className={({ isActive }) =>
           clsx([
-            'flex h-full items-center  px-[12px] py-1.5 text-s-p dark:text-subtext-color-dark',
-            isActive && 'border-b-2 border-bg-brand text-text-base dark:border-text-title-dark'
+            'flex h-full items-center gap-2 px-[12px] py-1.5 text-s-p dark:text-subtext-color-dark',
+            isActive &&
+              'border-b-2 border-yellow-500 text-yellow-600 dark:border-yellow-400 dark:text-yellow-400'
           ])
         }
         to={menuItem.to}>
-        {menuItem.label}
-        <IconByName
-          name={'ChevronDown'}
-          className={twMerge(
-            'ml-[6px] h-4 w-4 cursor-pointer text-text-subtle transition-all duration-300',
-            isOpen ? '-rotate-180' : '',
-            window.location.pathname.includes(menuItem.to) ? 'text-bg-brand' : ''
-          )}
-        />
+        {({ isActive }) => (
+          <>
+            <IconByName
+              name={menuItem.icon}
+              className={twMerge(
+                'h-4 w-4 text-text-subtle dark:text-subtext-color-dark',
+                isActive ? 'text-yellow-600 dark:text-yellow-400' : ''
+              )}
+            />
+            {menuItem.label}
+            <IconByName
+              name={'ChevronDown'}
+              className={twMerge(
+                'ml-[6px] h-4 w-4 cursor-pointer text-text-subtle transition-all duration-300 dark:text-subtext-color-dark',
+                isOpen ? '-rotate-180' : '',
+                isActive ? 'text-yellow-600 dark:text-yellow-400' : ''
+              )}
+            />
+          </>
+        )}
       </NavLink>
 
       {isOpen && (
@@ -85,16 +98,24 @@ const CustomDropdownMenu: React.FC<CustomDropdownMenuProps> = ({ menuItem }) => 
                 <NavLink
                   className={({ isActive }) =>
                     clsx([
-                      'flex items-center rounded-m p-3 text-s-p font-normal dark:text-subtext-color-dark',
-                      isActive && 'bg-bg-subtle dark:bg-bg-darkBg'
+                      'flex items-center gap-2 rounded-m p-3 text-s-p font-normal dark:text-subtext-color-dark',
+                      isActive &&
+                        'bg-yellow-50 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-400'
                     ])
                   }
                   to={i.to}>
-                  {/* <IconByName
-                    name={i.icon}
-                    className={'mr-2 h-5 w-5 cursor-pointer text-text-subtle'}
-                  /> */}
-                  {i.label}
+                  {({ isActive }) => (
+                    <>
+                      <IconByName
+                        name={i.icon}
+                        className={clsx(
+                          'h-4 w-4 cursor-pointer text-text-subtle dark:text-subtext-color-dark',
+                          isActive ? 'text-yellow-700 dark:text-yellow-400' : ''
+                        )}
+                      />
+                      {i.label}
+                    </>
+                  )}
                 </NavLink>
               </li>
             );
@@ -115,41 +136,48 @@ const NavbarMenu = () => {
       label: t('Dashboard'),
       to: '/',
       isSubMenu: false,
+      icon: 'LayoutDashboard',
       allowedRoles: ['ADMIN', "HR", "DEPARTMENT_LEAD"]
+      
     },
     {
       label: t('Attendances'),
       to: '/attendances',
       isSubMenu: false,
+      icon: 'CalendarCheck2',
       allowedRoles: ['ADMIN', "HR"]
     },
     {
       label: t('Organization'),
       to: '/organization',
       isSubMenu: false,
+      icon: 'Building2',
       allowedRoles: ['ADMIN']
     },
     {
       label: t('Department'),
       to: '/department',
       isSubMenu: false,
+      icon: 'Users',
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
     },
     {
       label: t('Employees'),
       to: '/employees',
       isSubMenu: false,
+      icon: 'UserRound',
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
     },
     {
       label: t('Reports'),
       to: '/reports',
       isSubMenu: true,
+      icon: 'FileBarChart2',
       subRoutes: [
         {
           label: t('Table'),
           to: '/reports/table',
-          icon: 'AppWindow'
+          icon: 'Table'
         },
         {
           label: t('Attendance report'),
@@ -163,6 +191,7 @@ const NavbarMenu = () => {
       label: t('Users'),
       to: '/users',
       isSubMenu: false,
+      icon: 'Users',
       allowedRoles: ['ADMIN']
     },
     // {
@@ -187,18 +216,21 @@ const NavbarMenu = () => {
       label: t('Settings'),
       to: '/settings',
       isSubMenu: false,
+      icon: 'Settings',
       allowedRoles: ['ADMIN']
     },
     {
       label: t('Visitor'),
       to: '/visitor',
       isSubMenu: false,
+      icon: 'User',
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
     },
     {
       label: t('Guard'),
       to: '/guards',
       isSubMenu: false,
+      icon: 'Shield',
       allowedRoles: ["GUARD"]
     }
   ];
@@ -221,12 +253,24 @@ const NavbarMenu = () => {
                 <NavLink
                   className={({ isActive }) =>
                     clsx([
-                      'flex h-full items-center px-[12px] py-1.5 text-s-p dark:text-subtext-color-dark',
-                      isActive && 'border-b-2 border-black text-text-base dark:border-white'
+                      'flex h-full items-center gap-2 px-[12px] py-1.5 text-s-p dark:text-subtext-color-dark',
+                      isActive &&
+                        'border-b-2 border-yellow-500 text-yellow-600 dark:border-yellow-400 dark:text-yellow-400'
                     ])
                   }
                   to={menuItem.to}>
-                  {menuItem.label}
+                  {({ isActive }) => (
+                    <>
+                      <IconByName
+                        name={menuItem.icon}
+                        className={twMerge(
+                          'h-4 w-4 text-text-subtle dark:text-subtext-color-dark',
+                          isActive ? 'text-yellow-600 dark:text-yellow-400' : ''
+                        )}
+                      />
+                      {menuItem.label}
+                    </>
+                  )}
                 </NavLink>
               </>
             )}

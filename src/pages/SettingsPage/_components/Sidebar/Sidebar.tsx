@@ -30,19 +30,19 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
           isSwitch: false
         },
         {
-          icon: 'Reason type',
+          icon: 'ClipboardList',
           name: t('Reason type'),
           path: 'reason_type',
           isSwitch: false
         },
         {
-          icon: "Reason type",
+          icon: 'Briefcase',
           name: t("Job name"),
           path: "job_position",
           isSwitch: false
         },
         {
-          icon: "Reason type",
+          icon: 'CalendarClock',
           name: t("Work schedule"),
           path: "schedule",
           isSwitch: false
