@@ -3,6 +3,7 @@ import { CarFront, Clock, CreditCard, LockKeyhole, QrCode, UserRound } from "luc
 import dayjs from "dayjs";
 import { t } from 'i18next';
 import config from "configs";
+import MyAvatar from "components/Atoms/MyAvatar";
 
 // --------------------
 // Types
@@ -32,18 +33,18 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                     event?.credential?.type === "PHOTO" ?
                         <>
                             {
-                                event.image ? <img
+                                event.image ? <MyAvatar
                                     className="w-8 h-8 rounded-full object-cover"
-                                    src={`${config.FILE_URL}api/storage/${event?.image}`}
+                                    imageUrl={`${config.FILE_URL}api/storage/${event?.image}`}
                                     alt="User photo"
                                 /> : <UserRound size={20} />
                             }
                         </>
                         : event?.credential?.type === "CAR" ? <>
                             {
-                                event.image ? <img
+                                event.image ? <MyAvatar
                                     className="w-8 h-8 rounded-full object-cover"
-                                    src={`${config.FILE_URL}api/storage/${event?.image}`}
+                                    imageUrl={`${config.FILE_URL}api/storage/${event?.image}`}
                                     alt="User photo"
                                 /> : <CarFront size={20} />
                             }
