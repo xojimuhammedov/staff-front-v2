@@ -12,6 +12,7 @@ const EmployeeCreate = lazy(() => import('pages/EmployeePage/Create'))
 const EditEmployee = lazy(() => import('pages/EmployeePage/Edit'))
 const VisitorPage = lazy(() => import('pages/VisitorPage'))
 const VisitorCreate = lazy(() => import('pages/VisitorPage/VisitorCreate'))
+const VisitorEdit = lazy(() => import('pages/VisitorPage/Edit'))
 const PolicyPage = lazy(() => import('pages/PolicyPages/PolicyListPage'))
 const PoliceCreatePage = lazy(() => import('pages/PolicyPages/CreatePolicyRulePage'))
 const ProfilePage = lazy(() => import('pages/ProfilePage'))
@@ -96,6 +97,11 @@ export const PrivateRoutes = [
   {
     path: '/visitor/create',
     element: <VisitorCreate />,
+    roles: ["ADMIN", "HR", "GUARD"],
+  },
+  {
+    path: '/visitor/edit/:id',
+    element: <VisitorEdit />,
     roles: ["ADMIN", "HR", "GUARD"],
   },
   {

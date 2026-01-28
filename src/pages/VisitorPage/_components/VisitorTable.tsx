@@ -29,6 +29,7 @@ const VisitorTable = () => {
     params: {},
   });
 
+
   // const { data: validateMap, isLoading: validating } = useValidateCodes(uniqueCodes);
   const STATUS_BADGE_CLASSES: Record<'green' | 'blue' | 'neutral', string> = {
     green:
@@ -190,7 +191,9 @@ const VisitorTable = () => {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'primary',
         name: t('Edit'),
-        action: (row, $e) => { },
+        action: (row, $e) => {
+          navigate(`/visitor/edit/${row?.id}`);
+        },
         allowedRoles: ['ADMIN', 'HR'],
       },
       {
