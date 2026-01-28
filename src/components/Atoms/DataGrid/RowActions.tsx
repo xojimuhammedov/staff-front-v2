@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import { DropdownItemWrapper } from '../MyDropdown';
 import { IAction } from '../../../interfaces/action.interface';
 import MyDropdownTwo from '../MyDropdown/MyDropdownTwo';
-import EllipsisVertical from 'assets/icons/EllipsisVertical';
 import storage from 'services/storage';
+import EllipsisVertical from 'assets/icons/EllipsisVertical';
 
 interface RowActionProps {
   actions: IAction[];
@@ -46,7 +46,7 @@ const RowActions = ({ actions = [], row, allowedRoles }: RowActionProps) => {
       setOpen={setOpen}
       buttonProps={{
         variant: undefined,
-        className: 'w-max',
+        className: 'w-max dark:bg-transparent',
         startIcon: <EllipsisVertical />
       }}>
       {visibleActions?.map((btn, i) => (
