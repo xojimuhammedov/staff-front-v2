@@ -10,13 +10,28 @@ import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import { IFilter } from 'interfaces/filter.interface';
 import dayjs from 'dayjs';
+import { Plus, Search } from 'lucide-react';
+import MyButton from 'components/Atoms/MyButton/MyButton';
+import LabelledCaption from 'components/Molecules/LabelledCaption';
+import { KeyTypeEnum } from 'enums/key-type.enum';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSearch } from 'hooks/useSearch';
+import { paramsStrToObj } from 'utils/helper';
+import { searchValue } from 'types/search';
+import { MyInput } from 'components/Atoms/Form';
 
 const VisitorActions = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { search, setSearch, handleSearch } = useSearch();
+  const searchValue: searchValue = paramsStrToObj(location.search)
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.getVisitorList,
     url: URLS.getVisitorList,
-    params: {},
+    params: {
+      search: searchValue?.search
+    },
   });
 
   const columns: DataGridColumnType[] = useMemo(
@@ -91,21 +106,55 @@ const VisitorActions = () => {
   const filter: IFilter[] = useMemo(() => [], [t]);
 
   return (
-    <TableProvider<IEmployee, IFilter[]>
-      values={{
-        columns,
-        filter,
-        rows: get(data, 'data', []),
-        keyExtractor: 'id',
-      }}
-    >
-      <DataGrid
-        isLoading={isLoading}
-        hasCustomizeColumns={true}
-        dataColumn={dataColumn}
-        pagination={data}
-      />
-    </TableProvider>
+    <>
+      <div className={'flex justify-between'}>
+        <LabelledCaption
+          title={t('Visitors list')}
+          subtitle={t('')}
+        />
+        <div className='flex items-center gap-4'>
+          <MyInput
+            onKeyUp={(event) => {
+              if (event.key === KeyTypeEnum.enter) {
+                handleSearch();
+              } else {
+                setSearch((event.target as HTMLInputElement).value);
+              }
+            }}
+            defaultValue={search}
+            startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+            className="dark:bg-bg-input-dark"
+            placeholder={t('Search...')}
+          />
+          <MyButton
+            onClick={() => {
+              navigate('/visitor/create');
+            }}
+            allowedRoles={['ADMIN', 'HR', "GUARD"]}
+            startIcon={<Plus />}
+            variant='primary'
+            className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+          >
+            {t('Create visitor')}
+          </MyButton>
+        </div>
+      </div>
+      <TableProvider<IEmployee, IFilter[]>
+        values={{
+          columns,
+          filter,
+          rows: get(data, 'data', []),
+          keyExtractor: 'id',
+        }}
+      >
+        <DataGrid
+          isLoading={isLoading}
+          hasCustomizeColumns={true}
+          dataColumn={dataColumn}
+          pagination={data}
+        />
+      </TableProvider>
+    </>
   );
 };
 
