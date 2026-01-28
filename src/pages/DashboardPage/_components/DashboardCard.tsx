@@ -2,8 +2,9 @@ import React from 'react';
 import { Users, Monitor, Grid3x3, Building2, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { DashboardCardProps, StatCardProps } from '../interface/dashboard.interface';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-const StatCard: React.FC<StatCardProps> = ({
+const StatCard: React.FC<StatCardProps & { link?: string }> = ({
   icon,
   title,
   value,
@@ -11,7 +12,9 @@ const StatCard: React.FC<StatCardProps> = ({
   changeType,
   bgColor,
   iconColor,
+  link,
 }) => {
+  const navigate = useNavigate();
   const getChangeStyles = () => {
     switch (changeType) {
       case 'increase':
@@ -40,6 +43,7 @@ const StatCard: React.FC<StatCardProps> = ({
         cursor-pointer select-none"
       role="button"
       tabIndex={0}
+      onClick={() => link && navigate(link)}
     >
       <div
         className={`
@@ -99,6 +103,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       changeType: Number(newEmployeesCount) > 0 ? 'increase' as const : 'neutral' as const,
       bgColor: 'bg-purple-100',
       iconColor: 'text-purple-600',
+      link: '/employees',
     },
     {
       icon: <Monitor size={28} strokeWidth={2} />,
@@ -108,6 +113,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       changeType: Number(newComputersCount ?? 0) > 0 ? 'increase' as const : 'neutral' as const,
       bgColor: 'bg-pink-100',
       iconColor: 'text-pink-600',
+      link: '/device',
     },
     {
       icon: <Grid3x3 size={28} strokeWidth={2} />,
@@ -117,6 +123,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       changeType: Number(newDepartmentsCount) > 0 ? 'increase' as const : 'neutral' as const,
       bgColor: 'bg-blue-100',
       iconColor: 'text-blue-600',
+      link: '/department',
     },
     {
       icon: <Building2 size={28} strokeWidth={2} />,
@@ -126,6 +133,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       changeType: Number(newOrganizationsCount) > 0 ? 'increase' as const : 'neutral' as const,
       bgColor: 'bg-yellow-100',
       iconColor: 'text-yellow-600',
+      link: '/organization',
     },
   ];
 

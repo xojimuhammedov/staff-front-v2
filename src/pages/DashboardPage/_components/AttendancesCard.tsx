@@ -1,11 +1,13 @@
 import React from 'react';
 import { StatCardProps } from '../interface/dashboard.interface';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 
 type StatCardExtendedProps = StatCardProps & {
     percent: number;
     color: 'green' | 'orange' | 'red';
+    link?: string;
 };
 
 const getColorStyles = (color: StatCardExtendedProps['color']) => {
@@ -42,13 +44,20 @@ const StatCard: React.FC<StatCardExtendedProps> = ({
     value,
     percent,
     color,
+    link,
 }) => {
+    const navigate = useNavigate();
     const { dot, badge, bar } = getColorStyles(color);
     const safePercent = Number.isFinite(percent) ? Math.max(0, Math.min(100, percent)) : 0;
 
 
     return (
-        <div className="group w-full rounded-2xl p-4 bg-bg-base dark:bg-dark-dashboard-cards shadow-base border border-transparent flex items-center gap-4 cursor-pointer select-none">
+        <div
+            className="group w-full rounded-2xl p-4 bg-bg-base dark:bg-dark-dashboard-cards shadow-base border border-transparent flex items-center gap-4 cursor-pointer select-none"
+            role="button"
+            tabIndex={0}
+            onClick={() => link && navigate(link)}
+        >
             <div className="flex flex-col gap-1 w-full min-w-0">
                 <div className="flex items-start justify-between gap-3 w-full">
                     <div className="flex items-start gap-3">
@@ -106,30 +115,34 @@ const AttendancesCard: React.FC<any> = ({
             value: String(totalEmployees ?? 0),
             percent: totalEmployeesPercent,
             color: 'green',
+            link: "/employees",
         },
         {
             title: t('Late employees'),
             value: String(totalLate ?? 0),
             percent: getPercent(Number(totalLate ?? 0)),
             color: 'orange',
+            link: "/attendances?arrivalStatus=LATE",
         },
         {
             title: t('On time employees'),
             value: String(totalOnTime ?? 0),
             percent: getPercent(Number(totalOnTime ?? 0)),
             color: 'green',
+            link: "/attendances?arrivalStatus=ON_TIME",
         },
         {
             title: t('Absent employees'),
             value: String(totalAbsent ?? 0),
             percent: getPercent(Number(totalAbsent ?? 0)),
             color: 'red',
+            link: "/attendances?arrivalStatus=ABSENT",
         }
     ];
 
     return (
         <>
-            <h1 className='headers-core text-sm  dark:text-text-title-dark mt-4'>{t("Today Attendance Statistics")}</h1>
+            <h1 className='headers-core text-sm  dark:text-text-title-dark mt-4'>{t("Today attendance statistics")}</h1>
             <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stats.map((stat, index) => (
                     <StatCard key={index} {...stat} />
