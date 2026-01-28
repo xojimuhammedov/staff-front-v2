@@ -10,6 +10,8 @@ import { get } from 'lodash';
 import MyBadge from 'components/Atoms/MyBadge';
 import Loading from 'assets/icons/Loading';
 import MyButton from 'components/Atoms/MyButton/MyButton';
+import LabelledCaption from 'components/Molecules/LabelledCaption';
+import MyDivider from 'components/Atoms/MyDivider';
 
 type FilterType = {
     search: string;
@@ -111,6 +113,11 @@ const DeviceList = () => {
     }
     return (
         <>
+            <LabelledCaption
+                title={t('Device control')}
+                subtitle={t('System notifications for selected employees')}
+            />
+            <MyDivider />
             <TableProvider<TItem, FilterType>
                 values={{
                     columns,

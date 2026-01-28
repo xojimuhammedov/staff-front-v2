@@ -115,7 +115,7 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
         }
       },
       {
-        icon: <Trash2 color='red' size={DEFAULT_ICON_SIZE} />,
+        icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
         type: 'danger',
         name: t('Delete'),
         action: (row, $e) => {

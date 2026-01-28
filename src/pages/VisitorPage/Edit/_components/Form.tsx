@@ -20,8 +20,6 @@ function Form() {
     control,
     errors,
     onSubmit,
-    organizationData,
-    employeeData,
     gateData,
     isLoading,
   } = useVisitorEditForm(id ?? '');
@@ -35,7 +33,7 @@ function Form() {
   }
 
   return (
-    <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-3/4" onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-3 gap-4">
         <MyInput
           {...register('firstName')}
@@ -100,44 +98,6 @@ function Form() {
         />
 
         <Controller
-          name="organizationId"
-          control={control}
-          render={({ field, fieldState }) => (
-            <MySelect
-              label={t('Select organization')}
-              options={organizationData?.data?.map((evt: any) => ({
-                label: evt.fullName,
-                value: evt.id,
-              }))}
-              value={field.value as any}
-              onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-              onBlur={field.onBlur}
-              error={!!fieldState.error}
-              allowedRoles={['ADMIN']}
-            />
-          )}
-        />
-
-        <Controller
-          name="attachedId"
-          control={control}
-          render={({ field, fieldState }) => (
-            <MySelect
-              label={t('Select employee')}
-              options={employeeData?.data?.map((evt: any) => ({
-                label: evt.name,
-                value: evt.id,
-              }))}
-              value={field.value as any}
-              onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-              onBlur={field.onBlur}
-              error={!!fieldState.error}
-              allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
-            />
-          )}
-        />
-
-        <Controller
           name="gateId"
           control={control}
           render={({ field, fieldState }) => (
@@ -161,19 +121,9 @@ function Form() {
 
       <div className="flex gap-4">
         <MyButton
-          type="submit"
-          variant="primary"
-          className={`text-sm [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
-        >
-          {t('Update')}
-        </MyButton>
-        <MyButton
-          type="button"
-          variant="secondary"
-          onClick={() => navigate('/visitor')}
-        >
-          {t('Cancel')}
-        </MyButton>
+          type='submit'
+          className={'mt-3'}
+          variant="primary">{t("Add & Save")}</MyButton>
       </div>
     </form>
   );

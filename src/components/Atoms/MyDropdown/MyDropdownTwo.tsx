@@ -62,7 +62,6 @@ const MyDropdownTwo: FC<MyDropdownProps> = ({ buttonProps, children, ...rest }: 
             }
             setOpen(!open);
           }}
-          variant="secondary"
           type="button"
           {...buttonProps}
           id="menu-button"

@@ -8,7 +8,6 @@ import { IAction } from 'interfaces/action.interface';
 import { View } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getTimeDifference } from 'utils/helper';
 import ReasonModal from '../_components/ReasonModal';
 import { useNavigate } from 'react-router-dom';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
@@ -31,9 +30,9 @@ export const createColumns = ({ refetch }: any) => {
     if (percent < 40) {
       return 'bg-red-500';
     } else if (percent >= 40 && percent < 70) {
-      return 'bg-yellow-500';
+      return 'bg-orange-400';
     } else {
-      return 'bg-green-600';
+      return 'bg-green-500';
     }
   };
 

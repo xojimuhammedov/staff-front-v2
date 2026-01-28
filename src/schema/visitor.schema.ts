@@ -18,6 +18,18 @@ export const visitorSchema = yup.object().shape({
     ),
 });
 
+export const visitorEditSchema = yup.object().shape({
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  middleName: yup.string(),
+  birthday: yup.object().nullable(),
+  additionalDetails: yup.string(),
+  phone: yup.string(),
+  passportNumberOrPinfl: yup.string().required(),
+  workPlace: yup.string(),
+  gateId: yup.number().required(),
+});
+
 export const onetimeCodeSchema = yup.object().shape({
   codeType: yup.string().required(),
   startDate: yup.mixed().required(),

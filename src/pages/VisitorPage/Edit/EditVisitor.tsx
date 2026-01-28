@@ -29,7 +29,7 @@ const EditVisitor = () => {
           onClick={() => navigate('/visitor')}
           startIcon={<ArrowLeft />}
           variant="primary"
-         className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}>
+          className={`text-sm min-w-max dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}>
           {t('Back to visitors list')}
         </Button>
       </div>

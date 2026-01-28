@@ -28,8 +28,8 @@ const VisitorCreate = () => {
         </div>
         <MyButton
           onClick={() => navigate('/visitor')}
-          variant='secondary'
-          className={`text-sm [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+          variant="primary"
+          className={`text-sm min-w-max dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
           startIcon={<ArrowLeft />}>
           {t('Back to visitors list')}
         </MyButton>
