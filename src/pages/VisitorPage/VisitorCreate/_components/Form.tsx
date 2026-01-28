@@ -162,11 +162,15 @@ function Form() {
               />
             )}
           />
-          <MyInput
-            {...register('carNumber')}
-            error={Boolean(errors?.carNumber?.message)}
-            helperText={t(`${errors?.carNumber?.message}`)}
-            label={t('Car Number')}
+          <Controller
+            name="carNumber"
+            control={onetimeCodeControl}
+            render={({ field }) => (
+              <MyInput
+                {...field}
+                label={t('Car Number')}
+              />
+            )}
           />
           <MyDateTimePicker
             name="startDate"

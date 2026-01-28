@@ -99,6 +99,8 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       return;
     }
 
+    console.log(visitorData)
+
     // 👉 Aks holda 1-API chaqiriladi
     const formattedData = {
       ...visitorData,
@@ -144,6 +146,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       endDate: dayjs(onetimeCodeData.endDate).toISOString(),
       additionalDetails: onetimeCodeData.additionalDetails || "",
       isActive: onetimeCodeData.isActive ?? true,
+      carNumber: onetimeCodeData?.carNumber
     };
 
     createOnetimeCode(
@@ -154,7 +157,6 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       {
         onSuccess: (onetimeCodeResponse: any) => {
           toast.success(t("Onetime code created successfully!"))
-          console.log(onetimeCodeResponse?.data)
           const visitorWithOnetimeCode = {
             ...visitorCacheRef.current,
             onetimeCode: {
@@ -162,6 +164,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
               startDate: onetimeCodeResponse?.data?.startDate,
               endDate: onetimeCodeResponse?.data?.endDate,
               codeType: onetimeCodeResponse?.data?.codeType,
+              carNumber: onetimeCodeResponse?.data?.carNumber
             },
           };
 
@@ -182,7 +185,6 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
             organizationId: null,
             gateId: null,
             attachedId: null,
-            carNumber: ""
           });
           resetOnetimeCode();
         },

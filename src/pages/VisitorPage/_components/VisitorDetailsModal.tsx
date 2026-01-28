@@ -52,6 +52,8 @@ const VisitorDetailsModal = ({
     document.body.removeChild(link);
   };
 
+  console.log(visitor)
+
   if (!visitor) return null;
 
   return (
@@ -91,8 +93,8 @@ const VisitorDetailsModal = ({
               {/* Visitor Info */}
               <div className="bg-gray-50 rounded-[12px] p-6 flex flex-col items-center gap-2">
                 {/* Left */}
-                <h2 className="font-medium text-center text-gray-800 text-2xl mb-1">{`${visitor?.visitor?.firstName ?? visitor?.firstName} ${visitor?.visitor?.lastName ?? visitor?.lastName}`}</h2>
-                <h2 className="font-medium text-center text-gray-800 text-xl">{visitor?.carNumber}</h2>
+                <h2 className="font-medium text-center text-gray-800 text-2xl">{`${visitor?.visitor?.firstName ?? visitor?.firstName} ${visitor?.visitor?.lastName ?? visitor?.lastName}`}</h2>
+                <h2 className="font-medium text-center text-gray-800 text-xl">{visitor?.onetimeCode?.carNumber}</h2>
 
                 {/* QR */}
                 <div className="flex flex-col items-center justify-center gap-3">
@@ -110,7 +112,7 @@ const VisitorDetailsModal = ({
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3 justify-between items-center p-4 space-y-4">
+            <div className="flex flex-wrap gap-3 justify-between items-center p-4">
               <MyButton
                 onClick={handleDownloadPDF}
                 startIcon={<Download className="w-4 h-4" />}
