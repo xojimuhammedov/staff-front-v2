@@ -88,10 +88,10 @@ const CustomDropdownMenu: React.FC<CustomDropdownMenuProps> = ({ menuItem }) => 
                     ])
                   }
                   to={i.to}>
-                  <IconByName
+                  {/* <IconByName
                     name={i.icon}
                     className="mr-2 h-4 w-4 text-text-subtle dark:text-subtext-color-dark"
-                  />
+                  /> */}
                   {i.label}
                 </NavLink>
               </li>
