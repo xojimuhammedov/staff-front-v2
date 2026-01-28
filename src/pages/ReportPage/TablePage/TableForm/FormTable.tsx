@@ -50,17 +50,28 @@ function FormTable() {
     []
   );
 
+  const defaultDate = useMemo(() => {
+    const today = dayjs().format("YYYY-MM-DD");
+    return { startDate: today, endDate: today };
+  }, []);
+
   const { control, watch, reset } = useForm<FormValues>({
-    defaultValues: {},
+    defaultValues: {
+      date: defaultDate
+    },
     mode: "onChange",
     resolver: yupResolver(schema),
   });
 
   const [draftParams, setDraftParams] = useState<DraftParams>({
     employeeIds: [],
+    startDate: defaultDate.startDate,
+    endDate: defaultDate.endDate,
   });
 
   const date = useWatch({ control, name: "date" });
+  const startDate = useWatch({ control, name: "date.startDate", defaultValue: defaultDate.startDate });
+  const endDate = useWatch({ control, name: "date.endDate", defaultValue: defaultDate.endDate });
 
   const { data: getDepartment } = useGetAllQuery<{ data: Department[] }>({
     key: KEYS.getAllListDepartment,
@@ -111,6 +122,10 @@ function FormTable() {
   }, []);
 
   const handleSaveClick = () => {
+    const date = watch("date"); // ✅ shu yerda object keladi
+    const startDate: any = dayjs(date?.startDate).format("YYYY-MM-DD") ?? dayjs(defaultDate.startDate).format("YYYY-MM-DD");
+    const endDate: any = dayjs(date?.endDate).format("YYYY-MM-DD") ?? dayjs(defaultDate.endDate).format("YYYY-MM-DD");
+
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
       next.set("current-step", "2");
@@ -119,33 +134,26 @@ function FormTable() {
       if (depId) next.set("departmentId", String(depId));
       else next.delete("departmentId");
 
-      if (draftParams.startDate) next.set("startDate", draftParams.startDate);
+      if (startDate) next.set("startDate", startDate);
       else next.delete("startDate");
 
-      if (draftParams.endDate) next.set("endDate", draftParams.endDate);
+      if (endDate) next.set("endDate", endDate);
       else next.delete("endDate");
 
       next.delete("employeeIds");
       next.delete("employeeIds[]");
-      draftParams.employeeIds.forEach((id) => {
-        next.append("employeeIds", String(id));
-      });
+      draftParams.employeeIds.forEach((id) => next.append("employeeIds", String(id)));
 
       return next;
     }, { replace: true });
   };
 
-  const canSave = useMemo(() => {
-    return Boolean(
-      draftParams.startDate &&
-      draftParams.endDate &&
-      draftParams.employeeIds.length > 0
-    );
-  }, [
-    draftParams.startDate,
-    draftParams.endDate,
-    draftParams.employeeIds.length,
-  ]);
+  const canSave = Boolean(
+    startDate &&
+    endDate &&
+    draftParams.employeeIds.length > 0
+  );
+
 
   const departmentOptions = [
     {

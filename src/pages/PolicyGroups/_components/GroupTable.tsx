@@ -68,7 +68,7 @@ const GroupTable = () => {
         () => [
             {
                 icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-                type: 'primary',
+                type: 'secondary',
                 name: t('Edit'),
                 action: (row, $e) => { }
             },

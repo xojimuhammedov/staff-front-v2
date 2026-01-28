@@ -119,7 +119,7 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
         () => [
             {
                 icon: <Eye size={DEFAULT_ICON_SIZE} />,
-                type: 'primary',
+                type: 'secondary',
                 name: t('View device'),
                 action: (row) => {
                     navigate(`/settings/device/${row.id}`);

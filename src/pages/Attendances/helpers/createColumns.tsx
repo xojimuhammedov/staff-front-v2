@@ -209,7 +209,7 @@ export const createColumns = ({ refetch }: any) => {
     () => [
       {
         icon: <View size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
+        type: 'secondary',
         name: t('View'),
         action: (row, $e) => {
           navigate(`/employees/about/${row?.employee?.id}?current-setting=attendance`);

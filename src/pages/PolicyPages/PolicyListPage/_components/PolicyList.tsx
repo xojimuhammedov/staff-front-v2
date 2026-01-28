@@ -69,7 +69,7 @@ const PolicyList = () => {
     () => [
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
+        type: 'secondary',
         name: t('Edit'),
         action: (row, $e) => {
           navigate(`/policy/edit/${row.id}`);

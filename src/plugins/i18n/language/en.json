@@ -227,7 +227,6 @@
   "Create visitor": "Create Visitor",
   "Back to visitors list": "Back to visitors list",
   "All": "All",
-
   "EARLY": "Early",
   "LATE": "Late",
   "ABSENT": "Absent",
@@ -648,13 +647,12 @@
   "Effective employees": "Effective employees",
   "Ineffective employees": "Ineffective employees",
   "Attendance report": " Attendance report",
-  "Table": "Table",
+  "Table": "Tabel",
   "Enter a table data details": "Enter table details",
   "Table details": "Table details",
   "Select information for employees": "Select information for employees",
   "Table data": "Table data",
-  " Create a schedule": "Jadval tuzish" ,
+  " Create a schedule": "Jadval tuzish",
   "Department list": "Department lists",
   "Back to schedule list": "Back to schedule list"
-
 }

@@ -153,7 +153,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
     () => [
       {
         icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
+        type: 'secondary',
         name: t('Details'),
         action: (row, $e) => {
           navigate(`/employees/about/${row.id}`);
@@ -161,7 +161,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       },
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-        type: 'primary',
+        type: 'secondary',
         name: t('Edit'),
         action: (row, $e) => {
           navigate(`/employees/edit/${row.id}`);
