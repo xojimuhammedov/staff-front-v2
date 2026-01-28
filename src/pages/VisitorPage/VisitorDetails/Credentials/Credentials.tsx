@@ -91,6 +91,7 @@ const Credentials = () => {
       codeType: data.codeType,
       startDate: data.startDate,
       endDate: data.endDate,
+      carNumber: data?.carNumber,
       isActive: true,
     };
 
@@ -108,7 +109,8 @@ const Credentials = () => {
               startDate: onetimeCodesData?.data?.startDate,
               endDate: onetimeCodesData?.data?.endDate,
               codeType: onetimeCodesData?.data?.codeType,
-              code: onetimeCodesData?.data?.code
+              code: onetimeCodesData?.data?.code,
+              carNumber: onetimeCodesData?.data?.carNumber
             }
           };
           setVisitorsModal(true);

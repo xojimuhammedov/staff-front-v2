@@ -65,22 +65,12 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
   return (
     <div
       className={twMerge(
-        "relative bg-card rounded-2xl shadow-md overflow-hidden",
+        "relative bg-card rounded-2xl shadow-base overflow-hidden",
         "transition-all duration-300 ease-out",
         "hover:shadow-lg hover:-translate-y-1",
         "border border-border/50 group"
       )}
     >
-      {/* Left accent */}
-      <div
-        className={twMerge(
-          "absolute left-0 top-0 bottom-0 w-1.5 transition-all duration-300",
-          isActive
-            ? "bg-gradient-to-b from-emerald-400 to-emerald-600"
-            : "bg-gradient-to-b from-red-400 to-red-600"
-        )}
-      />
-
       <div className="p-4 pl-6">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
@@ -148,17 +138,17 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
           </div>
 
           {/* Car Number */}
-          {!!carNumber && (
-            <div className="space-y-1.5">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                {t("Car Number")}
+          <div className={twMerge("space-y-1.5", !carNumber && "invisible")}>
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              {t("Car Number")}
+            </span>
+            <div className="flex items-center gap-2">
+              <Car className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm font-medium text-foreground">
+                {carNumber || "—"}
               </span>
-              <div className="flex items-center gap-2">
-                <Car className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-foreground">{carNumber}</span>
-              </div>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Time Section */}

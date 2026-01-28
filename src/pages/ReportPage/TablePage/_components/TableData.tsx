@@ -86,13 +86,13 @@ const TableData = () => {
     };
 
 
-    // const handleBack = () => {
-    //     setSearchParams((prev) => {
-    //         const next = new URLSearchParams(prev);
-    //         next.set("current-step", "1");
-    //         return next;
-    //     }, { replace: true });
-    // };
+    const handleBack = () => {
+        setSearchParams((prev) => {
+            const next = new URLSearchParams(prev);
+            next.set("current-step", "1");
+            return next;
+        }, { replace: true });
+    };
 
     if (isLoading) {
         return (
@@ -104,7 +104,7 @@ const TableData = () => {
     return (
         <div className='flex flex-col w-full h-full overflow-hidden border p-4 rounded-m'>
             <div className='flex items-center mb-4 gap-4 justify-end'>
-                {/* <MyButton variant='secondary' onClick={handleBack} startIcon={<ArrowLeftToLine />}>{t("Previous")}</MyButton> */}
+                <MyButton variant='secondary' onClick={handleBack} startIcon={<ArrowLeftToLine />}>{t("Previous")}</MyButton>
                 <MyButton onClick={downloadExcel.onDownload} startIcon={<Download />} variant='secondary'>{t("Download")}</MyButton>
             </div>
             <div className='min-h-0 flex-1 overflow-hidden'>

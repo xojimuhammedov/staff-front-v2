@@ -27,8 +27,8 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
     const hydratedRef = useRef(false);
     const prevDepRef = useRef<number | undefined>(undefined);
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
-    const page = Number(searchParams.get("page") ?? 1);
-    const limit = Number(searchParams.get("limit") ?? 10);
+    const page = Number(searchParams.get("page") || 1);
+    const limit = Number(searchParams.get("limit") || 10);
 
     const { data } = useGetAllQuery<any>({
         key: KEYS.getEmployeeList,
