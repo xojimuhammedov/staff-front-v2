@@ -67,7 +67,13 @@ const SidebarMenu: FC<SidebarMenuProps> = ({ menu, sidebar_menu_type }) => {
               <div
                 className="flex cursor-pointer items-center gap-2"
                 onClick={() => handleClick(path)}>
-                {/* <IconByName name={icon} className="h-5 w-5 text-text-subtle" /> */}
+                <IconByName
+                  name={icon}
+                  className={twMerge(
+                    'h-5 w-5 text-text-subtle dark:text-subtext-color-dark',
+                    selected === path ? 'text-bg-brand' : ''
+                  )}
+                />
                 <span
                   className={twMerge(
                     'settings-text',
