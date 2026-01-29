@@ -210,11 +210,12 @@ export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: Oneti
         </div>
 
         <div className="mt-6">
-          <div className="px-5 py-3 border-t border-border/30 dark:border-dark-line flex items-center justify-between">
+
+          <div className="border-t border-border/30 dark:border-dark-line flex items-center justify-between">
             <button
               onClick={() => onToggle(code)}
               className={twMerge(
-                'flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
+                'flex items-center gap-2 px-3 mt-2 rounded-lg text-sm font-medium transition-all duration-200',
                 isActive
                   ? 'text-emerald-600 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-emerald-900/30'
                   : 'text-muted-foreground hover:bg-muted/50 dark:text-text-subtle dark:hover:bg-bg-form'
@@ -228,7 +229,7 @@ export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: Oneti
               {onDelete && (
                 <button
                   onClick={() => setConfirmOpen(true)}
-                  className="p-2 rounded-lg text-muted-foreground hover:text-red-600 hover:bg-red-50 transition-all duration-200"
+                  className="rounded-lg text-muted-foreground hover:text-red-600 mt-2 hover:bg-red-50 transition-all duration-200"
                   type="button"
                 >
                   <Trash2 className="w-4 h-4" />
