@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
   QrCode,
   Car,
@@ -8,10 +8,12 @@ import {
   Download,
   ToggleLeft,
   ToggleRight,
+  Trash2,
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
+import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 
 type CredentialType = 'QR' | 'CAR' | 'CARD' | 'PHOTO' | 'PERSONAL_CODE';
 
@@ -25,6 +27,7 @@ interface CredentialCardProps {
   updatedAt?: string | Date | null;
   organizationId?: string | number | null;
   onToggleActive?: (id: string) => void;
+  onDelete?: (id: string) => void;
   onDownload?: any;
   code?: string | undefined;
 }
@@ -88,9 +91,11 @@ export default function CredentialCard({
   updatedAt,
   organizationId,
   onToggleActive,
+  onDelete,
   code,
 }: CredentialCardProps) {
   const { t } = useTranslation();
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const config = typeConfig[type];
   const TypeIcon = config.icon;
@@ -262,24 +267,38 @@ export default function CredentialCard({
               <Download onClick={downloadQR} className="w-4 h-4" />
             </button>
           )}
-
-          {/* <button
+{/* 
+          <button
                         onClick={() => onEdit?.(id)}
                         className="p-2 rounded-lg text-muted-foreground hover:text-amber-600 hover:bg-amber-50 transition-all duration-200"
                         type="button"
                     >
                         <Pencil className="w-4 h-4" />
-                    </button>
-
-                    <button
-                        onClick={() => onDelete?.(id)}
-                        className="p-2 rounded-lg text-muted-foreground hover:text-red-600 hover:bg-red-50 transition-all duration-200"
-                        type="button"
-                    >
-                        <Trash2 className="w-4 h-4" />
                     </button> */}
+
+          {onDelete && (
+            <button
+              onClick={() => setConfirmOpen(true)}
+              className="p-2 rounded-lg text-muted-foreground hover:text-red-600 hover:bg-red-50 transition-all duration-200"
+              type="button"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
+      {onDelete && (
+        <ConfirmationModal
+          title={t('Are you sure you want to delete this credential?')}
+          subTitle={t("This action cannot be undone!")}
+          open={confirmOpen}
+          setOpen={setConfirmOpen}
+          confirmationDelete={() => {
+            onDelete(id);
+            setConfirmOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }

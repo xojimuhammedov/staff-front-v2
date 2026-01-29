@@ -2,7 +2,7 @@ import Button from 'components/Atoms/MyButton';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import Form from './Create';
@@ -60,6 +60,9 @@ const Credentials = () => {
     listKeyId: KEYS.credentials,
     hideSuccessToast: true,
   });
+  const { mutate: deleteCredential } = useDeleteQuery({
+    listKeyId: KEYS.credentials,
+  });
 
   const onSubmit = () => {
     update(
@@ -78,6 +81,23 @@ const Credentials = () => {
         onError: (e: any) => {
           console.log(e);
           toast.error(e?.response?.data?.error?.message);
+        },
+      }
+    );
+  };
+
+  const handleDelete = (credentialId: string) => {
+    deleteCredential(
+      {
+        url: `${URLS.credentials}/${credentialId}`,
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Deleted successfully!'));
+          refetch();
+        },
+        onError: (e: any) => {
+          toast.error(e?.response?.data?.error?.message || t('Delete failed'));
         },
       }
     );
@@ -147,6 +167,7 @@ const Credentials = () => {
                 setActive(item);
                 setOpen(true);
               }}
+              onDelete={handleDelete}
               code={item?.code || undefined}
             />
           )
