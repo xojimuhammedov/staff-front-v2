@@ -62,8 +62,18 @@ const TypeList = ({ data, isLoading, refetch }: any) => {
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
                         {row?.[`${currentLang}`]}
                     </div>
-                )
+                )  
             },
+            {
+                key: 'OrganizationName',             
+                label: t('Organization name'),
+                headerClassName: 'sm:w-1/4 lg:flex-1',
+                cellRender: (row) => (
+                    <div className="flex items-center gap-4 dark:text-text-title-dark">
+                        {row?.organization?.fullName}
+                    </div>
+                )
+            }
         ],
         [t]
     );
@@ -72,6 +82,11 @@ const TypeList = ({ data, isLoading, refetch }: any) => {
         {
             id: 1,
             label: t('Reason value'),
+            headerClassName: 'sm:w-1/4 lg:flex-1'
+        },
+        {
+            id: 2,
+            label: t('Organization name'),
             headerClassName: 'sm:w-1/4 lg:flex-1'
         },
     ];

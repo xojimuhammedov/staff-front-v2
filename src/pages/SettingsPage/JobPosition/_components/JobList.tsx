@@ -65,6 +65,16 @@ const JobList = ({ data, isLoading, refetch }: any) => {
                 )
             },
             {
+                key: 'OrganizationName',
+                label: t('Organization name'),
+                headerClassName: 'sm:w-1/4 lg:flex-1',
+                cellRender: (row) => (
+                    <div className="flex items-center gap-4 dark:text-text-title-dark">
+                        {row?.organization?.fullName}
+                    </div>
+                )
+            },
+            {
                 key: 'employeesCount',
                 label: t('Employees count'),
                 headerClassName: 'sm:w-1/4 lg:flex-1 justify-center text-center',
@@ -86,6 +96,11 @@ const JobList = ({ data, isLoading, refetch }: any) => {
         },
         {
             id: 2,
+            label: t('Organization name'),
+            headerClassName: 'sm:w-1/4 lg:flex-1'
+        },
+        {
+            id: 3,
             label: t('Employees count'),
             headerClassName: 'sm:w-1/4 lg:flex-1 justify-center text-center'
         }
