@@ -65,9 +65,7 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
   return (
     <div
       className={twMerge(
-        "relative bg-card rounded-2xl shadow-base overflow-hidden",
-        "transition-all duration-300 ease-out",
-        "hover:shadow-lg hover:-translate-y-1",
+        "relative bg-card rounded-lg shadow-base overflow-hidden",
         "border border-border/50 group"
       )}
     >
@@ -82,10 +80,10 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
 
           <span
             className={twMerge(
-              "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300",
+              'px-3 py-1.5 rounded-lg text-xs font-semibold border-2 transition-all duration-200',
               isActive
-                ? "bg-emerald-100 text-emerald-700 shadow-sm shadow-emerald-200"
-                : "bg-red-100 text-red-700 shadow-sm shadow-red-200"
+                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-300 dark:border-emerald-800'
+                : 'border-red-400 text-red-500 dark:text-red-300 dark:border-red-800'
             )}
           >
             {isActive ? t("Active") : t("Inactive")}
@@ -210,7 +208,7 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
           <Button
             variant="secondary"
             className={twMerge(
-              "w-full py-3 rounded-xl font-medium text-sm",
+              "w-full py-3 rounded-lg font-medium text-sm",
               "transition-all duration-300 ease-out active:scale-[0.98]",
               "bg-transparent border-2",
               isActive

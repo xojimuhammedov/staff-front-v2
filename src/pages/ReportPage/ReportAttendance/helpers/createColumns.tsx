@@ -2,29 +2,23 @@ import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types
 import MyAvatar from 'components/Atoms/MyAvatar';
 import MyBadge from 'components/Atoms/MyBadge';
 import config from 'configs';
-import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import dayjs from 'dayjs';
-import { IAction } from 'interfaces/action.interface';
-import { View } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import ReasonModal from 'pages/Attendances/_components/ReasonModal';
-import { useNavigate } from 'react-router-dom';
 import AvatarIcon from '../../../../assets/icons/avatar.jpg';
 
-export const createColumns = ({ refetch }: any) => {
+export const createColumns = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const BADGE_CLASSES: Record<'orange' | 'red' | 'green' | 'blue', string> = {
     orange:
-      'bg-tag-orange-bg border border-tag-orange-icon [&_p]:text-tag-orange-text dark:bg-tag-orange-bg dark:border-tag-orange-icon dark:[&_p]:text-tag-orange-text',
+      'border border-tag-orange-icon [&_p]:text-tag-orange-text dark:border-tag-orange-icon dark:[&_p]:text-tag-orange-text',
     red:
-      'bg-tag-red-bg border border-tag-red-icon [&_p]:text-tag-red-text dark:bg-tag-red-bg dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
+      ' border border-tag-red-icon [&_p]:text-tag-red-text dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
     green:
-      'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text dark:bg-tag-green-bg dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
+      ' border border-tag-green-icon [&_p]:text-tag-green-text dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
     blue:
-      'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text dark:bg-tag-blue-bg dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
+      ' border border-tag-blue-icon [&_p]:text-tag-blue-text dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
   };
   const getProgressBarColor = (percent: number) => {
     if (percent < 40) {

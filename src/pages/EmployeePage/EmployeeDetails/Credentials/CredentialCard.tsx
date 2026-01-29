@@ -34,35 +34,35 @@ const typeConfig = {
     icon: QrCode,
     accent: 'border-l-blue-500',
     badge:
-      'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800',
+      'text-blue-700 border-blue-200 dark:text-blue-300 dark:border-blue-800',
     hoverGlow: 'hover:shadow-blue-100',
   },
   CAR: {
     icon: Car,
     accent: 'border-l-purple-500',
     badge:
-      'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800',
+      'text-purple-700 border-purple-200 dark:text-purple-300 dark:border-purple-800',
     hoverGlow: 'hover:shadow-purple-100',
   },
   CARD: {
     icon: CreditCard,
     accent: 'border-l-orange-500',
     badge:
-      'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-800',
+      'text-orange-700 border-orange-200 dark:text-orange-300 dark:border-orange-800',
     hoverGlow: 'hover:shadow-orange-100',
   },
   PHOTO: {
     icon: ScanFace,
     accent: 'border-l-teal-500',
     badge:
-      'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/30 dark:text-teal-300 dark:border-teal-800',
+      'text-teal-700 border-teal-200  dark:text-teal-300 dark:border-teal-800',
     hoverGlow: 'hover:shadow-teal-100',
   },
   PERSONAL_CODE: {
     icon: KeyRound,
     accent: 'border-l-indigo-500',
     badge:
-      'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:border-indigo-800',
+      'text-indigo-700 border-indigo-200 dark:text-indigo-300 dark:border-indigo-800',
     hoverGlow: 'hover:shadow-indigo-100',
   },
 } satisfies Record<CredentialType, any>;
@@ -86,7 +86,6 @@ export default function CredentialCard({
   isActive,
   createdAt,
   updatedAt,
-  organizationId,
   onToggleActive,
   code,
 }: CredentialCardProps) {
@@ -128,15 +127,6 @@ export default function CredentialCard({
                 <QRCodeCanvas value={code || ''} ref={canvasRef} size={80} includeMargin />
               )}
             </div>
-
-            {/* {code && (
-                            <button
-                                onClick={downloadQR}
-                                className="absolute -top-2 -right-2 w-8 h-8 rounded-lg bg-card border border-border shadow-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-muted"
-                            >
-                                <Download className="w-4 h-4 text-muted-foreground" />
-                            </button>
-                        )} */}
           </div>
         );
 
@@ -157,7 +147,7 @@ export default function CredentialCard({
 
       case 'CAR':
         return (
-          <div className="bg-gradient-to-r from-slate-100 to-slate-50 border-2 border-slate-300 rounded-lg px-4 py-2 shadow-inner dark:from-darkmode-800 dark:to-darkmode-700 dark:border-dark-line">
+          <div className="from-slate-100 to-slate-50 border-2 border-slate-300 rounded-lg px-4 py-2 shadow-inner dark:from-darkmode-800 dark:to-darkmode-700 dark:border-dark-line">
             <span className="font-mono text-xl font-bold tracking-wider text-slate-800 dark:text-text-title-dark">
               {value}
             </span>
@@ -175,7 +165,7 @@ export default function CredentialCard({
 
       case 'PERSONAL_CODE':
         return (
-          <div className="bg-gradient-to-br from-indigo-50 to-slate-50 border border-indigo-200 rounded-xl px-6 py-3 shadow-inner dark:from-darkmode-800 dark:to-darkmode-700 dark:border-indigo-800">
+          <div className="space-y-1">
             <span className="font-mono text-2xl font-bold tracking-widest text-indigo-900 dark:text-text-title-dark">
               {value}
             </span>
@@ -190,13 +180,12 @@ export default function CredentialCard({
   return (
     <div
       className={twMerge(
-        'relative bg-card dark:bg-dark-dashboard-cards rounded-2xl border-l-4 overflow-hidden',
+        'relative bg-card dark:bg-dark-dashboard-cards rounded-lg border-l-4 overflow-hidden',
         'border border-border/50 dark:border-dark-line',
         'shadow-sm',
         config.accent,
       )}
       style={{
-        // animationDelay: `${delay}ms`,
         animationFillMode: 'forwards',
       }}
     >
@@ -218,8 +207,8 @@ export default function CredentialCard({
             className={twMerge(
               'px-3 py-1.5 rounded-lg text-xs font-semibold border-2 transition-all duration-200',
               isActive
-                ? 'border-emerald-500 text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-800'
-                : 'border-red-400 text-red-500 bg-red-50 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800'
+                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-300 dark:border-emerald-800'
+                : 'border-red-400 text-red-500 dark:text-red-300 dark:border-red-800'
             )}
           >
             {isActive ? t('Active') : t('Inactive')}
