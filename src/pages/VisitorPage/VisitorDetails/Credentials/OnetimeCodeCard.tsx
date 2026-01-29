@@ -1,48 +1,54 @@
-import { useMemo, useState } from "react";
-import { Car, Copy, Check, Clock } from "lucide-react";
-import dayjs from "dayjs";
-import { useTranslation } from "react-i18next";
-import Button from "components/Atoms/MyButton";
-import { twMerge } from "tailwind-merge";
+import { useMemo, useState } from 'react';
+import { Car, Copy, Check, Clock, ToggleLeft, ToggleRight, Trash2 } from 'lucide-react';
+import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import { twMerge } from 'tailwind-merge';
+import Button from 'components/Atoms/MyButton';
+import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 
 interface OnetimeCodeCardProps {
   code: any; // backend object
   onToggle: (code: any) => void;
+  onDelete?: (code: any) => void;
   onCopy?: (code: any) => void; // ixtiyoriy
 }
 
-export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCardProps) {
+export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: OnetimeCodeCardProps) {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const accessCode = code?.code ?? "--";
-  const codeType = (code?.codeType ?? "ONETIME") as "ONETIME" | "MULTIPLE";
+  const accessCode = code?.code ?? '--';
+  const codeType = (code?.codeType ?? 'ONETIME') as 'ONETIME' | 'MULTIPLE';
   const isActive = !!code?.isActive;
 
-  const visitorName = `${code?.visitor?.firstName} ${code?.visitor?.lastName}` || t("Visitor");
+  const visitorName = `${code?.visitor?.firstName} ${code?.visitor?.lastName}` || t('Visitor');
 
   const carNumber = code?.carNumber || code?.carNo || undefined;
 
-  const startTime = useMemo(() => (code?.startDate ? new Date(code.startDate) : null), [code?.startDate]);
+  const startTime = useMemo(
+    () => (code?.startDate ? new Date(code.startDate) : null),
+    [code?.startDate]
+  );
   const endTime = useMemo(() => (code?.endDate ? new Date(code.endDate) : null), [code?.endDate]);
 
   const handleCopy = async () => {
-    if (!accessCode || accessCode === "--") return;
+    if (!accessCode || accessCode === '--') return;
     await navigator.clipboard.writeText(accessCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const formatDateTime = (d: Date | null) => {
-    if (!d) return "--";
-    return dayjs(d).format("DD MMM YYYY – HH:mm");
+    if (!d) return '--';
+    return dayjs(d).format('DD MMM YYYY – HH:mm');
   };
 
   const getDurationHours = () => {
-    if (!startTime || !endTime) return "--";
+    if (!startTime || !endTime) return '--';
     const diffMs = endTime.getTime() - startTime.getTime();
     const hours = Math.max(0, Math.round(diffMs / (1000 * 60 * 60)));
-    return `${hours} ${t("hours")}`;
+    return `${hours} ${t('hours')}`;
   };
 
   const getProgress = () => {
@@ -58,22 +64,22 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
   const progress = getProgress();
 
   const codeTypeBadgeColors = {
-    ONETIME: "bg-blue-100 text-blue-700",
-    MULTIPLE: "bg-purple-100 text-purple-700",
+    ONETIME: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+    MULTIPLE: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
   } as const;
 
   return (
     <div
       className={twMerge(
-        "relative bg-card rounded-lg shadow-base overflow-hidden",
-        "border border-border/50 group"
+        'relative bg-card rounded-lg shadow-base overflow-hidden',
+        'border border-border/50 dark:border-dark-line dark:bg-bg-dark-bg group'
       )}
     >
       <div className="p-4 pl-6">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div className="space-y-1">
-            <h3 className="text-base font-semibold text-foreground tracking-tight">
+            <h3 className="text-base font-semibold text-foreground dark:text-text-title-dark tracking-tight">
               {visitorName}
             </h3>
           </div>
@@ -86,7 +92,7 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
                 : 'border-red-400 text-red-500 dark:text-red-300 dark:border-red-800'
             )}
           >
-            {isActive ? t("Active") : t("Inactive")}
+            {isActive ? t('Active') : t('Inactive')}
           </span>
         </div>
 
@@ -94,19 +100,19 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
         <div className="grid grid-cols-2 gap-4 mb-6">
           {/* Access Code */}
           <div className="space-y-1.5">
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {t("Access Code")}
+            <span className="text-xs font-medium text-muted-foreground dark:text-white uppercase tracking-wider">
+              {t('Access Code')}
             </span>
             <div className="flex items-center gap-2">
-              <code className="font-mono text-sm font-semibold text-foreground bg-muted/50 px-2 py-1 rounded-md">
+              <code className="font-mono text-sm font-semibold text-foreground dark:text-text-title-dark bg-muted/50 dark:bg-bg-form px-2 py-1 rounded-md">
                 {accessCode}
               </code>
               <button
                 onClick={handleCopy}
                 className={twMerge(
-                  "p-1.5 rounded-md transition-all duration-200",
-                  "hover:bg-muted/80 active:scale-95",
-                  copied && "text-emerald-600"
+                  'p-1.5 rounded-md transition-all duration-200',
+                  'hover:bg-muted/80 dark:hover:bg-bg-form active:scale-95',
+                  copied && 'text-emerald-600 dark:text-emerald-300'
                 )}
                 type="button"
                 aria-label="Copy access code"
@@ -114,20 +120,20 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
                 {copied ? (
                   <Check className="w-4 h-4" />
                 ) : (
-                  <Copy className="w-4 h-4 text-muted-foreground" />
+                  <Copy className="w-4 h-4 text-muted-foreground dark:text-text-subtle" />
                 )}
               </button>
             </div>
           </div>
 
           {/* Code Type */}
-          <div className="space-y-1.5">
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {t("Code Type")}
+          <div className="space-y-1.5 ">
+            <span className="text-xs font-medium text-muted-foreground mr-2 dark:text-white uppercase tracking-wider">
+              {t('Code Type')}
             </span>
             <span
               className={twMerge(
-                "inline-block px-2.5 py-1 rounded-md text-xs font-medium",
+                'inline-block px-2.5 py-1 rounded-md text-xs font-medium',
                 codeTypeBadgeColors[codeType]
               )}
             >
@@ -136,89 +142,112 @@ export default function OnetimeCodeCardNewUI({ code, onToggle }: OnetimeCodeCard
           </div>
 
           {/* Car Number */}
-          <div className={twMerge("space-y-1.5", !carNumber && "invisible")}>
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {t("Car Number")}
+          <div className={twMerge('space-y-1.5', !carNumber && 'invisible')}>
+            <span className="text-xs font-medium text-muted-foreground dark:text-white uppercase tracking-wider">
+              {t('Car Number')}
             </span>
             <div className="flex items-center gap-2">
-              <Car className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">
-                {carNumber || "—"}
+              <Car className="w-4 h-4 text-muted-foreground dark:text-text-subtle" />
+              <span className="text-sm font-medium text-foreground dark:text-text-title-dark">
+                {carNumber || '—'}
               </span>
             </div>
           </div>
         </div>
 
         {/* Time Section */}
-        <div className="bg-muted/30 rounded-xl space-y-4">
+        <div className="bg-muted/30  space-y-4">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 min-w-0">
-              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                <Clock className="w-4 h-4 text-emerald-600" />
+              <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
+                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-300" />
               </div>
               <div className="min-w-0">
-                <p className="text-xs text-muted-foreground">{t("Start Time")}</p>
-                <p className="text-sm font-medium text-foreground truncate">
+                <p className="text-xs text-muted-foreground dark:text-white">{t('Start Time')}</p>
+                <p className="text-sm font-medium text-foreground dark:text-text-title-dark truncate">
                   {formatDateTime(startTime)}
                 </p>
               </div>
             </div>
 
             <div className="text-center shrink-0">
-              <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+              <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium dark:text-primary">
                 {getDurationHours()}
               </span>
             </div>
 
             <div className="flex items-center gap-2 min-w-0">
               <div className="min-w-0">
-                <p className="text-xs text-muted-foreground ">{t("End Time")}</p>
-                <p className="text-sm font-medium text-foreground truncate">
+                <p className="text-xs text-muted-foreground dark:text-white">{t('End Time')}</p>
+                <p className="text-sm font-medium text-foreground dark:text-text-title-dark truncate">
                   {formatDateTime(endTime)}
                 </p>
               </div>
-              <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-                <Clock className="w-4 h-4 text-red-600" />
+              <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
+                <Clock className="w-4 h-4 text-red-600 dark:text-red-300" />
               </div>
             </div>
           </div>
 
           {/* Progress */}
-          <div className="relative h-2 bg-muted rounded-full overflow-hidden">
+          <div className="relative h-2 bg-muted dark:bg-gray-800 rounded-full overflow-hidden">
             <div
               className={twMerge(
-                "absolute left-0 top-0 h-full rounded-full transition-all duration-500",
+                'absolute left-0 top-0 h-full rounded-full transition-all duration-500',
                 isActive
-                  ? "bg-gradient-to-r from-emerald-400 to-emerald-500"
-                  : "bg-gradient-to-r from-red-400 to-red-500"
+                  ? 'bg-gradient-to-r from-emerald-400 to-emerald-500'
+                  : 'bg-gradient-to-r from-red-400 to-red-500'
               )}
               style={{ width: `${progress}%` }}
             />
             {isActive && progress < 100 && progress > 0 && (
               <div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-emerald-500 rounded-full shadow-lg animate-pulse"
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-emerald-500 dark:bg-emerald-400 rounded-full shadow-lg animate-pulse"
                 style={{ left: `calc(${progress}% - 6px)` }}
               />
             )}
           </div>
         </div>
 
-        {/* Footer action (sen eski Button logikangni shu yerga ulaysan) */}
         <div className="mt-6">
-          <Button
-            variant="secondary"
-            className={twMerge(
-              "w-full py-3 rounded-lg font-medium text-sm",
-              "transition-all duration-300 ease-out active:scale-[0.98]",
-              "bg-transparent border-2",
-              isActive
-                ? "border-emerald-500 text-emerald-600 hover:bg-emerald-50"
-                : "border-red-500 text-red-600 hover:bg-red-50"
-            )}
-            onClick={() => onToggle(code)}
-          >
-            {isActive ? t("Inactive") : t("Active")}
-          </Button>
+          <div className="px-5 py-3 border-t border-border/30 dark:border-dark-line flex items-center justify-between">
+            <button
+              onClick={() => onToggle(code)}
+              className={twMerge(
+                'flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
+                isActive
+                  ? 'text-emerald-600 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-emerald-900/30'
+                  : 'text-muted-foreground hover:bg-muted/50 dark:text-text-subtle dark:hover:bg-bg-form'
+              )}
+              type="button"
+            >
+              {isActive ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
+              <span className="hidden sm:inline">{isActive ? t('Inactive') : t('Active')}</span>
+            </button>
+            <div className="flex items-center gap-1">
+              {onDelete && (
+                <button
+                  onClick={() => setConfirmOpen(true)}
+                  className="p-2 rounded-lg text-muted-foreground hover:text-red-600 hover:bg-red-50 transition-all duration-200"
+                  type="button"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
+          {onDelete && (
+            <ConfirmationModal
+              title={t('Are you sure you want to delete this code?')}
+              subTitle={t('This action cannot be undone!')}
+              open={confirmOpen}
+              setOpen={setConfirmOpen}
+              confirmationDelete={() => {
+                onDelete(code);
+                setConfirmOpen(false);
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -291,6 +291,8 @@
   "Remove": "Remove",
   "Exit time": "Exit time",
   "Access time": "Access time",
+  "Access Code": "Access Code",
+  "Code Type": "Code Type",
   "Not detected": "Not detected",
   "Applications monitoring": "Applications monitoring",
   "Keystroke monitoring": "Keystroke monitoring",
