@@ -47,7 +47,7 @@ const ReportAttendance = () => {
         startDate: dayjs().subtract(7, 'day').format("YYYY-MM-DD"),
     }
 
-    const { data, isLoading, refetch } = useGetAllQuery({
+    const { data, isLoading } = useGetAllQuery({
         key: KEYS.attendacesForEmployee,
         url: URLS.attendacesForEmployee,
         params: {
@@ -121,7 +121,7 @@ const ReportAttendance = () => {
                     </div>
                 </div>
             </div>
-            <ReportAttendanceList data={data} isLoading={isLoading} refetch={refetch} />
+            <ReportAttendanceList data={data} isLoading={isLoading} />
         </PageContentWrapper>
     );
 }

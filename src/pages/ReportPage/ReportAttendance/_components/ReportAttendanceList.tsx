@@ -6,8 +6,8 @@ import Loading from 'assets/icons/Loading';
 import { IFilter } from 'interfaces/filter.interface';
 import { createColumns } from '../helpers/createColumns';
 
-const ReportAttendanceList = ({ data, isLoading, refetch }: any) => {
-  const { columns, dataColumn } = createColumns({ refetch })
+const ReportAttendanceList = ({ data, isLoading }: any) => {
+  const { columns, dataColumn } = createColumns()
 
   if (isLoading) {
     return (

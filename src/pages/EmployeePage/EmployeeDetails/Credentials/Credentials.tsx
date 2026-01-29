@@ -93,7 +93,6 @@ const Credentials = () => {
       },
       {
         onSuccess: () => {
-          toast.success(t('Deleted successfully!'));
           refetch();
         },
         onError: (e: any) => {
