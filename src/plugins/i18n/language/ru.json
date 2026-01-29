@@ -290,6 +290,8 @@
   "Remove": "Удалить",
   "Exit time": "Время выхода",
   "Access time": "Время доступа",
+  "Access Code": "Код доступа",
+  "Code Type": "Тип кода",
   "Not detected": "Не обнаружен",
   "Applications monitoring": "Мониторинг приложений",
   "Keystroke monitoring": "Мониторинг клавиш",

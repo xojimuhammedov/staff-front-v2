@@ -294,6 +294,8 @@
   "Remove": "O‘chirish",
   "Exit time": "Chiqish vaqti",
   "Access time": "Kirish vaqti",
+  "Access Code": "Kirish kodi",
+  "Code Type": "Kod turi",
   "Not detected": "Aniqlanmadi",
   "Applications monitoring": "Ilovalarni kuzatish",
   "Keystroke monitoring": "Klaviatura bosishlarini kuzatish",

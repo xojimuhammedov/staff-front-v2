@@ -1,7 +1,7 @@
 import Button from 'components/Atoms/MyButton';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useGetAllQuery, usePostQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery, usePostQuery } from 'hooks/api';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -64,6 +64,9 @@ const Credentials = () => {
     listKeyId: KEYS.getOnetimeCodes,
     hideSuccessToast: true,
   });
+  const { mutate: deleteOnetimeCode } = useDeleteQuery({
+    listKeyId: KEYS.getOnetimeCodes,
+  });
 
   const onSubmitOnetimeCode = () => {
     updateOnetimeCode(
@@ -125,6 +128,24 @@ const Credentials = () => {
     );
   };
 
+  const handleDeleteOnetimeCode = (code: any) => {
+    if (!code?.id) return;
+    deleteOnetimeCode(
+      {
+        url: `${URLS.getOnetimeCodes}/${code.id}`,
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Successfully deleted!'));
+          refetchOnetimeCodes();
+        },
+        onError: (e: any) => {
+          toast.error(e?.response?.data?.error?.message || t('Update failed'));
+        },
+      }
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -178,11 +199,14 @@ const Credentials = () => {
                 className="animate-fade-in-up"
                 style={{ animationDelay: `${100 + idx * 50}ms` }}
               >
-                <OnetimeCodeCardNewUI code={code}
+                <OnetimeCodeCardNewUI
+                  code={code}
                   onToggle={(code) => {
                     setActive(code);
                     setOpen(true);
-                  }} />
+                  }}
+                  onDelete={handleDeleteOnetimeCode}
+                />
               </div>
             ))}
           </div>

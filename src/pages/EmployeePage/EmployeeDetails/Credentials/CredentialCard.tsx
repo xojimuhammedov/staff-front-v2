@@ -255,15 +255,6 @@ export default function CredentialCard({
               <Download onClick={downloadQR} className="w-4 h-4" />
             </button>
           )}
-          {/* 
-          <button
-                        onClick={() => onEdit?.(id)}
-                        className="p-2 rounded-lg text-muted-foreground hover:text-amber-600 hover:bg-amber-50 transition-all duration-200"
-                        type="button"
-                    >
-                        <Pencil className="w-4 h-4" />
-                    </button> */}
-
           {onDelete && (
             <button
               onClick={() => setConfirmOpen(true)}
