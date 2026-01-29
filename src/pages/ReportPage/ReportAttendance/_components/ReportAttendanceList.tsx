@@ -4,10 +4,10 @@ import { IEmployee } from 'interfaces/employee/employee.interface';
 import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
 import { IFilter } from 'interfaces/filter.interface';
-import { createReportAttendanceColumns } from '../helpers/createReportAttendanceColumns';
+import { createColumns } from '../helpers/createColumns';
 
-const ReportAttendanceList = ({ data, isLoading }: any) => {
-  const { columns, dataColumn, rowActions } = createReportAttendanceColumns()
+const ReportAttendanceList = ({ data, isLoading, refetch }: any) => {
+  const { columns, dataColumn } = createColumns({ refetch })
 
   if (isLoading) {
     return (
@@ -31,7 +31,6 @@ const ReportAttendanceList = ({ data, isLoading }: any) => {
           hasAction={false}
           hasCustomizeColumns={true}
           dataColumn={dataColumn}
-          rowActions={rowActions}
           pagination={data}
         />
       </TableProvider>
