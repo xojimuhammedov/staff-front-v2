@@ -47,11 +47,11 @@ const StatCard: React.FC<StatCardProps & { link?: string }> = ({
     >
       <div
         className={`
-      ${bgColor} dark:bg-opacity-20
+      ${bgColor} border
       w-16 h-16 rounded-[20px]
       flex items-center justify-center
       shrink-0
-    
+  
     `}
       >
         <div className={`${iconColor}`}>{icon}</div>
@@ -101,7 +101,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       value: String(totalEmployees ?? 0),
       change: Number(newEmployeesCount) > 0 ? `+${newEmployeesCount}` : '0',
       changeType: Number(newEmployeesCount) > 0 ? 'increase' as const : 'neutral' as const,
-      bgColor: 'bg-purple-100',
+      bgColor: 'border-purple-600',
       iconColor: 'text-purple-600',
       link: '/employees',
     },
@@ -111,7 +111,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       value: String(totalComputers ?? 0),
       change: Number(newComputersCount ?? 0) > 0 ? `+${newComputersCount}` : '0',
       changeType: Number(newComputersCount ?? 0) > 0 ? 'increase' as const : 'neutral' as const,
-      bgColor: 'bg-pink-100',
+      bgColor: 'border-pink-600',
       iconColor: 'text-pink-600',
       link: '/device',
     },
@@ -121,7 +121,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       value: String(totalDepartments ?? 0),
       change: Number(newDepartmentsCount) > 0 ? `+${newDepartmentsCount}` : '0',
       changeType: Number(newDepartmentsCount) > 0 ? 'increase' as const : 'neutral' as const,
-      bgColor: 'bg-blue-100',
+      bgColor: 'border-blue-600',
       iconColor: 'text-blue-600',
       link: '/department',
     },
@@ -131,7 +131,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       value: String(totalOrganizations ?? 0),
       change: Number(newOrganizationsCount) > 0 ? `+${newOrganizationsCount}` : '0',
       changeType: Number(newOrganizationsCount) > 0 ? 'increase' as const : 'neutral' as const,
-      bgColor: 'bg-yellow-100',
+      bgColor: 'border-yellow-600',
       iconColor: 'text-yellow-600',
       link: '/organization',
     },

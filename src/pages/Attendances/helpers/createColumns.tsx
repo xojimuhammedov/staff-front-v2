@@ -18,13 +18,13 @@ export const createColumns = ({ refetch }: any) => {
 
   const BADGE_CLASSES: Record<'orange' | 'red' | 'green' | 'blue', string> = {
     orange:
-      'bg-tag-orange-bg border border-tag-orange-icon [&_p]:text-tag-orange-text dark:bg-tag-orange-bg dark:border-tag-orange-icon dark:[&_p]:text-tag-orange-text',
+      ' border border-tag-orange-icon [&_p]:text-tag-orange-text  dark:border-tag-orange-icon dark:[&_p]:text-tag-orange-text',
     red:
-      'bg-tag-red-bg border border-tag-red-icon [&_p]:text-tag-red-text dark:bg-tag-red-bg dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
+      ' border border-tag-red-icon [&_p]:text-tag-red-text  dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
     green:
-      'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text dark:bg-tag-green-bg dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
+      ' border border-tag-green-icon [&_p]:text-tag-green-text  dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
     blue:
-      'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text dark:bg-tag-blue-bg dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
+      ' border border-tag-blue-icon [&_p]:text-tag-blue-text  dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
   };
   const getProgressBarColor = (percent: number) => {
     if (percent < 40) {

@@ -41,11 +41,11 @@ const VisitorTable = () => {
   // const { data: validateMap, isLoading: validating } = useValidateCodes(uniqueCodes);
   const STATUS_BADGE_CLASSES: Record<'green' | 'blue' | 'neutral', string> = {
     green:
-      'bg-tag-green-bg border border-tag-green-icon [&_p]:text-tag-green-text dark:bg-tag-green-hover dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
+      ' border border-tag-green-icon [&_p]:text-tag-green-text  dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
     blue:
-      'bg-tag-blue-bg border border-tag-blue-icon [&_p]:text-tag-blue-text dark:bg-tag-blue-hover dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
+      ' border border-tag-blue-icon [&_p]:text-tag-blue-text  dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
     neutral:
-      'bg-tag-neutral-bg border border-tag-neutral-icon [&_p]:text-tag-neutral-text dark:bg-tag-neutral-hover dark:border-tag-neutral-icon dark:[&_p]:text-tag-neutral-text',
+      ' border border-tag-neutral-icon [&_p]:text-tag-neutral-text  dark:border-tag-neutral-icon dark:[&_p]:text-tag-neutral-text',
   };
 
   const renderStatus = (row: any) => {
