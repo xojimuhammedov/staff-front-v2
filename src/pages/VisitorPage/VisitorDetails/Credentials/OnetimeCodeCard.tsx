@@ -3,14 +3,13 @@ import { Car, Copy, Check, Clock, ToggleLeft, ToggleRight, Trash2 } from 'lucide
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
-import Button from 'components/Atoms/MyButton';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 
 interface OnetimeCodeCardProps {
-  code: any; // backend object
+  code: any;
   onToggle: (code: any) => void;
   onDelete?: (code: any) => void;
-  onCopy?: (code: any) => void; // ixtiyoriy
+  onCopy?: (code: any) => void;
 }
 
 export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: OnetimeCodeCardProps) {

@@ -38,8 +38,9 @@ const SidebarMenu: FC<SidebarMenuProps> = ({ menu, sidebar_menu_type }) => {
               <div className="text-text-muted dark:text-text-title-dark">{title}</div>
               <IconByName
                 name={'ChevronDown'}
+                size={16}
                 className={twMerge(
-                  'h-5 w-5 cursor-pointer text-text-muted dark:text-text-title-dark transition-all duration-300',
+                  'cursor-pointer text-text-muted dark:text-text-title-dark transition-all duration-300',
                   openMenu ? '-rotate-180' : ''
                 )}
                 onClick={() => setOpenMenu(!openMenu)}
@@ -69,8 +70,9 @@ const SidebarMenu: FC<SidebarMenuProps> = ({ menu, sidebar_menu_type }) => {
                 onClick={() => handleClick(path)}>
                 <IconByName
                   name={icon}
+                  size={16}
                   className={twMerge(
-                    'h-5 w-5 text-text-subtle dark:text-subtext-color-dark',
+                    'text-text-subtle dark:text-subtext-color-dark',
                     selected === path ? 'text-bg-brand' : ''
                   )}
                 />
