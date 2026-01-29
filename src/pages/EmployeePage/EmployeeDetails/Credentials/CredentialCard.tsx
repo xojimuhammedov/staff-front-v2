@@ -3,7 +3,7 @@ import {
   QrCode,
   Car,
   CreditCard,
-  Camera,
+  ScanFace ,
   KeyRound,
   Download,
   ToggleLeft,
@@ -52,7 +52,7 @@ const typeConfig = {
     hoverGlow: 'hover:shadow-orange-100',
   },
   PHOTO: {
-    icon: Camera,
+    icon: ScanFace,
     accent: 'border-l-teal-500',
     badge:
       'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/30 dark:text-teal-300 dark:border-teal-800',
@@ -148,7 +148,7 @@ export default function CredentialCard({
                 <img src={imageUrl} alt="Photo" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full bg-muted/30 dark:bg-bg-form flex items-center justify-center">
-                  <Camera className="w-8 h-8 text-muted-foreground/50" />
+                  <ScanFace className="w-8 h-8 text-muted-foreground/50" />
                 </div>
               )}
             </div>

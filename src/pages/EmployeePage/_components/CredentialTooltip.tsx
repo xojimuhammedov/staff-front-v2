@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { QrCode, Car, CreditCard, ScanFace, Hash } from "lucide-react";
+import { QrCode, Car, CreditCard, KeyRound, ScanFace } from "lucide-react";
 
 type CredentialType = "QR" | "CAR" | "CARD" | "PHOTO" | "PERSONAL_CODE";
 
@@ -17,7 +17,7 @@ const TYPE_META: Record<
     CAR: { type: "CAR", Icon: Car },
     QR: { type: "QR", Icon: QrCode },
     PHOTO: { type: "FACE", Icon: ScanFace },
-    PERSONAL_CODE: { type: "PASSWORD", Icon: Hash },
+    PERSONAL_CODE: { type: "PASSWORD", Icon: KeyRound },
 };
 
 function getUniqueTypesWithStatus(credentials: Credential[]) {
@@ -49,11 +49,11 @@ export function CredentialIcons({ credentials }: { credentials: Credential[] }) 
                 const tooltipText = anyActive ? "Active" : "Inactive";
                 const Icon = meta.Icon;
                 const typeStyles: Record<CredentialType, string> = {
-                    CARD: " text-blue-600 border-blue-200  dark:text-blue-300 dark:border-blue-800",
-                    PHOTO: " text-green-600 border-green-200  dark:text-green-300 dark:border-green-800",
-                    QR: " text-purple-600 border-purple-200  dark:text-purple-300 dark:border-purple-800",
-                    PERSONAL_CODE: " text-cyan-600 border-cyan-200  dark:text-cyan-300 dark:border-cyan-800",
-                    CAR: " text-slate-600 border-slate-200  dark:text-slate-300 dark:border-slate-800",
+                    QR: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800",
+                    CAR: "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800",
+                    CARD: "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-800",
+                    PHOTO: "bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/30 dark:text-teal-300 dark:border-teal-800",
+                    PERSONAL_CODE: "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:border-indigo-800",
                 };
                 const badgeClasses = anyActive
                     ? typeStyles[type]
