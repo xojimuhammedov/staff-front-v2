@@ -49,11 +49,11 @@ export function CredentialIcons({ credentials }: { credentials: Credential[] }) 
                 const tooltipText = anyActive ? "Active" : "Inactive";
                 const Icon = meta.Icon;
                 const typeStyles: Record<CredentialType, string> = {
-                    CARD: "bg-blue-100 text-blue-600 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800",
-                    PHOTO: "bg-green-100 text-green-600 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800",
-                    QR: "bg-purple-100 text-purple-600 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800",
-                    PERSONAL_CODE: "bg-cyan-100 text-cyan-600 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-800",
-                    CAR: "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-900/30 dark:text-slate-300 dark:border-slate-800",
+                    CARD: " text-blue-600 border-blue-200  dark:text-blue-300 dark:border-blue-800",
+                    PHOTO: " text-green-600 border-green-200  dark:text-green-300 dark:border-green-800",
+                    QR: " text-purple-600 border-purple-200  dark:text-purple-300 dark:border-purple-800",
+                    PERSONAL_CODE: " text-cyan-600 border-cyan-200  dark:text-cyan-300 dark:border-cyan-800",
+                    CAR: " text-slate-600 border-slate-200  dark:text-slate-300 dark:border-slate-800",
                 };
                 const badgeClasses = anyActive
                     ? typeStyles[type]
