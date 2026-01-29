@@ -246,8 +246,7 @@ export default function CredentialCard({
           {type === 'QR' && code && (
             <button
               onClick={downloadQR}
-              className="p-2 rounded-lg text-muted-foreground hover:text-blue-600 hover:bg-blue-50 transition-all duration-200"
-            >
+              className="p-2 rounded-lg text-muted-foreground hover:text-blue-600 hover:bg-blue-50 transition-all duration-200">
               <Download onClick={downloadQR} className="w-4 h-4" />
             </button>
           )}

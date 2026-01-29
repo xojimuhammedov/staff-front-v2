@@ -8,14 +8,12 @@ import { URLS } from 'constants/url';
 import { useGetAllQuery } from 'hooks/api';
 import { useForm, Controller } from 'react-hook-form';
 import { MySelect } from 'components/Atoms/Form';
-import { ISelect } from 'interfaces/select.interface';
 import ColumnsButton from 'components/Atoms/DataGrid/ColumnsButton';
 import { searchValue } from 'types/search';
 import { paramsStrToObj } from 'utils/helper';
 import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
-import MyDivider from 'components/Atoms/MyDivider';
 
 const ReportAttendance = () => {
     const { t } = useTranslation();
@@ -82,13 +80,8 @@ const ReportAttendance = () => {
 
     return (
         <PageContentWrapper>
-            <div className="flex items-center justify-between">
-                <MyBreadCrumb pageTitle={t('Attendance report')} items={breadCrumbs} />
-            </div>
-            <MyDivider />
             <div className='flex justify-between items-center'>
-                <div className="flex flex-col">
-                </div>
+                <MyBreadCrumb pageTitle={t('Attendance report')} items={breadCrumbs} />
                 <div className='flex items-center gap-4'>
                     <div className='flex items-center w-[240px]'>
                         <Controller
