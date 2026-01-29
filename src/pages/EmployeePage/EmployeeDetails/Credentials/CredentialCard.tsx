@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import {
   QrCode,
   Car,
@@ -91,7 +91,6 @@ export default function CredentialCard({
   code,
 }: CredentialCardProps) {
   const { t } = useTranslation();
-  const [isHovered, setIsHovered] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const config = typeConfig[type];
   const TypeIcon = config.icon;
@@ -192,20 +191,14 @@ export default function CredentialCard({
     <div
       className={twMerge(
         'relative bg-card dark:bg-dark-dashboard-cards rounded-2xl border-l-4 overflow-hidden',
-        'transition-all duration-300 ease-out',
-        'animate-fade-in-up',
         'border border-border/50 dark:border-dark-line',
-        'shadow-sm hover:shadow-xl',
+        'shadow-sm',
         config.accent,
-        config.hoverGlow,
-        isHovered && 'transform -translate-y-1'
       )}
       style={{
         // animationDelay: `${delay}ms`,
         animationFillMode: 'forwards',
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Header */}
       <div className="p-5 pb-1">

@@ -14,11 +14,19 @@ import { searchValue } from 'types/search';
 import { paramsStrToObj } from 'utils/helper';
 import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
+import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
+import MyDivider from 'components/Atoms/MyDivider';
 
 const ReportAttendance = () => {
     const { t } = useTranslation();
     const location = useLocation();
     const searchValue: searchValue = paramsStrToObj(location.search);
+    const breadCrumbs = [
+        {
+            label: t('Attendance report'),
+            url: '#'
+        }
+    ];
 
     const { 'current-setting': _, ...apiParams } = searchValue as any;
     const { control, watch } = useForm({
@@ -74,6 +82,10 @@ const ReportAttendance = () => {
 
     return (
         <PageContentWrapper>
+            <div className="flex items-center justify-between">
+                <MyBreadCrumb pageTitle={t('Attendance report')} items={breadCrumbs} />
+            </div>
+            <MyDivider />
             <div className='flex justify-between items-center'>
                 <div className="flex flex-col">
                 </div>
