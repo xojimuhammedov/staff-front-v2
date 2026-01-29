@@ -59,6 +59,12 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
         cellRender: (row) => <>{row?.username ?? '--'}</>
       },
       {
+        key: 'organization',
+        label: t('Organization name'),
+        headerClassName: 'w-1/3',
+        cellRender: (row) => <>{row?.organization?.fullName ?? '--'}</>
+      },
+      {
         key: 'role',
         label: t('Role'),
         headerClassName: 'w-1/3',
@@ -81,6 +87,11 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
     },
     {
       id: 3,
+      label: t('Organization name'),
+      headerClassName: 'w-1/3',
+    },
+    {
+      id: 4,
       label: t('Role'),
       headerClassName: 'w-1/3',
     }
