@@ -64,6 +64,16 @@ const JobList = ({ data, isLoading, refetch }: any) => {
                     </div>
                 )
             },
+            {
+                key: 'employeesCount',
+                label: t('Employees count'),
+                headerClassName: 'sm:w-1/4 lg:flex-1 justify-center text-center',
+                cellRender: (row) => (
+                    <div className="flex items-center justify-center dark:text-text-title-dark">
+                        {row?._count?.employees}
+                    </div>
+                )
+            }
         ],
         [t]
     );
@@ -74,6 +84,11 @@ const JobList = ({ data, isLoading, refetch }: any) => {
             label: t('Position'),
             headerClassName: 'sm:w-1/4 lg:flex-1'
         },
+        {
+            id: 2,
+            label: t('Employees count'),
+            headerClassName: 'sm:w-1/4 lg:flex-1 justify-center text-center'
+        }
     ];
 
     const rowActions: IAction[] = useMemo(
