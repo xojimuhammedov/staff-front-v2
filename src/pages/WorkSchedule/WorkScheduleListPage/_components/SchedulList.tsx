@@ -17,6 +17,7 @@ import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Clock, Edit3, Plus, Trash2 } from 'lucide-react';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { searchValue } from 'types/search';
+import { twMerge } from 'tailwind-merge';
 
 
 const WorkScheduleList = () => {
@@ -47,6 +48,35 @@ const WorkScheduleList = () => {
             {row?.name ?? "--"}
           </div>
         )
+      },
+        {
+        key: 'weekdays',
+        label: t('Weekdays'),
+        headerClassName: 'w-1/3',
+        cellRender: (row) => {
+          const selected = Array.isArray(row?.weekdays) ? row.weekdays : [];
+          const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+          return (
+            <div className="flex flex-wrap items-center gap-1">
+              {days.map((day) => {
+                const isActive = selected.includes(day);
+                return (
+                  <span
+                    key={day}
+                    className={twMerge(
+                      'flex h-5 min-w-[20px] items-center justify-center rounded-md px-1 text-[11px] font-semibold uppercase',
+                      isActive
+                        ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+                        : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
+                    )}
+                  >
+                    {day[0]}
+                  </span>
+                );
+              })}
+            </div>
+          );
+        },
       },
       {
         key: 'department',
@@ -98,11 +128,16 @@ const WorkScheduleList = () => {
     },
     {
       id: 3,
-      label: t('Time'),
+      label: t('Weekdays'),
       headerClassName: 'w-1/3'
     },
     {
       id: 4,
+      label: t('Time'),
+      headerClassName: 'w-1/3'
+    },
+    {
+      id: 5,
       label: t('Extra time'),
       headerClassName: 'w-1/3'
     }

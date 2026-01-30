@@ -300,6 +300,7 @@
   "Not detected": "Not detected",
   "pcs": "pcs",
   "min": "min",
+  "Weekdays": "Weekdays",
   "Applications monitoring": "Applications monitoring",
   "Keystroke monitoring": "Keystroke monitoring",
   "Screenshots monitoring": "Screenshots monitoring",
@@ -666,5 +667,6 @@
   "Credentials": "Credentials" ,
   "Select employee": "Select employee" ,
   "Pinfl or Passport Number": "Pinfl or Passport Number",
-  "Select position": "Select position"
+  "Select position": "Select position",
+  "Create new organization": "Create new organization"
 }

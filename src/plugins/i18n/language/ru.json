@@ -299,6 +299,7 @@
   "Not detected": "Не обнаружен",
   "pcs": "шт",
   "min": "мин",
+  "Weekdays": "Дни недели",
   "Applications monitoring": "Мониторинг приложений",
   "Keystroke monitoring": "Мониторинг клавиш",
   "Screenshots monitoring": "Мониторинг скриншотов",
@@ -665,6 +666,7 @@
   "Credentials": "Учетные данные",
   "Select employee": "Выберите сотрудника",
   "Pinfl or Passport Number": "ПИНФЛ или номер паспорта",
-  "Select position": "Выберите должность"
+  "Select position": "Выберите должность",
+  "Create new organization": "Создать новую организацию"  
 
 }
