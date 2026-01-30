@@ -297,6 +297,8 @@
   "Gate": "Gate",
   "Entry type": "Entry type",
   "Not detected": "Not detected",
+  "pcs": "pcs",
+  "min": "min",
   "Applications monitoring": "Applications monitoring",
   "Keystroke monitoring": "Keystroke monitoring",
   "Screenshots monitoring": "Screenshots monitoring",
@@ -403,7 +405,6 @@
   "Work on time": "Work on time",
   "Join Date": "Join Date",
   "Visitor updated successfully!": "Visitor updated successfully!",
-  "Update failed": "Update failed",
   "Invalid visitor ID": "Invalid visitor ID",
   "work_time_format": "{{hours}}h {{minutes}}m",
   "Working now": "Working now",
@@ -659,5 +660,6 @@
   "Table data": "Table data",
   " Create a schedule": "Jadval tuzish",
   "Department list": "Department lists",
-  "Back to schedule list": "Back to schedule list"
+  "Back to schedule list": "Back to schedule list",
+  "Employees count":"Employees count"
 }

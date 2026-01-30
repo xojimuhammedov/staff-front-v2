@@ -300,6 +300,8 @@
   "Gate": "Darvoza",
   "Entry type": "Yo'nalish",
   "Not detected": "Aniqlanmadi",
+  "pcs": "ta",
+  "min": "min",
   "Applications monitoring": "Ilovalarni kuzatish",
   "Keystroke monitoring": "Klaviatura bosishlarini kuzatish",
   "Screenshots monitoring": "Ekran rasmlarini kuzatish",
@@ -404,7 +406,6 @@
   "Work on time": "Ishlash vaqti",
   "Join Date": "Ishga kirgan sana",
   "Visitor updated successfully!": "Mehmon muvaffaqiyatli yangilandi!",
-  "Update failed": "Yangilashda xatolik yuz berdi",
   "Invalid visitor ID": "Mehmon ID noto‘g‘ri",
   "work_time_format": "{{hours}} soat {{minutes}} daqiqa",
   "Working now": "Hozir ishlayapti",
@@ -657,5 +658,6 @@
   "Table data": "Jadval ma'lumotlari" ,
   "Create a schedule": "Jadval tuzish" ,
   "Department list": "Bo‘limlar ro‘yxati",
-  "Back to schedule list": "Jadval ro‘yxatiga qaytish"
+  "Back to schedule list": "Jadval ro‘yxatiga qaytish",
+  "Employees count":"Xodimlar soni"
  }

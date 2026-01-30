@@ -115,7 +115,7 @@ const AttendancesCard: React.FC<any> = ({
             value: String(totalEmployees ?? 0),
             percent: totalEmployeesPercent,
             color: 'green',
-            link: "/employees",
+            link: "/attendances",
         },
         {
             title: t('Late employees'),
