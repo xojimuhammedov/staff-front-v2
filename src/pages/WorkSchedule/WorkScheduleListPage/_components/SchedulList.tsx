@@ -44,12 +44,17 @@ const WorkScheduleList = () => {
         label: t('Schedule name'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
-            {row?.name ?? "--"}
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-text-base dark:text-text-title-dark">
+              {row?.name ?? "--"}
+            </span>
+            <span className="text-xs text-text-muted dark:text-text-subtle">
+              {row?.organization?.shortName ?? row?.organization?.fullName ?? "--"}
+            </span>
           </div>
         )
       },
-        {
+      {
         key: 'weekdays',
         label: t('Weekdays'),
         headerClassName: 'w-1/3',
@@ -70,19 +75,13 @@ const WorkScheduleList = () => {
                         : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
                     )}
                   >
-                    {day[0]}
+                    {day.slice(0, 3)}
                   </span>
                 );
               })}
             </div>
           );
         },
-      },
-      {
-        key: 'department',
-        label: t('Organization'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => <div className="department-text">{row?.organization?.fullName ?? '--'}</div>
       },
       {
         key: 'workTime',
@@ -123,21 +122,16 @@ const WorkScheduleList = () => {
     },
     {
       id: 2,
-      label: t('Organization'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 3,
       label: t('Weekdays'),
       headerClassName: 'w-1/3'
     },
     {
-      id: 4,
+      id: 3,
       label: t('Time'),
       headerClassName: 'w-1/3'
     },
     {
-      id: 5,
+      id: 4,
       label: t('Extra time'),
       headerClassName: 'w-1/3'
     }
