@@ -21,7 +21,7 @@ const EditVisitor = () => {
       <div className='flex items-center justify-between'>
         <div className="flex flex-col">
           <h1 className="headers-core text-text-base dark:text-text-title-dark">
-            {t('Edit Visitor')}
+            {t('Edit visitor')}
           </h1>
           <MyBreadCrumb items={breadCrumbs} />
         </div>

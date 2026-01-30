@@ -47,8 +47,8 @@ const DepartmentList = ({ setShowModal, showModal }: any) => {
                 }}
             />
             <ConfirmationModal
-                title={t("Bu tashkilotni o'chirmoqchimisiz?")}
-                subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+                title={t("Are you sure you want to delete this department?")}
+                subTitle={t("This action cannot be undone!")}
                 open={open} setOpen={setOpen} confirmationDelete={deleteItem} />
             <MyModal
                 modalProps={{

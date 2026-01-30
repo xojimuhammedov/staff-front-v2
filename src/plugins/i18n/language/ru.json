@@ -24,6 +24,7 @@
   "Employees": "Сотрудники",
   "Departments": "Отделы",
   "Guests": "Посетители",
+  "Visitors": "Посетители",
   "Work schedule": "Рабочий график",
   "Reason type": "Тип причины",
   "Job name": "Название должности",
@@ -659,6 +660,11 @@
   "Create a schedule": "Создать график",
   "Department list": "Список отделов" ,
   "Back to schedule list": "Вернуться к списку расписаний",
-  "Employees count":"Количество сотрудников"
+  "Employees count":"Количество сотрудников" ,
+  "Gates": "Входы",
+  "Credentials": "Учетные данные",
+  "Select employee": "Выберите сотрудника",
+  "Pinfl or Passport Number": "ПИНФЛ или номер паспорта",
+  "Select position": "Выберите должность"
 
 }
