@@ -296,6 +296,8 @@
   "Gate": "Ворота",
   "Entry type": "Тип входа",
   "Not detected": "Не обнаружен",
+  "pcs": "шт",
+  "min": "мин",
   "Applications monitoring": "Мониторинг приложений",
   "Keystroke monitoring": "Мониторинг клавиш",
   "Screenshots monitoring": "Мониторинг скриншотов",
@@ -402,7 +404,6 @@
   "Work on time": "Приход время",
   "Join Date": "Дата приема",
   "Visitor updated successfully!": "Посетитель успешно обновлен!",
-  "Update failed": "Не удалось обновить",
   "Invalid visitor ID": "Неверный ID посетителя",
   "work_time_format": "{{hours}}ч {{minutes}}м",
   "Working now": "Работает сейчас",
@@ -657,6 +658,7 @@
   "Table data": "Данные таблицы" ,
   "Create a schedule": "Создать график",
   "Department list": "Список отделов" ,
-  "Back to schedule list": "Вернуться к списку расписаний"
+  "Back to schedule list": "Вернуться к списку расписаний",
+  "Employees count":"Количество сотрудников"
 
 }

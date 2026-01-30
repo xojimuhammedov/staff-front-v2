@@ -14,7 +14,7 @@ import { IFilter } from 'interfaces/filter.interface';
 import { IAction } from 'interfaces/action.interface';
 import { paramsStrToObj } from 'utils/helper';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { Edit3, Plus, Trash2 } from 'lucide-react';
+import { Clock, Edit3, Plus, Trash2 } from 'lucide-react';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { searchValue } from 'types/search';
 
@@ -55,22 +55,31 @@ const WorkScheduleList = () => {
         cellRender: (row) => <div className="department-text">{row?.organization?.fullName ?? '--'}</div>
       },
       {
-        key: 'startTime',
-        label: t('Start time'),
+        key: 'workTime',
+        label: t('Time'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.startTime ?? '--'}</>
-      },
-      {
-        key: 'endTime',
-        label: t('End time'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.endTime ?? '--'}</>
+        cellRender: (row) => (
+          <div className="flex items-center gap-2 text-text-base dark:text-text-title-dark">
+            <span className="font-medium">{row?.startTime ?? '--'}</span>
+            <span className="text-text-muted dark:text-subtext-color-dark">-</span>
+            <span className="font-medium">{row?.endTime ?? '--'}</span>
+          </div>
+        )
       },
       {
         key: 'extraTime',
         label: t('Extra time'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.extraTime ?? '--'}</>
+        cellRender: (row) => (
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 dark:border-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/70 dark:bg-white/10">
+              <Clock className="h-3.5 w-3.5" />
+            </span>
+            <span>
+              {row?.extraTime ?? 0} {t('min')}
+            </span>
+          </div>
+        )
       }
     ],
     [t]
@@ -89,16 +98,11 @@ const WorkScheduleList = () => {
     },
     {
       id: 3,
-      label: t('Start time'),
+      label: t('Time'),
       headerClassName: 'w-1/3'
     },
     {
       id: 4,
-      label: t('End time'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 5,
       label: t('Extra time'),
       headerClassName: 'w-1/3'
     }

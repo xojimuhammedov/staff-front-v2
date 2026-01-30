@@ -12,7 +12,7 @@ import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
 import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { Edit3, Search, Trash2 } from 'lucide-react';
+import { Edit3, Search, Trash2, Users } from 'lucide-react';
 import MyModal from 'components/Atoms/MyModal';
 import Edit from './Edit';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
@@ -79,8 +79,13 @@ const JobList = ({ data, isLoading, refetch }: any) => {
                 label: t('Employees count'),
                 headerClassName: 'sm:w-1/4 lg:flex-1 justify-center text-center',
                 cellRender: (row) => (
-                    <div className="flex items-center justify-center dark:text-text-title-dark">
-                        {row?._count?.employees}
+                    <div className="flex items-center justify-center gap-2 text-text-base dark:text-text-title-dark">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-300">
+                            <Users className="h-4 w-4" />
+                        </span>
+                        <span className="text-sm font-semibold">
+                            {row?._count?.employees ?? 0} {t('pcs')}
+                        </span>
                     </div>
                 )
             }
