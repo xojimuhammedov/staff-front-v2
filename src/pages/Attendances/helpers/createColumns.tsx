@@ -37,7 +37,7 @@ export const createColumns = ({ refetch }: any) => {
   };
 
   const renderBadge = (variant: 'orange' | 'red' | 'green' | 'blue', text: string) => (
-    <MyBadge className={BADGE_CLASSES[variant]} variant={variant}>
+    <MyBadge className={`${BADGE_CLASSES[variant]} min-w-max`} variant={variant}>
       {text}
     </MyBadge>
   );
@@ -65,7 +65,7 @@ export const createColumns = ({ refetch }: any) => {
         label: t('Employee name'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
+          <div className="flex items-center gap-2 dark:text-text-title-dark">
             <MyAvatar
               size="medium"
               imageUrl={

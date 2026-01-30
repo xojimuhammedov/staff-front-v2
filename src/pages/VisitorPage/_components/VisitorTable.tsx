@@ -124,7 +124,7 @@ const VisitorTable = () => {
         cellRender: (row) => (
           <div className='flex items-center gap-1'>
             {row?.workPlace ? <Briefcase size={16} className="dark:text-white" /> : null}
-            <p className='dark:text-white'>{row?.workPlace ?? '--'}</p>
+            <p className='dark:text-white min-w-max'>{row?.workPlace ?? '--'}</p>
           </div>
         ),
       },
