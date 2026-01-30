@@ -302,6 +302,7 @@
   "Not detected": "Aniqlanmadi",
   "pcs": "ta",
   "min": "min",
+  "Weekdays": "Kunlar",
   "Applications monitoring": "Ilovalarni kuzatish",
   "Keystroke monitoring": "Klaviatura bosishlarini kuzatish",
   "Screenshots monitoring": "Ekran rasmlarini kuzatish",
@@ -665,5 +666,6 @@
   "Select employee": "Xodimni tanlang",
   "Credentials": "Ishonch yorliqlari", 
   "Pinfl or Passport Number": "JShShIR yoki pasport raqami" ,
-  "Select position": "Lavozimni tanlang"
+  "Select position": "Lavozimni tanlang" ,
+  "Create new organization": "Yangi tashkilot yaratish"
  }
