@@ -53,7 +53,8 @@ const Chart: FC<ChartProps> = ({
         },
         series: series.map((item) => ({ type, ...item })),
         tooltip: {
-            trigger: 'axis'
+            trigger: 'axis' ,
+            // textStyle: { color: isDark ? '#E5E7EB' : '#111827' }
         },
     };
 

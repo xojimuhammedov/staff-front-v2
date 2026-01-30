@@ -17,6 +17,12 @@ const EmployeeRow = ({ employee, isEffective = true }: any) => {
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-text-title-dark">
                         {employee.name}
                     </h3>
+                    <p className="text-s text-text-muted dark:text-white">
+                        {typeof employee?.department === 'string'
+                            ? employee.department
+                            :
+                            '--'}
+                    </p>
                     <div className="flex items-center gap-1 pb-1">
                         <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1 overflow-hidden">
                             <div

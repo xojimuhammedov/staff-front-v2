@@ -8,7 +8,7 @@ import Productivity from 'pages/EmployeePage/EmployeeDetails/View/_components/Pr
 import { CheckCircle2, XCircle } from 'lucide-react';
 
 const DepartmentInfo = () => {
-    const { lineChartData, control, departmentInfo, topEmployee, bottomEmployee } = useDepartment()
+    const { lineChartData, departmentInfo, topEmployee, bottomEmployee } = useDepartment()
     return (
         <div>
             <DetailsInfo departmentInfo={departmentInfo} />

@@ -113,7 +113,7 @@ const ColumnsButton = () => {
     >
       <div ref={dropdownRef} className="py-2">
         <DropdownItemWrapper className="cursor-default px-4 py-2">
-          <p className="text-sm font-medium text-text-subtle">{t('Come Status')}</p>
+          <p className="text-sm font-medium text-text-subtle">{t('Come status')}</p>
         </DropdownItemWrapper>
 
         <DropdownItemWrapper className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
@@ -173,7 +173,7 @@ const ColumnsButton = () => {
 
         {/* Left Status Group */}
         <DropdownItemWrapper className="cursor-default px-4 py-2">
-          <p className="text-sm font-medium text-text-subtle">{t('Left Status')}</p>
+          <p className="text-sm font-medium text-text-subtle">{t('Left status')}</p>
         </DropdownItemWrapper>
 
         {statusOptionsLeft.map((option) => (

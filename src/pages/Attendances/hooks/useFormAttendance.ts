@@ -11,10 +11,13 @@ export const useFormAttendance = ({ row }: any) => {
     const { t } = useTranslation()
     const [open, setOpen] = useState(false);
     const { refetch } = useAttendance()
+    const organizationId = row?.employee?.organizationId ?? row?.organizationId;
     const { data }: any = useGetAllQuery({
         key: KEYS.attendancesReason,
         url: URLS.attendancesReason,
-        params: {}
+        params: {
+            organizationId
+        }
     })
 
     const { mutate: create } = usePutQuery({
