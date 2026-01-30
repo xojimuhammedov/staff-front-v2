@@ -32,7 +32,11 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
     const { t } = useTranslation()
     const formatWeekdaysRange = (weekdaysString: string) => {
         if (!weekdaysString) return '-';
-        const days = weekdaysString.split(',').map(d => d.trim());
+        const days = weekdaysString
+            .split(',')
+            .map(d => d.trim())
+            .filter(Boolean)
+            .map((day) => t(day));
         return days.length > 1
             ? `${days[0]} - ${days[days?.length - 1]}`
             : days[0] || '-';

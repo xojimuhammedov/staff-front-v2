@@ -512,6 +512,7 @@
   "End Time": "Tugash vaqti",
   "Wednesday": "Chorshanba",
   "Thursday": "Payshanba",
+  "Friday": "Juma",
   "Select role": "Rolni tanlang",
   "Add one type": "Bitta tur qo‘shish",
   "Monitor visitor attendance patterns and punctuality": "Mehmonlarning tashrif va punktuallik holatini nazorat qilish",
@@ -659,5 +660,10 @@
   "Create a schedule": "Jadval tuzish" ,
   "Department list": "Bo‘limlar ro‘yxati",
   "Back to schedule list": "Jadval ro‘yxatiga qaytish",
-  "Employees count":"Xodimlar soni"
+  "Employees count":"Xodimlar soni" ,
+  "Gates": "Darvozalar",
+  "Select employee": "Xodimni tanlang",
+  "Credentials": "Ishonch yorliqlari", 
+  "Pinfl or Passport Number": "JShShIR yoki pasport raqami" ,
+  "Select position": "Lavozimni tanlang"
  }
