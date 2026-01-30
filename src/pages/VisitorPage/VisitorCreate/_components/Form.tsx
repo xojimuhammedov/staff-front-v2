@@ -24,9 +24,11 @@ function Form() {
     codeTypeOptions,
     onetimeCodeControl,
     createdVisitor,
-    gateData,
     showVisitorDetailsModal,
     setShowVisitorDetailsModal,
+    options,
+    value,
+    handleChange
   } = useVisitorForm();
 
   return (
@@ -105,23 +107,14 @@ function Form() {
               />
             )}
           />
-          <Controller
-            name="gateId"
-            control={control}
-            render={({ field, fieldState }) => (
-              <MySelect
-                label={t('Select gate')}
-                options={gateData?.data?.map((evt: any) => ({
-                  label: evt.name,
-                  value: evt.id,
-                }))}
-                value={field.value as any}
-                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                onBlur={field.onBlur}
-                error={!!fieldState.error}
-                allowedRoles={['ADMIN', "HR", "DEPARTMENT_LEAD", "GUARD"]}
-              />
-            )}
+          <MySelect
+            isMulti
+            options={options}
+            className=''
+            label={t("Gates")}
+            value={value}
+            onChange={handleChange}
+            allowedRoles={['ADMIN', "HR", "DEPARTMENT_LEAD", "GUARD"]}
           />
           <Controller
             name="attachedId"

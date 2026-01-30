@@ -48,7 +48,7 @@ export const useFormAttendance = ({ row }: any) => {
         open,
         setOpen,
         reasonData: data,
-        onSubmit, 
+        onSubmit,
         handleSubmit,
         register,
         control,

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
@@ -14,14 +14,15 @@ import { useNavigate } from 'react-router-dom';
 export const useVisitorEditForm = (id: string) => {
   const { t } = useTranslation();
   const userData: any = storage.get('userData');
+  // const [selectGates, setSelectGates] = useState<number[]>([])
   const userRole = JSON.parse(userData)?.role;
   const navigate = useNavigate()
 
-  const { data: gateData } = useGetAllQuery<any>({
-    key: KEYS.getDoorGates,
-    url: URLS.getDoorGates,
-    params: {},
-  });
+  // const { data: gateData } = useGetAllQuery<any>({
+  //   key: KEYS.getDoorGates,
+  //   url: URLS.getDoorGates,
+  //   params: {},
+  // });
 
   const { data: visitorData, isLoading } = useGetOneQuery({
     id,
@@ -45,7 +46,30 @@ export const useVisitorEditForm = (id: string) => {
     context: { role: userRole },
   });
 
-  console.log(errors)
+  // useEffect(() => {
+  //   if (visitorData?.data?.gates) {
+
+  //     const savedGateIds =
+  //     visitorData?.data?.gates
+  //         ? visitorData?.data?.gates.map((g: any) => g.id)
+  //         : visitorData?.data?.gates || [];
+
+  //     setSelectGates(savedGateIds); // Bu yer muhim!
+  //   }
+  // }, [visitorData?.data?.gates]);
+
+  // const options = useMemo(() =>
+  //   gateData?.data?.map((item: any) => ({
+  //     label: item.name,
+  //     value: item.id,
+  //   })) || [],
+  //   [gateData?.data]);
+
+  // // Tanlangan optionlarni React Select ga berish uchun
+  // const selectedValues = useMemo(() =>
+  //   options.filter((option: any) => selectGates.includes(option.value)),
+  //   [options, selectGates]
+  // );
 
   useEffect(() => {
     const visitor = visitorData?.data ?? visitorData;
@@ -61,7 +85,7 @@ export const useVisitorEditForm = (id: string) => {
       phone: visitor.phone ?? '',
       passportNumberOrPinfl: visitor.passportNumberOrPinfl ?? '',
       workPlace: visitor.workPlace ?? '',
-      gateId: visitor.gateId ?? null,
+      // gateId: visitor.gateId ?? null,
     });
   }, [visitorData, reset]);
 
@@ -101,7 +125,7 @@ export const useVisitorEditForm = (id: string) => {
     control,
     errors,
     onSubmit,
-    gateData,
+    // gateData,
     isLoading,
   };
 };

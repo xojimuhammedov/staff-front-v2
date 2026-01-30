@@ -12,7 +12,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 function Form() {
   const { t } = useTranslation();
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -20,7 +19,7 @@ function Form() {
     control,
     errors,
     onSubmit,
-    gateData,
+    // gateData,
     isLoading,
   } = useVisitorEditForm(id ?? '');
 
@@ -97,7 +96,7 @@ function Form() {
           label={t('Pinfl or Passport Number')}
         />
 
-        <Controller
+        {/* <Controller
           name="gateId"
           control={control}
           render={({ field, fieldState }) => (
@@ -114,7 +113,7 @@ function Form() {
               allowedRoles={['ADMIN', 'HR', 'DEPARTMENT_LEAD', 'GUARD']}
             />
           )}
-        />
+        /> */}
       </div>
 
       <MyDivider />

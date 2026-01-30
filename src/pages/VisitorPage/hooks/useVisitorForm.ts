@@ -19,6 +19,7 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
   const userData: any = storage.get('userData');
   const userRole = JSON.parse(userData)?.role;
   const [createdVisitor, setCreatedVisitor] = useState<any>(null);
+  const [selectGates, setSelectGates] = useState<number[]>([]);
   const [showVisitorDetailsModal, setShowVisitorDetailsModal] = useState(false);
   const visitorIdRef = useRef<number | null>(null);
   const visitorCacheRef = useRef<any>(null);
@@ -38,11 +39,29 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
     },
   });
 
-  const { data: gateData } = useGetAllQuery<any>({
+  const { data: getDoor } = useGetAllQuery<any>({
     key: KEYS.getDoorGates,
     url: URLS.getDoorGates,
     params: {},
   });
+
+  const options =
+    getDoor?.data?.map((item: any) => ({
+      label: item.name,
+      value: item.id,
+    })) || [];
+
+  // value qiymatini options asosida topish
+  const value = options.filter((option: any) =>
+    selectGates.includes(option.value)
+  );
+
+  // onchange hodisasi
+  const handleChange = (selected: any) => {
+    const ids = selected.map((s: any) => s.value);
+    setSelectGates(ids);
+  };
+
 
   // Visitor form
   const {
@@ -91,6 +110,11 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
 
 
   const onSubmit = (visitorData: any) => {
+
+    if (!selectGates || selectGates.length === 0) {
+      return toast.error("Please select gates for visitor");
+    }
+
     const onetimeCodeData = getOnetimeCodeValues();
 
     // 👉 Agar visitor allaqachon yaratilgan bo‘lsa
@@ -99,11 +123,10 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
       return;
     }
 
-    console.log(visitorData)
-
     // 👉 Aks holda 1-API chaqiriladi
     const formattedData = {
       ...visitorData,
+      gateIds: selectGates,
       birthday: visitorData.birthday?.startDate
         ? dayjs(visitorData.birthday.startDate).format("YYYY-MM-DD")
         : null,
@@ -218,12 +241,14 @@ export const useVisitorForm = (refetch?: () => void, setShowCreateModal?: (show:
     onSubmit,
     organizationData,
     employeeData,
-    gateData,
     codeTypeOptions,
     onetimeCodeControl,
     onetimeCodeErrors,
     createdVisitor,
     showVisitorDetailsModal,
     setShowVisitorDetailsModal,
+    options,
+    value,
+    handleChange
   };
 };
