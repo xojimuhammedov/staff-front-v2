@@ -9,10 +9,7 @@ import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import MyBadge from 'components/Atoms/MyBadge';
 import Loading from 'assets/icons/Loading';
-import { IAction } from 'interfaces/action.interface';
-import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { ArrowLeftRight, Edit, ExternalLink, Eye, LogIn, LogOut, Trash2 } from 'lucide-react';
-import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import { ArrowLeftRight, ExternalLink, LogIn, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
@@ -148,6 +145,21 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
           );
         },
       },
+      {
+        key: 'actions',
+        label: t('Actions'),
+        headerClassName: 'sm:w-1/4 lg:flex-1',
+        cellRender: (row) => (
+          <button
+            type="button"
+            onClick={() => employeeForDoor(row?.id)}
+            className="inline-flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-900/30 dark:text-amber-300 dark:hover:bg-amber-900/50"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            {t('Open door')}
+          </button>
+        ),
+      },
     ],
     [t]
   );
@@ -173,46 +185,12 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
       label: t('Entry type'),
       headerClassName: 'sm:w-1/4 lg:flex-1',
     },
+    {
+      id: 5,
+      label: t('Actions'),
+      headerClassName: 'sm:w-1/4 lg:flex-1',
+    },
   ];
-
-  const rowActions: IAction[] = useMemo(
-    () => [
-      {
-        icon: <Eye size={DEFAULT_ICON_SIZE} />,
-        type: 'secondary',
-        name: t('View device'),
-        action: (row) => {
-          navigate(`/settings/device/${row.id}`);
-        },
-      },
-      {
-        icon: <Edit size={DEFAULT_ICON_SIZE} />,
-        type: 'danger',
-        name: t('Edit'),
-        action: (row) => {
-          navigate(`/device/edit/${row?.id}`);
-        },
-      },
-      {
-        icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
-        type: 'danger',
-        name: t('Delete'),
-        action: (row) => {
-          setDeviceId(row?.id);
-          setShow(true);
-        },
-      },
-      {
-        icon: <ExternalLink size={DEFAULT_ICON_SIZE} />,
-        type: 'danger',
-        name: t('Open door'),
-        action: (row) => {
-          employeeForDoor(row?.id);
-        },
-      },
-    ],
-    [t]
-  );
 
   if (isLoading) {
     return (
@@ -235,22 +213,11 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
           hasCustomizeColumns={false}
           hasExport={false}
           hasSearch={false}
-          rowActions={rowActions}
           dataColumn={dataColumn}
           hasCheckbox={false}
           isLoading={isLoading}
         />
       </TableProvider>
-
-      <ConfirmationModal
-        title={t('Are you sure you want to delete this device?')}
-        subTitle={t(
-          'This action cannot be undone. The device will be deleted and all linked devices will be removed.'
-        )}
-        open={show}
-        setOpen={setShow}
-        confirmationDelete={deleteItem}
-      />
     </>
   );
 };
