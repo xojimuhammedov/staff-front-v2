@@ -20,7 +20,7 @@ export function useEventsSocket(params: {
     const doneRef = useRef(false);
 
     useEffect(() => {
-        if (!jobId) return;
+        // if (!jobId) return;
 
         doneRef.current = false;
 
