@@ -8,6 +8,7 @@ export type JobEvents = {
   "job:completed": (data: any) => void;
   "job:failed": (data: any) => void;
   "events"?: (data: any) => void;
+  "action:created": (data: any) => void;
 };
 
 let socket: Socket<JobEvents> | null = null;
@@ -43,6 +44,10 @@ export function connectEventsSocket() {
   socket.on('connect', () => {
     console.log('✅ Socket ulandi:', socket?.id);
   });
+
+  socket.on("action:created", (data) => {
+    console.log(data)
+  })
 
   socket.on('connect_error', (error) => {
     console.error('❌ Ulanish xatosi:', error.message);

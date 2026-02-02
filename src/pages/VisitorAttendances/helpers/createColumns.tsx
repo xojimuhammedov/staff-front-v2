@@ -78,6 +78,15 @@ export const createColumns = () => {
                 headerClassName: 'w-1/4',
                 cellRender: (row) => <div className='text-text-base dark:text-text-title-dark'>{row?.entryType}</div>,
             },
+            {
+                key: 'gate',
+                label: t('Gate & device name'),
+                headerClassName: 'w-1/4',
+                cellRender: (row) => <div className='dark:text-text-title-dark flex flex-col'>
+                    <p className='text-base'>{row?.gate?.name}</p>
+                    <p className='text-xs'>{row.device?.name}</p>
+                </div>,
+            },
         ],
         [t]
     );
@@ -106,6 +115,11 @@ export const createColumns = () => {
         {
             id: 5,
             label: t('Entry type'),
+            headerClassName: 'w-1/4',
+        },
+        {
+            id: 6,
+            label: t('Gate & device name'),
             headerClassName: 'w-1/4',
         },
     ];

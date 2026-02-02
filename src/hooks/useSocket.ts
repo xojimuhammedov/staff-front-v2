@@ -12,8 +12,9 @@ export function useEventsSocket(params: {
     onProgress?: (data: any) => void;
     onStart?: (data: any) => void;
     onError?: (message: string) => void;
+    onActionCreated?: (data: any) => void; // ✅ NEW
 }) {
-    const { jobId, onDone, onProgress, onStart, onError } = params;
+    const { jobId, onDone, onProgress, onStart, onError, onActionCreated } = params;
 
     const socketRef = useRef<Socket<JobEvents> | null>(null);
     const doneRef = useRef(false);
@@ -54,6 +55,13 @@ export function useEventsSocket(params: {
             console.log("job:progress", data);
         };
 
+        const handleActionCreated = (data: any) => {
+            if (!isSameJob(data)) return;
+
+            console.log("action:created", data); // ✅ LOG
+            onActionCreated?.(data);
+        };
+
         const finishOnce = (payload: DonePayload) => {
             if (doneRef.current) return;
             doneRef.current = true;
@@ -67,6 +75,8 @@ export function useEventsSocket(params: {
             socket.off("job:progress", handleProgress);
             socket.off("job:completed", handleCompleted);
             socket.off("job:failed", handleFailed);
+            socket.off("action:created", handleActionCreated);
+
 
             disconnectEventsSocket();
             socketRef.current = null;
@@ -92,10 +102,13 @@ export function useEventsSocket(params: {
         socket.on("job:progress", handleProgress);
         socket.on("job:completed", handleCompleted);
         socket.on("job:failed", handleFailed);
+        socket.on("action:created", handleActionCreated);
+
 
         return () => {
             // component unmount bo‘lsa
             socket.off();
+            // socket.off("action:created", handleActionCreated);
             disconnectEventsSocket();
             socketRef.current = null;
         };

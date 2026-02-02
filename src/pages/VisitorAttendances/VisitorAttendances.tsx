@@ -16,6 +16,7 @@ import { searchValue } from 'types/search';
 import { useLocation } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import VisitorAttendanceList from './_components/VisitorAttendanceList';
+import { useEventsSocket } from 'hooks/useSocket';
 
 
 
@@ -65,6 +66,15 @@ const VisitorAttendances = () => {
             ...paramsValue,
             ...searchValue,
         }
+    });
+
+    useEventsSocket({
+        onDone: (payload) => {
+            console.log("DONE:", payload);
+        },
+        onActionCreated: (data) => {
+            console.log("ACTION CREATED:", data); // ✅ shu yerda ko'rasan
+        },
     });
 
     return (
