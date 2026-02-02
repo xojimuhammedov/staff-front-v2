@@ -127,7 +127,7 @@ const NavbarMenu = () => {
           icon: 'Attendance'
         },
         {
-          label: t('Visitor attendance'),
+          label: t('Action logs'),
           to: '/attendance/visitor',
           icon: 'AppWindow'
         },
@@ -212,12 +212,6 @@ const NavbarMenu = () => {
       isSubMenu: false,
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
     },
-    {
-      label: t('Guard'),
-      to: '/guards',
-      isSubMenu: false,
-      allowedRoles: ["GUARD"]
-    }
   ];
 
   const filteredMenuItems = menuItems?.filter((item: any) =>

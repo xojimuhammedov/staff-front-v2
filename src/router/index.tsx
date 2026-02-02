@@ -32,7 +32,6 @@ const ViewDepartment = lazy(() => import('pages/ViewDepartment'))
 const DeviceCreatePage = lazy(() => import('pages/SettingsPage/DevicePage/Create'))
 const DeviceEditPage = lazy(() => import('pages/SettingsPage/DevicePage/Edit'))
 const ViewDevice = lazy(() => import('pages/SettingsPage/DevicePage/_components/ViewDevice'))
-const GuardPage = lazy(() => import('pages/GuardPage'))
 const TablePage = lazy(() => import('pages/ReportPage/TablePage'))
 const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
 const VisitorAttendances = lazy(() => import('pages/VisitorAttendances'))
@@ -199,11 +198,6 @@ export const PrivateRoutes = [
     path: '/settings/device/:id',
     element: <ViewDevice />,
     roles: ["ADMIN", "HR"]
-  },
-  {
-    path: '/guards',
-    element: <GuardPage />,
-    roles: ["GUARD", "ADMIN"]
   },
   {
     path: '/reports/table',
