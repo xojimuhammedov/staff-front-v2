@@ -35,6 +35,7 @@ const ViewDevice = lazy(() => import('pages/SettingsPage/DevicePage/_components/
 const GuardPage = lazy(() => import('pages/GuardPage'))
 const TablePage = lazy(() => import('pages/ReportPage/TablePage'))
 const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
+const VisitorAttendances = lazy(() => import('pages/VisitorAttendances'))
 
 export const PublicRoutes = [
   {
@@ -208,6 +209,11 @@ export const PrivateRoutes = [
     path: '/reports/table',
     element: <TablePage />,
     roles: ["ADMIN", "HR"]
+  },
+  {
+    path: '/attendance/visitor',
+    element: <VisitorAttendances />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
   }
 ];
 

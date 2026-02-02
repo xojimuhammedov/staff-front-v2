@@ -114,14 +114,32 @@ const NavbarMenu = () => {
       to: '/',
       isSubMenu: false,
       allowedRoles: ['ADMIN', "HR", "DEPARTMENT_LEAD"]
-      
+
     },
     {
       label: t('Attendances'),
-      to: '/attendances',
-      isSubMenu: false,
+      to: '/attendance',
+      isSubMenu: true,
+      subRoutes: [
+        {
+          label: t('Attendances'),
+          to: '/attendances',
+          icon: 'Attendance'
+        },
+        {
+          label: t('Visitor attendance'),
+          to: '/attendance/visitor',
+          icon: 'AppWindow'
+        },
+      ],
       allowedRoles: ['ADMIN', "HR"]
     },
+    // {
+    //   label: t('Attendances'),
+    //   to: '/attendances',
+    //   isSubMenu: false,
+    //   allowedRoles: ['ADMIN', "HR"]
+    // },
     {
       label: t('Organization'),
       to: '/organization',

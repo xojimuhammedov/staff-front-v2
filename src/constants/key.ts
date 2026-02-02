@@ -48,5 +48,6 @@ export const KEYS = {
   employeeCredentialFileUpload: "employeeCredentialFileUpload",
   oneTimeCodeExpire: "oneTimeCodeExpire",
   dashboardTodayTop: "dashboardTodayTop",
-  dashboardTodayBottom: "dashboardTodayBottom"
+  dashboardTodayBottom: "dashboardTodayBottom",
+  actionAllList: "actionAllList"
 };

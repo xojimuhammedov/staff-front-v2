@@ -48,5 +48,6 @@ export const URLS = {
   employeeCredentialFileUpload: "/api/v1/credentials/upload-photo",
   oneTimeCodeExpire: "/api/v1/onetime-codes/validate",
   dashboardTodayTop: "/api/v1/dashboard/top-employees/useful",
-  dashboardTodayBottom:'/api/v1/dashboard/top-employees/unuseful'
+  dashboardTodayBottom:'/api/v1/dashboard/top-employees/unuseful',
+  actionAllList: "/api/v1/action/all-actions"
 };
