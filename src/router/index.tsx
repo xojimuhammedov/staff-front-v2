@@ -1,4 +1,5 @@
 import EmployeeDetails from 'pages/EmployeePage/EmployeeDetails';
+import DevicePage from 'pages/SettingsPage/DevicePage';
 import VisitorDetails from 'pages/VisitorPage/VisitorDetails';
 import { lazy } from 'react';
 
@@ -35,6 +36,8 @@ const ViewDevice = lazy(() => import('pages/SettingsPage/DevicePage/_components/
 const TablePage = lazy(() => import('pages/ReportPage/TablePage'))
 const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
 const VisitorAttendances = lazy(() => import('pages/VisitorAttendances'))
+const GuardDevicePage = lazy(() => import('pages/GuardRoleDevice/DevicePage'));
+
 
 export const PublicRoutes = [
   {
@@ -147,7 +150,7 @@ export const PrivateRoutes = [
   {
     path: "/employees/about/:id",
     element: <EmployeeDetails />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
   },
   {
     path: '/settings/door/edit/:id',
@@ -208,6 +211,16 @@ export const PrivateRoutes = [
     path: '/attendance/visitor',
     element: <VisitorAttendances />,
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
-  }
+  },
+  {
+    path: '/action',
+    element: <VisitorAttendances />,
+    roles: ["GUARD"]
+  }, 
+  {
+    path: '/devices',
+    element: <GuardDevicePage />,
+    roles: ["GUARD"]
+  },
 ];
 

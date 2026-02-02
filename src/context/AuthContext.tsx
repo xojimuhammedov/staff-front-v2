@@ -57,7 +57,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         window.localStorage.setItem('refreshToken', response.data?.refreshToken);
         window.localStorage.setItem('userData', JSON.stringify(response?.data?.user));
         if (response?.data?.user?.role === "GUARD") {
-          navigate("/guards")
+          navigate("/employees")
         }
         else {
           navigate("/")

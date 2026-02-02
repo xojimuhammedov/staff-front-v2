@@ -212,6 +212,19 @@ const NavbarMenu = () => {
       isSubMenu: false,
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
     },
+    {
+      label: t('Action'),
+      to: '/action',
+      isSubMenu: false,
+      allowedRoles: ["GUARD"]
+    },
+    {
+      label: t('Device'),
+      to: '/devices',
+      isSubMenu: false,
+      allowedRoles: ["GUARD"]
+
+    }
   ];
 
   const filteredMenuItems = menuItems?.filter((item: any) =>
