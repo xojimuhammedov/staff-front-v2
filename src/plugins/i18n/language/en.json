@@ -297,6 +297,19 @@
   "IP address / Model": "IP address / Model",
   "Gate": "Gate",
   "Entry type": "Entry type",
+  "Credential type": "Credential type",
+  "Action time": "Action time",
+  "User type": "User type",
+  "Gate & device name": "Gate & device name",
+  "ENTER": "ENTER",
+  "EXIT": "EXIT",
+  "EMPLOYEE": "EMPLOYEE",
+  "VISITOR": "VISITOR",
+  "PHOTO": "PHOTO",
+  "TOUCH": "TOUCH",
+  "PASSWORD": "PASSWORD",
+  "CARD": "CARD",
+  "CAR": "CAR",
   "Not detected": "Not detected",
   "pcs": "pcs",
   "min": "min",
@@ -668,5 +681,6 @@
   "Select employee": "Select employee" ,
   "Pinfl or Passport Number": "Pinfl or Passport Number",
   "Select position": "Select position",
-  "Create new organization": "Create new organization"
+  "Create new organization": "Create new organization" ,
+  "Device": "Device"
 }

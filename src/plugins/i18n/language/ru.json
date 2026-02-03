@@ -296,6 +296,19 @@
   "IP address / Model": "IP-адрес / Модель",
   "Gate": "Ворота",
   "Entry type": "Тип входа",
+  "Credential type": "Тип учетных данных",
+  "Action time": "Время действия",
+  "User type": "Тип пользователя",
+  "Gate & device name": "Ворота и устройство",
+  "ENTER": "ВХОД",
+  "EXIT": "ВЫХОД",
+  "EMPLOYEE": "СОТРУДНИК",
+  "VISITOR": "ПОСЕТИТЕЛЬ",
+  "PHOTO": "ФОТО",
+  "TOUCH": "ОТПЕЧАТОК",
+  "PASSWORD": "ПАРОЛЬ",
+  "CARD": "КАРТА",
+  "CAR": "АВТО",
   "Not detected": "Не обнаружен",
   "pcs": "шт",
   "min": "мин",
@@ -667,6 +680,7 @@
   "Select employee": "Выберите сотрудника",
   "Pinfl or Passport Number": "ПИНФЛ или номер паспорта",
   "Select position": "Выберите должность",
-  "Create new organization": "Создать новую организацию"  
+  "Create new organization": "Создать новую организацию" ,
+  "Device": "Устройство"
 
 }
