@@ -9,6 +9,7 @@ import {
   ToggleLeft,
   ToggleRight,
   Trash2,
+  Edit,
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { QRCodeCanvas } from 'qrcode.react';
@@ -27,6 +28,7 @@ interface CredentialCardProps {
   updatedAt?: string | Date | null;
   organizationId?: string | number | null;
   onToggleActive?: (id: string) => void;
+  onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
   onDownload?: any;
   code?: string | undefined;
@@ -90,6 +92,7 @@ export default function CredentialCard({
   createdAt,
   updatedAt,
   onToggleActive,
+  onEdit,
   onDelete,
   code,
 }: CredentialCardProps) {
@@ -258,13 +261,24 @@ export default function CredentialCard({
           {onDelete && (
             <button
               onClick={() => setConfirmOpen(true)}
-              className="p-2 rounded-lg text-muted-foreground hover:text-red-600 hover:bg-red-50 transition-all duration-200"
+              className="p-2 rounded-lg text-muted-foreground text-red-600 "
               type="button"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           )}
+
+          {onEdit && (
+            <button
+              onClick={() => onEdit(id)}
+              className="p-2 rounded-lg text-muted-foreground hover:text-amber-600 hover:bg-amber-50 transition-all duration-200"
+              type="button"
+            >
+              <Edit className="w-4 h-4" />
+            </button>
+          )}
         </div>
+       
       </div>
       {onDelete && (
         <ConfirmationModal

@@ -11,12 +11,14 @@ import { useState } from 'react';
 import config from 'configs';
 import { toast } from 'react-toastify';
 import { Controller, useForm } from 'react-hook-form';
-import { MySelect } from 'components/Atoms/Form';
+import { MyInput, MySelect } from 'components/Atoms/Form';
 import { credentialTypeData } from 'configs/type';
 import { ISelect } from 'interfaces/select.interface';
 import ConfirmationCredential from './Confirmation';
 import CredentialCard from './CredentialCard';
 import Loading from 'assets/icons/Loading';
+import MyButton from 'components/Atoms/MyButton/MyButton';
+import EditModal from './EditModal';
 
 const Credentials = () => {
   const { id } = useParams();
@@ -24,6 +26,10 @@ const Credentials = () => {
   const [showModal, setShowModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<any>();
+  const [editOpen, setEditOpen] = useState(false);
+  const [editValue, setEditValue] = useState('');
+  const [editType, setEditType] = useState('');
+  const [editId, setEditId] = useState<string | null>(null);
   const { control, watch } = useForm();
 
   const paramsValue = watch('type')?.label === 'All' ? null : watch('type');
@@ -47,6 +53,10 @@ const Credentials = () => {
 
 
   const { mutate: update } = usePutQuery({
+    listKeyId: KEYS.credentials,
+    hideSuccessToast: true,
+  });
+  const { mutate: updateCredential } = usePutQuery({
     listKeyId: KEYS.credentials,
     hideSuccessToast: true,
   });
@@ -87,6 +97,26 @@ const Credentials = () => {
         },
         onError: (e: any) => {
           toast.error(e?.response?.data?.error?.message || t('Delete failed'));
+        },
+      }
+    );
+  };
+
+  const handleEditSave = () => {
+    if (!editId) return;
+    updateCredential(
+      {
+        url: `${URLS.credentials}/${editId}`,
+        attributes: { code: editValue },
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Successfully edited!'));
+          refetch();
+          setEditOpen(false);
+        },
+        onError: (e: any) => {
+          toast.error(e?.response?.data?.error?.message || t('Update failed'));
         },
       }
     );
@@ -156,6 +186,16 @@ const Credentials = () => {
                 setActive(item);
                 setOpen(true);
               }}
+              onEdit={
+                item.type !== 'QR' && item.type !== 'PHOTO'
+                  ? (id) => {
+                      setEditId(id);
+                      setEditType(item.type);
+                      setEditValue(item.code ?? '');
+                      setEditOpen(true);
+                    }
+                  : undefined
+              }
               onDelete={handleDelete}
               code={item?.code || undefined}
             />
@@ -181,6 +221,14 @@ const Credentials = () => {
         bodyProps={{
           children: <Form refetch={refetch} onClose={() => setShowModal(false)} employeeId={id} />,
         }}
+      />
+      <EditModal
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        editType={editType}
+        editValue={editValue}
+        onEditValueChange={setEditValue}
+        onSave={handleEditSave}
       />
       <ConfirmationCredential
         title={
