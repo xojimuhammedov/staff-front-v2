@@ -5,12 +5,13 @@ import dayjs from 'dayjs';
 import {
     Calendar,
     Clock,
+    CreditCard,
     DoorOpen,
     Fingerprint,
     KeyRound,
     LogIn,
     LogOut,
-    QrCode,
+    // QrCode,
     ScanFace,
     User,
     UserRound,
@@ -46,7 +47,7 @@ export const createColumns = () => {
             },
             CARD: {
                 label: t('CARD'),
-                Icon: QrCode,
+                Icon: CreditCard,
                 classes:
                     'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
             },
@@ -59,7 +60,7 @@ export const createColumns = () => {
         };
         const cfg = configs[type] ?? {
             label: type,
-            Icon: QrCode,
+            Icon: CreditCard,
             classes:
                 'bg-gray-100 text-gray-600 dark:bg-gray-900/30 dark:text-gray-300',
         };
