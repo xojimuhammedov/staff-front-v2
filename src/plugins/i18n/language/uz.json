@@ -299,6 +299,19 @@
   "IP address / Model": "IP manzil / Model",
   "Gate": "Darvoza",
   "Entry type": "Yo'nalish",
+  "Credential type": "Kirish turi",
+  "Action time": "Harakat vaqti",
+  "User type": "Foydalanuvchi turi",
+  "Gate & device name": "Darvoza va qurilma nomi",
+  "ENTER": "KIRISH",
+  "EXIT": "CHIQISH",
+  "EMPLOYEE": "XODIM",
+  "VISITOR": "MEHMON",
+  "PHOTO": "FOTO",
+  "TOUCH": "BARMОQ IZI",
+  "PASSWORD": "PAROL",
+  "CARD": "KARTA",
+  "CAR": "AVTO",
   "Not detected": "Aniqlanmadi",
   "pcs": "ta",
   "min": "min",
@@ -667,5 +680,6 @@
   "Credentials": "Ishonch yorliqlari", 
   "Pinfl or Passport Number": "JShShIR yoki pasport raqami" ,
   "Select position": "Lavozimni tanlang" ,
-  "Create new organization": "Yangi tashkilot yaratish"
+  "Create new organization": "Yangi tashkilot yaratish" ,
+  "Device": "Qurilma"
  }
