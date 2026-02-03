@@ -2,13 +2,12 @@ import Button from 'components/Atoms/MyButton';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useDeleteQuery, useGetAllQuery, useGetOneQuery, usePutQuery } from 'hooks/api';
+import { useDeleteQuery, useGetAllQuery, usePutQuery } from 'hooks/api';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import Form from './Create';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import EditForm from './Edit';
 import config from 'configs';
 import { toast } from 'react-toastify';
 import { Controller, useForm } from 'react-hook-form';
@@ -23,10 +22,8 @@ const Credentials = () => {
   const { id } = useParams();
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
-  const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<any>();
-  const [credentialId, setCredentialId] = useState(null);
   const { control, watch } = useForm();
 
   const paramsValue = watch('type')?.label === 'All' ? null : watch('type');
@@ -48,13 +45,6 @@ const Credentials = () => {
     ...credentialTypeData,
   ];
 
-
-  const { data: getOne } = useGetOneQuery({
-    id: credentialId,
-    url: URLS.credentials,
-    params: {},
-    enabled: !!credentialId,
-  });
 
   const { mutate: update } = usePutQuery({
     listKeyId: KEYS.credentials,
@@ -190,33 +180,6 @@ const Credentials = () => {
         }}
         bodyProps={{
           children: <Form refetch={refetch} onClose={() => setShowModal(false)} employeeId={id} />,
-        }}
-      />
-      <MyModal
-        modalProps={{
-          show: Boolean(show),
-          onClose: () => {
-            setShow(false);
-          },
-        }}
-        headerProps={{
-          children: (
-            <h2 className="text-xl font-semibold text-text-base dark:text-text-title-dark">
-              {t('Edit credential')}
-            </h2>
-          ),
-          className: 'px-6',
-        }}
-        bodyProps={{
-          children: (
-            <EditForm
-              credentialId={credentialId}
-              data={getOne}
-              refetch={refetch}
-              onClose={() => setShow(false)}
-              employeeId={id}
-            />
-          ),
         }}
       />
       <ConfirmationCredential

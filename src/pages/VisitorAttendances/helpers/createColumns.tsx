@@ -23,16 +23,6 @@ import AvatarIcon from '../../../assets/icons/avatar.jpg';
 export const createColumns = () => {
     const { t } = useTranslation();
 
-    const renderTimeCell = (time?: string, format = 'HH:mm') => {
-        if (!time) return '--';
-        return (
-            <div className="department-text text-text-base dark:text-text-title-dark">
-                {' '}
-                {dayjs(time).format(format)}{' '}
-            </div>
-        );
-    };
-
     const renderCredentialType = (type?: string) => {
         if (!type) return '--';
         const configs: Record<string, { label: string; Icon: any; classes: string }> = {
@@ -132,7 +122,7 @@ export const createColumns = () => {
                                     size="medium"
                                     imageUrl={
                                         row?.employee?.photo
-                                            ? `${config.FILE_URL}api/storage/${row?.employee?.photo}`
+                                            ? `${config.FILE_URL}api/storage/${row?.image ?? row?.employee?.photo}`
                                             : AvatarIcon
                                     }
                                 />
