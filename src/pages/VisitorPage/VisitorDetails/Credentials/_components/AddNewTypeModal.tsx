@@ -85,7 +85,7 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
                     }}
                     onBlur={field.onBlur}
                     error={!!fieldState.error}
-                    allowedRoles={['ADMIN', 'HR']}
+                    allowedRoles={['ADMIN', 'HR', 'GUARD']}
                   />
                 )}
               />

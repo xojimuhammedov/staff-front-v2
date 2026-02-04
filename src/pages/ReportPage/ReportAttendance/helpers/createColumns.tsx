@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AvatarIcon from '../../../../assets/icons/avatar.jpg';
+import DateText from 'components/Atoms/DateText';
 
 export const createColumns = () => {
   const { t } = useTranslation();
@@ -144,7 +145,7 @@ export const createColumns = () => {
         key: 'arrivalDate',
         label: t('Arrival date'),
         headerClassName: 'w-1/4',
-        cellRender: (row) => renderTimeCell(row?.startTime, 'YYYY-MM-DD'),
+        cellRender: (row) => <DateText value={row?.startTime} />,
       }
     ],
     [t]
