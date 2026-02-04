@@ -58,8 +58,17 @@ const DoorsPage = () => {
         cellRender: (row) => <div className="dark:text-text-title-dark">{row?.name ?? '--'}</div>,
       },
       {
+        key: 'countOrganizations',
+        label: t('Organization count'),
+        headerClassName: 'sm:w-1/4 lg:flex-1',
+        cellRender: (row) => (
+          <div className="dark:text-text-title-dark">{row?._count?.organizations ?? '--'}</div>
+        ),
+      },
+      {
         key: 'countDevices',
         label: t('Devices'),
+        headerClassName: 'sm:w-1/4 lg:flex-1',
         cellRender: (row) => (
           <div className="dark:text-text-title-dark">{row?._count?.devices ?? '--'}</div>
         ),
@@ -76,7 +85,13 @@ const DoorsPage = () => {
     },
     {
       id: 2,
+      label: t('Organization'),
+      headerClassName: 'sm:w-1/4 lg:flex-1',
+    },
+    {
+      id: 3,
       label: t('Devices'),
+      headerClassName: 'sm:w-1/4 lg:flex-1',
     },
   ];
 

@@ -18,6 +18,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
+import DateText from 'components/Atoms/DateText';
 
 
 const VisitorTable = () => {
@@ -107,7 +108,16 @@ const VisitorTable = () => {
         cellRender: (row) => (
           <div className='flex items-center gap-1'>
             <Clock size={16} className="dark:text-white" />
-            <p className='dark:text-white'>{row?.createdAt ? dayjs(row?.createdAt).format("YYYY-MM-DD, HH:mm") : '--'}</p>
+            <p className='dark:text-white'>
+              {row?.createdAt ? (
+                <>
+                  <DateText value={row?.createdAt} />
+                  {`, ${dayjs(row?.createdAt).format('HH:mm')}`}
+                </>
+              ) : (
+                '--'
+              )}
+            </p>
           </div>
         ),
       },

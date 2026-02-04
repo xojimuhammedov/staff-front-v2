@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import ReasonModal from '../_components/ReasonModal';
 import { useNavigate } from 'react-router-dom';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
+import DateText from 'components/Atoms/DateText';
 
 export const createColumns = ({ refetch }: any) => {
   const { t } = useTranslation();
@@ -150,7 +151,7 @@ export const createColumns = ({ refetch }: any) => {
         key: 'arrivalDate',
         label: t('Arrival date'),
         headerClassName: 'w-1/4',
-        cellRender: (row) => renderTimeCell(row?.startTime, 'YYYY-MM-DD'),
+        cellRender: (row) => <DateText value={row?.startTime} />,
       },
       {
         key: 'reason',
