@@ -95,7 +95,6 @@ export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: Oneti
           </span>
         </div>
 
-        {/* Body */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           {/* Access Code */}
           <div className="space-y-1.5">
@@ -156,56 +155,35 @@ export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: Oneti
 
         {/* Time Section */}
         <div className="bg-muted/30  space-y-4">
+        <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 min-w-0">
               <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
                 <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-300" />
               </div>
               <div className="min-w-0">
-                <p className="text-xs text-muted-foreground dark:text-white">{t('Start Time')}</p>
+                <p className="text-xs text-muted-foreground dark:text-white">{t('Start time')}</p>
                 <p className="text-sm font-medium text-foreground dark:text-text-title-dark truncate">
                   {formatDateTime(startTime)}
                 </p>
               </div>
             </div>
+          </div>
 
-            <div className="text-center shrink-0">
-              <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium dark:text-primary">
-                {getDurationHours()}
-              </span>
-            </div>
-
+          <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 min-w-0">
+              <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
+                <Clock className="w-4 h-4 text-red-600 dark:text-red-300" />
+              </div>
               <div className="min-w-0">
-                <p className="text-xs text-muted-foreground dark:text-white">{t('End Time')}</p>
+                <p className="text-xs text-muted-foreground dark:text-white">{t('End time')}</p>
                 <p className="text-sm font-medium text-foreground dark:text-text-title-dark truncate">
                   {formatDateTime(endTime)}
                 </p>
               </div>
-              <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
-                <Clock className="w-4 h-4 text-red-600 dark:text-red-300" />
-              </div>
             </div>
           </div>
-
-          {/* Progress */}
-          <div className="relative h-2 bg-muted dark:bg-gray-800 rounded-full overflow-hidden">
-            <div
-              className={twMerge(
-                'absolute left-0 top-0 h-full rounded-full transition-all duration-500',
-                isActive
-                  ? 'bg-gradient-to-r from-emerald-400 to-emerald-500'
-                  : 'bg-gradient-to-r from-red-400 to-red-500'
-              )}
-              style={{ width: `${progress}%` }}
-            />
-            {isActive && progress < 100 && progress > 0 && (
-              <div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-emerald-500 dark:bg-emerald-400 rounded-full shadow-lg animate-pulse"
-                style={{ left: `calc(${progress}% - 6px)` }}
-              />
-            )}
-          </div>
+        </div>
         </div>
 
         <div className="mt-6">
@@ -228,7 +206,7 @@ export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: Oneti
               {onDelete && (
                 <button
                   onClick={() => setConfirmOpen(true)}
-                  className="rounded-lg text-muted-foreground hover:text-red-600 mt-2 hover:bg-red-50 transition-all duration-200"
+                  className="rounded-lg text-muted-foreground hover:text-red-600 mt-2"
                   type="button"
                 >
                   <Trash2 className="w-4 h-4" />

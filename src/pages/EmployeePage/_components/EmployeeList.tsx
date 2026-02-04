@@ -10,11 +10,6 @@ import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ru';
-import 'dayjs/locale/uz';
-import 'dayjs/locale/uz-latn';
-import 'dayjs/locale/en';
 import Loading from 'assets/icons/Loading';
 import { IFilter } from 'interfaces/filter.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
@@ -22,10 +17,12 @@ import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import MyAvatar from 'components/Atoms/MyAvatar'
 import config from 'configs';
+import storage from 'services/storage';
 
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 import { searchValue } from 'types/search';
 import { CredentialIcons } from './CredentialTooltip';
+import DateText from 'components/Atoms/DateText';
 
 type EmployeeListProps = {
   searchValue?: searchValue;
@@ -36,12 +33,10 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
   const navigate = useNavigate();
   const location = useLocation()
   const isView = location.pathname === '/view';
+  const userData: any = storage.get('userData');
+  const userRole = JSON.parse(userData || '{}')?.role;
+  const isGuard = userRole === 'GUARD';
   const currentLang: any = i18n.resolvedLanguage;
-  const dateLocale = currentLang?.startsWith('ru')
-    ? 'ru'
-    : currentLang?.startsWith('uz')
-      ? 'uz-latn'
-      : 'en';
   const [searchParams] = useSearchParams()
   const [show, setShow] = useState(false)
   const [employeeId, setEmployeeId] = useState<any | null>(null)
@@ -117,11 +112,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         cellRender: (row) => (
           <div className="flex items-center gap-2 text-text-base dark:text-text-title-dark">
             <Calendar size={16} className="text-text-muted" />
-            <span>
-              {row?.createdAt
-                ? dayjs(row?.createdAt).locale(dateLocale).format('DD MMM YYYY')
-                : '--'}
-            </span>
+            <DateText value={row?.createdAt} />
           </div>
         ),
       },
@@ -129,7 +120,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
 
     return isView ? cols.filter((col) => !['credential', 'joinDate'].includes(col.key)) : cols;
 
-  }, [t, isView, currentLang, dateLocale]);
+  }, [t, isView, currentLang]);
 
   const dataColumn = useMemo(() => {
     const base = [
@@ -150,36 +141,40 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
   );
 
   const rowActions: IAction[] = useMemo(
-    () => [
-      {
-        icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
-        type: 'secondary',
-        name: t('Details'),
-        action: (row, $e) => {
-          navigate(`/employees/about/${row.id}`);
+    () => {
+      if (isGuard) return [];
+
+      return [
+        {
+          icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
+          type: 'secondary',
+          name: t('Details'),
+          action: (row, $e) => {
+            navigate(`/employees/about/${row.id}`);
+          }
+        },
+        {
+          icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
+          type: 'secondary',
+          name: t('Edit'),
+          action: (row, $e) => {
+            navigate(`/employees/edit/${row.id}`);
+          },
+          allowedRoles: ['ADMIN', 'HR'],
+        },
+        {
+          icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
+          type: 'danger',
+          name: t('Delete'),
+          action: (row, $e) => {
+            setShow(true)
+            setEmployeeId(row?.id)
+          },
+          allowedRoles: ['ADMIN', 'HR'],
         }
-      },
-      {
-        icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
-        type: 'secondary',
-        name: t('Edit'),
-        action: (row, $e) => {
-          navigate(`/employees/edit/${row.id}`);
-        },
-        allowedRoles: ['ADMIN', 'HR'],
-      },
-      {
-        icon: <Trash2 size={DEFAULT_ICON_SIZE} />,
-        type: 'danger',
-        name: t('Delete'),
-        action: (row, $e) => {
-          setShow(true)
-          setEmployeeId(row?.id)
-        },
-        allowedRoles: ['ADMIN', 'HR'],
-      }
-    ],
-    [t]
+      ];
+    },
+    [t, isGuard, navigate]
   );
 
   const { mutate: deleteRequest } = useDeleteQuery({

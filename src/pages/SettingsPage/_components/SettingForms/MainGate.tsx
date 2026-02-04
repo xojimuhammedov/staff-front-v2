@@ -157,6 +157,7 @@ function MainGate() {
         <div className='flex items-center gap-4'>
           <MyButton
             onClick={() => navigate('/settings')}
+            
             startIcon={<ArrowLeft />}
             className={`
               text-sm w-[230px]
