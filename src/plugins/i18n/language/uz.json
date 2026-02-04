@@ -527,6 +527,8 @@
   "Wednesday": "Chorshanba",
   "Thursday": "Payshanba",
   "Friday": "Juma",
+  "Saturday": "Shanba",
+  "Sunday": "Yakshanba",
   "Select role": "Rolni tanlang",
   "Add one type": "Bitta tur qo‘shish",
   "Monitor visitor attendance patterns and punctuality": "Mehmonlarning tashrif va punktuallik holatini nazorat qilish",
@@ -681,5 +683,8 @@
   "Pinfl or Passport Number": "JShShIR yoki pasport raqami" ,
   "Select position": "Lavozimni tanlang" ,
   "Create new organization": "Yangi tashkilot yaratish" ,
-  "Device": "Qurilma"
+  "Device": "Qurilma" ,
+  "Job uz": "Lavozim uz",
+  "Job en": "Lavozim en",
+  "Job ru": "Lavozim ru"
  }

@@ -11,7 +11,6 @@ import {
     KeyRound,
     LogIn,
     LogOut,
-    // QrCode,
     ScanFace,
     User,
     UserRound,
@@ -20,6 +19,7 @@ import { IAction } from 'interfaces/action.interface';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
+import DateText from 'components/Atoms/DateText';
 
 export const createColumns = () => {
     const { t } = useTranslation();
@@ -161,7 +161,7 @@ export const createColumns = () => {
                         </div>
                         <div className="flex items-center gap-2 text-sm text-text-muted dark:text-text-subtle">
                             <Calendar className="h-4 w-4 dark:text-white" />
-                            <span className='dark:text-white'>{row?.actionTime ? dayjs(row.actionTime).format('DD/MM/YYYY') : '--'}</span>
+                            <span className='dark:text-white'><DateText value={row?.actionTime} /></span>
                         </div>
                     </div>
                 ),

@@ -75,7 +75,7 @@ const WorkScheduleList = () => {
                         : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
                     )}
                   >
-                    {day.slice(0, 3)}
+                    {t(day).slice(0, 3)}
                   </span>
                 );
               })}

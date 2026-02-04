@@ -681,6 +681,9 @@
   "Pinfl or Passport Number": "ПИНФЛ или номер паспорта",
   "Select position": "Выберите должность",
   "Create new organization": "Создать новую организацию" ,
-  "Device": "Устройство"
+  "Device": "Устройство",
+  "Job uz": "Должность uz",
+  "Job en": "Должность en",
+  "Job ru": "Должность ru"
 
 }
