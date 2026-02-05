@@ -92,7 +92,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         {
           <div className="flex h-[124px] w-full flex-col items-center justify-center gap-4 rounded-sm border border-dashed border-gray-300 bg-white p-2">
             <UploadIcon stroke="gray" className="mb_10" />
-            <p className="text-sm font-normal leading-6 text-gray-400">{t('Upload Documents')}</p>
+            <p className="text-sm font-normal leading-6 text-gray-400">{t('Upload documents')}</p>
             <p className="text-sm font-normal leading-6 text-gray-400">{file?.name}</p>
           </div>
         }

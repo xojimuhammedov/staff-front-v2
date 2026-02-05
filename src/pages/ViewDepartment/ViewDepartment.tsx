@@ -20,7 +20,7 @@ const ViewPage = () => {
 
   const breadCrumbs = [
     {
-      label: t('View Department'),
+      label: t('View department'),
       url: '#',
     },
   ];
@@ -101,7 +101,7 @@ const ViewPage = () => {
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
           <h1 className="headers-core dark:text-text-title-dark text-text-base">
-            {t('View Department')}
+            {t('View department')}
           </h1>
           <MyBreadCrumb items={breadCrumbs} />
         </div>
@@ -109,7 +109,7 @@ const ViewPage = () => {
           onClick={() => navigate('/department')}
           startIcon={<ArrowLeft />}
           variant='primary'
-          className={`text-sm dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-gray-300`}
+          className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
         >
           {t('Back to department list')}
         </MyButton>

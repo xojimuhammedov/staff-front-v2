@@ -211,8 +211,8 @@ const WorkScheduleList = () => {
         />
       </TableProvider>
       <ConfirmationModal
-        title={t("Bu ish vaqtini o'chirmoqchimisiz?")}
-        subTitle={t("Bu amalni qaytarib bo'lmaydi!")}
+        title={t("Are you sure you want to delete this schedule?")}
+        subTitle={t("This action cannot be undone!")}
         open={show} setOpen={setShow} confirmationDelete={deleteItem} />
     </>
   );

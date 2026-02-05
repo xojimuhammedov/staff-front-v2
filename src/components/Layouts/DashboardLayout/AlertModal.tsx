@@ -16,7 +16,7 @@ function AlertModal({ onClose, show, handleLogOut }: any) {
         bodyProps={{
           children: (
             <>
-              <h2 className="text-center text-xl font-semibold">
+              <h2 className="text-center text-xl font-semibold dark:text-white">
                 {t('Are you sure you want to logout this profile?')}
               </h2>
               <div className="mb-[5px] mt-6 flex w-full justify-center gap-4">

@@ -21,11 +21,13 @@ function ReasonModal({ row }: any) {
     <>
       <MyButton
         variant="secondary"
-        className="text-sm w-[100px] text-gray-900 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100" 
+        className={`text-sm w-[100px] text-gray-900 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100 ${
+          row?.reasons ? 'border border-red-500 dark:border-red-400' : ''
+        }`}
         disabled={disabled}
         onClick={() => setOpen(true)}
       >
-        {row?.reasons ? t('Sababli') : t('Reason')}
+        {row?.reasons ? t('Reasonably') : t('Reason')}
       </MyButton>
 
       <MyModal
