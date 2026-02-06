@@ -404,7 +404,6 @@
   "Reason Delete": "Удалить причину",
   "Are you sure you want to delete this reason?": "Вы уверены, что хотите удалить эту причину?",
   "Add new reason": "Добавить причину",
-  "Sababli": "Разумно",
   "Reasonably": "Разумно",
   "Cancel reason": "Причина отмены",
   "Users": "Пользователи",
@@ -637,7 +636,6 @@
   "This QR code is intended for building entry": "Этот QR-код предназначен для входа в здание",
   "Scan to check in": "Сканируйте для отметки входа",
   "Download PDF": "Скачать PDF",
-  "Today attendance atatistics": "Статистика посещаемости за сегодня",
   "Total employees": "Всего сотрудников",
   "Late employees": "Опоздавшие сотрудники",
   "On time employees": "Своевременные сотрудники",
@@ -684,6 +682,17 @@
   "Device": "Устройство",
   "Job uz": "Должность uz",
   "Job en": "Должность en",
-  "Job ru": "Должность ru"
-
+  "Job ru": "Должность ru" ,
+  "Are you sure you want to delete this schedule?": "Вы уверены, что хотите удалить этот график?" ,
+  "Action logs": "Логи действий" ,
+  "Today attendance statistics": "Статистика посещаемости за сегодня" ,
+  "Back to department list": "Вернуться к списку отделов" ,
+  "View department": "Просмотр отдела" ,
+  "Department lists": "Список отделов",
+  "Organization info": "Информация о организации" ,
+  "Unused": "неиспользованный",
+  "Used": "использованный",
+  "Expired": "истекший",
+  "Are you sure you want to delete this organization": "Вы уверены, что хотите удалить эту организацию?",
+  "Previous": "Предыдущий"
 }

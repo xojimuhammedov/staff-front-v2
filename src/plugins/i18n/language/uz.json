@@ -686,5 +686,17 @@
   "Device": "Qurilma" ,
   "Job uz": "Lavozim uz",
   "Job en": "Lavozim en",
-  "Job ru": "Lavozim ru"
+  "Job ru": "Lavozim ru",
+  "Are you sure you want to delete this schedule?": "Bu jadvalni o‘chirmoqchimisiz?" ,
+  "Action logs": "Harakatlar ro‘yxati" ,
+  "Back to department list": "Bo‘limlar ro‘yxatiga qaytish" ,
+  "View department": "Bo‘limni ko‘rish" ,
+  "Department lists": "Bo‘limlar ro‘yxati",
+  "Organization info": "Tashkilot haqida ma’lumot",
+  "Unused": "bo‘sh",
+  "Used": "foydalangan",
+  "Expired": "amal qilingan" ,
+  "Upload documents": "Fayl yuklash" ,
+  "Are you sure you want to delete this organization": "Bu tashkilotni o‘chirmoqchimisiz?",
+  "Previous": "Oldingi"
  }
