@@ -85,6 +85,12 @@ const TableData = () => {
         fontSize: '12px',
     };
 
+    const formatWeekday = (weekday?: string) => {
+        if (!weekday) return '';
+        const translated = t(weekday);
+        return translated || weekday;
+    };
+
 
     const handleBack = () => {
         setSearchParams((prev) => {
@@ -132,7 +138,7 @@ const TableData = () => {
                                 <th style={thBase} rowSpan={2}>{t("According to plan")}</th>
                                 {data?.dateData?.map((item: any) => (
                                     <th key={`${item?.date}-${item?.weekday}`} style={thBase} rowSpan={2}>
-                                        {item?.weekday} ({item?.date})
+                                        {formatWeekday(item?.weekday)} ({item?.date})
                                     </th>
                                 ))}
                                 <th style={thBase} rowSpan={2}>{t("По плану")}</th>

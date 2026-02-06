@@ -10,7 +10,7 @@ import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import { IAction } from 'interfaces/action.interface';
-import { Edit3, Plus, Trash2, Eye, Search } from 'lucide-react';
+import { Edit3, Plus, Trash2, Eye, Search, Building2, Cpu } from 'lucide-react';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
@@ -62,7 +62,10 @@ const DoorsPage = () => {
         label: t('Organization count'),
         headerClassName: 'sm:w-1/4 lg:flex-1',
         cellRender: (row) => (
-          <div className="dark:text-text-title-dark">{row?._count?.organizations ?? '--'}</div>
+          <span className="inline-flex items-center gap-2 rounded-full border border-border-base bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base dark:border-dark-line dark:bg-bg-darkBg dark:text-text-title-dark">
+            <Building2 className="h-3.5 w-3.5 text-text-muted dark:text-white-600" />
+            {row?._count?.organizations ?? '--'}
+          </span>
         ),
       },
       {
@@ -70,7 +73,10 @@ const DoorsPage = () => {
         label: t('Devices'),
         headerClassName: 'sm:w-1/4 lg:flex-1',
         cellRender: (row) => (
-          <div className="dark:text-text-title-dark">{row?._count?.devices ?? '--'}</div>
+          <span className="inline-flex items-center gap-2 rounded-full border border-border-base bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base dark:border-dark-line dark:bg-bg-darkBg dark:text-text-title-dark">
+            <Cpu className="h-3.5 w-3.5 text-text-muted dark:text-white-600" />
+            {row?._count?.devices ?? '--'}
+          </span>
         ),
       },
     ],
@@ -85,7 +91,7 @@ const DoorsPage = () => {
     },
     {
       id: 2,
-      label: t('Organization'),
+      label: t('Organization count'),
       headerClassName: 'sm:w-1/4 lg:flex-1',
     },
     {
