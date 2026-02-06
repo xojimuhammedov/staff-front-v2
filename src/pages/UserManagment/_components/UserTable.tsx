@@ -41,6 +41,15 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
     listKeyId: KEYS.getListUsersManagment
   });
 
+  const BADGE_CLASSES = {
+    orange: 'border border-tag-orange-icon [&_p]:text-tag-orange-text dark:border-tag-orange-icon dark:[&_p]:text-tag-orange-text',
+    red: 'border border-tag-red-icon [&_p]:text-tag-red-text dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
+    green: 'border border-tag-green-icon [&_p]:text-tag-green-text dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
+    blue: 'border border-tag-blue-icon [&_p]:text-tag-blue-text dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
+    purple: 'border border-tag-purple-icon [&_p]:text-tag-purple-text dark:border-tag-purple-icon dark:[&_p]:text-tag-purple-text',
+    neutral: 'border border-border-base [&_p]:text-text-muted dark:border-dark-line dark:[&_p]:text-text-subtle',
+  } as const;
+
   const roleBadgeVariant = (role?: string) => {
     switch (role) {
       case 'ADMIN':
@@ -64,7 +73,7 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center gap-4">
-            <span className="text-base font-semibold text-text-base dark:text-text-title-dark">
+            <span className="text-base font-medium text-text-base dark:text-text-title-dark">
               {row?.name ?? '--'}
             </span>
           </div>
@@ -94,11 +103,14 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
         key: 'role',
         label: t('Role'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => (
-          <MyBadge variant={roleBadgeVariant(row?.role)} className="min-w-max">
-            {row?.role ? t(row.role) : '--'}
-          </MyBadge>
-        )
+        cellRender: (row) => {
+          const variant = roleBadgeVariant(row?.role);
+          return (
+            <MyBadge variant={variant} className={`${BADGE_CLASSES[variant]} min-w-max`}>
+              {row?.role ? t(row.role) : '--'}
+            </MyBadge>
+          );
+        }
       },
     ],
     [t]
