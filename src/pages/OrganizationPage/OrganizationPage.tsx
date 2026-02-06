@@ -39,6 +39,7 @@ const OrganizationPage = () => {
     url: URLS.getAllListOrganization,
     params: {
       search: searchValue.search,
+      gateId: searchValue.gateId,
     },
   });
 

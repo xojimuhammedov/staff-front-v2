@@ -19,13 +19,14 @@ const DevicePage = () => {
   const navigate = useNavigate();
   const location = useLocation()
   const { search, setSearch, handleSearch } = useSearch();
-  const searchValue: searchValue = paramsStrToObj(location.search)
+  const searchValue = paramsStrToObj(location.search) as searchValue & { gateId?: string };
 
   const { data, isLoading, refetch } = useGetAllQuery({
     key: KEYS.getDoorForDevices,
     url: URLS.getDoorForDevices,
     params: {
-      search: searchValue?.search
+      search: searchValue?.search,
+      gateId: searchValue?.gateId
     },
   });
 

@@ -12,7 +12,7 @@ import { get } from 'lodash';
 import { IAction } from 'interfaces/action.interface';
 import { Edit3, Plus, Trash2, Eye, Search, Building2, Cpu } from 'lucide-react';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import Loading from 'assets/icons/Loading';
 import { MyInput } from 'components/Atoms/Form';
@@ -37,6 +37,7 @@ const DoorsPage = () => {
   const { t } = useTranslation();
   const location = useLocation()
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [doorId, setDoorId] = useState<string | null>(null);
   const [show, setShow] = useState(false);
   const { search, setSearch, handleSearch } = useSearch();
@@ -58,14 +59,20 @@ const DoorsPage = () => {
         cellRender: (row) => <div className="dark:text-text-title-dark">{row?.name ?? '--'}</div>,
       },
       {
-        key: 'countOrganizations',
+        key: 'organizations',
         label: t('Organization count'),
         headerClassName: 'sm:w-1/4 lg:flex-1',
         cellRender: (row) => (
-          <span className="inline-flex items-center gap-2 rounded-full border border-border-base bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base dark:border-dark-line dark:bg-bg-darkBg dark:text-text-title-dark">
+          <button
+            type="button"
+            onClick={() => {
+              navigate(`/organization?gateId=${row?.id}`);
+            }}
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base shadow-sm transition hover:border-emerald-600 hover:shadow-md dark:border-emerald-400 dark:bg-bg-darkBg dark:text-text-title-dark dark:hover:border-emerald-300"
+          >
             <Building2 className="h-3.5 w-3.5 text-text-muted dark:text-white-600" />
             {row?._count?.organizations ?? '--'}
-          </span>
+          </button>
         ),
       },
       {
@@ -73,10 +80,18 @@ const DoorsPage = () => {
         label: t('Devices'),
         headerClassName: 'sm:w-1/4 lg:flex-1',
         cellRender: (row) => (
-          <span className="inline-flex items-center gap-2 rounded-full border border-border-base bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base dark:border-dark-line dark:bg-bg-darkBg dark:text-text-title-dark">
+          <button
+            type="button"
+            onClick={() => {
+              searchParams.set('current-setting', 'deviceControl');
+              searchParams.set('gateId', String(row?.id));
+              setSearchParams(searchParams);
+            }}
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base shadow-sm transition hover:border-emerald-600 hover:shadow-md dark:border-emerald-400 dark:bg-bg-darkBg dark:text-text-title-dark dark:hover:border-emerald-300"
+            >
             <Cpu className="h-3.5 w-3.5 text-text-muted dark:text-white-600" />
             {row?._count?.devices ?? '--'}
-          </span>
+          </button>
         ),
       },
     ],
@@ -93,11 +108,21 @@ const DoorsPage = () => {
       id: 2,
       label: t('Organization count'),
       headerClassName: 'sm:w-1/4 lg:flex-1',
+      header: (
+        <span className="inline-flex items-center gap-2">
+          {t('Organizations')}
+        </span>
+      ),
     },
     {
       id: 3,
       label: t('Devices'),
       headerClassName: 'sm:w-1/4 lg:flex-1',
+      header: (
+        <span className="inline-flex items-center gap-2">
+          {t('Devices')}
+        </span>
+      ),
     },
   ];
 
