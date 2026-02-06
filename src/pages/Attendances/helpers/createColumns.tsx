@@ -13,20 +13,28 @@ import { useNavigate } from 'react-router-dom';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
 import DateText from 'components/Atoms/DateText';
 
+const BADGE_CLASSES = {
+  orange: 'border border-tag-orange-icon [&_p]:text-tag-orange-text dark:border-tag-orange-icon dark:[&_p]:text-tag-orange-text',
+  red: 'border border-tag-red-icon [&_p]:text-tag-red-text dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
+  green: 'border border-tag-green-icon [&_p]:text-tag-green-text dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
+  blue: 'border border-tag-blue-icon [&_p]:text-tag-blue-text dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
+} as const;
+
+const STATUS_MAP = {
+  arrival: { LATE: 'orange', ABSENT: 'red' } as const,
+  gone: { EARLY: 'blue' } as const,
+};
+
+const getProgressBarColor = (percent: number) => {
+  if (percent < 40) return 'bg-red-500';
+  if (percent < 70) return 'bg-orange-400';
+  return 'bg-green-500';
+};
+
 export const createColumns = ({ refetch }: any) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const BADGE_CLASSES: Record<'orange' | 'red' | 'green' | 'blue', string> = {
-    orange:
-      ' border border-tag-orange-icon [&_p]:text-tag-orange-text  dark:border-tag-orange-icon dark:[&_p]:text-tag-orange-text',
-    red:
-      ' border border-tag-red-icon [&_p]:text-tag-red-text  dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
-    green:
-      ' border border-tag-green-icon [&_p]:text-tag-green-text  dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
-    blue:
-      ' border border-tag-blue-icon [&_p]:text-tag-blue-text  dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
-  };
   const getProgressBarColor = (percent: number) => {
     if (percent < 40) {
       return 'bg-red-500';
