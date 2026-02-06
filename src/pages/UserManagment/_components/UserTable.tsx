@@ -19,6 +19,7 @@ import EditForm from './EditForm';
 import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
 import { useLocation } from 'react-router-dom';
+import MyBadge from 'components/Atoms/MyBadge';
 
 const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { t } = useTranslation()
@@ -40,6 +41,21 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
     listKeyId: KEYS.getListUsersManagment
   });
 
+  const roleBadgeVariant = (role?: string) => {
+    switch (role) {
+      case 'ADMIN':
+        return 'red';
+      case 'HR':
+        return 'purple';
+      case 'DEPARTMENT_LEAD':
+        return 'orange';
+      case 'GUARD':
+        return 'blue';
+      default:
+        return 'neutral';
+    }
+  };
+
   const columns: DataGridColumnType[] = useMemo(
     () => [
       {
@@ -47,8 +63,10 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
         label: t('Employees'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
-            {row?.name}
+          <div className="flex items-center gap-4">
+            <span className="text-base font-semibold text-text-base dark:text-text-title-dark">
+              {row?.name ?? '--'}
+            </span>
           </div>
         )
       },
@@ -56,19 +74,31 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
         key: 'username',
         label: t('Username'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.username ?? '--'}</>
+        cellRender: (row) => (
+          <span className="text-sm text-text-base dark:text-text-title-dark">
+            {row?.username ?? '--'}
+          </span>
+        )
       },
       {
         key: 'organization',
         label: t('Organization name'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.organization?.fullName ?? '--'}</>
+        cellRender: (row) => (
+          <span className="text-sm text-text-base dark:text-text-title-dark">
+            {row?.organization?.fullName ?? '--'}
+          </span>
+        )
       },
       {
         key: 'role',
         label: t('Role'),
         headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.role ?? '--'}</>
+        cellRender: (row) => (
+          <MyBadge variant={roleBadgeVariant(row?.role)} className="min-w-max">
+            {row?.role ? t(row.role) : '--'}
+          </MyBadge>
+        )
       },
     ],
     [t]
