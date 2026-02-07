@@ -1,82 +1,156 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import config from 'configs';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
+import { Clock, CalendarClock, AlertTriangle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import IconByName from 'assets/icons/IconByName';
+import { t as i18nT } from 'i18next';
+
+interface Employee {
+  id: number;
+  name: string;
+  department: string;
+  photo: string;
+  totalWorkedMinutes: number;
+  totalPlannedMinutes: number;
+  totalLateDays: number;
+  percentage: number;
+}
+
+interface EmployeeCardProps {
+  employee: Employee[];
+  rank?: number;
+  title: string;
+  icon: string | React.ReactNode;
+  iconBgColor: string;
+  iconColor: string;
+}
 
 
-const EmployeeRow = ({ employee, isEffective = true }: any) => {
-    return (
-        <div className="bg-gray-50 dark:bg-bg-dark-theme rounded-2xl px-4 py-2">
-            <div className="flex items-center gap-4">
-                <img
-                    src={employee?.photo ? `${config.FILE_URL}api/storage/${employee?.photo}` : AvatarIcon}
-                    alt={employee.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-text-title-dark">
-                        {employee.name}
-                    </h3>
-                    <p className="text-s text-text-muted dark:text-white">
-                        {typeof employee?.department === 'string'
-                            ? employee.department
-                            :
-                            '--'}
-                    </p>
-                    <div className="flex items-center gap-1 pb-1">
-                        <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1 overflow-hidden">
-                            <div
-                                className={`${isEffective ? 'bg-green-500 dark:bg-green-400' : 'bg-[#F71E4F] dark:bg-[#F71E4F]'} h-full rounded-full transition-all duration-500`}
-                                style={{ width: `${employee?.percentage > "100" ? "100" : employee?.percentage}%` }}
-                            />
-                        </div>
-                        <span className={`text-xl font-bold ${isEffective ? 'text-green-500 dark:text-green-400' : 'text-[#F71E4F] dark:text-[#F71E4F]'} min-w-[80px] text-right`}>
-                            {employee.percentage > "100" ? "100" : employee?.percentage}%
-                        </span>
-                    </div>
-                </div>
-            </div>
+function getRingColor(percentage: number) {
+  if (percentage >= 90) return 'stroke-emerald-500';
+  if (percentage >= 80) return 'stroke-amber-500';
+  return 'stroke-red-500';
+}
+
+function getPercentageTextColor(percentage: number) {
+  if (percentage >= 90) return 'text-emerald-600';
+  if (percentage >= 80) return 'text-amber-600';
+  return 'text-red-500';
+}
+
+function CircularProgress({ percentage }: { percentage: number }) {
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (Math.min(percentage, 100) / 100) * circumference;
+
+  return (
+    <div className="relative flex h-11 w-11 shrink-0 items-center justify-center">
+      <svg className="-rotate-90" width="44" height="44" viewBox="0 0 44 44">
+        <circle cx="22" cy="22" r={radius} fill="none" className="stroke-muted" strokeWidth="3" />
+        <circle
+          cx="22"
+          cy="22"
+          r={radius}
+          fill="none"
+          className={getRingColor(percentage)}
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+        />
+      </svg>
+      <span className={`absolute text-[10px] font-bold ${getPercentageTextColor(percentage)}`}>
+        {Math.ceil(percentage)}%
+      </span>
+    </div>
+  );
+}
+
+export function EmployeeCard({ employee, title, icon, iconBgColor, iconColor }: EmployeeCardProps) {
+  const { t } = useTranslation();
+
+  function formatMinutes(minutes: number) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours} ${i18nT('hours')}, ${mins} ${i18nT('minutes')}`;
+  }
+  return (
+    <>
+      <div className="bg-bg-base w-full dark:bg-dark-dashboard-cards rounded-lg p-4 shadow-base">
+        <div className="flex items-center gap-2 mb-4">
+          <div className={`${iconBgColor} w-10 h-10 rounded-2xl flex items-center justify-center`}>
+            <IconByName name={icon as string} size={20} className={iconColor} strokeWidth={2} />
+          </div>
+          <div>
+            <h1 className="headers-core text-base dark:text-text-title-dark">{t(title)}</h1>
+          </div>
         </div>
-    );
-};
+        {employee?.map((emp, index) => (
+          <div
+            key={emp.id}
+            className="group flex my-2 items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30"
+          >
+            {/* Rank */}
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-muted text-[10px] font-bold text-muted-foreground">
+              {index + 1}
+            </span>
 
-const EmployeeColumn = ({ employees, title, icon: Icon, iconBgColor, iconColor, isEffective }: any) => {
-    const { t } = useTranslation();
-
-    return (
-        <div className="flex-1">
-            <div className="flex items-center gap-4 mb-4">
-                <div className={`${iconBgColor} w-12 h-12 rounded-2xl flex items-center justify-center`}>
-                    <Icon size={24} className={iconColor} strokeWidth={2} />
-                </div>
-                <div>
-                    <h1 className="headers-core text-sm dark:text-text-title-dark">
-                        {t(title)}
-                    </h1>
-                </div>
+            {/* Avatar */}
+            <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-border">
+              <img
+                src={emp?.photo ? `${config.FILE_URL}api/storage/${emp?.photo}` : AvatarIcon}
+                alt={emp?.name}
+                className="h-full w-full object-cover"
+                // crossOrigin="anonymous"
+              />
             </div>
-            <div className="space-y-4">
-                {employees?.map((employee: any) => (
-                    <EmployeeRow key={employee.id} employee={employee} isEffective={isEffective} />
-                ))}
+
+            {/* Name + Department */}
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate text-sm font-semibold leading-tight text-card-foreground dark:text-text-title-dark">
+                {emp?.name}
+              </h3>
+              <p className="truncate text-[11px] leading-tight text-muted-foreground dark:text-text-title-dark">
+                {emp?.department}
+              </p>
             </div>
-        </div>
-    );
-};
 
-const ProgressCard = ({ topEmployee, title, icon, iconBgColor, iconColor, isEffective }: any) => {
-    return (
-        <div className="bg-bg-base w-full dark:bg-dark-dashboard-cards rounded-2xl p-4 shadow-base">
-            <EmployeeColumn
-                employees={topEmployee}
-                title={title}
-                icon={icon}
-                iconBgColor={iconBgColor}
-                iconColor={iconColor}
-                isEffective={isEffective}
-            />
-        </div>
-    );
-};
+            {/* Inline stats */}
+            <div className="hidden items-center gap-4 sm:flex">
+              <div className="flex items-center gap-1.5" title="Ishlangan vaqt">
+                <Clock className="h-3.5 w-3.5 text-muted-foreground dark:text-white" />
+                <span className="text-xs font-medium text-card-foreground dark:text-text-title-dark">
+                  {formatMinutes(emp?.totalWorkedMinutes)}
+                </span>
+              </div>
 
-export default ProgressCard;
+              <div className="flex items-center gap-1.5" title="Rejadagi vaqt">
+                <CalendarClock className="h-3.5 w-3.5 text-muted-foreground dark:text-white" />
+                <span className="text-xs text-muted-foreground dark:text-text-title-dark">
+                  {formatMinutes(emp?.totalPlannedMinutes)}
+                </span>
+              </div>
+
+              {emp?.totalLateDays > 0 && (
+                <div className="flex items-center gap-1" title="Kechikish kunlari">
+                  <AlertTriangle
+                    className={`h-3.5 w-3.5 ${emp?.totalLateDays > 3 ? 'text-red-500' : 'text-amber-500'}`}
+                  />
+                  <span
+                    className={`text-xs font-medium ${emp?.totalLateDays > 3 ? 'text-red-500' : 'text-amber-600'}`}
+                  >
+                    {emp?.totalLateDays}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Circular percentage */}
+            <CircularProgress percentage={emp?.percentage} />
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
