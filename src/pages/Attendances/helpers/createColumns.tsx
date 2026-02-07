@@ -20,16 +20,6 @@ const BADGE_CLASSES = {
   blue: 'border border-tag-blue-icon [&_p]:text-tag-blue-text dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
 } as const;
 
-const STATUS_MAP = {
-  arrival: { LATE: 'orange', ABSENT: 'red' } as const,
-  gone: { EARLY: 'blue' } as const,
-};
-
-const getProgressBarColor = (percent: number) => {
-  if (percent < 40) return 'bg-red-500';
-  if (percent < 70) return 'bg-orange-400';
-  return 'bg-green-500';
-};
 
 export const createColumns = ({ refetch }: any) => {
   const { t } = useTranslation();

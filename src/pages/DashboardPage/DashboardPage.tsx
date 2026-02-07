@@ -2,15 +2,12 @@ import MyBreadCrumb from "components/Atoms/MyBreadCrumb";
 import PageContentWrapper from "components/Layouts/PageContentWrapper";
 import { useTranslation } from "react-i18next";
 import DashboardCard from "./_components/DashboardCard";
-import ProgressCard from "./_components/ProgressCard";
 import AttendancesLine from "./_components/AttendancesLine";
 import MyTailwindPicker from "components/Atoms/Form/MyTailwindDatePicker";
 import { Calendar } from "lucide-react";
 import { useDashboard } from "./hooks/useDashboard";
 import AttendancesCard from "./_components/AttendancesCard";
-
-
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { EmployeeCard } from "./_components/ProgressCard";
 
 const DashboardPage = () => {
   const { t } = useTranslation();
@@ -68,8 +65,20 @@ const DashboardPage = () => {
           onTime={lineChartData.onTimes}
         />
       </div>
-      <div className="mt-8 flex w-full gap-6">
-        <ProgressCard
+      <div className="mt-8 grid grid-cols-2 w-full gap-6">
+        <EmployeeCard employee={topEmployee}
+        title='Effective employees'
+        icon={'CheckCircle2'}
+        iconBgColor="bg-green-100 dark:bg-green-900/30"
+        iconColor="text-green-600 dark:text-green-300"
+        />
+        <EmployeeCard employee={bottomEmployee} 
+          iconBgColor="bg-red-100 dark:bg-red-900/30"
+          iconColor="text-red-600 dark:text-red-300"
+          icon={'XCircle'} 
+          title="Ineffective employees"
+        />
+        {/* <ProgressCard
           topEmployee={topEmployee}
           title='Effective employees'
           icon={CheckCircle2}
@@ -82,7 +91,7 @@ const DashboardPage = () => {
           iconColor="text-red-600 dark:text-red-300"
           isEffective={false}
           icon={XCircle} title="Ineffective employees"
-          topEmployee={bottomEmployee} />
+          topEmployee={bottomEmployee} /> */}
       </div>
     </PageContentWrapper>
   );
