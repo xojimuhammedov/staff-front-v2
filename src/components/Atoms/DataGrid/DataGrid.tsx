@@ -218,8 +218,8 @@ const DataGrid = forwardRef(
                           data-index={i}
                           data-id={get(row, keyExtractor)}
                           className={twMerge([
-                            'data-grid-row flex items-center odd:bg-bg-subtle dark:odd:bg-[#1B1B1F]',
-                            'transition-colors duration-150 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 cursor-pointer',
+                            'data-grid-row flex items-center odd:bg-bg-subtle dark:odd:bg-[#1B1B1F] border-l-4 border-transparent',
+                            'transition-colors duration-150 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 hover:border-yellow-400 cursor-pointer',
                             rowClassName
                           ])}>
                           {hasOrderColumn && (
