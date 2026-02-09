@@ -5,9 +5,11 @@ import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
 import { IFilter } from 'interfaces/filter.interface';
 import { createColumns } from '../helpers/createColumns';
+import { useNavigate } from 'react-router-dom';
 
 const ReportAttendanceList = ({ data, isLoading }: any) => {
   const { columns, dataColumn } = createColumns()
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -32,6 +34,7 @@ const ReportAttendanceList = ({ data, isLoading }: any) => {
           hasCustomizeColumns={true}
           dataColumn={dataColumn}
           pagination={data}
+          handleRowClick={(row: any) => navigate(`/employees/about/${row?.employee?.id}?current-setting=attendance`)}
         />
       </TableProvider>
     </>

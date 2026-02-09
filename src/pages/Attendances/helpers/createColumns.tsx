@@ -151,8 +151,12 @@ export const createColumns = ({ refetch }: any) => {
       {
         key: 'reason',
         label: t('Reason'),
-        headerClassName: 'w-28',
-        cellRender: (row) => <ReasonModal row={row} refetch={refetch} />,
+        headerClassName: 'w-28 text-right',
+        cellRender: (row) => (
+          <div className="flex justify-end">
+            <ReasonModal row={row} refetch={refetch} />
+          </div>
+        ),
       },
     ],
     [t]
@@ -197,24 +201,9 @@ export const createColumns = ({ refetch }: any) => {
     {
       id: 8,
       label: t('Reason'),
-      headerClassName: 'w-28',
+      headerClassName: 'w-28 text-right',
     },
   ];
-  // const rowActions: IAction[] = useMemo(
-  //   () => [
-  //     {
-  //       icon: <View size={DEFAULT_ICON_SIZE} />,
-  //       type: 'secondary',
-  //       name: t('View'),
-  //       action: (row, $e) => {
-  //         navigate(`/employees/about/${row?.employee?.id}?current-setting=attendance`);
-  //       },
-  //       allowedRoles: ['ADMIN', 'HR'],
-  //     },
-  //   ],
-  //   [t]
-  // );
-
   return {
     dataColumn,
     columns,
