@@ -78,20 +78,6 @@ const DashboardPage = () => {
           icon={'XCircle'} 
           title="Ineffective employees"
         />
-        {/* <ProgressCard
-          topEmployee={topEmployee}
-          title='Effective employees'
-          icon={CheckCircle2}
-          iconBgColor="bg-green-100 dark:bg-green-900/30"
-          iconColor="text-green-600 dark:text-green-300"
-          isEffective={true}
-        />
-        <ProgressCard
-          iconBgColor="bg-red-100 dark:bg-red-900/30"
-          iconColor="text-red-600 dark:text-red-300"
-          isEffective={false}
-          icon={XCircle} title="Ineffective employees"
-          topEmployee={bottomEmployee} /> */}
       </div>
     </PageContentWrapper>
   );

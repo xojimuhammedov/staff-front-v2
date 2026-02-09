@@ -256,6 +256,7 @@ const VisitorTable = () => {
           dataColumn={dataColumn}
           rowActions={rowActions}
           pagination={data}
+          handleRowClick={(row) => navigate(`/employees/about/${row?.employee?.id}?current-setting=visitor`)}
         />
       </TableProvider>
       <ConfirmationModal

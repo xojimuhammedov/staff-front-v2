@@ -1,11 +1,8 @@
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import MyBadge from 'components/Atoms/MyBadge';
-import config from 'configs';
-import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
+import config from 'configs'
 import dayjs from 'dayjs';
-import { IAction } from 'interfaces/action.interface';
-import { View } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReasonModal from '../_components/ReasonModal';
@@ -203,23 +200,22 @@ export const createColumns = ({ refetch }: any) => {
       headerClassName: 'w-28',
     },
   ];
-  const rowActions: IAction[] = useMemo(
-    () => [
-      {
-        icon: <View size={DEFAULT_ICON_SIZE} />,
-        type: 'secondary',
-        name: t('View'),
-        action: (row, $e) => {
-          navigate(`/employees/about/${row?.employee?.id}?current-setting=attendance`);
-        },
-        allowedRoles: ['ADMIN', 'HR'],
-      },
-    ],
-    [t]
-  );
+  // const rowActions: IAction[] = useMemo(
+  //   () => [
+  //     {
+  //       icon: <View size={DEFAULT_ICON_SIZE} />,
+  //       type: 'secondary',
+  //       name: t('View'),
+  //       action: (row, $e) => {
+  //         navigate(`/employees/about/${row?.employee?.id}?current-setting=attendance`);
+  //       },
+  //       allowedRoles: ['ADMIN', 'HR'],
+  //     },
+  //   ],
+  //   [t]
+  // );
 
   return {
-    rowActions,
     dataColumn,
     columns,
   };
