@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AvatarIcon from '../../../../assets/icons/avatar.jpg';
 import DateText from 'components/Atoms/DateText';
+import ReasonModal from 'pages/Attendances/_components/ReasonModal';
 
 export const createColumns = () => {
   const { t } = useTranslation();
@@ -146,7 +147,13 @@ export const createColumns = () => {
         label: t('Arrival date'),
         headerClassName: 'w-1/4',
         cellRender: (row) => <DateText value={row?.startTime} />,
-      }
+      },
+      {
+        key: 'reason',
+        label: t('Reason'),
+        headerClassName: 'w-28',
+        cellRender: (row) => <ReasonModal row={row} />,
+      },
     ],
     [t]
   );
@@ -186,6 +193,11 @@ export const createColumns = () => {
       id: 7,
       label: t('Arrival date'),
       headerClassName: 'w-1/4',
+    },
+    {
+      id: 8,
+      label: t('Reason'),
+      headerClassName: 'w-28',
     },
   ];
 

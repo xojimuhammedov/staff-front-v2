@@ -25,7 +25,11 @@ function ReasonModal({ row }: any) {
           row?.reasons ? 'border border-red-500 dark:border-red-400' : ''
         }`}
         disabled={disabled}
-        onClick={() => setOpen(true)}
+        onMouseDown={(event) => event.stopPropagation()}
+        onClick={(event) => {
+          event.stopPropagation();
+          setOpen(true);
+        }}
       >
         {row?.reasons ? t('Reasonably') : t('Reason')}
       </MyButton>
