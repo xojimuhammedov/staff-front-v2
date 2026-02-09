@@ -105,22 +105,6 @@ export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: Oneti
               <code className="font-mono text-sm font-semibold text-foreground dark:text-text-title-dark bg-muted/50 dark:bg-bg-form px-2 py-1 rounded-md">
                 {accessCode}
               </code>
-              <button
-                onClick={handleCopy}
-                className={twMerge(
-                  'p-1.5 rounded-md transition-all duration-200',
-                  'hover:bg-muted/80 dark:hover:bg-bg-form active:scale-95',
-                  copied && 'text-emerald-600 dark:text-emerald-300'
-                )}
-                type="button"
-                aria-label="Copy access code"
-              >
-                {copied ? (
-                  <Check className="w-4 h-4" />
-                ) : (
-                  <Copy className="w-4 h-4 text-muted-foreground dark:text-text-subtle" />
-                )}
-              </button>
             </div>
           </div>
 
