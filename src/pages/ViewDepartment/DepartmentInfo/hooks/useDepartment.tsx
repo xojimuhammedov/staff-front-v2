@@ -87,8 +87,8 @@ export const useDepartment = () => {
         lineChartData,
         control,
         departmentInfo: getOne?.data,
-        topEmployee: topEmployee?.data,
-        bottomEmployee: bottomEmployee?.data
+        topEmployee: topEmployee,
+        bottomEmployee: bottomEmployee
     }
 }
 
