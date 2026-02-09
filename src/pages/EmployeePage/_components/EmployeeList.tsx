@@ -18,7 +18,6 @@ import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import MyAvatar from 'components/Atoms/MyAvatar'
 import config from 'configs';
 import storage from 'services/storage';
-
 import AvatarIcon from '../../../assets/icons/avatar.jpg'
 import { searchValue } from 'types/search';
 import { CredentialIcons } from './CredentialTooltip';
@@ -218,6 +217,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
           dataColumn={dataColumn}
           rowActions={rowActions}
           pagination={data}
+          handleRowClick={(row) => navigate(`/employees/about/${row.id}`)}
         />
       </TableProvider>
       <ConfirmationModal

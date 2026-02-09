@@ -52,7 +52,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 }
             </div>
             <div>
-                <p className="text-sm font-medium capitalize text-text-base dark:text-text-title-dark">{event?.entryType === "ENTER" ? "Arrival" : "Departure"}</p>
+                <p className="text-sm font-medium capitalize text-text-base dark:text-text-title-dark">{event?.entryType === "ENTER" ? t('Arrival') : t('Departure')}</p>
                 <p className="text-xs text-gray-500 dark:text-text-title-dark">
                     {dayjs(event?.actionTime).format("HH:mm")} {event?.credential?.type}
                 </p>
