@@ -1,18 +1,16 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
-import { MyCheckbox, MyInput } from '../Form';
+import { MyInput } from '../Form';
 import MyPagination from '../MyPagination';
 import DataGridCell from './DataGridCell';
 import FirstCapitalLetter from '../FirstCapitalLetter';
 import SocialCell from './SocialCell';
-import ExportButton from './ExportButton';
 import MyDivider from '../MyDivider';
 import { Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import useTableContext from 'providers/TableProvider/useTableContext';
-import ActionSelectButton from './ActionSelectButton';
-import FiltersButton from './Filters';
+
 import { get, isEmpty } from 'lodash';
 import { IPagination } from '../../../interfaces/pagination.interface';
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '../../../constants/pagination.constants';
@@ -216,11 +214,12 @@ const DataGrid = forwardRef(
                       return (
                         <div
                           key={i}
-                          data-row
+                          data-roww
                           data-index={i}
                           data-id={get(row, keyExtractor)}
                           className={twMerge([
-                            'data-grid-row  flex items-center odd:bg-bg-subtle dark:odd:bg-[#1B1B1F]',
+                            'data-grid-row flex items-center odd:bg-bg-subtle dark:odd:bg-[#1B1B1F]',
+                            'transition-colors duration-150 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 cursor-pointer',
                             rowClassName
                           ])}>
                           {hasOrderColumn && (
