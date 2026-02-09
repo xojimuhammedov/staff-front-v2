@@ -246,6 +246,9 @@
   "Lateness": "Опозданий",
   "Early departures": "Ранних уходов",
   "days": "дней",
+  "Arrival": "Приход",
+  "Departure": "Уход",
+  "SubDepartment list": "Список подотделов",
   "Arrival time": "Время прихода",
   "Time to leave": "Время ухода",
   "Working time(min)": "Рабочее время(мин)",
@@ -537,7 +540,7 @@
   "Total tracked hours": "Всего отслеживаемых часов",
   "Late arrivals": "Поздние прибытия",
   "Early leaves": "Ранние уходы",
-  "early": "early",
+  "early": "раннее",
   "on-time": "on time",
   "Monitor employee attendance patterns and punctuality": "Контролируйте посещаемость и пунктуальность сотрудников",
   "Edit profile": "Редактировать профиль",
@@ -694,5 +697,6 @@
   "Used": "использованный",
   "Expired": "истекший",
   "Are you sure you want to delete this organization": "Вы уверены, что хотите удалить эту организацию?",
-  "Previous": "Предыдущий"
+  "Previous": "Предыдущий" ,
+  "Employee list": "Список сотрудников"
 }
