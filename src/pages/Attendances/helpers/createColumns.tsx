@@ -1,7 +1,7 @@
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import MyBadge from 'components/Atoms/MyBadge';
-import config from 'configs'
+import config from 'configs';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,6 @@ const BADGE_CLASSES = {
   green: 'border border-tag-green-icon [&_p]:text-tag-green-text dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
   blue: 'border border-tag-blue-icon [&_p]:text-tag-blue-text dark:border-tag-blue-icon dark:[&_p]:text-tag-blue-text',
 } as const;
-
 
 export const createColumns = ({ refetch }: any) => {
   const { t } = useTranslation();
@@ -33,8 +32,8 @@ export const createColumns = ({ refetch }: any) => {
   };
 
   const renderBadge = (variant: 'orange' | 'red' | 'green' | 'blue', text: string) => (
-    <MyBadge className={`${BADGE_CLASSES[variant]} min-w-max`} variant={variant}>
-      {text}
+    <MyBadge className={BADGE_CLASSES[variant]} variant={variant}>
+      <p className="text-xs font-medium">{text}</p>
     </MyBadge>
   );
 
@@ -47,9 +46,9 @@ export const createColumns = ({ refetch }: any) => {
   const renderTimeCell = (time?: string, format = 'HH:mm') => {
     if (!time) return '--';
     return (
-      <div className="department-text text-text-base dark:text-text-title-dark">
-        {' '}
-        {dayjs(time).format(format)}{' '}
+      <div className="flex items-center gap-1">
+        <div className="size-1.5 rounded-full bg-green-500" />
+        {dayjs(time).format(format)}
       </div>
     );
   };
@@ -59,45 +58,42 @@ export const createColumns = ({ refetch }: any) => {
       {
         key: 'fullName',
         label: t('Employee name'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'w-[20%]',
         cellRender: (row) => (
-          <div className="flex items-center gap-2 dark:text-text-title-dark">
+          <div className="flex items-center gap-2">
             <MyAvatar
-              size="medium"
-              imageUrl={
-                row?.employee?.photo
-                  ? `${config.FILE_URL}api/storage/${row?.employee?.photo}`
-                  : AvatarIcon
-              }
+              src={row?.employee?.avatar ?? AvatarIcon}
+              alt={row?.employee?.name}
+              className="size-8"
             />
-            {row?.employee?.name}
+            <p className="line-clamp-1">{row?.employee?.name}</p>
           </div>
         ),
       },
       {
         key: 'arrivalStatus',
         label: t('Arrival status'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'w-[12%]',
         cellRender: (row) =>
           renderStatusBadge(row?.arrivalStatus, { LATE: 'orange', ABSENT: 'red' }),
       },
       {
         key: 'arrivalTime',
         label: t('Arrival time'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'w-[10%]',
         cellRender: (row) => renderTimeCell(row?.startTime, 'HH:mm'),
       },
       {
         key: 'goneStatus',
         label: t('Left status'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'w-[12%]',
         cellRender: (row) =>
           renderStatusBadge(row?.goneStatus, { EARLY: 'blue' }),
       },
       {
         key: 'goneTime',
         label: t('Gone time'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'w-[10%]',
         cellRender: (row) => {
           if (row?.endTime) return renderTimeCell(row?.endTime, 'HH:mm');
           if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
@@ -109,7 +105,7 @@ export const createColumns = ({ refetch }: any) => {
       {
         key: 'workonTime',
         label: t('Work on time'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'w-[18%]',
         cellRender: (row) => {
           if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
             return '--';
@@ -117,26 +113,32 @@ export const createColumns = ({ refetch }: any) => {
           if (row?.startTime) {
             const plannedMinutes = Number(row?.plannedMinutes ?? 0);
             const effectiveEndTime = row?.endTime ?? dayjs().toISOString();
-            const minutes = Math.max(0, dayjs(effectiveEndTime).diff(dayjs(row?.startTime), 'minute'));
+            const minutes = Math.max(
+              0,
+              dayjs(effectiveEndTime).diff(dayjs(row?.startTime), 'minute')
+            );
             const hours = Math.floor(minutes / 60);
             const mins = minutes % 60;
             const percent =
-              plannedMinutes > 0 ? Math.min(100, Math.round((minutes / plannedMinutes) * 100)) : 0;
-            
+              plannedMinutes > 0
+                ? Math.min(100, Math.round((minutes / plannedMinutes) * 100))
+                : 0;
             const progressBarColor = getProgressBarColor(percent);
-            
+
             return (
               <div className="flex flex-col gap-1">
-                <div className="text-sm text-text-base dark:text-text-title-dark">
+                <p className="text-sm">
                   {t('work_time_format', { hours, minutes: mins })}
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                    <div
+                      className={`h-full transition-all ${progressBarColor}`}
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{percent}%</p>
                 </div>
-                <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
-                  <div
-                    className={`h-2 rounded-full ${progressBarColor}`}
-                    style={{ width: `${percent}%` }}
-                  />
-                </div>
-                <div className="text-xs text-text-muted">{percent}%</div>
               </div>
             );
           } else return '--';
@@ -145,67 +147,65 @@ export const createColumns = ({ refetch }: any) => {
       {
         key: 'arrivalDate',
         label: t('Arrival date'),
-        headerClassName: 'w-1/4',
-        cellRender: (row) => <DateText value={row?.startTime} />,
+        headerClassName: 'w-[10%]',
+        cellRender: (row) => <DateText value={row?.date} />,
       },
       {
         key: 'reason',
         label: t('Reason'),
-        headerClassName: 'w-28 text-right',
+        headerClassName: 'w-[8%] text-right',
         cellRender: (row) => (
           <div className="flex justify-end">
-            <ReasonModal row={row} refetch={refetch} />
+            <ReasonModal data={row} refetch={refetch} />
           </div>
         ),
       },
     ],
-    [t]
+    [t, refetch]
   );
 
   const dataColumn = [
     {
       id: 1,
       label: t('Employee name'),
-      headerClassName: 'w-1/3',
+      headerClassName: 'w-[20%]',
     },
     {
       id: 2,
       label: t('Arrival status'),
-      headerClassName: 'w-1/4',
+      headerClassName: 'w-[12%]',
     },
     {
       id: 3,
       label: t('Arrival time'),
-      headerClassName: 'w-1/4',
+      headerClassName: 'w-[10%]',
     },
     {
       id: 4,
       label: t('Left status'),
-      headerClassName: 'w-1/4',
+      headerClassName: 'w-[12%]',
     },
     {
       id: 5,
       label: t('Gone time'),
-      headerClassName: 'w-1/4',
+      headerClassName: 'w-[10%]',
     },
     {
       id: 6,
       label: t('Work on time'),
-      headerClassName: 'w-1/4',
+      headerClassName: 'w-[18%]',
     },
     {
       id: 7,
       label: t('Arrival date'),
-      headerClassName: 'w-1/4',
+      headerClassName: 'w-[10%]',
     },
     {
       id: 8,
       label: t('Reason'),
-      headerClassName: 'w-28 text-right',
+      headerClassName: 'w-[8%] text-right',
     },
   ];
-  return {
-    dataColumn,
-    columns,
-  };
+
+  return { dataColumn, columns };
 };
