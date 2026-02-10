@@ -151,7 +151,7 @@ const AbsenseList = ({ data, isLoading, refetch }: any) => {
                 values={{
                     columns,
                     filter: { search: '' },
-                    rows: get(data, 'items', []),
+                    rows: get(data, 'data', get(data, 'items', [])),
                     keyExtractor: 'id'
                 }}>
                 <DataGrid
