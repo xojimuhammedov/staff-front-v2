@@ -10,16 +10,16 @@ import { useNavigate } from 'react-router-dom';
 
 const EditPolicyRulePage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const breadCrumbs = [
     {
       label: t('Schedule'),
-      url: '#'
+      url: '#',
     },
     {
       label: t('Edit rule'),
-      url: '#'
-    }
+      url: '#',
+    },
   ];
 
   return (
@@ -29,8 +29,9 @@ const EditPolicyRulePage = () => {
         <MyButton
           onClick={() => navigate('/settings?current-setting=schedule')}
           variant="primary"
-          className={`text-sm min-w-max dark:bg-bg-form dark:text-white [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
-          startIcon={<ArrowLeft />}>
+          className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+        >
+          startIcon={<ArrowLeft />}
           {t('Back to schedule list')}
         </MyButton>
       </div>

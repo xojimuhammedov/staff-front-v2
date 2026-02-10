@@ -160,7 +160,7 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
                     <div className='grid grid-cols-3 w-full'>
                         <div className='flex items-center gap-2'>
                             <MyCheckbox checked={isAllSelected}
-                                onChange={(checked) => handleSelectAll(checked)} label='Employee' />
+                                onChange={(checked) => handleSelectAll(checked)} label={t("Employee")} />
                         </div>
                         <div className='dark:text-text-title-dark'>{t("Department")}</div>
                         <div className='dark:text-text-title-dark'>{t("Phone")}</div>

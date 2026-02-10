@@ -163,7 +163,7 @@ const GeneralDetails = () => {
               render={({ field, fieldState }) => (
                 <MyTimePicker
                   {...field}
-                  label="Start work time"
+                  label={t("Start work time")}
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                 />

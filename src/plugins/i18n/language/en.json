@@ -694,6 +694,9 @@
   "Back to department list": "Back to department list" ,
   "View department": "View department",
   "Organization info": "Organization info" ,
-  "Previous": "Previous"
-
+  "Previous": "Previous",
+  "Created": "Created" ,
+  "Updated": "Updated",
+  "Information details": "Information details" ,
+  "ORGANIZATION": "ORGANIZATION"
 }
