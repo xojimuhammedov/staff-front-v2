@@ -5,14 +5,16 @@ const Credentials = lazy(() => import('../Credentials/Credentials'))
 const EmployeeView = lazy(() => import('../View'))
 const AttendancesInfo = lazy(() => import('../AttendancesInfo'))
 const Productivity = lazy(() => import('../Productivity'))
+const EmployeeAbsence = lazy(() => import('../EmployeeAbsence'))
 
-type RulesType = 'view' | 'details' | 'attendance' | 'productivity';
+type RulesType = 'view' | 'details' | 'attendance' | 'productivity' | 'absences';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
     view: EmployeeView,
     details: Credentials,
     attendance: AttendancesInfo,
-    productivity: Productivity
+    productivity: Productivity,
+    absences: EmployeeAbsence
 };
 
 
