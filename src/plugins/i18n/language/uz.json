@@ -701,5 +701,9 @@
   "Upload documents": "Fayl yuklash" ,
   "Are you sure you want to delete this organization": "Bu tashkilotni o‘chirmoqchimisiz?",
   "Previous": "Oldingi",
-  "Employee list": "Xodimlar ro'yxati"
+  "Employee list": "Xodimlar ro'yxati",
+  "Created": "Yaratildi",
+  "Updated": "Yangilandi" ,
+  "Information details": "Ma’lumotlar tafsilotlari" ,
+  "ORGANIZATION": "TASHKILOT"
  }

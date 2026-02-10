@@ -698,5 +698,9 @@
   "Expired": "истекший",
   "Are you sure you want to delete this organization": "Вы уверены, что хотите удалить эту организацию?",
   "Previous": "Предыдущий" ,
-  "Employee list": "Список сотрудников"
+  "Employee list": "Список сотрудников",
+  "Created": "Создан" ,
+  "Updated": "Обновлен" ,
+  "Information details": "Детали информации" ,
+  "ORGANIZATION": "ОРГАНИЗАЦИЯ"
 }

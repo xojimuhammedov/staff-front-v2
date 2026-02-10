@@ -229,8 +229,8 @@ export default function CredentialCard({
       {/* Metadata */}
       <div className="px-5 py-3 bg-muted/20 dark:bg-bg-form border-t border-border/30 dark:border-dark-line">
         <div className="flex items-center justify-between w-full text-xs text-muted-foreground dark:text-text-title-dark">
-          <p>Created: {safeFormatDate(createdAt)}</p>
-          <p>Updated: {safeFormatDate(updatedAt)}</p>
+          <p>{t('Created')}: {safeFormatDate(createdAt)}</p>
+          <p>{t('Updated')}: {safeFormatDate(updatedAt)}</p>
         </div>
       </div>
 
