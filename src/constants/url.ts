@@ -50,5 +50,6 @@ export const URLS = {
   dashboardTodayTop: "/api/v1/dashboard/top-employees/useful",
   dashboardTodayBottom:'/api/v1/dashboard/top-employees/unuseful',
   actionAllList: "/api/v1/action/all-actions",
-  absences: "/api/v1/absences"
+  absences: "/api/v1/absences",
+  employeeAbsences: "/api/v1/employee-absences"
 };

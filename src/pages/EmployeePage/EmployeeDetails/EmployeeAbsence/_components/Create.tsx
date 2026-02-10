@@ -1,0 +1,195 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { MySelect, MyTextarea } from 'components/Atoms/Form';
+import MyTailwindPicker from "components/Atoms/Form/MyTailwindDatePicker";
+import MyButton from 'components/Atoms/MyButton/MyButton';
+import MyModal from 'components/Atoms/MyModal';
+import { KEYS } from 'constants/key';
+import { URLS } from 'constants/url';
+import { useGetAllQuery, usePostQuery } from 'hooks/api';
+import { ISelect } from 'interfaces/select.interface';
+import { Calendar, Plus } from 'lucide-react';
+import { Organization } from 'pages/OrganizationPage/interface/organization.interface';
+import { useMemo, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { object } from 'yup';
+import * as yup from 'yup';
+import dayjs from 'dayjs';
+
+type CreateProps = {
+  refetch?: () => void;
+  employeeId?: number | string;
+};
+
+const Create = ({ refetch, employeeId }: CreateProps) => {
+  const { t, i18n } = useTranslation();
+  const [open, setOpen] = useState(false);
+
+  const { mutate: create } = usePostQuery({
+    listKeyId: KEYS.employeeAbsences,
+    hideSuccessToast: true,
+  });
+
+  const { data } = useGetAllQuery<any>({
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
+    hideErrorMsg: true,
+    params: {},
+  });
+  const { data: absenceData } = useGetAllQuery<any>({
+    key: KEYS.absences,
+    url: URLS.absences,
+    hideErrorMsg: true,
+    params: {},
+  });
+
+  const langSuffix = useMemo(() => {
+    const currentLang = i18n.resolvedLanguage ?? 'en';
+    return currentLang.startsWith('ru') ? 'Ru' : currentLang.startsWith('uz') ? 'Uz' : 'Eng';
+  }, [i18n.resolvedLanguage]);
+
+  const schema = object().shape({
+    organizationId: yup.number().required(),
+    absenceId: yup.number().required(),
+    description: yup.string().required(),
+    date: yup.object().nullable(),
+  });
+
+  const {
+    handleSubmit,
+    register,
+    control,
+  } = useForm({
+    mode: 'onChange',
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (formData: any) => {
+    const startTime = formData?.date?.startDate
+      ? dayjs(formData.date.startDate).toISOString()
+      : undefined;
+    const endTime = formData?.date?.endDate
+      ? dayjs(formData.date.endDate).toISOString()
+      : undefined;
+    const { date, ...rest } = formData;
+    create(
+      {
+        url: URLS.employeeAbsences,
+        attributes: {
+          ...rest,
+          startTime,
+          endTime,
+          employeeId: employeeId ? Number(employeeId) : undefined,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('Successfully created!'));
+          setOpen(false);
+          refetch?.();
+        },
+        onError: () => {
+          toast.error(t('An error occurred!'));
+        },
+      }
+    );
+  };
+
+  return (
+    <>
+      <MyButton
+        onClick={() => {
+          setOpen(true);
+        }}
+        allowedRoles={['ADMIN', 'HR']}
+        startIcon={<Plus />}
+        variant="primary"
+        className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
+      >
+        {t('Create absence')}
+      </MyButton>
+      <MyModal
+        modalProps={{
+          show: Boolean(open),
+          onClose: () => setOpen(false),
+          size: '3xl',
+        }}
+        headerProps={{
+          children: <h2 className="dark:text-text-title-dark">{t('Absence')}</h2>,
+        }}
+        bodyProps={{
+          children: (
+            <form onSubmit={handleSubmit(onSubmit)} action="">
+              <div className="grid grid-cols-1 gap-4">
+                <Controller
+                  name="organizationId"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <MySelect
+                      label={t('Select organization')}
+                      options={data?.data?.map((evt: Organization) => ({
+                        label: evt.fullName,
+                        value: evt.id,
+                      }))}
+                      value={field.value as any}
+                      onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                      onBlur={field.onBlur}
+                      error={!!fieldState.error}
+                      allowedRoles={['ADMIN']}
+                      required
+                    />
+                  )}
+                />
+                <Controller
+                  name="absenceId"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <MySelect
+                      label={t('Absence')}
+                      options={(absenceData?.data ?? absenceData?.items ?? []).map((item: any) => ({
+                        label: item?.[`shortLetter${langSuffix}`] ?? item?.name ?? '--',
+                        value: item?.id,
+                      }))}
+                      value={field.value as any}
+                      onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                      onBlur={field.onBlur}
+                      error={!!fieldState.error}
+                      allowedRoles={['ADMIN', 'HR']}
+                      required
+                    />
+                  )}
+                />
+                <MyTextarea
+                  label={t('Description')}
+                  {...register('description')}
+                  className="dark:bg-bg-input-dark dark:text-text-title-dark"
+                  required
+                />
+                <MyTailwindPicker
+                  useRange={true}
+                  name="date"
+                  asSingle={false}
+                  control={control}
+                  placeholder={t('Today')}
+                  startIcon={<Calendar className="stroke-text-muted" />}
+                />
+              </div>
+              <div className="mt-2 flex items-center justify-end gap-4">
+                <MyButton variant="primary" type="submit">
+                  {t('Save changes')}
+                </MyButton>
+                <MyButton onClick={() => setOpen(false)} variant="secondary">
+                  {t('Close')}
+                </MyButton>
+              </div>
+            </form>
+          ),
+          className: 'py-[10px]',
+        }}
+      />
+    </>
+  );
+};
+
+export default Create;
