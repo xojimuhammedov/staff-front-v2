@@ -77,7 +77,7 @@ const Create = ({ refetch }: any) => {
         }}
         allowedRoles={['ADMIN', 'HR']}
         startIcon={<Plus />}
-        variant='primary'
+        variant="primary"
         className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
       >
         {t('Create absence')}
@@ -86,51 +86,53 @@ const Create = ({ refetch }: any) => {
         modalProps={{
           show: Boolean(open),
           onClose: () => setOpen(false),
-          size: 'md',
+          size: '3xl',
         }}
         headerProps={{
           children: <h2 className="dark:text-text-title-dark">{t('Absence')}</h2>,
         }}
         bodyProps={{
           children: (
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" action="">
-              <MyInput label={t('Short letter uz')} {...register('shortLetterUz')} />
-              <MyInput label={t('Short letter ru')} {...register('shortLetterRu')} />
-              <MyInput label={t('Short letter en')} {...register('shortLetterEng')} />
-              <MyTextarea
-                label={t('Description uz')}
-                {...register('descriptionUz')}
-                className="dark:bg-bg-input-dark dark:text-text-title-dark"
-              />
-              <MyTextarea
-                label={t('Description ru')}
-                {...register('descriptionRu')}
-                className="dark:bg-bg-input-dark dark:text-text-title-dark"
-              />
-              <MyTextarea
-                label={t('Description en')}
-                {...register('descriptionEng')}
-                className="dark:bg-bg-input-dark dark:text-text-title-dark"
-              />
-              <Controller
-                name="organizationId"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <MySelect
-                    label={t('Select organization')}
-                    options={data?.data?.map((evt: Organization) => ({
-                      label: evt.fullName,
-                      value: evt.id,
-                    }))}
-                    value={field.value as any} 
-                    onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                    onBlur={field.onBlur}
-                    error={!!fieldState.error}
-                    allowedRoles={['ADMIN']}
-                    required
-                  />
-                )}
-              />
+            <form onSubmit={handleSubmit(onSubmit)} action="">
+              <div className="grid grid-cols-2 gap-4">
+                <Controller
+                  name="organizationId"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <MySelect
+                      label={t('Select organization')}
+                      options={data?.data?.map((evt: Organization) => ({
+                        label: evt.fullName,
+                        value: evt.id,
+                      }))}
+                      value={field.value as any}
+                      onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                      onBlur={field.onBlur}
+                      error={!!fieldState.error}
+                      allowedRoles={['ADMIN']}
+                      required
+                    />
+                  )}
+                />
+                <MyInput label={t('Short letter uz')} {...register('shortLetterUz')} />
+                <MyInput label={t('Short letter ru')} {...register('shortLetterRu')} />
+                <MyInput label={t('Short letter en')} {...register('shortLetterEng')} />
+                <MyTextarea
+                  label={t('Description uz')}
+                  {...register('descriptionUz')}
+                  className="dark:bg-bg-input-dark dark:text-text-title-dark"
+                />
+                <MyTextarea
+                  label={t('Description ru')}
+                  {...register('descriptionRu')}
+                  className="dark:bg-bg-input-dark dark:text-text-title-dark"
+                />
+                <MyTextarea
+                  label={t('Description en')}
+                  {...register('descriptionEng')}
+                  className="dark:bg-bg-input-dark dark:text-text-title-dark"
+                />
+              </div>
               <div className="mt-2 flex items-center justify-end gap-4">
                 <MyButton variant="primary" type="submit">
                   {t('Save changes')}
