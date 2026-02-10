@@ -6,15 +6,17 @@ const DoorsPage = lazy(() => import('./SettingForms/DoorsPage'));
 const ReasonType = lazy(() => import('../ReasonType'))
 const JobPosition = lazy(() => import('../JobPosition'))
 const WorkSchedule = lazy(() => import('../../WorkSchedule'))
+const Absence = lazy(() => import('../Absence'))
 
-type RulesType = 'deviceControl' | 'doors' | 'reason_type' | 'job_position' | 'schedule';
+type RulesType = 'deviceControl' | 'doors' | 'reason_type' | 'job_position' | 'schedule' | 'absence';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
   deviceControl: DevicePage,
   doors: DoorsPage,
   reason_type: ReasonType,
   job_position: JobPosition,
-  schedule: WorkSchedule
+  schedule: WorkSchedule,
+  absence: Absence
 };
 
 const MainContent = () => {

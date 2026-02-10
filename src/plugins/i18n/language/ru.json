@@ -702,5 +702,17 @@
   "Created": "Создан" ,
   "Updated": "Обновлен" ,
   "Information details": "Детали информации" ,
-  "ORGANIZATION": "ОРГАНИЗАЦИЯ"
+  "ORGANIZATION": "ОРГАНИЗАЦИЯ",
+  "Absence": "Отсутствие",
+  "Employee list for absence type": "Список сотрудников по типу отсутствия",
+  "Create absence": "Создать отсутствие",
+  "Short letter": "Короткое обозначение",
+  "Short letter uz": "Короткое обозначение uz",
+  "Short letter ru": "Короткое обозначение ru",
+  "Short letter en": "Короткое обозначение en",
+  "Description": "Описание",
+  "Description uz": "Описание uz",
+  "Description ru": "Описание ru",
+  "Description en": "Описание en",
+  "Are you sure you want to delete this absence?": "Вы уверены, что хотите удалить это отсутствие?"
 }

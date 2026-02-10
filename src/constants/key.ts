@@ -49,5 +49,6 @@ export const KEYS = {
   oneTimeCodeExpire: "oneTimeCodeExpire",
   dashboardTodayTop: "dashboardTodayTop",
   dashboardTodayBottom: "dashboardTodayBottom",
-  actionAllList: "actionAllList"
+  actionAllList: "actionAllList",
+  absences: "absences"
 };
