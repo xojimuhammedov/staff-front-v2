@@ -1,6 +1,7 @@
-import MyBadge from 'components/Atoms/MyBadge';
-import MyAvatar from 'components/Atoms/MyAvatar';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import MyAvatar from 'components/Atoms/MyAvatar';
+import MyBadge from 'components/Atoms/MyBadge';
+import AvatarIcon from 'assets/icons/avatar.jpg';
 import config from 'configs';
 import dayjs from 'dayjs';
 import { Trash2 } from 'lucide-react';
@@ -26,6 +27,9 @@ export type AbsenceItem = {
     shortLetterUz?: string;
     shortLetterRu?: string;
     shortLetterEng?: string;
+    descriptionUz?: string;
+    descriptionRu?: string;
+    descriptionEng?: string;
   };
 };
 
@@ -95,10 +99,10 @@ const AbsenceCard = ({ item, onDelete }: AbsenceCardProps) => {
   const { t } = useTranslation();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const name = item.employee?.name ?? '--';
-  const jobTitle = item.employee?.jobTitle ?? item.employee?.position?.name ?? '--';
+  // const jobTitle = item.employee?.jobTitle ?? item.employee?.position?.name ?? '--';
   const imageUrl = item.employee?.photo
     ? `${config.FILE_URL}api/storage/${item.employee.photo}`
-    : undefined;
+    : AvatarIcon;
   const statusMeta = getStatusMeta(item.status, item.startTime, item.endTime);
   const absenceLabel =
     item.absence?.shortLetterUz ||
@@ -106,6 +110,8 @@ const AbsenceCard = ({ item, onDelete }: AbsenceCardProps) => {
     item.absence?.shortLetterEng ||
     item.absence?.name ||
     '--';
+  const absenceDescription =
+    item.absence?.descriptionUz || item.absence?.descriptionRu || item.absence?.descriptionEng;
   const durationLabel = getDurationLabel(item.startTime, item.endTime);
   const rangeLabel = getRangeLabel(item.startTime, item.endTime);
   const progress = getProgress(item.startTime, item.endTime);
@@ -125,7 +131,7 @@ const AbsenceCard = ({ item, onDelete }: AbsenceCardProps) => {
           </MyAvatar>
           <div>
             <p className="text-c-m-p font-medium text-text-base dark:text-text-title-dark">{name}</p>
-            <p className="text-c-xs text-text-muted dark:text-text-title-dark">{jobTitle}</p>
+            {/* <p className="text-c-xs text-text-muted dark:text-text-title-dark">{jobTitle}</p> */}
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -165,9 +171,9 @@ const AbsenceCard = ({ item, onDelete }: AbsenceCardProps) => {
         </div>
       ) : null}
 
-      {item.description ? (
+      {absenceDescription ? (
         <div className="mt-3 rounded-m bg-bg-subtle p-2 text-c-xs text-text-base dark:bg-gray-800 dark:text-text-title-dark">
-          {item.description}
+          {absenceDescription}
         </div>
       ) : null}
       {onDelete && item.id ? (

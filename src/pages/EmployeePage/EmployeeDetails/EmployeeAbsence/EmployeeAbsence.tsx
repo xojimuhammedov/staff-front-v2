@@ -2,7 +2,7 @@ import MyDivider from 'components/Atoms/MyDivider';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import Create from './_components/Create';
-import AbsenceCard, { AbsenceItem } from './_components/AbsenceCard';
+import { AbsenceCard, AbsenceItem } from './_components';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';

@@ -23,6 +23,7 @@ interface EmployeeCardProps {
   icon: string | React.ReactNode;
   iconBgColor: string;
   iconColor: string;
+  onRowClick?: (employeeId: number) => void;
 }
 
 
@@ -67,7 +68,14 @@ function CircularProgress({ percentage }: { percentage: number }) {
   );
 }
 
-export function EmployeeCard({ employee, title, icon, iconBgColor, iconColor }: EmployeeCardProps) {
+export function EmployeeCard({
+  employee,
+  title,
+  icon,
+  iconBgColor,
+  iconColor,
+  onRowClick,
+}: EmployeeCardProps) {
   const { t } = useTranslation();
 
   function formatMinutes(minutes: number) {
@@ -89,7 +97,8 @@ export function EmployeeCard({ employee, title, icon, iconBgColor, iconColor }: 
         {employee?.map((emp, index) => (
           <div
             key={emp.id}
-            className="group flex my-2 items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30"
+            className="group flex my-2 items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer"
+            onClick={() => onRowClick?.(emp.id)}
           >
             {/* Rank */}
             <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-muted text-[10px] font-bold text-muted-foreground">
