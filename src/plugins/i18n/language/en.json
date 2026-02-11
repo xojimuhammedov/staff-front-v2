@@ -710,5 +710,10 @@
   "Description en": "Description en",
   "Are you sure you want to delete this absence?": "Are you sure you want to delete this absence?",
   "Ishda qatnashmaslik sabablari (kishi/kun)":"Reasons for absence from work (person/day)",
-  "Umumiy":"General"
+  "Umumiy":"General",
+  "Dam olish kuni":"Day off",
+  "Ta'tilda":"On vacation",
+  "Kechikib kelgan":"Arrived late",
+  "Kelmagan":"Didn't come",
+  "Vaqtida kelgan":"Arrived on time"
 }

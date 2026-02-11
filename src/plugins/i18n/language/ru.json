@@ -716,5 +716,10 @@
   "Description en": "Описание en",
   "Are you sure you want to delete this absence?": "Вы уверены, что хотите удалить это отсутствие?",
   "Ishda qatnashmaslik sabablari (kishi/kun)":"Причины отсутствия на работе (человек/день)",
-  "Umumiy":"Общий"
+  "Umumiy":"Общий",
+  "Dam olish kuni":"Выходной",
+  "Ta'tilda":"В отпуске",
+  "Kechikib kelgan":"Приехал с опозданием.",
+  "Kelmagan":"Не пришёл",
+  "Vaqtida kelgan":"Прибыл вовремя"
 }

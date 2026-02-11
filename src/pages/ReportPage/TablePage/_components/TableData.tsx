@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import storage from 'services/storage';
 import { addHours, timeLine } from 'utils/helper';
+import { AttendanceLegend } from './AttendancesLabel';
 
 const TableData = () => {
   const { t, i18n } = useTranslation();
@@ -34,46 +35,47 @@ const TableData = () => {
     params: {
       startDate: searchParams.get('startDate'),
       endDate: searchParams.get('endDate'),
+      organizationId: searchParams.get("organizationId")
     },
   });
 
-  const getStatusStyle = (status: string) => {
-    if (status === 'ABSENT') {
-      return {
-        light: {
-          bg: '#fee2e2',
-          text: '#991b1b',
-          border: '#fca5a5',
-        },
-        dark: {
-          bg: '#7f1d1d',
-          text: '#fecaca',
-          border: '#991b1b',
-        },
-      };
-    } else if (status === 'LATE') {
-      return {
-        light: {
-          bg: '#fef3c7',
-          text: '#92400e',
-          border: '#fcd34d',
-        },
-        dark: {
-          bg: '#78350f',
-          text: '#fde68a',
-          border: '#92400e',
-        },
-      };
-    }
-    return {
-      light: {
-        bg: 'transparent',
-        text: darkLight === 'dark' ? '#f3f4f6' : '#111827',
-        border: '#e5e7eb',
-      },
-      dark: { bg: 'transparent', text: '#f3f4f6', border: '#374151' },
-    };
-  };
+//   const getStatusStyle = (status: string) => {
+//     if (status === 'ABSENT') {
+//       return {
+//         light: {
+//           bg: '#fee2e2',
+//           text: '#991b1b',
+//           border: '#fca5a5',
+//         },
+//         dark: {
+//           bg: '#7f1d1d',
+//           text: '#fecaca',
+//           border: '#991b1b',
+//         },
+//       };
+//     } else if (status === 'LATE') {
+//       return {
+//         light: {
+//           bg: '#fef3c7',
+//           text: '#92400e',
+//           border: '#fcd34d',
+//         },
+//         dark: {
+//           bg: '#78350f',
+//           text: '#fde68a',
+//           border: '#92400e',
+//         },
+//       };
+//     }
+//     return {
+//       light: {
+//         bg: 'transparent',
+//         text: darkLight === 'dark' ? '#f3f4f6' : '#111827',
+//         border: '#e5e7eb',
+//       },
+//       dark: { bg: 'transparent', text: '#f3f4f6', border: '#374151' },
+//     };
+//   };
 
   const thBase: any = {
     border: `1px solid ${darkLight === 'dark' ? '#4b5563' : '#ccc'}`,
@@ -103,7 +105,7 @@ const TableData = () => {
     width: 52,
     minWidth: 52,
     maxWidth: 52,
-    height: 250, // rasmga o‘xshashi uchun
+    height: 320, // rasmga o‘xshashi uchun
     verticalAlign: 'middle',
   };
 
@@ -164,13 +166,16 @@ const TableData = () => {
   }
   return (
     <div className="flex flex-col w-full h-full overflow-hidden border p-4 rounded-m">
-      <div className="flex items-center mb-4 gap-4 justify-end">
-        <MyButton variant="secondary" onClick={handleBack} startIcon={<ArrowLeftToLine />}>
-          {t('Previous')}
-        </MyButton>
-        <MyButton onClick={downloadExcel.onDownload} startIcon={<Download />} variant="secondary">
-          {t('Download')}
-        </MyButton>
+      <div className="flex items-center justify-between mb-4">
+        <AttendanceLegend />
+        <div className="flex items-center mb-4 gap-4 justify-end">
+          <MyButton variant="secondary" onClick={handleBack} startIcon={<ArrowLeftToLine />}>
+            {t('Previous')}
+          </MyButton>
+          <MyButton onClick={downloadExcel.onDownload} startIcon={<Download />} variant="secondary">
+            {t('Download')}
+          </MyButton>
+        </div>
       </div>
       <div className="min-h-0 flex-1 overflow-hidden">
         <div className="w-full h-full min-w-0 overflow-auto">
@@ -238,7 +243,7 @@ const TableData = () => {
                 </th>
                 {/* Absence title (Days worked dan keyin) */}
                 <th style={thGroup} colSpan={absenceColsCount}>
-                   {t("Ishda qatnashmaslik sabablari (kishi/kun)")}
+                  {t('Ishda qatnashmaslik sabablari (kishi/kun)')}
                 </th>
               </tr>
               <tr>
@@ -252,7 +257,7 @@ const TableData = () => {
 
                 {/* Absence vertical headers (ulardan YO‘Q) */}
                 <th style={thVerticalWrap}>
-                  <div style={verticalText}>{t("Umumiy")}</div>
+                  <div style={verticalText}>{t('Umumiy')}</div>
                 </th>
 
                 {types.map((x: any) => (
@@ -271,12 +276,11 @@ const TableData = () => {
                 <th style={thCode}></th>
                 {types.map((x: any) => (
                   <th key={`code-${x.id}`} style={thCode}>
-                    {/* {x.shortLetterUz} */}
                     {currentLang === 'uz'
-                        ? x.shortLetterUz
-                        : currentLang === 'ru'
-                          ? x.shortLetterRu
-                          : x.shortLetterEng}
+                      ? x.shortLetterUz
+                      : currentLang === 'ru'
+                        ? x.shortLetterRu
+                        : x.shortLetterEng}
                   </th>
                 ))}
               </tr>
@@ -317,26 +321,35 @@ const TableData = () => {
                       {evt?.workSchedule}
                     </td>
                     {evt?.daysStatistics?.map((item: any, i: number) => {
-                      const statusColors = getStatusStyle(item?.status);
-                      const colors = darkLight === 'dark' ? statusColors.dark : statusColors.light;
-
                       return (
                         <td
                           key={i}
+                          className={`${item.status === 'ABSENT' ? 'bg-red-200' : item.status === 'ON_VACATION' ? 'bg-green-200' : item.status === 'LATE' ? 'bg-yellow-200' : ''}`}
                           style={{
                             ...tdBase,
-                            backgroundColor: colors.bg,
-                            color: colors.text,
-                            borderColor: colors.border,
                             fontWeight: item?.status !== 'PRESENT' ? '400' : '400',
                           }}
                         >
                           {item?.startTime && item?.endTime
                             ? `(${addHours(item.startTime)}-${addHours(item.endTime)}) `
                             : item?.startTime
-                              ? `(${addHours(item.startTime)}) `
+                              ? `(${addHours(item.startTime)})`
                               : ''}
-                          {timeLine(item?.totalMinutes)}
+                          {item?.status === 'ON_VACATION' ? (
+                            currentLang === 'uz' ? (
+                              item?.shortLetterUz
+                            ) : currentLang === 'ru' ? (
+                              item?.shortLetterRu
+                            ) : (
+                              item?.shortLetterEng
+                            )
+                          ) : (
+                            <>
+                              {item?.status === 'ABSENT' || item?.status === 'WEEKEND'
+                                ? 'X'
+                                : timeLine(item?.totalMinutes)}
+                            </>
+                          )}
                         </td>
                       );
                     })}
@@ -382,10 +395,8 @@ const TableData = () => {
                     >
                       {totalAbsence}
                     </td>
-
-                    {/* Types bo‘yicha tartibli */}
                     {types.map((t: any) => {
-                      const key = getShort(t); // header’dagi shortLetter
+                      const key = getShort(t);
                       const val: any = byShort.get(key) ?? 0;
 
                       return (
