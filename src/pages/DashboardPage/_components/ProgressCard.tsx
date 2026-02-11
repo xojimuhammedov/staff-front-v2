@@ -6,7 +6,6 @@ import IconByName from 'assets/icons/IconByName';
 import { t as i18nT } from 'i18next';
 import { MySelect } from 'components/Atoms/Form';
 import { useSearchParams } from 'react-router-dom';
-import { DEFAULT_LIMIT } from 'constants/pagination.constants';
 
 interface Employee {
   id: number;
