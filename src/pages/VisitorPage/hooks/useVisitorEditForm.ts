@@ -14,15 +14,8 @@ import { useNavigate } from 'react-router-dom';
 export const useVisitorEditForm = (id: string) => {
   const { t } = useTranslation();
   const userData: any = storage.get('userData');
-  // const [selectGates, setSelectGates] = useState<number[]>([])
   const userRole = JSON.parse(userData)?.role;
   const navigate = useNavigate()
-
-  // const { data: gateData } = useGetAllQuery<any>({
-  //   key: KEYS.getDoorGates,
-  //   url: URLS.getDoorGates,
-  //   params: {},
-  // });
 
   const { data: visitorData, isLoading } = useGetOneQuery({
     id,
