@@ -116,7 +116,8 @@ export function EmployeeCard({
           <div className="pagination-list w-[80px]">
             <MySelect
               allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
-              className="dark:text-text-title-dark"
+              className="border border-gray-300 dark:border-white dark:bg-dark-bg"
+
               options={limitOptions}
               onChange={(evt: any) => {
                 const nextLimit = evt?.value ?? evt;
@@ -133,15 +134,16 @@ export function EmployeeCard({
             />
           </div>
         </div>
-        {visibleEmployees?.map((emp, index) => (
-          <div
-            key={emp.id}
-            className="group flex my-2 items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer"
-            onClick={() => {
-              onRowClick?.(emp.id);
-              window.scrollTo({top:0})
-            }}
-          >
+        <div className="mt-2 h-[400px] overflow-y-auto pr-1 space-y-2">
+          {visibleEmployees?.map((emp, index) => (
+            <div
+              key={emp.id}
+              className="group flex items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer"
+              onClick={() => {
+                onRowClick?.(emp.id);
+                window.scrollTo({ top: 0 });
+              }}
+            >
             {/* Rank */}
             <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-muted text-[10px] font-bold text-muted-foreground">
               {index + 1}
@@ -197,10 +199,11 @@ export function EmployeeCard({
               )}
             </div>
 
-            {/* Circular percentage */}
-            <CircularProgress percentage={emp?.percentage} />
-          </div>
-        ))}
+              {/* Circular percentage */}
+              <CircularProgress percentage={emp?.percentage} />
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
