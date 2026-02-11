@@ -17,9 +17,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'react-router-dom';
 import { readDraftFromSearchParams, toPickerRange, uniqSorted } from 'pages/ReportPage/helper/report';
+import { ISelect } from 'interfaces/select.interface';
 
 type FormValues = {
   departmentId: number;
+  organizationId:number;
   date?: {
     startDate?: string | Date;
     endDate?: string | Date;
@@ -45,6 +47,7 @@ function FormTable() {
   const schema = useMemo(
     () =>
       object().shape({
+        organizationId: number().required(),
         departmentId: number().required(),
       }),
     []
@@ -77,13 +80,24 @@ function FormTable() {
     key: KEYS.getAllListDepartment,
     url: URLS.getAllListDepartment,
     params: {
+      limit: 100,
+      organizationId: watch("organizationId")
+    },
+  });
+
+  const { data: getOrganization } = useGetAllQuery<{ data: Department[] }>({
+    key: KEYS.getAllListOrganization,
+    url: URLS.getAllListOrganization,
+    params: {
       limit: 100
     },
   });
 
   useEffect(() => {
     const departmentIdRaw = searchParams.get("departmentId");
+    const organizationIdRaw = searchParams.get("organization");
     const departmentId = departmentIdRaw ? Number(departmentIdRaw) : undefined;
+    const organizationId = organizationIdRaw ? Number(organizationIdRaw) : undefined;
 
     const draft = readDraftFromSearchParams(searchParams);
 
@@ -91,6 +105,7 @@ function FormTable() {
 
     reset({
       departmentId: departmentId as any,
+      organizationId: organizationId as any,
       date: toPickerRange(draft.startDate, draft.endDate),
     });
   }, [searchParams, reset]);
@@ -129,6 +144,10 @@ function FormTable() {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
       next.set("current-step", "2");
+
+      const orgId = watch("organizationId");
+      if (orgId) next.set("organizationId", String(orgId));
+      else next.delete("organizationId");
 
       const depId = watch("departmentId");
       if (depId) next.set("departmentId", String(depId));
@@ -185,6 +204,33 @@ function FormTable() {
         </MyButton>
       </div>
       <MyDivider />
+      <div className="my-10 flex">
+        <div className="w-[50%]">
+          <LabelledCaption
+            title={t('Select organization')}
+            subtitle={t('')}
+          />
+        </div>
+        <div className="w-[50%]">
+          <Controller
+            name="organizationId"
+            control={control}
+            render={({ field, fieldState }) => (
+              <MySelect
+                options={getOrganization?.data?.map((evt: any) => ({
+                  label: evt.fullName,
+                  value: evt.id,
+                }))}
+                value={field.value as any}  // 👈 cast to any
+                onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                onBlur={field.onBlur}
+                error={!!fieldState.error}
+                allowedRoles={["ADMIN"]}
+              />
+            )}
+          />
+        </div>
+      </div>
       <div className="my-10 flex">
         <div className="w-[50%]">
           <LabelledCaption
