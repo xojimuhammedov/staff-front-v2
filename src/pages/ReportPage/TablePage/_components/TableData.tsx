@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import storage from 'services/storage';
 import { addHours, timeLine } from 'utils/helper';
+import { AttendanceLegend } from './AttendancesLabel';
 
 const TableData = () => {
   const { t, i18n } = useTranslation();
@@ -103,7 +104,7 @@ const TableData = () => {
     width: 52,
     minWidth: 52,
     maxWidth: 52,
-    height: 220, // rasmga o‘xshashi uchun
+    height: 320, // rasmga o‘xshashi uchun
     verticalAlign: 'middle',
   };
 
@@ -164,13 +165,16 @@ const TableData = () => {
   }
   return (
     <div className="flex flex-col w-full h-full overflow-hidden border p-4 rounded-m">
-      <div className="flex items-center mb-4 gap-4 justify-end">
-        <MyButton variant="secondary" onClick={handleBack} startIcon={<ArrowLeftToLine />}>
-          {t('Previous')}
-        </MyButton>
-        <MyButton onClick={downloadExcel.onDownload} startIcon={<Download />} variant="secondary">
-          {t('Download')}
-        </MyButton>
+      <div className="flex items-center justify-between mb-4">
+        <AttendanceLegend />
+        <div className="flex items-center mb-4 gap-4 justify-end">
+          <MyButton variant="secondary" onClick={handleBack} startIcon={<ArrowLeftToLine />}>
+            {t('Previous')}
+          </MyButton>
+          <MyButton onClick={downloadExcel.onDownload} startIcon={<Download />} variant="secondary">
+            {t('Download')}
+          </MyButton>
+        </div>
       </div>
       <div className="min-h-0 flex-1 overflow-hidden">
         <div className="w-full h-full min-w-0 overflow-auto">
@@ -330,7 +334,7 @@ const TableData = () => {
                             : item?.startTime
                               ? `(${addHours(item.startTime)})`
                               : ''}
-                          {item.status === 'ON_VACATION' ? (
+                          {item?.status === 'ON_VACATION' ? (
                             currentLang === 'uz' ? (
                               item?.shortLetterUz
                             ) : currentLang === 'ru' ? (
@@ -339,7 +343,11 @@ const TableData = () => {
                               item?.shortLetterEng
                             )
                           ) : (
-                            <>{item.status === "ABSENT" || item.status === "WEEKEND" ? 'X' : timeLine(item?.totalMinutes)}</>
+                            <>
+                              {item?.status === 'ABSENT' || item?.status === 'WEEKEND'
+                                ? 'X'
+                                : timeLine(item?.totalMinutes)}
+                            </>
                           )}
                         </td>
                       );
