@@ -238,7 +238,7 @@ const TableData = () => {
                 </th>
                 {/* Absence title (Days worked dan keyin) */}
                 <th style={thGroup} colSpan={absenceColsCount}>
-                   {t("Ishda qatnashmaslik sabablari (kishi/kun)")}
+                  {t('Ishda qatnashmaslik sabablari (kishi/kun)')}
                 </th>
               </tr>
               <tr>
@@ -252,7 +252,7 @@ const TableData = () => {
 
                 {/* Absence vertical headers (ulardan YO‘Q) */}
                 <th style={thVerticalWrap}>
-                  <div style={verticalText}>{t("Umumiy")}</div>
+                  <div style={verticalText}>{t('Umumiy')}</div>
                 </th>
 
                 {types.map((x: any) => (
@@ -271,12 +271,11 @@ const TableData = () => {
                 <th style={thCode}></th>
                 {types.map((x: any) => (
                   <th key={`code-${x.id}`} style={thCode}>
-                    {/* {x.shortLetterUz} */}
                     {currentLang === 'uz'
-                        ? x.shortLetterUz
-                        : currentLang === 'ru'
-                          ? x.shortLetterRu
-                          : x.shortLetterEng}
+                      ? x.shortLetterUz
+                      : currentLang === 'ru'
+                        ? x.shortLetterRu
+                        : x.shortLetterEng}
                   </th>
                 ))}
               </tr>
@@ -317,15 +316,10 @@ const TableData = () => {
                       {evt?.workSchedule}
                     </td>
                     {evt?.daysStatistics?.map((item: any, i: number) => {
-                      const statusColors = getStatusStyle(item?.status);
-                      const colors = darkLight === 'dark' ? statusColors.dark : statusColors.light;
-
-                      console.log(item)
-
                       return (
                         <td
                           key={i}
-                          className={`${item.status === "ABSENT" && item.totalMinutes === 0 ? 'bg-red-200' : ''}`}
+                          className={`${item.status === 'ABSENT' ? 'bg-red-200' : item.status === 'ON_VACATION' ? 'bg-green-200' : item.status === 'LATE' ? 'bg-yellow-200' : ''}`}
                           style={{
                             ...tdBase,
                             fontWeight: item?.status !== 'PRESENT' ? '400' : '400',
@@ -334,9 +328,19 @@ const TableData = () => {
                           {item?.startTime && item?.endTime
                             ? `(${addHours(item.startTime)}-${addHours(item.endTime)}) `
                             : item?.startTime
-                              ? `(${addHours(item.startTime)}) `
+                              ? `(${addHours(item.startTime)})`
                               : ''}
-                          {item.status === "ON_VACATION" ? item.shortLetter : <>{item.totalMinutes ? timeLine(item?.totalMinutes) : "X"}</>}
+                          {item.status === 'ON_VACATION' ? (
+                            currentLang === 'uz' ? (
+                              item?.shortLetterUz
+                            ) : currentLang === 'ru' ? (
+                              item?.shortLetterRu
+                            ) : (
+                              item?.shortLetterEng
+                            )
+                          ) : (
+                            <>{item.totalMinutes ? timeLine(item?.totalMinutes) : 'X'}</>
+                          )}
                         </td>
                       );
                     })}
@@ -382,10 +386,8 @@ const TableData = () => {
                     >
                       {totalAbsence}
                     </td>
-
-                    {/* Types bo‘yicha tartibli */}
                     {types.map((t: any) => {
-                      const key = getShort(t); // header’dagi shortLetter
+                      const key = getShort(t);
                       const val: any = byShort.get(key) ?? 0;
 
                       return (
