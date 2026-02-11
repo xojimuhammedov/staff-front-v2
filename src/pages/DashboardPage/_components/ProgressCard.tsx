@@ -98,7 +98,10 @@ export function EmployeeCard({
           <div
             key={emp.id}
             className="group flex my-2 items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer"
-            onClick={() => onRowClick?.(emp.id)}
+            onClick={() => {
+              onRowClick?.(emp.id);
+              window.scrollTo({top:0})
+            }}
           >
             {/* Rank */}
             <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-muted text-[10px] font-bold text-muted-foreground">

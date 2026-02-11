@@ -83,6 +83,10 @@
 
 @import './components/_button.css';
 
+html{
+  scroll-behavior: smooth;
+}
+
 
 .rmdp-input {
   padding: 20px 10px !important;
