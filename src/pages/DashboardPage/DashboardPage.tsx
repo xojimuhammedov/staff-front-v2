@@ -75,6 +75,7 @@ const DashboardPage = () => {
           iconBgColor="bg-green-100 dark:bg-green-900/30"
           iconColor="text-green-600 dark:text-green-300"
           onRowClick={(id) => navigate(`/employees/about/${id}`)}
+          paginationKey="effectiveEmployees"
         />
         <EmployeeCard
           employee={bottomEmployee}
@@ -83,6 +84,7 @@ const DashboardPage = () => {
           icon={'XCircle'}
           title="Ineffective employees"
           onRowClick={(id) => navigate(`/employees/about/${id}`)}
+          paginationKey="ineffectiveEmployees"
         />
       </div>
     </PageContentWrapper>

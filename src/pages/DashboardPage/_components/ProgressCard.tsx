@@ -4,6 +4,9 @@ import { Clock, CalendarClock, AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import IconByName from 'assets/icons/IconByName';
 import { t as i18nT } from 'i18next';
+import { MySelect } from 'components/Atoms/Form';
+import { useSearchParams } from 'react-router-dom';
+import { DEFAULT_LIMIT } from 'constants/pagination.constants';
 
 interface Employee {
   id: number;
@@ -24,6 +27,7 @@ interface EmployeeCardProps {
   iconBgColor: string;
   iconColor: string;
   onRowClick?: (employeeId: number) => void;
+  paginationKey?: string;
 }
 
 
@@ -75,8 +79,23 @@ export function EmployeeCard({
   iconBgColor,
   iconColor,
   onRowClick,
+  paginationKey = 'employees',
 }: EmployeeCardProps) {
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const limitKey = `${paginationKey}Limit`;
+  const defaultLimit = 5;
+  const limitParam = searchParams.get(limitKey);
+  const limit = limitParam ? Number(limitParam) : defaultLimit;
+  const visibleEmployees = employee?.slice(0, limit) ?? [];
+
+  const limitOptions = [
+    { label: '5', value: 5 },
+    { label: '10', value: 10 },
+    { label: '25', value: 25 },
+    { label: '50', value: 50 },
+    { label: '100', value: 100 },
+  ];
 
   function formatMinutes(minutes: number) {
     const hours = Math.floor(minutes / 60);
@@ -86,15 +105,36 @@ export function EmployeeCard({
   return (
     <>
       <div className="bg-bg-base w-full dark:bg-dark-dashboard-cards rounded-lg p-4 shadow-base">
-        <div className="flex items-center gap-2 mb-4">
-          <div className={`${iconBgColor} w-10 h-10 rounded-2xl flex items-center justify-center`}>
-            <IconByName name={icon as string} size={20} className={iconColor} strokeWidth={2} />
+        <div className="flex items-center justify-between gap-4 mb-4">
+          <div className="flex items-center gap-2">
+            <div className={`${iconBgColor} w-10 h-10 rounded-2xl flex items-center justify-center`}>
+              <IconByName name={icon as string} size={20} className={iconColor} strokeWidth={2} />
+            </div>
+            <div>
+              <h1 className="headers-core text-base dark:text-text-title-dark">{t(title)}</h1>
+            </div>
           </div>
-          <div>
-            <h1 className="headers-core text-base dark:text-text-title-dark">{t(title)}</h1>
+          <div className="pagination-list w-[80px]">
+            <MySelect
+              allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
+              className="dark:text-text-title-dark"
+              options={limitOptions}
+              onChange={(evt: any) => {
+                const nextLimit = evt?.value ?? evt;
+                if (nextLimit) {
+                  setSearchParams((prev) => {
+                    const next = new URLSearchParams(prev);
+                    next.set(limitKey, String(nextLimit));
+                    next.delete(`${paginationKey}Page`);
+                    return next;
+                  }, { replace: true });
+                }
+              }}
+              value={limit}
+            />
           </div>
         </div>
-        {employee?.map((emp, index) => (
+        {visibleEmployees?.map((emp, index) => (
           <div
             key={emp.id}
             className="group flex my-2 items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer"
