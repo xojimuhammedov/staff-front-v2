@@ -339,7 +339,7 @@ const TableData = () => {
                               item?.shortLetterEng
                             )
                           ) : (
-                            <>{item.totalMinutes ? timeLine(item?.totalMinutes) : 'X'}</>
+                            <>{item.status === "ABSENT" || item.status === "WEEKEND" ? 'X' : timeLine(item?.totalMinutes)}</>
                           )}
                         </td>
                       );
