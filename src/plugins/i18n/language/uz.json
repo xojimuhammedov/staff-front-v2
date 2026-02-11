@@ -715,5 +715,7 @@
   "Description uz": "Tavsif uz",
   "Description ru": "Tavsif ru",
   "Description en": "Tavsif en",
-  "Are you sure you want to delete this absence?": "Bu yo'qlik turini o'chirmoqchimisiz?"
+  "Are you sure you want to delete this absence?": "Bu yo'qlik turini o'chirmoqchimisiz?",
+  "Ishda qatnashmaslik sabablari (kishi/kun)":"Ishda qatnashmaslik sabablari (kishi/kun)",
+  "Umumiy":"Umumiy"
  }
