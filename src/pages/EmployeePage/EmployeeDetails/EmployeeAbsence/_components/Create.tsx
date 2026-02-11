@@ -37,13 +37,6 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
     hideErrorMsg: true,
     params: {},
   });
-  const { data: absenceData } = useGetAllQuery<any>({
-    key: KEYS.absences,
-    url: URLS.absences,
-    hideErrorMsg: true,
-    params: {},
-  });
-
   const langSuffix = useMemo(() => {
     const currentLang = i18n.resolvedLanguage ?? 'en';
     return currentLang.startsWith('ru') ? 'Ru' : currentLang.startsWith('uz') ? 'Uz' : 'Eng';
@@ -51,7 +44,14 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
 
   const schema = object().shape({
     organizationId: yup.number().required(),
-    absenceId: yup.number().required(),
+    absenceId: yup
+      .number()
+      .nullable()
+      .when('organizationId', {
+        is: (value: number | null | undefined) => Boolean(value),
+        then: (schema) => schema.required(),
+        otherwise: (schema) => schema.nullable(),
+      }),
     description: yup.string().required(),
     date: yup.object().nullable(),
   });
@@ -60,9 +60,26 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
     handleSubmit,
     register,
     control,
+    watch,
+    setValue,
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(schema),
+    defaultValues: {
+      absenceId: null as unknown as number,
+    },
+  });
+
+  const organizationId = watch('organizationId');
+
+  const { data: absenceData } = useGetAllQuery<any>({
+    key: KEYS.absences,
+    url: URLS.absences,
+    hideErrorMsg: true,
+    params: {
+      organizationId,
+    },
+    enabled: Boolean(organizationId),
   });
 
   const onSubmit = (formData: any) => {
@@ -133,7 +150,10 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
                         value: evt.id,
                       }))}
                       value={field.value as any}
-                      onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                      onChange={(val) => {
+                        field.onChange(Number((val as ISelect)?.value ?? val));
+                        setValue('absenceId', null, { shouldValidate: false, shouldDirty: true });
+                      }}
                       onBlur={field.onBlur}
                       error={!!fieldState.error}
                       allowedRoles={['ADMIN']}
@@ -157,6 +177,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
                       error={!!fieldState.error}
                       allowedRoles={['ADMIN', 'HR']}
                       required
+                      // Note: 'disabled' prop removed because it does not exist on FormSelectProps (see lint error)
                     />
                   )}
                 />
@@ -191,5 +212,4 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
     </>
   );
 };
-
 export default Create;
