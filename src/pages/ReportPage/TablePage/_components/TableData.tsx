@@ -103,7 +103,7 @@ const TableData = () => {
     width: 52,
     minWidth: 52,
     maxWidth: 52,
-    height: 250, // rasmga o‘xshashi uchun
+    height: 220, // rasmga o‘xshashi uchun
     verticalAlign: 'middle',
   };
 
@@ -320,14 +320,14 @@ const TableData = () => {
                       const statusColors = getStatusStyle(item?.status);
                       const colors = darkLight === 'dark' ? statusColors.dark : statusColors.light;
 
+                      console.log(item)
+
                       return (
                         <td
                           key={i}
+                          className={`${item.status === "ABSENT" && item.totalMinutes === 0 ? 'bg-red-200' : ''}`}
                           style={{
                             ...tdBase,
-                            backgroundColor: colors.bg,
-                            color: colors.text,
-                            borderColor: colors.border,
                             fontWeight: item?.status !== 'PRESENT' ? '400' : '400',
                           }}
                         >
@@ -336,7 +336,7 @@ const TableData = () => {
                             : item?.startTime
                               ? `(${addHours(item.startTime)}) `
                               : ''}
-                          {timeLine(item?.totalMinutes)}
+                          {item.status === "ON_VACATION" ? item.shortLetter : <>{item.totalMinutes ? timeLine(item?.totalMinutes) : "X"}</>}
                         </td>
                       );
                     })}
