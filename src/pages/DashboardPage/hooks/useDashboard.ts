@@ -5,9 +5,11 @@ import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
 import { chartData, DashboardData, LineChartData } from '../interface/dashboard.interface';
 
 export const useDashboard = () => {
+    const [searchParams] = useSearchParams();
     const { control, watch } = useForm({
         defaultValues: {
             date: {
@@ -16,6 +18,12 @@ export const useDashboard = () => {
             }
         }
     })
+
+    const defaultLimit = 5;
+    const effectiveLimit =
+        Number(searchParams.get('effectiveEmployeesLimit') ?? '') || defaultLimit;
+    const ineffectiveLimit =
+        Number(searchParams.get('ineffectiveEmployeesLimit') ?? '') || defaultLimit;
 
     const paramsValue = watch('date') ? {
         startDate: dayjs(watch('date')?.startDate)?.format("YYYY-MM-DD"),
@@ -43,14 +51,16 @@ export const useDashboard = () => {
         key: KEYS.dashboardTodayTop,
         url: URLS.dashboardTodayTop,
         params: {
-            ...paramsValue
+            ...paramsValue,
+            limit: effectiveLimit
         }
     })
     const { data: bottomEmployee } = useGetAllQuery<any>({
         key: KEYS.dashboardTodayBottom,
         url: URLS.dashboardTodayBottom,
         params: {
-            ...paramsValue
+            ...paramsValue,
+            limit: ineffectiveLimit
         }
     })
 
@@ -90,4 +100,3 @@ export const useDashboard = () => {
         bottomEmployee
     }
 }
-
