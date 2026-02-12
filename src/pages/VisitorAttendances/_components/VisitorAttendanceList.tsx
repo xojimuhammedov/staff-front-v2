@@ -12,7 +12,7 @@ const VisitorAttendanceList = ({ data, isLoading, highlightedId = null }: any) =
     ...row,
     rowClassName:
       highlightedId && String(row?.id) === String(highlightedId)
-        ? 'bg-yellow-300 dark:bg-yellow-900/30 border-yellow-400'
+        ? 'bg-yellow-300 odd:bg-yellow-300 dark:bg-yellow-900/30 dark:odd:bg-yellow-900/30 border-yellow-400'
         : '',
   }));
 
