@@ -150,7 +150,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
                       }}
                       onBlur={field.onBlur}
                       error={!!fieldState.error}
-                      allowedRoles={['ADMIN', 'DEPARTMENT_LEAD']}
+                      allowedRoles={['ADMIN']}
                       required
                     />
                   )}
@@ -171,7 +171,6 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
                       error={!!fieldState.error}
                       allowedRoles={['ADMIN', 'HR', 'DEPARTMENT_LEAD']}
                       required
-                      // Note: 'disabled' prop removed because it does not exist on FormSelectProps (see lint error)
                     />
                   )}
                 />

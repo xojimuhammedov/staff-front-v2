@@ -14,7 +14,6 @@ interface OnetimeCodeCardProps {
 
 export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: OnetimeCodeCardProps) {
   const { t } = useTranslation();
-  const [copied, setCopied] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const accessCode = code?.code ?? '--';
@@ -31,23 +30,9 @@ export default function OnetimeCodeCardNewUI({ code, onToggle, onDelete }: Oneti
   );
   const endTime = useMemo(() => (code?.endDate ? new Date(code.endDate) : null), [code?.endDate]);
 
-  const handleCopy = async () => {
-    if (!accessCode || accessCode === '--') return;
-    await navigator.clipboard.writeText(accessCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const formatDateTime = (d: Date | null) => {
     if (!d) return '--';
     return dayjs(d).format('DD MMM YYYY – HH:mm');
-  };
-
-  const getDurationHours = () => {
-    if (!startTime || !endTime) return '--';
-    const diffMs = endTime.getTime() - startTime.getTime();
-    const hours = Math.max(0, Math.round(diffMs / (1000 * 60 * 60)));
-    return `${hours} ${t('hours')}`;
   };
 
   const getProgress = () => {

@@ -150,7 +150,7 @@ const Credentials = () => {
                 }}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
-                allowedRoles={['ADMIN', 'HR']}
+                allowedRoles={['ADMIN', 'HR', "DEPARTMEND_LEAD"]}
               />
             )}
           />
