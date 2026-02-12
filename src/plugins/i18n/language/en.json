@@ -715,5 +715,10 @@
   "Ta'tilda":"On vacation",
   "Kechikib kelgan":"Arrived late",
   "Kelmagan":"Didn't come",
-  "Vaqtida kelgan":"Arrived on time"
+  "Vaqtida kelgan":"Arrived on time",
+  "Computer Tracking": "Computer Tracking",
+  "Search computers...": "Search computers...",
+  "Add Computer": "Add Computer",
+  "Back to computer list": "Back to computer list" ,
+  "Computer tracking": "Computer tracking"
 }

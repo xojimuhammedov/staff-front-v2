@@ -721,5 +721,11 @@
   "Ta'tilda":"В отпуске",
   "Kechikib kelgan":"Приехал с опозданием.",
   "Kelmagan":"Не пришёл",
-  "Vaqtida kelgan":"Прибыл вовремя"
+  "Vaqtida kelgan":"Прибыл вовремя",
+  "Computer Tracking": "Мониторинг компьютеров",
+  "Search computers...": "Поиск компьютеров...",
+  "Add Computer": "Добавить компьютер",
+  "Back to computer list": "Вернуться к списку компьютеров",
+  "Computer tracking": "Компьютерный мониторинг"
+  
 }
