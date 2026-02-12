@@ -194,6 +194,7 @@ const Edit = ({ open, setOpen, refetch, employeeId, item }: EditProps) => {
                 asSingle={false}
                 control={control}
                 placeholder={t('Today')}
+                label={t("Select date")}
                 startIcon={<Calendar className="stroke-text-muted" />}
               />
             </div>

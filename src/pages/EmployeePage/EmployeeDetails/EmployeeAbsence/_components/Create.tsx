@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MySelect, MyTextarea } from 'components/Atoms/Form';
-import MyTailwindPicker from "components/Atoms/Form/MyTailwindDatePicker";
+import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
@@ -56,13 +56,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
     date: yup.object().nullable(),
   });
 
-  const {
-    handleSubmit,
-    register,
-    control,
-    watch,
-    setValue,
-  } = useForm({
+  const { handleSubmit, register, control, watch, setValue } = useForm({
     mode: 'onChange',
     resolver: yupResolver(schema),
     defaultValues: {
@@ -119,7 +113,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
         onClick={() => {
           setOpen(true);
         }}
-        allowedRoles={['ADMIN', 'HR' , 'DEPARTMENT_LEAD']}
+        allowedRoles={['ADMIN', 'HR', 'DEPARTMENT_LEAD']}
         startIcon={<Plus />}
         variant="primary"
         className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
@@ -193,6 +187,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
                   asSingle={false}
                   control={control}
                   placeholder={t('Today')}
+                  label={t('Select date')}
                   startIcon={<Calendar className="stroke-text-muted" />}
                 />
               </div>
