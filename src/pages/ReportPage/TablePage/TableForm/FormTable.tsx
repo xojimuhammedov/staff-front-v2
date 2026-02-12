@@ -32,6 +32,7 @@ type DraftParams = {
   startDate?: string;
   endDate?: string;
   employeeIds: number[];
+  organizationId: number;
 };
 
 function normalizeDate(d?: string | Date) {
@@ -70,7 +71,8 @@ function FormTable() {
     employeeIds: [],
     startDate: defaultDate.startDate,
     endDate: defaultDate.endDate,
-  });
+    organizationId: null as unknown as number,
+  } as DraftParams);
 
   const date = useWatch({ control, name: "date" });
   const startDate = useWatch({ control, name: "date.startDate", defaultValue: defaultDate.startDate });
@@ -95,17 +97,17 @@ function FormTable() {
 
   useEffect(() => {
     const departmentIdRaw = searchParams.get("departmentId");
-    const organizationIdRaw = searchParams.get("organization");
+    const organizationIdRaw = searchParams.get("organizationId");
     const departmentId = departmentIdRaw ? Number(departmentIdRaw) : undefined;
     const organizationId = organizationIdRaw ? Number(organizationIdRaw) : undefined;
 
     const draft = readDraftFromSearchParams(searchParams);
 
-    setDraftParams(draft);
+    setDraftParams({ ...draft, organizationId: organizationId as unknown as number });
 
     reset({
       departmentId: departmentId as any,
-      organizationId: organizationId as any,
+      organizationId: organizationId as unknown as number,
       date: toPickerRange(draft.startDate, draft.endDate),
     });
   }, [searchParams, reset]);
