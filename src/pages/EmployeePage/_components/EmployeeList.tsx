@@ -217,7 +217,11 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
           dataColumn={dataColumn}
           rowActions={rowActions}
           pagination={data}
-          handleRowClick={(row) => navigate(`/employees/about/${row.id}`)}
+          handleRowClick={(row) => {
+            if (!isGuard) {
+              navigate(`/employees/about/${row.id}`);
+            }
+          }}
         />
       </TableProvider>
       <ConfirmationModal
