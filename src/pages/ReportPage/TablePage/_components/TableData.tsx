@@ -5,7 +5,6 @@ import { URLS } from 'constants/url';
 import dayjs from 'dayjs';
 import { useGetAllQuery } from 'hooks/api';
 import { useDownloadExcel } from 'hooks/useExcel';
-import i18n from 'i18n';
 import { ArrowLeftToLine, Backpack, Download } from 'lucide-react';
 import { useMemo, useRef, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -330,11 +329,6 @@ const TableData = () => {
                             fontWeight: item?.status !== 'PRESENT' ? '400' : '400',
                           }}
                         >
-                          {item?.startTime && item?.endTime
-                            ? `(${addHours(item.startTime)}-${addHours(item.endTime)}) `
-                            : item?.startTime
-                              ? `(${addHours(item.startTime)})`
-                              : ''}
                           {item?.status === 'ON_VACATION' ? (
                             currentLang === 'uz' ? (
                               item?.shortLetterUz
