@@ -106,6 +106,7 @@ const Credentials = () => {
       {
         onSuccess: (onetimeCodesData: any) => {
           toast.success(t('Successfully created!'));
+          setShowModal(false);
           const visitorWithOnetimeCode = {
             ...onetimeCodesData?.data,
             onetimeCode: {
@@ -174,7 +175,7 @@ const Credentials = () => {
                 }}
                 onBlur={field.onBlur}
                 error={!!fieldState.error}
-                allowedRoles={['ADMIN', 'HR']}
+                allowedRoles={['ADMIN', 'HR' , 'DEPARTMENT_LEAD' , 'GUARD']}
               />
             )}
           />

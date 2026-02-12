@@ -119,7 +119,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
         onClick={() => {
           setOpen(true);
         }}
-        allowedRoles={['ADMIN', 'HR']}
+        allowedRoles={['ADMIN', 'HR' , 'DEPARTMENT_LEAD']}
         startIcon={<Plus />}
         variant="primary"
         className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
@@ -156,7 +156,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
                       }}
                       onBlur={field.onBlur}
                       error={!!fieldState.error}
-                      allowedRoles={['ADMIN']}
+                      allowedRoles={['ADMIN', 'DEPARTMENT_LEAD']}
                       required
                     />
                   )}
@@ -175,7 +175,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
                       onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                       onBlur={field.onBlur}
                       error={!!fieldState.error}
-                      allowedRoles={['ADMIN', 'HR']}
+                      allowedRoles={['ADMIN', 'HR', 'DEPARTMENT_LEAD']}
                       required
                       // Note: 'disabled' prop removed because it does not exist on FormSelectProps (see lint error)
                     />
