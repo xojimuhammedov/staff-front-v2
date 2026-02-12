@@ -36,7 +36,7 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
 
   const { control, handleSubmit, reset, register, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
-      codeType: undefined,
+      codeType: codeTypeOptions?.[0]?.value,
       startDate: null,
       endDate: null,
     },
@@ -85,7 +85,8 @@ const AddNewTypeModal: React.FC<AddNewTypeModalProps> = ({
                     }}
                     onBlur={field.onBlur}
                     error={!!fieldState.error}
-                    allowedRoles={['ADMIN', 'HR', 'GUARD']}
+                    helperText={fieldState.error?.message ? t(fieldState.error.message) : ''}
+                    allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
                   />
                 )}
               />

@@ -4,7 +4,7 @@ import MyBadge from 'components/Atoms/MyBadge';
 import AvatarIcon from 'assets/icons/avatar.jpg';
 import config from 'configs';
 import dayjs from 'dayjs';
-import { Trash2 } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,6 +12,8 @@ type BadgeVariant = 'orange' | 'purple' | 'red' | 'blue' | 'green' | 'neutral';
 
 export type AbsenceItem = {
   id?: number | string;
+  organizationId?: number;
+  absenceId?: number;
   status?: string;
   description?: string;
   startTime?: string;
@@ -23,6 +25,7 @@ export type AbsenceItem = {
     position?: { name?: string };
   };
   absence?: {
+    id?: number;
     name?: string;
     shortLetterUz?: string;
     shortLetterRu?: string;
@@ -35,6 +38,7 @@ export type AbsenceItem = {
 
 type AbsenceCardProps = {
   item: AbsenceItem;
+  onEdit?: (item: AbsenceItem) => void;
   onDelete?: (id: number | string) => void;
 };
 
@@ -95,7 +99,7 @@ const getProgress = (startTime?: string, endTime?: string) => {
   return Math.round((done / total) * 100);
 };
 
-const AbsenceCard = ({ item, onDelete }: AbsenceCardProps) => {
+const AbsenceCard = ({ item, onEdit, onDelete }: AbsenceCardProps) => {
   const { t } = useTranslation();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const name = item.employee?.name ?? '--';
@@ -136,6 +140,16 @@ const AbsenceCard = ({ item, onDelete }: AbsenceCardProps) => {
         </div>
         <div className="flex items-center gap-2">
           <MyBadge variant={statusMeta.variant}>{t(statusMeta.label)}</MyBadge>
+          {onEdit ? (
+            <button
+              type="button"
+              onClick={() => onEdit(item)}
+              className="rounded-full p-2 text-text-muted hover:text-blue-600 dark:text-text-title-dark"
+              aria-label={t('Edit')}
+            >
+              <Pencil className="h-4 w-4" />
+            </button>
+          ) : null}
           {onDelete && item.id ? (
             <button
               type="button"
