@@ -280,7 +280,7 @@ function FormTable() {
         </div>
       </div>
       <MyDivider />
-      <EditEmployeeGroup onSelectedIdsChange={handleEmployeesSelected} departmentId={watch("departmentId")} />
+      <EditEmployeeGroup onSelectedIdsChange={handleEmployeesSelected} organizationId={watch("organizationId")} departmentId={watch("departmentId")} />
     </div>
   );
 }
