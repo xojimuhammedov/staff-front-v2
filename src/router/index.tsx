@@ -100,7 +100,7 @@ export const PrivateRoutes = [
   {
     path: '/visitor/create',
     element: <VisitorCreate />,
-    roles: ["ADMIN", "HR", "GUARD"],
+    roles: ["ADMIN", "HR", "GUARD" ,"DEPARTMENT_LEAD"],
   },
   {
     path: '/visitor/edit/:id',
