@@ -36,6 +36,7 @@ const ViewDevice = lazy(() => import('pages/SettingsPage/DevicePage/_components/
 const TablePage = lazy(() => import('pages/ReportPage/TablePage'))
 const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
 const VisitorAttendances = lazy(() => import('pages/VisitorAttendances'))
+const ComputerTracking = lazy(() => import('pages/ComputerTracking'))
 const GuardDevicePage = lazy(() => import('pages/GuardRoleDevice/DevicePage'));
 
 
@@ -213,6 +214,11 @@ export const PrivateRoutes = [
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
   },
   {
+    path: '/computer-tracking',
+    element: <ComputerTracking />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
+  },
+  {
     path: '/action',
     element: <VisitorAttendances />,
     roles: ["GUARD"]
@@ -223,4 +229,3 @@ export const PrivateRoutes = [
     roles: ["GUARD"]
   },
 ];
-
