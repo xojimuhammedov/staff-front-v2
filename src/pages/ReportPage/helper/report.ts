@@ -4,6 +4,7 @@ type DraftParams = {
     startDate?: string;
     endDate?: string;
     employeeIds: number[];
+    organizationId: number;
 };
 
 export function uniqSorted(nums: number[]) {
@@ -23,11 +24,13 @@ export function readEmployeeIds(sp: URLSearchParams): number[] {
 export function readDraftFromSearchParams(sp: URLSearchParams): DraftParams {
     const startDate = sp.get("startDate") ?? undefined;
     const endDate = sp.get("endDate") ?? undefined;
+    const organizationId = sp.get("organizationId") ?? undefined;
 
     return {
         startDate,
         endDate,
         employeeIds: readEmployeeIds(sp),
+        organizationId: organizationId as unknown as number,
     };
 }
 
