@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AvatarIcon from "assets/icons/avatar.png";
-import deviceType from "configs/deviceType"; // <-- deviceType import qilindi
+import deviceType from "configs/deviceType";
 
 interface Employee {
   id: number;
