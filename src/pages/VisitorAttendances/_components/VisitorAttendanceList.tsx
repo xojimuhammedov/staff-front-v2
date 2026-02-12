@@ -6,8 +6,15 @@ import Loading from 'assets/icons/Loading';
 import { IFilter } from 'interfaces/filter.interface';
 import { createColumns } from '../helpers/createColumns';
 
-const VisitorAttendanceList = ({ data, isLoading }: any) => {
+const VisitorAttendanceList = ({ data, isLoading, highlightedId = null }: any) => {
   const { columns, dataColumn, rowActions } = createColumns()
+  const rows = (get(data, 'data', []) || []).map((row: any) => ({
+    ...row,
+    rowClassName:
+      highlightedId && String(row?.id) === String(highlightedId)
+        ? 'bg-yellow-300 dark:bg-yellow-900/30 border-yellow-400'
+        : '',
+  }));
 
   if (isLoading) {
     return (
@@ -23,7 +30,7 @@ const VisitorAttendanceList = ({ data, isLoading }: any) => {
         values={{
           columns,
           filter: [],
-          rows: get(data, 'data', []),
+          rows,
           keyExtractor: 'id'
         }}>
         <DataGrid

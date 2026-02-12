@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import VisitorAttendanceList from './_components/VisitorAttendanceList';
 import { useEventsSocket } from 'hooks/useSocket';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const VisitorAttendances = () => {
   const { t } = useTranslation();
@@ -73,6 +73,16 @@ const VisitorAttendances = () => {
   });
 
   const [mergedData, setMergedData] = useState<any>(null);
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  const highlightTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (highlightTimeoutRef.current) {
+        clearTimeout(highlightTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -86,6 +96,18 @@ const VisitorAttendances = () => {
     },
     onActionCreated: (newAction) => {
       console.log('ACTION CREATED:', newAction);
+      const newActionId = newAction?.id ? String(newAction.id) : null;
+
+      if (newActionId) {
+        setHighlightedId(newActionId);
+        if (highlightTimeoutRef.current) {
+          clearTimeout(highlightTimeoutRef.current);
+        }
+        highlightTimeoutRef.current = setTimeout(() => {
+          setHighlightedId(null);
+          highlightTimeoutRef.current = null;
+        }, 10000);
+      }
 
       setMergedData((prev: any) => {
         if (!prev) return prev;
@@ -163,7 +185,7 @@ const VisitorAttendances = () => {
           </div>
         </div>
       </div>
-      <VisitorAttendanceList data={mergedData} isLoading={isLoading} />
+      <VisitorAttendanceList data={mergedData} isLoading={isLoading} highlightedId={highlightedId} />
     </PageContentWrapper>
   );
 };
