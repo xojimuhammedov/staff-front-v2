@@ -46,7 +46,7 @@ const VisitorPage = () => {
             onClick={() => {
               navigate('/visitor/create');
             }}
-            allowedRoles={['ADMIN', 'HR', 'GUARD']}
+            allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
             variant='primary'
             className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}>
             {t('Create visitor')}
