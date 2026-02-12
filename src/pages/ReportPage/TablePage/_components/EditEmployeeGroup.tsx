@@ -16,10 +16,11 @@ import { request } from 'services/request';
 
 type EditEmployeeGroupProps = {
     departmentId?: number;
+    organizationId?: number;
     onSelectedIdsChange?: (ids: number[]) => void;
 };
 
-const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGroupProps) => {
+const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange, organizationId }: EditEmployeeGroupProps) => {
 
     const { t } = useTranslation()
     const [search, setSearch] = useState<any>("");
@@ -29,7 +30,6 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
     const prevDepRef = useRef<number | undefined>(undefined);
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [allEmployeeIds, setAllEmployeeIds] = useState<number[]>([]);
-    const organizationId = searchParams.get("organizationId");
 
     const page = Number(searchParams.get("page") || 1);
     const limit = Number(searchParams.get("limit") || 10);
@@ -41,7 +41,8 @@ const EditEmployeeGroup = ({ departmentId, onSelectedIdsChange }: EditEmployeeGr
             search: searchParams.get("search"),
             page,
             limit,
-            // organizationId: departmentId ?? organizationId
+            departmentId,
+            organizationId
         },
     });
 
