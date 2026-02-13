@@ -35,8 +35,8 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center gap-3 dark:text-text-title-dark">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800/50">
-              <Monitor className="h-5 w-5 text-gray-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 dark:bg-gray-800/50">
+              <Monitor className="h-5 w-5 text-blue-600 dark:text-gray-400" />
             </div>
             <div className="flex flex-col gap-0.5">
               <p className="font-medium text-xs">{row?.computerName ?? '--'}</p>
