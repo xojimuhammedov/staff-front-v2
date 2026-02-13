@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 import ComputerTrackingList from './_components/ComputerTrackingList';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { ArrowLeft, Plus, Search } from 'lucide-react';
-import { MyInput } from 'components/Atoms/Form';
-import { KeyTypeEnum } from 'enums/key-type.enum';
 import { useSearch } from 'hooks/useSearch';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';

@@ -9,10 +9,17 @@ import { searchValue } from 'types/search';
 import { IFilter } from 'interfaces/filter.interface';
 import { MOCK_COMPUTER_TRACKING, MOCK_PAGINATION } from './mockComputerTracking';
 import type { IComputerTrackingItem } from './mockComputerTracking';
+import MyBadge from 'components/Atoms/MyBadge';
 
 type ComputerTrackingListProps = {
   searchValue?: searchValue;
 };
+
+const BADGE_CLASSES = {
+  red: 'border border-tag-red-icon [&_p]:text-tag-red-text dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
+  green:
+    'border border-tag-green-icon [&_p]:text-tag-green-text dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
+} as const;
 
 const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
   const { t, i18n } = useTranslation();
@@ -28,13 +35,13 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center gap-3 text-text-base dark:text-text-title-dark">
-            <Monitor className="shrink-0 w-5 h-5 stroke-current text-text-muted dark:text-text-title-dark" strokeWidth={1.5} />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800/50">
+              <Monitor className="h-5 w-5 text-gray-400" />
+            </div>
             <div className="flex flex-col gap-0.5">
               <p className="font-medium">{row?.computerName ?? '--'}</p>
               {row?.location && (
-                <p className="text-xs text-text-muted dark:text-text-muted">
-                  {row.location}
-                </p>
+                <p className="text-xs text-text-muted dark:text-text-muted">{row.location}</p>
               )}
             </div>
           </div>
@@ -45,9 +52,7 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         label: t('Model'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="text-text-base dark:text-text-title-dark">
-            {row?.model ?? '--'}
-          </div>
+          <div className="text-text-base dark:text-text-title-dark">{row?.model ?? '--'}</div>
         ),
       },
       {
@@ -57,24 +62,12 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         cellRender: (row) => {
           const isOnline = row?.status === 'active';
           return (
-            <div className="flex items-center gap-2">
-              <span
-                className={`shrink-0 w-2 h-2 rounded-full ${
-                  isOnline
-                    ? 'bg-green-500 dark:bg-green-400'
-                    : 'bg-gray-400 dark:bg-gray-500'
-                }`}
-              />
-              <span
-                className={`text-sm ${
-                  isOnline
-                    ? 'text-green-600 dark:text-green-400'
-                    : 'text-gray-500 dark:text-gray-400'
-                }`}
-              >
-                {isOnline ? t('Online') : t('Offline')}
-              </span>
-            </div>
+            <MyBadge
+              className={BADGE_CLASSES[isOnline ? 'green' : 'red']}
+              variant={isOnline ? 'green' : 'red'}
+            >
+              {isOnline ? t('Online') : t('Offline')}
+            </MyBadge>
           );
         },
       },
@@ -83,9 +76,7 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         label: t('IP address'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="text-text-base dark:text-text-title-dark">
-            {row?.ipAddress ?? '--'}
-          </div>
+          <div className="text-text-base dark:text-text-title-dark">{row?.ipAddress ?? '--'}</div>
         ),
       },
       {
@@ -109,7 +100,7 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         ),
       },
     ];
-  
+
     return isView ? cols.filter((col) => !['status', 'employee'].includes(col.key)) : cols;
   }, [t, isView, currentLang]);
 
@@ -139,6 +130,7 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
     >
       <DataGrid
         isLoading={isLoading}
+        hasOrderColumn={false}
         hasCustomizeColumns={true}
         dataColumn={dataColumn}
         pagination={MOCK_PAGINATION}
