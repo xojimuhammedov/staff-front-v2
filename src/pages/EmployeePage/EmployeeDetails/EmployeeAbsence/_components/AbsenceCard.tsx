@@ -53,16 +53,23 @@ const getInitials = (name?: string) => {
     .join('');
 };
 
-const getStatusMeta = (status?: string, startTime?: string, endTime?: string): {
+const getStatusMeta = (
+  status?: string,
+  startTime?: string,
+  endTime?: string
+): {
   label: 'Planned' | 'Active' | 'Completed';
   variant: BadgeVariant;
   bar: string;
 } => {
   if (status) {
     const normalized = status.toLowerCase();
-    if (normalized.includes('plan')) return { label: 'Planned', variant: 'blue', bar: 'bg-blue-500' };
-    if (normalized.includes('active')) return { label: 'Active', variant: 'green', bar: 'bg-green-500' };
-    if (normalized.includes('complete')) return { label: 'Completed', variant: 'neutral', bar: 'bg-gray-400' };
+    if (normalized.includes('plan'))
+      return { label: 'Planned', variant: 'blue', bar: 'bg-blue-500' };
+    if (normalized.includes('active'))
+      return { label: 'Active', variant: 'green', bar: 'bg-green-500' };
+    if (normalized.includes('complete'))
+      return { label: 'Completed', variant: 'neutral', bar: 'bg-gray-400' };
   }
 
   if (startTime && endTime) {
@@ -136,7 +143,10 @@ const AbsenceCard = ({ item, onEdit, onDelete }: AbsenceCardProps) => {
             </span>
           </MyAvatar>
           <div>
-            <p className="text-c-m-p font-medium text-text-base dark:text-text-title-dark">{name}</p>
+            <p className="text-c-m-p font-medium text-text-base dark:text-text-title-dark">
+              {name}
+            </p>
+            {/* <p className="text-c-xs text-text-muted dark:text-text-title-dark">{jobTitle}</p> */}
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -196,9 +206,15 @@ const AbsenceCard = ({ item, onEdit, onDelete }: AbsenceCardProps) => {
         </div>
       ) : null}
 
-      {absenceDescription ? (
+      {/* {absenceDescription ? (
         <div className="mt-3 rounded-m bg-bg-subtle p-2 text-c-xs text-text-base dark:bg-gray-800 dark:text-text-title-dark">
           {absenceDescription}
+        </div>
+      ) : null} */}
+
+      {item.description ? (
+        <div className="mt-3 rounded-m bg-bg-subtle p-2 text-c-xs text-text-base dark:bg-gray-800 dark:text-text-title-dark">
+          Izoh: {item.description}
         </div>
       ) : null}
       {onDelete && item.id ? (
