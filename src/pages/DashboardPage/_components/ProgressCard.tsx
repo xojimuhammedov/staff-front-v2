@@ -116,7 +116,7 @@ export function EmployeeCard({
           <div className="pagination-list w-[80px]">
             <MySelect
               allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
-              className="border border-gray-300 dark:border-white dark:bg-dark-bg"
+               className="dark:text-text-title-dark bg-border-base dark:bg-dark-line" 
 
               options={limitOptions}
               onChange={(evt: any) => {
@@ -138,14 +138,14 @@ export function EmployeeCard({
           {visibleEmployees?.map((emp, index) => (
             <div
               key={emp.id}
-              className="group flex items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer"
+              className="group flex items-center gap-3 rounded-lg  bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer bg-border-base dark:bg-dark-line"
               onClick={() => {
                 onRowClick?.(emp.id);
                 window.scrollTo({ top: 0 });
               }}
             >
             {/* Rank */}
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-muted text-[10px] font-bold text-muted-foreground">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-muted text-[10px] font-bold text-muted-foreground dark:text-white">
               {index + 1}
             </span>
 

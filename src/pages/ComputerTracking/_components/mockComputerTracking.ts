@@ -1,5 +1,4 @@
 export interface IComputerTrackingItem {
-  id: string;
   computerName: string;
   location?: string; // masalan: "3-qavat, 301-xona"
   model: string;
@@ -14,7 +13,6 @@ export interface IComputerTrackingItem {
 
 export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
   {
-    id: '1',
     computerName: 'DEV-WORKSTATION-01',
     location: '3-qavat, 301-xona',
     model: 'Dell OptiPlex 7090',
@@ -24,7 +22,6 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     employee: { name: 'Ali Valiyev' },
   },
   {
-    id: '2',
     computerName: 'DESIGN-MAC-01',
     location: '2-qavat, 205-xona',
     model: 'Apple iMac 24"',
@@ -34,7 +31,6 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     employee: { name: 'Dilnoza Karimova' },
   },
   {
-    id: '3',
     computerName: 'LAPTOP-DEV003',
     location: '1-qavat, 102-xona',
     model: 'Lenovo ThinkPad E14',
@@ -44,7 +40,6 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     employee: { name: 'Sardor Rahimov' },
   },
   {
-    id: '4',
     computerName: 'WORKSTATION-004',
     location: '3-qavat, 304-xona',
     model: 'Dell Precision 3650',
@@ -54,7 +49,6 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     employee: { name: 'Malika Toshmatova' },
   },
   {
-    id: '5',
     computerName: 'PC-HR-005',
     location: '2-qavat, 201-xona',
     model: 'HP ProDesk 400 G7',
@@ -64,7 +58,6 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     employee: { name: 'Jasur Bekmurodov' },
   },
   {
-    id: '6',
     computerName: 'DESKTOP-SALES-006',
     location: '1-qavat, 105-xona',
     model: 'Lenovo IdeaCentre 5',
@@ -74,7 +67,6 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     employee: { name: 'Nilufar Usmanova' },
   },
   {
-    id: '7',
     computerName: 'DEV-MAC-007',
     location: '2-qavat, 208-xona',
     model: 'Apple iMac 24"',
@@ -84,7 +76,6 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     employee: { name: 'Bobur Ismoilov' },
   },
   {
-    id: '8',
     computerName: 'DESKTOP-008',
     location: '3-qavat, 310-xona',
     model: 'Acer Veriton N4660G',
