@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 type BadgeVariant = 'orange' | 'purple' | 'red' | 'blue' | 'green' | 'neutral';
 
@@ -108,6 +109,7 @@ const getProgress = (startTime?: string, endTime?: string) => {
 
 const AbsenceCard = ({ item, onEdit, onDelete }: AbsenceCardProps) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const name = item.employee?.name ?? '--';
   // const jobTitle = item.employee?.jobTitle ?? item.employee?.position?.name ?? '--';
@@ -173,9 +175,19 @@ const AbsenceCard = ({ item, onEdit, onDelete }: AbsenceCardProps) => {
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-bg-subtle px-3 py-1 text-c-xs text-text-base dark:bg-gray-800 dark:text-text-title-dark">
+        <button
+          type="button"
+          onClick={() => {
+            const params = new URLSearchParams({ 'current-setting': 'absence' });
+            if (absenceLabel && absenceLabel !== '--') {
+              params.set('search', absenceLabel);
+            }
+            navigate(`/settings?${params.toString()}`);
+          }}
+          className="rounded-full bg-bg-subtle px-3 py-1 text-c-xs text-text-base transition hover:text-bg-brand dark:bg-gray-800 dark:text-text-title-dark"
+        >
           {absenceLabel}
-        </span>
+        </button>
         <span className="rounded-full bg-bg-subtle px-3 py-1 text-c-xs text-text-base dark:bg-gray-800 dark:text-text-title-dark">
           {durationLabel}
         </span>
