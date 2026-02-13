@@ -4,22 +4,18 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeviceAssignModal from './DeviceAssignModal';
 import { useGetAllQuery } from 'hooks/api';
-import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
+import { KEYS } from 'constants/key';
 import { get } from 'lodash';
 
 const LeftEmployee = ({
-  setTempSelectedIds,
-  tempSelectedIds,
-  selectDevices,
-  statusRefetch,
-  setStatusRefetch,
+  deviceId,
+  deviceTypeOptions,
+  statusRefetch, setStatusRefetch
 }: any) => {
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
-  const deviceIdQuery = useMemo(() => {
-    return selectDevices.map((id: any) => `deviceIds=${id}`).join('&');
-  }, [selectDevices]);
+  const [tempSelectedIds, setTempSelectedIds] = useState<number[]>([]);
 
   const {
     data,
@@ -27,10 +23,11 @@ const LeftEmployee = ({
     refetch: assignRefetch,
   } = useGetAllQuery<any>({
     key: KEYS.employeeAssignDevice,
-    url: `${URLS.employeeAssignDevice}?${deviceIdQuery}`,
+    url: URLS.employeeAssignDevice,
     params: {
       isAssigned: false,
       limit: 100,
+      deviceIds: deviceId,
     },
   });
 
@@ -41,11 +38,14 @@ const LeftEmployee = ({
   const toggleId = (setFn: React.Dispatch<React.SetStateAction<number[]>>, id: number) => {
     setFn((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
-  const toggleTempSelect = (id: number) => toggleId(setTempSelectedIds, id);
+
   const toggleSelectAll = () =>
     setTempSelectedIds((p: any) =>
       p.length === get(data, 'data.length') ? [] : get(data, 'data')?.map((e: any) => e.id)
     );
+
+  // usage
+  const toggleTempSelect = (id: number) => toggleId(setTempSelectedIds, id);
 
   return (
     <>
@@ -54,10 +54,10 @@ const LeftEmployee = ({
           <MyCheckbox
             label={t('Select all')}
             checked={
-              tempSelectedIds.length === get(data, 'data.length') && get(data, 'data.length') > 0
+              tempSelectedIds?.length === get(data, 'data.length') && get(data, 'data.length') > 0
             }
             indeterminate={
-              tempSelectedIds.length > 0 && tempSelectedIds.length < get(data, 'data.length')
+              tempSelectedIds?.length > 0 && tempSelectedIds?.length < get(data, 'data.length')
             }
             onChange={toggleSelectAll}
           />
@@ -96,8 +96,9 @@ const LeftEmployee = ({
       <DeviceAssignModal
         open={openModal}
         onClose={() => setOpenModal(false)}
+        deviceTypeOptions={deviceTypeOptions}
         tempSelectedIds={tempSelectedIds}
-        deviceId={selectDevices}
+        deviceId={deviceId}
         refetch={assignRefetch}
         setStatusRefetch={setStatusRefetch}
       />

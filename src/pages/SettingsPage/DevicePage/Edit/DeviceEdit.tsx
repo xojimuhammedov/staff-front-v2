@@ -52,14 +52,7 @@ const DeviceEdit = () => {
         }
     ];
 
-    const { data: employeesData, isLoading, refetch } =
-        useGetAllQuery<EmployeeResponse>({
-            key: KEYS.getEmployeeList,
-            url: URLS.getEmployeeList,
-            params: { search: currentSearch || undefined, limit: 100 },
-        });
-
-    const { data: deviceData, isLoading: deviceLoading, refetch: deviceRefetch } = useGetOneQuery({
+    const { data: deviceData, isLoading: deviceLoading } = useGetOneQuery({
         id: id,
         url: URLS.getDoorForDevices,
         params: {},
@@ -87,11 +80,6 @@ const DeviceEdit = () => {
                 <Stepper complete={complete} currentStep={currentStep} steps={sidebar_menu} />
                 {currentStep === 3 ? (
                     <EmployeeAssign
-                        employeesData={employeesData}
-                        isLoading={isLoading}
-                        refetch={refetch}
-                        deviceData={deviceData}
-                        deviceRefetch={deviceRefetch}
                         deviceId={Number(id)} />
                 ) : currentStep === 2 ? <DeviceSettings deviceId={Number(id)} handleClick={handleClick} /> : (
                     <EditForm
