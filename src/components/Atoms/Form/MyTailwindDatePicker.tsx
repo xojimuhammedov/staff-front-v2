@@ -122,6 +122,7 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
                   asSingle={asSingle}
                   value={field.value}
                   onChange={field.onChange}
+                  showShortcuts={true}
                 />
               </div>
             )
