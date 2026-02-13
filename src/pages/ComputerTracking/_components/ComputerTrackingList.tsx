@@ -94,9 +94,9 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         label: t('Number'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="text-text-base dark:text-text-title-dark">
-            {row?.inventoryNumber ?? '--'}
-          </div>
+          <div className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 font-mono text-sm font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+          {row?.inventoryNumber ?? '--'}
+        </div>
         ),
       },
     ];
