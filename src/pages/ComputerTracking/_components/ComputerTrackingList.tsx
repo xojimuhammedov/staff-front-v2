@@ -34,12 +34,12 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         label: t('Computer'),
         headerClassName: 'w-1/3',
         cellRender: (row) => (
-          <div className="flex items-center gap-3 text-text-base dark:text-text-title-dark">
+          <div className="flex items-center gap-3 dark:text-text-title-dark">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800/50">
               <Monitor className="h-5 w-5 text-gray-400" />
             </div>
             <div className="flex flex-col gap-0.5">
-              <p className="font-medium">{row?.computerName ?? '--'}</p>
+              <p className="font-medium text-xs">{row?.computerName ?? '--'}</p>
               {row?.location && (
                 <p className="text-xs text-text-muted dark:text-text-muted">{row.location}</p>
               )}

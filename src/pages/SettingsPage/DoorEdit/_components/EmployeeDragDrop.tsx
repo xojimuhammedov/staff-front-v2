@@ -11,33 +11,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FinalEmployee from './FinalEmployee';
 import LeftEmployee from './LeftEmployee';
 
-interface Employee {
-  id: number;
-  name: string;
-  avatar?: string;
-}
-
-interface EmployeeResponse {
-  data: Employee[];
-}
-
-function EmployeeDragDrop({ employeeData, gateId, refetch: hikvisionRefetch }: any) {
+function EmployeeDragDrop({ gateId }: any) {
   const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const [tempSelectedIds, setTempSelectedIds] = useState<number[]>([]);
-  const [finalSelectedIds, setFinalSelectedIds] = useState<number[]>([]);
   const [selectDevices, setSelectDevices] = useState<number[]>([]);
-
-  const {
-    data: employeesData,
-    isLoading,
-    refetch,
-  } = useGetAllQuery<EmployeeResponse>({
-    key: KEYS.getEmployeeList,
-    url: URLS.getEmployeeList,
-    params: { limit: 100 },
-  });
+  const [statusRefetch, setStatusRefetch] = useState('');
 
   const { data: doorData } = useGetOneQuery({
     id,
@@ -45,29 +25,11 @@ function EmployeeDragDrop({ employeeData, gateId, refetch: hikvisionRefetch }: a
     enabled: !!id,
   });
 
-  const employees = employeesData?.data ?? [];
-
   const { data: deviceData } = useGetAllQuery<any>({
     key: KEYS.getDoorForDevices,
     url: URLS.getDoorForDevices,
     params: {},
   });
-
-  useEffect(() => {
-    if (employeeData) {
-      setFinalSelectedIds(employeeData?.map((e: any) => e?.employee?.id));
-    }
-  }, [employeeData]);
-
-  const finalEmployees = useMemo(
-    () => employees.filter((e) => finalSelectedIds.includes(e.id)),
-    [employees, finalSelectedIds]
-  );
-
-  const alreadySelectedIds = new Set(finalSelectedIds);
-
-  // // LEFT PANEL LIST
-  const leftEmployees = employees.filter((emp) => !alreadySelectedIds.has(emp.id));
 
   //Devices multi select uchun
   useEffect(() => {
@@ -135,23 +97,18 @@ function EmployeeDragDrop({ employeeData, gateId, refetch: hikvisionRefetch }: a
         <div className="mt-6 flex flex-col lg:flex-row gap-6">
           {/* Left Panel */}
           <LeftEmployee
-            refetch={refetch}
-            hikvisionRefetch={hikvisionRefetch}
             tempSelectedIds={tempSelectedIds}
             setTempSelectedIds={setTempSelectedIds}
-            leftEmployees={leftEmployees}
-            employees={employees}
             selectDevices={selectDevices}
-            isLoading={isLoading}
+            statusRefetch={statusRefetch}
+            setStatusRefetch={setStatusRefetch}
           />
           {/* RIGHT PANEL */}
           <FinalEmployee
+            statusRefetch={statusRefetch}
+            setStatusRefetch={setStatusRefetch}
             setTempSelectedIds={setTempSelectedIds}
-            employeeData={employeeData}
-            finalEmployees={finalEmployees}
             selectDevices={selectDevices}
-            refetch={refetch}
-            hikvisionRefetch={hikvisionRefetch}
           />
         </div>
       </div>

@@ -1,21 +1,45 @@
 import { MyCheckbox } from 'components/Atoms/Form';
 import MyButton from 'components/Atoms/MyButton/MyButton';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RemoveAssignModal from './RemoveAssignModal';
+import { useGetAllQuery } from 'hooks/api';
+import { KEYS } from 'constants/key';
+import { URLS } from 'constants/url';
+import { get } from 'lodash';
 
-const FinalEmployee = ({ finalEmployees, employeeData, setTempSelectedIds, selectDevices, refetch, hikvisionRefetch }: any) => {
+const FinalEmployee = ({ setTempSelectedIds, selectDevices, statusRefetch, setStatusRefetch }: any) => {
   const { t } = useTranslation();
-  const [removeModal, setRemoveModal] = useState(false)
+  const [removeModal, setRemoveModal] = useState(false);
   const [removeSelectIds, setRemoveSelectIds] = useState<number[]>([]);
+
+  const deviceIdQuery = useMemo(() => {
+    return selectDevices.map((id: any) => `deviceIds=${id}`).join('&');
+  }, [selectDevices]);
+
+  const {
+    data,
+    isLoading: rightLoading,
+    refetch: removeRefetch,
+  } = useGetAllQuery<any>({
+    key: KEYS.employeeAssignDevice,
+    url: `${URLS.employeeAssignDevice}?${deviceIdQuery}`,
+    params: {
+      isAssigned: true,
+    },
+  });
 
   useEffect(() => {
     setTempSelectedIds([]);
     setRemoveSelectIds([]);
-  }, [employeeData]);
+  }, [data?.data]);
+
+  useEffect(() => {
+    removeRefetch();
+  }, [statusRefetch]);
 
   const toggleId = (setFn: React.Dispatch<React.SetStateAction<number[]>>, id: number) => {
-    setFn(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));
+    setFn((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
   const toggleRemoveTempSelect = (id: number) => toggleId(setRemoveSelectIds, id);
   return (
@@ -23,7 +47,7 @@ const FinalEmployee = ({ finalEmployees, employeeData, setTempSelectedIds, selec
       <div className="w-full lg:w-1/2 h-[600px] rounded-md border">
         <div className="flex items-center justify-between bg-gray-100 p-2">
           <h3 className="font-medium">
-            {t('Selected employees')} ({finalEmployees?.length})
+            {t('Selected employees')} ({get(data, 'data.length')})
           </h3>
           <MyButton
             variant="secondary"
@@ -35,10 +59,10 @@ const FinalEmployee = ({ finalEmployees, employeeData, setTempSelectedIds, selec
         </div>
 
         <div className="overflow-y-auto h-[510px] space-y-2 mt-4">
-          {!finalEmployees.length ? (
+          {!get(data, 'data.length') ? (
             <p className="text-center mt-10">{t('Nothing selected yet')}</p>
           ) : (
-            finalEmployees.map((emp:any) => (
+            get(data, 'data').map((emp: any) => (
               <div
                 key={emp.id}
                 className="flex items-center p-4 mx-2 rounded-md dark:bg-bg-dark-bg border border-gray-200 dark:border-[#2E3035] transition-colors"
@@ -59,8 +83,8 @@ const FinalEmployee = ({ finalEmployees, employeeData, setTempSelectedIds, selec
         open={removeModal}
         onClose={() => setRemoveModal(false)}
         tempSelectedIds={removeSelectIds}
-        refetch={refetch}
-        hikvisionRefetch={hikvisionRefetch}
+        refetch={removeRefetch}
+        setStatusRefetch={setStatusRefetch}
       />
     </>
   );

@@ -8,9 +8,6 @@ import FormDoorEdit from './_components/FormDoorEdit';
 import FormDeviceEdit from './_components/FormDeviceEdit';
 import EmployeeDragDrop from './_components/EmployeeDragDrop';
 import { SidebarMenuType } from 'types/sidebar';
-import { KEYS } from 'constants/key';
-import { useGetAllQuery } from 'hooks/api';
-import { URLS } from 'constants/url';
 
 function DoorEdit() {
   const { t } = useTranslation();
@@ -50,15 +47,6 @@ function DoorEdit() {
     setSearchParams(searchParams);
   };
 
-  const { data, isLoading, refetch } = useGetAllQuery<any>({
-    key: KEYS.hikvisionEmployeeSync,
-    url: URLS.hikvisionEmployeeSync,
-    params: {
-      gateId: Number(id),
-      limit: 100
-    }
-  })
-
 
   return (
     <PageContentWrapper>
@@ -72,9 +60,7 @@ function DoorEdit() {
           <FormDeviceEdit handleClick={handleClick} />
         ) : currentStep === 3 ? (
           <EmployeeDragDrop
-            employeeData={data?.data}
             gateId={Number(id)}
-            refetch={refetch}
           />
         ) : (
           <FormDoorEdit handleClick={handleClick} />

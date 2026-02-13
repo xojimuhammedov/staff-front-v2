@@ -51,5 +51,6 @@ export const KEYS = {
   dashboardTodayBottom: "dashboardTodayBottom",
   actionAllList: "actionAllList",
   absences: "absences",
-  employeeAbsences: "employeeAbsences"
+  employeeAbsences: "employeeAbsences",
+  employeeAssignDevice:"employeeAssignDevice"
 };

@@ -51,5 +51,6 @@ export const URLS = {
   dashboardTodayBottom:'/api/v1/dashboard/top-employees/unuseful',
   actionAllList: "/api/v1/action/all-actions",
   absences: "/api/v1/absences",
-  employeeAbsences: "/api/v1/employee-absences"
+  employeeAbsences: "/api/v1/employee-absences",
+  employeeAssignDevice:"/api/v1/devices/device-employees"
 };
