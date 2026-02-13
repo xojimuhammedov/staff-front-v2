@@ -42,7 +42,7 @@ function ComputerTracking() {
           <MyBreadCrumb items={breadCrumbs} />
         </div>
         <div className="flex items-center gap-4">
-          <MyInput
+          {/* <MyInput
             onKeyUp={(event) => {
               if (event.key === KeyTypeEnum.enter) {
                 handleSearch();
@@ -54,9 +54,9 @@ function ComputerTracking() {
             startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
             className="dark:bg-bg-input-dark"
             placeholder={t('Search computers...')}
-          />
+          /> */}
           <div className="flex items-center gap-4">
-            <MyButton
+            {/* <MyButton
               onClick={() => {
                 navigate('/computer-tracking/create');
               }}
@@ -66,7 +66,7 @@ function ComputerTracking() {
               className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
             >
               {t('Add Computer')}
-            </MyButton>
+            </MyButton> */}
             {searchValue?.subdepartmentId && (
               <MyButton
                 onClick={() => navigate('/computer-tracking')}
