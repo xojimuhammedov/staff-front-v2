@@ -18,7 +18,7 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     model: 'Dell OptiPlex 7090',
     status: 'active',
     ipAddress: '192.168.1.101',
-    inventoryNumber: 'INV-2024-001',
+    inventoryNumber: '3',
     employee: { name: 'Ali Valiyev' },
   },
   {
@@ -27,7 +27,7 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     model: 'Apple iMac 24"',
     status: 'active',
     ipAddress: '192.168.1.102',
-    inventoryNumber: 'INV-2024-002',
+    inventoryNumber: '3',
     employee: { name: 'Dilnoza Karimova' },
   },
   {
@@ -36,7 +36,7 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     model: 'Lenovo ThinkPad E14',
     status: 'inactive',
     ipAddress: '192.168.1.103',
-    inventoryNumber: 'INV-2024-003',
+    inventoryNumber: '9',
     employee: { name: 'Sardor Rahimov' },
   },
   {
@@ -45,7 +45,7 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     model: 'Dell Precision 3650',
     status: 'active',
     ipAddress: '192.168.1.104',
-    inventoryNumber: 'INV-2024-004',
+    inventoryNumber: '4',
     employee: { name: 'Malika Toshmatova' },
   },
   {
@@ -54,7 +54,7 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     model: 'HP ProDesk 400 G7',
     status: 'active',
     ipAddress: '192.168.1.105',
-    inventoryNumber: 'INV-2024-005',
+    inventoryNumber: '3',
     employee: { name: 'Jasur Bekmurodov' },
   },
   {
@@ -63,7 +63,7 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     model: 'Lenovo IdeaCentre 5',
     status: 'inactive',
     ipAddress: '192.168.1.106',
-    inventoryNumber: 'INV-2024-006',
+    inventoryNumber: '6',
     employee: { name: 'Nilufar Usmanova' },
   },
   {
@@ -72,7 +72,7 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     model: 'Apple iMac 24"',
     status: 'active',
     ipAddress: '192.168.1.107',
-    inventoryNumber: 'INV-2024-007',
+    inventoryNumber: '7',
     employee: { name: 'Bobur Ismoilov' },
   },
   {
@@ -81,7 +81,7 @@ export const MOCK_COMPUTER_TRACKING: IComputerTrackingItem[] = [
     model: 'Acer Veriton N4660G',
     status: 'active',
     ipAddress: '192.168.1.108',
-    inventoryNumber: 'INV-2024-008',
+    inventoryNumber: '8',
     employee: { name: 'Gulnora Rashidova' },
   },
 ];

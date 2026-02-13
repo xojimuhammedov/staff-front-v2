@@ -726,6 +726,8 @@
   "Search computers...": "Поиск компьютеров...",
   "Add Computer": "Добавить компьютер",
   "Back to computer list": "Вернуться к списку компьютеров",
-  "Computer tracking": "Компьютерный мониторинг"
+  "Computer tracking": "Компьютерный мониторинг" ,
+  "Number": "Количество" ,
+  "IP address": "IP-адрес" 
   
 }

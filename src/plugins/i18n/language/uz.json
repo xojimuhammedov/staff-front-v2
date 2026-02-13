@@ -727,5 +727,7 @@
   "Search computers...": "Kompyuterlarni qidirish...",
   "Add Computer": "Kompyuter qo'shish",
   "Back to computer list": "Kompyuterlar ro'yxatiga qaytish",
-  "Computer tracking":"Kompyuter monitoringi"
+  "Computer tracking":"Kompyuter monitoringi" ,
+  "Number": "Soni" ,
+  "IP address": "IP manzil" 
  }
