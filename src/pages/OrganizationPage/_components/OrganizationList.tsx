@@ -11,8 +11,9 @@ import Form from './Form';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { useTranslation } from 'react-i18next';
 import EditForm from './EditForm';
+import OrganizationListItem from './OrganizationListItem';
 
-const OrganizationList = ({ data, refetch, setShowModal, showModal }: any) => {
+const OrganizationList = ({ data, refetch, setShowModal, showModal, viewMode }: any) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
@@ -45,16 +46,29 @@ const OrganizationList = ({ data, refetch, setShowModal, showModal }: any) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
-        {get(data, 'data')?.map((item: Organization) => (
-          <OrganizationCard
-            setOrganizationId={setOrganizationId}
-            setShow={setShow}
-            setOpen={setOpen}
-            item={item}
-          />
-        ))}
-      </div>
+      {viewMode === 'grid' ? (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
+          {get(data, 'data')?.map((item: Organization) => (
+            <OrganizationCard
+              setOrganizationId={setOrganizationId}
+              setShow={setShow}
+              setOpen={setOpen}
+              item={item}
+            />
+          ))}
+        </div>
+      ) : (
+        <>
+          {get(data, 'data')?.map((item: Organization) => (
+            <OrganizationListItem
+              setOrganizationId={setOrganizationId}
+              setShow={setShow}
+              setOpen={setOpen}
+              item={item}
+            />
+          ))}
+        </>
+      )}
       <MyDivider />
       <MyModal
         modalProps={{

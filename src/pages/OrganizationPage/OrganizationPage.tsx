@@ -6,7 +6,7 @@ import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useTranslation } from 'react-i18next';
-import { Plus, Search } from 'lucide-react';
+import { LayoutGrid, List, Plus, Search } from 'lucide-react';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyDivider from 'components/Atoms/MyDivider';
 import { KeyTypeEnum } from 'enums/key-type.enum';
@@ -26,6 +26,7 @@ const OrganizationPage = () => {
   const [showModal, setShowModal] = useState(false);
   const searchValue: searchValue = paramsStrToObj(location.search);
   const { search, setSearch, handleSearch } = useSearch();
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const breadCrumbs = [
     {
@@ -74,12 +75,40 @@ const OrganizationPage = () => {
             className="dark:bg-bg-input-dark"
             placeholder={t('Search...')}
           />
+          <div className="hidden sm:flex items-center rounded-lg dark:border-[#2E3035] border border-input bg-card p-0.5">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
+                viewMode === 'grid'
+                  ? 'bg-[#2E3035] text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <LayoutGrid
+                className={`h-3.5 w-3.5 dark:text-white ${viewMode === 'grid' && 'text-white'}`}
+              />
+              <span className="sr-only">Grid view</span>
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
+                viewMode === 'list'
+                  ? 'bg-[#2E3035] text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <List
+                className={`h-3.5 w-3.5 dark:text-white ${viewMode === 'list' && 'text-white'}`}
+              />
+              <span className="sr-only">List view</span>
+            </button>
+          </div>
           <div className="flex items-center gap-4">
             <MyButton
               startIcon={<Plus />}
               onClick={() => setShowModal(true)}
               allowedRoles={['ADMIN']}
-              variant='primary'
+              variant="primary"
               className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
             >
               {t('Add Organization')}
@@ -94,6 +123,7 @@ const OrganizationPage = () => {
         refetch={refetch}
         setShowModal={setShowModal}
         showModal={showModal}
+        viewMode={viewMode}
       />
     </PageContentWrapper>
   );
