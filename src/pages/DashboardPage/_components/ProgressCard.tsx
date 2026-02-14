@@ -138,7 +138,7 @@ export function EmployeeCard({
           {visibleEmployees?.map((emp, index) => (
             <div
               key={emp.id}
-              className="group flex items-center gap-3 rounded-lg  bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer bg-border-base dark:bg-dark-line"
+              className="group flex items-center gap-3 rounded-lg border border-border dark:border-dark-line bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer dark:bg-dark-line"
               onClick={() => {
                 onRowClick?.(emp.id);
                 window.scrollTo({ top: 0 });

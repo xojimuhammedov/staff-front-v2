@@ -158,12 +158,12 @@ const NavbarMenu = () => {
       isSubMenu: false,
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
     },
-    {
-      label: t('Computer tracking'),
-      to: '/computer-tracking',
-      isSubMenu: false,
-      allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
-    },
+    // {
+    //   label: t('Computer tracking'),
+    //   to: '/computer-tracking',
+    //   isSubMenu: false,
+    //   allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
+    // },
     {
       label: t('Reports'),
       to: '/reports',
