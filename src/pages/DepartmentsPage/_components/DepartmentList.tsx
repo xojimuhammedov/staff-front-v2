@@ -10,63 +10,65 @@ import { useDepartment } from '../hooks/useDepartment';
 import { useDeleteDepartment } from '../hooks/useDeleteDepartment';
 
 const DepartmentList = ({ setShowModal, showModal }: any) => {
-    const { t } = useTranslation()
-    const { data, refetch } = useDepartment()
-    const [show, setShow] = useState(false)
-    const [editId, setEditId] = useState(null)
-    const { deleteItem, setDepartmentId, setOpen, open } = useDeleteDepartment()
+  const { t } = useTranslation();
+  const { data, refetch } = useDepartment();
+  const [show, setShow] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const { deleteItem, setDepartmentId, setOpen, open } = useDeleteDepartment();
 
-    return (
-        <>
-            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
-                {
-                    data?.map((item: Department) => (
-                        <DepartmentCard
-                            setDepartmentId={setDepartmentId}
-                            setShow={setShow}
-                            action={true}
-                            setOpen={setOpen}
-                            setEditId={setEditId}
-                            item={item} />
-                    ))
-                }
-            </div>
-            <MyModal
-                modalProps={{
-                    show: Boolean(showModal),
-                    onClose: () => {
-                        setShowModal(false)
-                    }
-                }}
-                headerProps={{
-                    children: <h2 className="text-xl font-semibold">{t('Create new department')}</h2>,
-                    className: 'px-6'
-                }}
-                bodyProps={{
-                    children: <Form refetch={refetch} onClose={() => setShowModal(false)} />
-                }}
-            />
-            <ConfirmationModal
-                title={t("Are you sure you want to delete this department?")}
-                subTitle={t("This action cannot be undone!")}
-                open={open} setOpen={setOpen} confirmationDelete={deleteItem} />
-            <MyModal
-                modalProps={{
-                    show: Boolean(show),
-                    onClose: () => {
-                        setShow(false)
-                    }
-                }}
-                headerProps={{
-                    children: <h2 className="text-xl font-semibold">{t('Edit department')}</h2>,
-                    className: 'px-6'
-                }}
-                bodyProps={{
-                    children: <EditForm setShow={setShow} editId={editId} refetch={refetch} />
-                }}
-            />
-        </>
-    );
-}
+  return (
+    <>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
+        {data?.map((item: Department) => (
+          <DepartmentCard
+            setDepartmentId={setDepartmentId}
+            setShow={setShow}
+            action={true}
+            setOpen={setOpen}
+            setEditId={setEditId}
+            item={item}
+          />
+        ))}
+      </div>
+      <MyModal
+        modalProps={{
+          show: Boolean(showModal),
+          onClose: () => {
+            setShowModal(false);
+          },
+        }}
+        headerProps={{
+          children: <h2 className="text-xl font-semibold">{t('Create new department')}</h2>,
+          className: 'px-6',
+        }}
+        bodyProps={{
+          children: <Form refetch={refetch} onClose={() => setShowModal(false)} />,
+        }}
+      />
+      <ConfirmationModal
+        title={t('Are you sure you want to delete this department?')}
+        subTitle={t('This action cannot be undone!')}
+        open={open}
+        setOpen={setOpen}
+        confirmationDelete={deleteItem}
+      />
+      <MyModal
+        modalProps={{
+          show: Boolean(show),
+          onClose: () => {
+            setShow(false);
+          },
+        }}
+        headerProps={{
+          children: <h2 className="text-xl font-semibold">{t('Edit department')}</h2>,
+          className: 'px-6',
+        }}
+        bodyProps={{
+          children: <EditForm setShow={setShow} editId={editId} refetch={refetch} />,
+        }}
+      />
+    </>
+  );
+};
 
 export default React.memo(DepartmentList);

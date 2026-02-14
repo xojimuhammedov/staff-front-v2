@@ -63,8 +63,8 @@ function EmployeePage() {
               <MyButton
                 onClick={() => navigate('/employees')}
                 variant="primary"
-                className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}>
                 startIcon={<ArrowLeft />}
+                className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}>
                 {t('Back to employees list')}
               </MyButton>
             )}

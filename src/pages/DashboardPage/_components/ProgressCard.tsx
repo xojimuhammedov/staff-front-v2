@@ -29,7 +29,6 @@ interface EmployeeCardProps {
   paginationKey?: string;
 }
 
-
 function getRingColor(percentage: number) {
   if (percentage >= 90) return 'stroke-emerald-500';
   if (percentage >= 80) return 'stroke-amber-500';
@@ -106,7 +105,9 @@ export function EmployeeCard({
       <div className="bg-bg-base w-full dark:bg-dark-dashboard-cards rounded-lg p-4 shadow-base">
         <div className="flex items-center justify-between gap-4 mb-4">
           <div className="flex items-center gap-2">
-            <div className={`${iconBgColor} w-10 h-10 rounded-2xl flex items-center justify-center`}>
+            <div
+              className={`${iconBgColor} w-10 h-10 rounded-2xl flex items-center justify-center`}
+            >
               <IconByName name={icon as string} size={20} className={iconColor} strokeWidth={2} />
             </div>
             <div>
@@ -116,18 +117,20 @@ export function EmployeeCard({
           <div className="pagination-list w-[80px]">
             <MySelect
               allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
-               className="dark:text-text-title-dark bg-border-base dark:bg-dark-line" 
-
+              className="dark:text-text-title-dark bg-border-base dark:bg-dark-line"
               options={limitOptions}
               onChange={(evt: any) => {
                 const nextLimit = evt?.value ?? evt;
                 if (nextLimit) {
-                  setSearchParams((prev) => {
-                    const next = new URLSearchParams(prev);
-                    next.set(limitKey, String(nextLimit));
-                    next.delete(`${paginationKey}Page`);
-                    return next;
-                  }, { replace: true });
+                  setSearchParams(
+                    (prev) => {
+                      const next = new URLSearchParams(prev);
+                      next.set(limitKey, String(nextLimit));
+                      next.delete(`${paginationKey}Page`);
+                      return next;
+                    },
+                    { replace: true }
+                  );
                 }
               }}
               value={limit}
@@ -144,60 +147,60 @@ export function EmployeeCard({
                 window.scrollTo({ top: 0 });
               }}
             >
-            {/* Rank */}
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-muted text-[10px] font-bold text-muted-foreground dark:text-white">
-              {index + 1}
-            </span>
+              {/* Rank */}
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-muted text-[10px] font-bold text-muted-foreground dark:text-white">
+                {index + 1}
+              </span>
 
-            {/* Avatar */}
-            <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-border">
-              <img
-                src={emp?.photo ? `${config.FILE_URL}api/storage/${emp?.photo}` : AvatarIcon}
-                alt={emp?.name}
-                className="h-full w-full object-cover"
-                // crossOrigin="anonymous"
-              />
-            </div>
-
-            {/* Name + Department */}
-            <div className="min-w-0 flex-1">
-              <h3 className="truncate text-sm font-semibold leading-tight text-card-foreground dark:text-text-title-dark">
-                {emp?.name}
-              </h3>
-              <p className="truncate text-[11px] leading-tight text-muted-foreground dark:text-text-title-dark">
-                {emp?.department}
-              </p>
-            </div>
-
-            {/* Inline stats */}
-            <div className="hidden items-center gap-4 sm:flex">
-              <div className="flex items-center gap-1.5" title="Ishlangan vaqt">
-                <Clock className="h-3.5 w-3.5 text-muted-foreground dark:text-white" />
-                <span className="text-xs font-medium text-card-foreground dark:text-text-title-dark">
-                  {formatMinutes(emp?.totalWorkedMinutes)}
-                </span>
+              {/* Avatar */}
+              <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-border">
+                <img
+                  src={emp?.photo ? `${config.FILE_URL}api/storage/${emp?.photo}` : AvatarIcon}
+                  alt={emp?.name}
+                  className="h-full w-full object-cover"
+                  // crossOrigin="anonymous"
+                />
               </div>
 
-              <div className="flex items-center gap-1.5" title="Rejadagi vaqt">
-                <CalendarClock className="h-3.5 w-3.5 text-muted-foreground dark:text-white" />
-                <span className="text-xs text-muted-foreground dark:text-text-title-dark">
-                  {formatMinutes(emp?.totalPlannedMinutes)}
-                </span>
+              {/* Name + Department */}
+              <div className="min-w-0 flex-1">
+                <h3 className="truncate text-sm font-semibold leading-tight text-card-foreground dark:text-text-title-dark">
+                  {emp?.name}
+                </h3>
+                <p className="truncate text-[11px] leading-tight text-muted-foreground dark:text-text-title-dark">
+                  {emp?.department}
+                </p>
               </div>
 
-              {emp?.totalLateDays > 0 && (
-                <div className="flex items-center gap-1" title="Kechikish kunlari">
-                  <AlertTriangle
-                    className={`h-3.5 w-3.5 ${emp?.totalLateDays > 3 ? 'text-red-500' : 'text-amber-500'}`}
-                  />
-                  <span
-                    className={`text-xs font-medium ${emp?.totalLateDays > 3 ? 'text-red-500' : 'text-amber-600'}`}
-                  >
-                    {emp?.totalLateDays}
+              {/* Inline stats */}
+              <div className="hidden items-center gap-4 sm:flex">
+                <div className="flex items-center gap-1.5" title="Ishlangan vaqt">
+                  <Clock className="h-3.5 w-3.5 text-muted-foreground dark:text-white" />
+                  <span className="text-xs font-medium text-card-foreground dark:text-text-title-dark">
+                    {formatMinutes(emp?.totalWorkedMinutes)}
                   </span>
                 </div>
-              )}
-            </div>
+
+                <div className="flex items-center gap-1.5" title="Rejadagi vaqt">
+                  <CalendarClock className="h-3.5 w-3.5 text-muted-foreground dark:text-white" />
+                  <span className="text-xs text-muted-foreground dark:text-text-title-dark">
+                    {formatMinutes(emp?.totalPlannedMinutes)}
+                  </span>
+                </div>
+
+                {emp?.totalLateDays > 0 && (
+                  <div className="flex items-center gap-1" title="Kechikish kunlari">
+                    <AlertTriangle
+                      className={`h-3.5 w-3.5 ${emp?.totalLateDays > 3 ? 'text-red-500' : 'text-amber-500'}`}
+                    />
+                    <span
+                      className={`text-xs font-medium ${emp?.totalLateDays > 3 ? 'text-red-500' : 'text-amber-600'}`}
+                    >
+                      {emp?.totalLateDays}
+                    </span>
+                  </div>
+                )}
+              </div>
 
               {/* Circular percentage */}
               <CircularProgress percentage={emp?.percentage} />
