@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { get } from 'lodash';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Plus, Search } from 'lucide-react';
+import { ArrowLeft, LayoutGrid, List, Plus, Search } from 'lucide-react';
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyDivider from 'components/Atoms/MyDivider';
 import { MyInput } from 'components/Atoms/Form';
@@ -21,6 +21,7 @@ const DepartmentPage = () => {
   const [showModal, setShowModal] = useState(false);
   const { search, setSearch, handleSearch } = useSearch();
   const { data, isLoading, searchValue } = useDepartment()
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const breadCrumbs = [
     {
@@ -58,6 +59,34 @@ const DepartmentPage = () => {
             className="dark:bg-bg-input-dark"
             placeholder={t('Search...')}
           />
+           <div className="hidden sm:flex items-center rounded-lg dark:border-[#2E3035] border border-input bg-card p-0.5">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`flex h-9 w-9 items-center justify-center rounded-md transition-colors ${
+                viewMode === 'grid'
+                  ? 'bg-[#2E3035] text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <LayoutGrid
+                className={`h-4 w-4 dark:text-white ${viewMode === 'grid' && 'text-white'}`}
+              />
+              <span className="sr-only">Grid view</span>
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`flex h-9 w-9 items-center justify-center rounded-md transition-colors ${
+                viewMode === 'list'
+                  ? 'bg-[#2E3035] text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <List
+                className={`h-4 w-4 dark:text-white ${viewMode === 'list' && 'text-white'}`}
+              />
+              <span className="sr-only">List view</span>
+            </button>
+          </div>
           <div className='flex items-center gap-4'>
             <MyButton
               startIcon={<Plus />}
@@ -83,7 +112,7 @@ const DepartmentPage = () => {
         </div>
       </div>
       <MyDivider />
-      <DepartmentList showModal={showModal} setShowModal={setShowModal} />
+      <DepartmentList viewMode={viewMode} showModal={showModal} setShowModal={setShowModal} />
     </PageContentWrapper>
   );
 }

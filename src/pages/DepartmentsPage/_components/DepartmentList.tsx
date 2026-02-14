@@ -8,8 +8,9 @@ import { Department } from '../interface/department.interface';
 import { useTranslation } from 'react-i18next';
 import { useDepartment } from '../hooks/useDepartment';
 import { useDeleteDepartment } from '../hooks/useDeleteDepartment';
+import DepartmentListItem from './DepartmentListItem';
 
-const DepartmentList = ({ setShowModal, showModal }: any) => {
+const DepartmentList = ({ setShowModal, showModal, viewMode }: any) => {
   const { t } = useTranslation();
   const { data, refetch } = useDepartment();
   const [show, setShow] = useState(false);
@@ -18,18 +19,33 @@ const DepartmentList = ({ setShowModal, showModal }: any) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
-        {data?.map((item: Department) => (
-          <DepartmentCard
-            setDepartmentId={setDepartmentId}
-            setShow={setShow}
-            action={true}
-            setOpen={setOpen}
-            setEditId={setEditId}
-            item={item}
-          />
-        ))}
-      </div>
+      {viewMode === 'grid' ? (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-4">
+          {data?.map((item: Department) => (
+            <DepartmentCard
+              setDepartmentId={setDepartmentId}
+              setShow={setShow}
+              action={true}
+              setOpen={setOpen}
+              setEditId={setEditId}
+              item={item}
+            />
+          ))}
+        </div>
+      ) : (
+        <>
+          {data?.map((item: Department) => (
+            <DepartmentListItem
+              setDepartmentId={setDepartmentId}
+              setShow={setShow}
+              action={true}
+              setOpen={setOpen}
+              setEditId={setEditId}
+              item={item}
+            />
+          ))}
+        </>
+      )}
       <MyModal
         modalProps={{
           show: Boolean(showModal),
