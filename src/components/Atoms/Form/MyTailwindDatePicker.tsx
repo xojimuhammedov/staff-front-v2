@@ -2,7 +2,7 @@ import { ReactNode, forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import Datepicker from 'react-tailwindcss-datepicker';
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control } from 'react-hook-form';
 
 interface MyTailwindPickerProps
   extends Omit<React.ComponentPropsWithoutRef<'input'>, 'size' | 'className'> {
@@ -27,6 +27,7 @@ interface MyTailwindPickerProps
   disableDayPicker?: boolean;
   useRange?: boolean;
   asSingle?: boolean;
+  showShortcuts?: boolean;
 }
 
 /**
@@ -59,7 +60,7 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
       error = false,
       fullWidth = true,
       asSingle = false,
-      size = "base",
+      size = 'base',
       rounded,
       className,
       label,
@@ -73,11 +74,11 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
       format,
       useRange,
       disableDayPicker,
+      showShortcuts = false,
       ...rest
     },
     ref
   ) => {
-
     const requiredLabelStyles = `before:absolute before:right-[-10px] before:top-0 before:text-text-error before:content-['*']`;
     const helperTextErrorStyles = 'text-text-error';
 
@@ -87,9 +88,10 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
           <label
             className={twMerge([
               'relative mb-1.5 inline-block text-c-m-p text-text-base dark:text-text-title-dark',
-              rest.required && requiredLabelStyles
+              rest.required && requiredLabelStyles,
             ])}
-            htmlFor={name}>
+            htmlFor={name}
+          >
             {label}
             {labelExtractInfo && (
               <span className="ml-1 text-c-m-p text-text-muted">({labelExtractInfo})</span>
@@ -122,17 +124,20 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
                   asSingle={asSingle}
                   value={field.value}
                   onChange={field.onChange}
-                  showShortcuts={true}
+                  showShortcuts={showShortcuts}
                 />
               </div>
-            )
+            );
           }}
         />
         {helperText && (
-          <p className={twMerge(['mt-xs text-c-xs', error && helperTextErrorStyles])}>{helperText}</p>
+          <p className={twMerge(['mt-xs text-c-xs', error && helperTextErrorStyles])}>
+            {helperText}
+          </p>
         )}
       </div>
     );
-  });
+  }
+);
 
 export default MyTailwindPicker;

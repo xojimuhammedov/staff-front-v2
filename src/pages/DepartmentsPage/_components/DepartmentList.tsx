@@ -58,7 +58,7 @@ const DepartmentList = ({ setShowModal, showModal, viewMode }: any) => {
           className: 'px-6',
         }}
         bodyProps={{
-          children: <Form refetch={refetch} onClose={() => setShowModal(false)} />,
+          children: <Form onClose={() => setShowModal(false)} />,
         }}
       />
       <ConfirmationModal

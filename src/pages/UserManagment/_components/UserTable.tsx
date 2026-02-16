@@ -73,7 +73,7 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="flex items-center gap-4">
-            <span className="text-base font-medium text-text-base dark:text-text-title-dark">
+            <span className="text-text-base dark:text-text-title-dark">
               {row?.name ?? '--'}
             </span>
           </div>

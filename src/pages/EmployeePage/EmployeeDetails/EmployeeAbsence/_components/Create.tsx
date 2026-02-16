@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { object } from 'yup';
 import * as yup from 'yup';
 import dayjs from 'dayjs';
+import storage from 'services/storage';
 
 type CreateProps = {
   refetch?: () => void;
@@ -25,6 +26,8 @@ type CreateProps = {
 const Create = ({ refetch, employeeId }: CreateProps) => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
 
   const { mutate: create } = usePostQuery({
     listKeyId: KEYS.employeeAbsences,
@@ -43,7 +46,11 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
   }, [i18n.resolvedLanguage]);
 
   const schema = object().shape({
-    organizationId: yup.number().required(),
+    organizationId: yup
+    .number()
+    .when('$role', (role: any, schema) =>
+      role === 'ADMIN' ? schema.required() : schema.optional()
+    ),
     absenceId: yup
       .number()
       .nullable()
@@ -56,12 +63,14 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
     date: yup.object().nullable(),
   });
 
+
   const { handleSubmit, register, control, watch, setValue } = useForm({
     mode: 'onChange',
     resolver: yupResolver(schema),
     defaultValues: {
       absenceId: null as unknown as number,
     },
+    context: { role: userRole }
   });
 
   const organizationId = watch('organizationId');
@@ -73,7 +82,6 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
     params: {
       organizationId,
     },
-    enabled: Boolean(organizationId),
   });
 
   const onSubmit = (formData: any) => {

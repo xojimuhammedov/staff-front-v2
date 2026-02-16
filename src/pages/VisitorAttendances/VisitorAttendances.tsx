@@ -180,6 +180,7 @@ const VisitorAttendances = () => {
               asSingle={false}
               control={control}
               placeholder={t('Today')}
+              showShortcuts={true}
               startIcon={<Calendar className="stroke-text-muted dark:stroke-text-title-dark" />}
             />
           </div>

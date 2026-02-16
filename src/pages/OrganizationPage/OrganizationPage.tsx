@@ -78,27 +78,27 @@ const OrganizationPage = () => {
           <div className="hidden sm:flex items-center rounded-lg dark:border-[#2E3035] border border-input bg-card p-0.5">
             <button
               onClick={() => setViewMode('grid')}
-              className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
+              className={`flex h-9 w-9 items-center justify-center rounded-md transition-colors ${
                 viewMode === 'grid'
                   ? 'bg-[#2E3035] text-primary-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <LayoutGrid
-                className={`h-3.5 w-3.5 dark:text-white ${viewMode === 'grid' && 'text-white'}`}
+                className={`h-4 w-4 dark:text-white ${viewMode === 'grid' && 'text-white'}`}
               />
               <span className="sr-only">Grid view</span>
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
+              className={`flex h-9 w-9 items-center justify-center rounded-md transition-colors ${
                 viewMode === 'list'
                   ? 'bg-[#2E3035] text-primary-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <List
-                className={`h-3.5 w-3.5 dark:text-white ${viewMode === 'list' && 'text-white'}`}
+                className={`h-4 w-4 dark:text-white ${viewMode === 'list' && 'text-white'}`}
               />
               <span className="sr-only">List view</span>
             </button>

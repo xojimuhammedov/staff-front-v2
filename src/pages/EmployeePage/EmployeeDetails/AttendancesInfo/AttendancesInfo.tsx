@@ -74,6 +74,7 @@ const AttendancesInfo = () => {
                         name='date'
                         asSingle={false}
                         control={control}
+                        showShortcuts={true}
                         placeholder={t('Today')}
                         startIcon={<Calendar className="stroke-text-muted dark:stroke-text-title-dark" />}
                     />

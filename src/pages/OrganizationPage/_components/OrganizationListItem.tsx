@@ -18,7 +18,7 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
         {/* Name & Status */}
         <div className="min-w-0 w-40 shrink-0">
           <div className="relative group/name mb-1">
-            <h3 className="text-[13px] font-semibold text-card-foreground truncate leading-tight cursor-default dark:text-text-title-dark">
+            <h3 className="text-base font-semibold text-card-foreground truncate leading-tight cursor-default dark:text-text-title-dark">
               {item.fullName}
             </h3>
             <div className="invisible opacity-0 dark:text-text-title-dark group-hover/name:visible group-hover/name:opacity-100 transition-all duration-150 absolute left-0 bottom-full mb-1.5 z-50 max-w-[280px] rounded-md bg-foreground px-2.5 py-1.5 text-[11px] text-background shadow-lg pointer-events-none whitespace-nowrap">
@@ -38,10 +38,9 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
               <Building2 className="h-4 w-4 text-gray-500 dark:text-white" />
             </div>
             <div>
-              <p className="text-sm font-bold text-card-foreground leading-none dark:text-text-title-dark">
+              <p className="text-base font-bold text-card-foreground leading-none dark:text-text-title-dark">
                 {item?._count?.departments}
               </p>
-              {/* <p className="text-[10px] text-muted-foreground">Depts</p> */}
             </div>
           </div>
           <div className="flex items-center gap-1.5">
@@ -49,26 +48,25 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
               <Users className="h-4 w-4 text-gray-500 dark:text-white" />
             </div>
             <div>
-              <p className="text-sm font-bold text-card-foreground leading-none dark:text-text-title-dark">
+              <p className="text-base font-bold text-card-foreground leading-none dark:text-text-title-dark">
                 {item?._count?.employees}
               </p>
-              {/* <p className="text-[10px] text-muted-foreground">Staff</p> */}
             </div>
           </div>
         </div>
 
         {/* Details - hidden on small */}
         <div className="hidden lg:flex items-center gap-4 flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground min-w-0">
-            <MapPin className="h-3 w-3 shrink-0 text-gray-500 dark:text-white" />
+          <div className="flex items-center gap-1.5 text-sm text-muted-foreground min-w-0">
+            <MapPin className="h-4 w-4 shrink-0 text-gray-500 dark:text-white" />
             <span className="truncate dark:text-text-title-dark">{item.address}</span>
           </div>
-          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground min-w-0">
-            <Phone className="h-3 w-3 shrink-0 text-gray-500 dark:text-white" />
+          <div className="flex items-center gap-1.5 text-sm text-muted-foreground min-w-0">
+            <Phone className="h-4 w-4 shrink-0 text-gray-500 dark:text-white" />
             <span className="truncate dark:text-text-title-dark">{item.phone}</span>
           </div>
-          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground min-w-0">
-            <Mail className="h-3 w-3 shrink-0 text-gray-500 dark:text-white" />
+          <div className="flex items-center gap-1.5 text-sm text-muted-foreground min-w-0">
+            <Mail className="h-4 w-4 shrink-0 text-gray-500 dark:text-white" />
             <span className="truncate dark:text-text-title-dark">{item.email}</span>
           </div>
         </div>
@@ -77,7 +75,7 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
       {/* Actions */}
       <div className="flex items-center shrink-0 rounded-lg border dark:border-[#2E3035] border-border/60 divide-x divide-border/60 transition-opacity">
         <button
-          className="flex items-center gap-1.5 dark:border-[#2E3035] dark:text-text-title-dark px-3 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5 rounded-l-lg"
+          className="flex items-center gap-1.5 dark:border-[#2E3035] dark:text-text-title-dark px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5 rounded-l-lg"
           onClick={(e) => {
             navigate(`/view?organizationId=${item?.id}&current-setting=department`);
           }}
@@ -86,7 +84,7 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
           View
         </button>
         <button
-          className="flex items-center gap-1.5 dark:border-[#2E3035] dark:text-text-title-dark px-3 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
+          className="flex items-center gap-1.5 dark:border-[#2E3035] dark:text-text-title-dark px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
           onClick={(e) => {
             setShow(true);
             setOrganizationId(item?.id);
@@ -96,7 +94,7 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
           Edit
         </button>
         <button
-          className="flex items-center gap-1.5 px-3 dark:border-[#2E3035] dark:text-text-title-dark py-1.5 text-[11px] font-medium text-destructive/70 transition-colors hover:text-destructive hover:bg-destructive/5 rounded-r-lg"
+          className="flex items-center gap-1.5 px-3 dark:border-[#2E3035] dark:text-text-title-dark py-1.5 text-sm font-medium text-destructive/70 transition-colors hover:text-destructive hover:bg-destructive/5 rounded-r-lg"
           onClick={(e) => {
             setOpen(true);
             setOrganizationId(item?.id);

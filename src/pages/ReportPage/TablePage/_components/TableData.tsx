@@ -38,44 +38,6 @@ const TableData = () => {
     },
   });
 
-//   const getStatusStyle = (status: string) => {
-//     if (status === 'ABSENT') {
-//       return {
-//         light: {
-//           bg: '#fee2e2',
-//           text: '#991b1b',
-//           border: '#fca5a5',
-//         },
-//         dark: {
-//           bg: '#7f1d1d',
-//           text: '#fecaca',
-//           border: '#991b1b',
-//         },
-//       };
-//     } else if (status === 'LATE') {
-//       return {
-//         light: {
-//           bg: '#fef3c7',
-//           text: '#92400e',
-//           border: '#fcd34d',
-//         },
-//         dark: {
-//           bg: '#78350f',
-//           text: '#fde68a',
-//           border: '#92400e',
-//         },
-//       };
-//     }
-//     return {
-//       light: {
-//         bg: 'transparent',
-//         text: darkLight === 'dark' ? '#f3f4f6' : '#111827',
-//         border: '#e5e7eb',
-//       },
-//       dark: { bg: 'transparent', text: '#f3f4f6', border: '#374151' },
-//     };
-//   };
-
   const thBase: any = {
     border: `1px solid ${darkLight === 'dark' ? '#4b5563' : '#ccc'}`,
     padding: '8px',

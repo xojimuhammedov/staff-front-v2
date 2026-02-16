@@ -116,6 +116,7 @@ const ReportAttendance = () => {
                             asSingle={false}
                             control={control}
                             placeholder={t('Today')}
+                            showShortcuts={true}
                             startIcon={<Calendar stroke="#9096A1" />}
                         />
                     </div>
