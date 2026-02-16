@@ -3,6 +3,8 @@ import { Users, Monitor, Grid3x3, Building2, TrendingUp, TrendingDown, Minus } f
 import { DashboardCardProps, StatCardProps } from '../interface/dashboard.interface';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import storage from 'services/storage';
+import { paramsStrToObj } from 'utils/helper';
 
 const StatCard: React.FC<StatCardProps & { link?: string }> = ({
   icon,
@@ -94,6 +96,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   newOrganizationsCount,
 }) => {
   const { t } = useTranslation();
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
   const stats = [
     {
       icon: <Users size={28} strokeWidth={2} />,
@@ -104,6 +108,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       bgColor: 'border-purple-600',
       iconColor: 'text-purple-600',
       link: '/employees',
+      roles: ['ADMIN', 'HR'],
     },
     {
       icon: <Monitor size={28} strokeWidth={2} />,
@@ -114,6 +119,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       bgColor: 'border-pink-600',
       iconColor: 'text-pink-600',
       link: '/device',
+      roles: ['ADMIN', 'HR'],
     },
     {
       icon: <Grid3x3 size={28} strokeWidth={2} />,
@@ -124,6 +130,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       bgColor: 'border-blue-600',
       iconColor: 'text-blue-600',
       link: '/department',
+      roles: ['ADMIN', 'HR'],
     },
     {
       icon: <Building2 size={28} strokeWidth={2} />,
@@ -134,12 +141,14 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       bgColor: 'border-yellow-600',
       iconColor: 'text-yellow-600',
       link: '/organization',
+      roles: ['ADMIN'],
     },
   ];
+  const filteredStats = stats.filter(stat => stat?.roles?.includes(userRole));
 
   return (
     <div className="grid mt-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {stats.map((stat, index) => (
+      {filteredStats.map((stat, index) => (
         <StatCard key={index} {...stat} />
       ))}
     </div>
