@@ -183,7 +183,7 @@ function MainGate() {
           />
           <MyButton
             onClick={() => navigate('/settings')}
-            variant="secondary"
+            variant="primary"
             startIcon={<ArrowLeft />}
             className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
           >

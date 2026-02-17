@@ -597,8 +597,8 @@
   "No employees selected yet": "Hali xodimlar tanlanmagan",
   "Select types": "Turlarni tanlang",
   "Check error": "Xatoni tekshirish",
-  "View device": "Qurilmani ko‘rish",
-  "Open door": "Eshikni ochish",
+  "View device": "Ko‘rish",
+  "Open door": "Ochish",
   "Device successfully updated!": "Qurilma muvaffaqiyatli yangilandi!",
   "Update failed": "Yangilash muvaffaqiyatsiz",
   "Loading device data...": "Qurilma ma’lumotlari yuklanmoqda...",
@@ -730,5 +730,6 @@
   "Computer tracking":"Kompyuter monitoringi" ,
   "Number": "Soni" ,
   "IP address": "IP manzil" ,
-  "Employee absences": "Xodimlar yo'qligi"
+  "Employee absences": "Xodimlar yo'qligi",
+  "Back to devices list":"Qurilmalarga qaytish"
  }
