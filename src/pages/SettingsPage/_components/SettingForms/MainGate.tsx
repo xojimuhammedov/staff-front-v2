@@ -16,8 +16,10 @@ import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import FixIssueModal from './FixIssueModal';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Search } from 'lucide-react';
 import { useSearch } from 'hooks/useSearch';
+import { MyInput } from 'components/Atoms/Form';
+import { KeyTypeEnum } from 'enums/key-type.enum';
 
 type FilterType = {
   search: string;
@@ -37,7 +39,7 @@ function MainGate() {
   const { id } = useParams()
   const location = useLocation()
   const searchValue: searchValue = paramsStrToObj(location?.search)
-  // const { search, setSearch, handleSearch } = useSearch();
+  const { search, setSearch, handleSearch } = useSearch();
   const { data, isLoading } = useGetAllQuery({
     key: KEYS.hikvisionEmployeeSync,
     url: URLS.hikvisionEmployeeSync,
@@ -150,21 +152,40 @@ function MainGate() {
     }
   ];
 
+  const filteredRows = useMemo(() => {
+    const rows = get(data, 'data', []);
+    const keyword = (searchValue?.search || '').toString().trim().toLowerCase();
+
+    if (!keyword) return rows;
+
+    return rows.filter((row: any) =>
+      (row?.employee?.name || '').toString().toLowerCase().includes(keyword)
+    );
+  }, [data, searchValue?.search]);
+
   return (
     <PageContentWrapper>
       <div className={'flex justify-between'}>
         <LabelledCaption title={t('Main gate')} subtitle={t('See and manage door configs')} />
         <div className='flex items-center gap-4'>
+          <MyInput
+            onKeyUp={(event) => {
+              if (event.key === KeyTypeEnum.enter) {
+                handleSearch();
+              } else {
+                setSearch((event.target as HTMLInputElement).value);
+              }
+            }}
+            defaultValue={search}
+            startIcon={<Search className="stroke-text-muted" onClick={handleSearch} />}
+            className="dark:bg-bg-input-dark"
+            placeholder={t('Search...')}
+          />
           <MyButton
             onClick={() => navigate('/settings')}
-            
+            variant="secondary"
             startIcon={<ArrowLeft />}
-            className={`
-              text-sm w-[230px]
-              bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
-              dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700
-              [&_svg]:stroke-gray-600 dark:[&_svg]:stroke-gray-300
-            `}
+            className={`text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300`}
           >
             {t('Back to gates list')}
           </MyButton>
@@ -175,7 +196,7 @@ function MainGate() {
         values={{
           columns,
           filter: { search: '' },
-          rows: get(data, 'data', []),
+          rows: filteredRows,
           keyExtractor: 'id'
         }}>
         <DataGrid

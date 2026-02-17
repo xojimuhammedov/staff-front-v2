@@ -136,6 +136,7 @@ const Edit = ({ open, setOpen, refetch, employeeId, item }: EditProps) => {
       }}
       headerProps={{
         children: <h2 className="dark:text-text-title-dark">{t('Edit absence')}</h2>,
+        className: 'relative z-10',
       }}
       bodyProps={{
         children: (
@@ -208,7 +209,7 @@ const Edit = ({ open, setOpen, refetch, employeeId, item }: EditProps) => {
             </div>
           </form>
         ),
-        className: 'py-[10px]',
+        className: 'py-[10px] overflow-visible relative z-20',
       }}
     />
   );

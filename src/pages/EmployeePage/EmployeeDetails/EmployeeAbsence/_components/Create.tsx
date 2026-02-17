@@ -136,6 +136,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
         }}
         headerProps={{
           children: <h2 className="dark:text-text-title-dark">{t('Absence')}</h2>,
+          className: 'relative z-10',
         }}
         bodyProps={{
           children: (
@@ -208,7 +209,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
               </div>
             </form>
           ),
-          className: 'py-[10px]',
+          className: 'py-[10px] overflow-visible relative z-20',
         }}
       />
     </>
