@@ -17,6 +17,7 @@ import * as yup from 'yup';
 import { object } from 'yup';
 import dayjs from 'dayjs';
 import type { AbsenceItem } from './AbsenceCard';
+import storage from 'services/storage';
 
 type EditProps = {
   open: boolean;
@@ -28,6 +29,8 @@ type EditProps = {
 
 const Edit = ({ open, setOpen, refetch, employeeId, item }: EditProps) => {
   const { t, i18n } = useTranslation();
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
   
   const { mutate: update } = usePutQuery({
     listKeyId: KEYS.employeeAbsences,
@@ -47,7 +50,11 @@ const Edit = ({ open, setOpen, refetch, employeeId, item }: EditProps) => {
   }, [i18n.resolvedLanguage]);
 
   const schema = object().shape({
-    organizationId: yup.number().required(),
+    organizationId: yup
+    .number()
+    .when('$role', (role: any, schema) =>
+      role === 'ADMIN' ? schema.required() : schema.optional()
+    ),
     absenceId: yup
       .number()
       .nullable()
@@ -69,6 +76,7 @@ const Edit = ({ open, setOpen, refetch, employeeId, item }: EditProps) => {
       description: '',
       date: null as any,
     },
+    context: { role: userRole }
   });
 
   const organizationId = watch('organizationId');
@@ -158,7 +166,7 @@ const Edit = ({ open, setOpen, refetch, employeeId, item }: EditProps) => {
                     }}
                     onBlur={field.onBlur}
                     error={!!fieldState.error}
-                    allowedRoles={['ADMIN', 'DEPARTMENT_LEAD']}
+                    allowedRoles={['ADMIN']}
                     required
                   />
                 )}
