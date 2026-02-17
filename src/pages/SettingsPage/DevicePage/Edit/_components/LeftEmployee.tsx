@@ -7,15 +7,16 @@ import { useGetAllQuery } from 'hooks/api';
 import { URLS } from 'constants/url';
 import { KEYS } from 'constants/key';
 import { get } from 'lodash';
+import LeftPagination from 'components/Atoms/LeftPagination';
+import { paramsStrToObj } from 'utils/helper';
+import { useLocation } from 'react-router-dom';
 
-const LeftEmployee = ({
-  deviceId,
-  deviceTypeOptions,
-  statusRefetch, setStatusRefetch
-}: any) => {
+const LeftEmployee = ({ deviceId, deviceTypeOptions, statusRefetch, setStatusRefetch }: any) => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const [tempSelectedIds, setTempSelectedIds] = useState<number[]>([]);
+  const searchValue: any = paramsStrToObj(location.search);
 
   const {
     data,
@@ -26,8 +27,9 @@ const LeftEmployee = ({
     url: URLS.employeeAssignDevice,
     params: {
       isAssigned: false,
-      limit: 100,
       deviceIds: deviceId,
+      page: searchValue?.Leftpage || 1,
+      limit: searchValue?.Leftlimit || 10,
     },
   });
 
@@ -49,8 +51,8 @@ const LeftEmployee = ({
 
   return (
     <>
-      <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border p-4">
-        <div className="flex items-center justify-between mt-4">
+      <div className="w-full lg:w-1/2 rounded-md border overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
+        <div className="flex items-center justify-between bg-gray-100 p-2 shrink-0">
           <MyCheckbox
             label={t('Select all')}
             checked={
@@ -71,11 +73,11 @@ const LeftEmployee = ({
           </MyButton>
         </div>
 
-        <div className="mt-4 space-y-2">
+        <div className="flex-1 overflow-y-auto space-y-2 p-2">
           {leftLoading ? (
             <p>{t('Loading...')}</p>
           ) : get(data, 'data.length') === 0 ? (
-            <p>{t('No employees found')}</p>
+            <p className="p-2">{t('No employees found')}</p>
           ) : (
             get(data, 'data')?.map((emp: any) => (
               <div
@@ -90,6 +92,9 @@ const LeftEmployee = ({
               </div>
             ))
           )}
+        </div>
+        <div className="shrink-0 sticky bottom-0 bg-white dark:bg-bg-dark-bg border-t border-gray-200 dark:border-[#2E3035]">
+          <LeftPagination total={get(data, 'total', 0)} />
         </div>
       </div>
 

@@ -7,6 +7,9 @@ import { useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
+import { useLocation } from 'react-router-dom';
+import { paramsStrToObj } from 'utils/helper';
+import LeftPagination from 'components/Atoms/LeftPagination';
 
 const LeftEmployee = ({
   setTempSelectedIds,
@@ -16,7 +19,9 @@ const LeftEmployee = ({
   setStatusRefetch,
 }: any) => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
+  const searchValue: any = paramsStrToObj(location.search);
   const deviceIdQuery = useMemo(() => {
     return selectDevices.map((id: any) => `deviceIds=${id}`).join('&');
   }, [selectDevices]);
@@ -30,7 +35,8 @@ const LeftEmployee = ({
     url: `${URLS.employeeAssignDevice}?${deviceIdQuery}`,
     params: {
       isAssigned: false,
-      limit: 100,
+      page: searchValue?.Leftpage || 1,
+      limit: searchValue?.Leftlimit || 10,
     },
   });
 
@@ -49,8 +55,8 @@ const LeftEmployee = ({
 
   return (
     <>
-      <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto rounded-md border p-4">
-        <div className="flex items-center justify-between mt-4">
+      <div className="w-full lg:w-1/2 rounded-md border overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
+        <div className="flex items-center justify-between bg-gray-100 p-2 shrink-0">
           <MyCheckbox
             label={t('Select all')}
             checked={
@@ -71,7 +77,7 @@ const LeftEmployee = ({
           </MyButton>
         </div>
 
-        <div className="mt-4 space-y-2">
+        <div className="flex-1 overflow-y-auto space-y-2 p-2">
           {leftLoading ? (
             <p>{t('Loading...')}</p>
           ) : get(data, 'data.length') === 0 ? (
@@ -90,6 +96,9 @@ const LeftEmployee = ({
               </div>
             ))
           )}
+        </div>
+        <div className="shrink-0 sticky bottom-0 bg-white dark:bg-bg-dark-bg border-t border-gray-200 dark:border-[#2E3035]">
+          <LeftPagination total={get(data, 'total', 0)} />
         </div>
       </div>
 

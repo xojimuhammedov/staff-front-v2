@@ -29,35 +29,36 @@ interface PaginationProps {
 const sizeData = [
   {
     id: 10,
-    size: 10
+    size: 10,
   },
   {
     id: 25,
-    size: 25
+    size: 25,
   },
   {
     id: 50,
-    size: 50
+    size: 50,
   },
   {
     id: 100,
-    size: 100
-  }
+    size: 100,
+  },
 ];
 
-const AssignPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
+const LeftPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const page: number = Number(searchParams.get('page')) || DEFAULT_PAGE;
-  const limit: number = Number(searchParams.get('limit')) || DEFAULT_LIMIT;
+  const page: number = Number(searchParams.get('Leftpage')) || DEFAULT_PAGE;
+  const limit: number = Number(searchParams.get('Leftlimit')) || DEFAULT_LIMIT;
   const totalNumber = total === 0 ? 1 : total;
 
   return (
     <div
       className={twMerge([
         'flex w-full items-center justify-between pb-6 pl-5 pr-5 pt-4',
-        className
-      ])}>
+        className,
+      ])}
+    >
       <div className="flex items-center gap-4">
         <div className="pagination-list w-[80px]">
           <MySelect
@@ -65,21 +66,24 @@ const AssignPagination: FC<PaginationProps> = ({ total = 0, className = [] }) =>
             options={sizeData?.map((evt: any) => {
               return {
                 label: evt.size,
-                value: evt.size
+                value: evt.size,
               };
             })}
             onChange={(evt: any) => {
               const nextLimit = evt?.value;
-              setSearchParams((prev) => {
-                const next = new URLSearchParams(prev);
-                if (nextLimit) next.set("limit", String(nextLimit));
-                else next.delete("limit");
-                next.delete("page"); 
-                return next;
-              }, { replace: true });
+              setSearchParams(
+                (prev) => {
+                  const next = new URLSearchParams(prev);
+                  if (nextLimit) next.set('Leftlimit', String(nextLimit));
+                  else next.delete('Leftlimit');
+                  next.delete('Leftpage');
+                  return next;
+                },
+                { replace: true }
+              );
             }}
-            allowedRoles={["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"]}
-            value={Number(searchParams.get('limit')) || DEFAULT_LIMIT}
+            allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
+            value={Number(searchParams.get('Leftlimit')) || DEFAULT_LIMIT}
           />
         </div>
         <p className="text-subtle:text-gray-700 font-inter font-medium text-gray-900 dark:text-subtext-color-dark sm:text-[10px] lg:text-xs">
@@ -97,29 +101,34 @@ const AssignPagination: FC<PaginationProps> = ({ total = 0, className = [] }) =>
             variant={page === 1 ? 'ghost' : 'secondary'}
             className={page === 1 ? 'dark-prev' : 'prev-button dark:text-text-title-dark'}
             onClick={() => {
-              setSearchParams((prev) => {
-                const next = new URLSearchParams(prev);
-                const currentPage = Number(next.get("page") ?? DEFAULT_PAGE);
-                next.set("page", String(Math.max(1, currentPage - 1)));
-                return next;
-              }, { replace: true });
+              setSearchParams(
+                (prev) => {
+                  const next = new URLSearchParams(prev);
+                  const currentPage = Number(next.get('Leftpage') ?? DEFAULT_PAGE);
+                  next.set('Leftpage', String(Math.max(1, currentPage - 1)));
+                  return next;
+                },
+                { replace: true }
+              );
             }}
-            startIcon={<ChevronLeft width={20} height={20} />}>
+            startIcon={<ChevronLeft width={20} height={20} />}
+          >
             {t('Prev')}
           </MyButton>
           <MyButton
             size="base"
-            type='button'
+            type="button"
             className={'dark-button dark:text-text-title-dark'}
             disabled={Math.ceil(totalNumber / limit) === page}
             variant={Math.ceil(totalNumber / limit) === page ? 'ghost' : 'secondary'}
             onClick={(e) => {
               e.preventDefault();
-              const params = new URLSearchParams(searchParams); 
-              params.set('page', String(page + 1));
-              setSearchParams(params); 
+              const params = new URLSearchParams(searchParams);
+              params.set('Leftpage', String(page + 1));
+              setSearchParams(params);
             }}
-            endIcon={<ChevronRight width={20} height={20} />}>
+            endIcon={<ChevronRight width={20} height={20} />}
+          >
             {t('Next')}
           </MyButton>
         </div>
@@ -128,4 +137,4 @@ const AssignPagination: FC<PaginationProps> = ({ total = 0, className = [] }) =>
   );
 };
 
-export default AssignPagination;
+export default LeftPagination;

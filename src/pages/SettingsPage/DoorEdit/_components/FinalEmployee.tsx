@@ -7,11 +7,17 @@ import { useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
+import AssignPagination from 'components/Atoms/AssignPagination';
+import { useLocation } from 'react-router-dom';
+import { searchValue } from 'types/search';
+import { paramsStrToObj } from 'utils/helper';
 
 const FinalEmployee = ({ selectDevices, statusRefetch, setStatusRefetch }: any) => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [removeModal, setRemoveModal] = useState(false);
   const [removeSelectIds, setRemoveSelectIds] = useState<number[]>([]);
+  const searchValue: searchValue = paramsStrToObj(location.search);
 
   const deviceIdQuery = useMemo(() => {
     return selectDevices.map((id: any) => `deviceIds=${id}`).join('&');
@@ -26,7 +32,8 @@ const FinalEmployee = ({ selectDevices, statusRefetch, setStatusRefetch }: any) 
     url: `${URLS.employeeAssignDevice}?${deviceIdQuery}`,
     params: {
       isAssigned: true,
-      limit:100
+      page: searchValue?.page || 1,
+      limit: searchValue?.limit || 10,
     },
   });
 
@@ -40,8 +47,8 @@ const FinalEmployee = ({ selectDevices, statusRefetch, setStatusRefetch }: any) 
   const toggleRemoveTempSelect = (id: number) => toggleId(setRemoveSelectIds, id);
   return (
     <>
-      <div className="w-full lg:w-1/2 h-[600px] rounded-md border">
-        <div className="flex items-center justify-between bg-gray-100 p-2">
+      <div className="w-full lg:w-1/2 rounded-md border overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
+        <div className="flex items-center justify-between bg-gray-100 p-2 shrink-0">
           <h3 className="font-medium">
             {t('Selected employees')} ({get(data, 'data.length')})
           </h3>
@@ -54,7 +61,7 @@ const FinalEmployee = ({ selectDevices, statusRefetch, setStatusRefetch }: any) 
           </MyButton>
         </div>
 
-        <div className="overflow-y-auto h-[510px] space-y-2 mt-4">
+        <div className="flex-1 overflow-y-auto space-y-2 p-2">
           {!get(data, 'data.length') ? (
             <p className="text-center mt-10">{t('Nothing selected yet')}</p>
           ) : (
@@ -71,6 +78,9 @@ const FinalEmployee = ({ selectDevices, statusRefetch, setStatusRefetch }: any) 
               </div>
             ))
           )}
+        </div>
+        <div className="shrink-0 sticky bottom-0 bg-white dark:bg-bg-dark-bg border-t border-gray-200 dark:border-[#2E3035]">
+          <AssignPagination total={get(data, 'total', 0)} />
         </div>
       </div>
 
