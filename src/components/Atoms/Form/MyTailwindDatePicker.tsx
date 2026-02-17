@@ -117,7 +117,10 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
 
                 <Datepicker
                   {...rest}
-                  containerClassName="form-datepicker w-full tailwind-datepicker-button"
+                  containerClassName="form-datepicker w-full tailwind-datepicker-button z-[9999]"
+                  popupClassName={(defaultClassName: string) =>
+                    `${defaultClassName} z-[99999]`
+                  }
                   inputClassName="datepicker dark:text-text-title-dark text-c-m text-text-base"
                   placeholder={placeholder}
                   useRange={useRange}

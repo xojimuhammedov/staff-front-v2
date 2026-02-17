@@ -239,6 +239,7 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
           dataColumn={dataColumn}
           hasCheckbox={false}
           isLoading={isLoading}
+          handleRowClick={(row: any) => navigate(`/settings/device/${row?.id}`)}
         />
       </TableProvider>
 
