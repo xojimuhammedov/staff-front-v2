@@ -58,7 +58,7 @@ function EmployeeDragDrop({ gateId }: any) {
 
   return (
     <>
-      <div className="mt-12 w-full rounded-md bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
+      <div className="w-full rounded-md bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
         <div className="flex items-center justify-between">
           <LabelledCaption
             title={gateId ? t('Edit employees') : t('Add employees')}

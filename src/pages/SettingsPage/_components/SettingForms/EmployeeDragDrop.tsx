@@ -247,7 +247,7 @@ function EmployeeDragDrop() {
 
   return (
     <>
-      <div className="mt-12 min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
+      <div className="min-h-[400px] w-full rounded-m bg-bg-base p-4 shadow-base dark:bg-bg-dark-theme">
 
         <div className="my-8 flex">
           <div className="w-[50%]">
