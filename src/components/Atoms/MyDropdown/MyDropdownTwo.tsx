@@ -73,7 +73,7 @@ const MyDropdownTwo: FC<MyDropdownProps> = ({ buttonProps, children, ...rest }: 
 
       {(typeof rest.open === 'boolean' ? rest.open : open) && (
         <div
-          className="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-bg-dark-bg"
+          className="absolute right-0 z-10 mt-2 min-w-36 w-max max-w-xs origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-bg-dark-bg"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"

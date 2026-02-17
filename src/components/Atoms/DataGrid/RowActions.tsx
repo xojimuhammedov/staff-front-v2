@@ -57,8 +57,8 @@ const RowActions = ({ actions = [], row, allowedRoles }: RowActionProps) => {
          btn.action(row, e);
        }}
      >
-          {btn.icon}
-          <p>{btn.name}</p>
+          <span className="shrink-0 [&_svg]:shrink-0">{btn.icon}</span>
+          <p className="min-w-0 flex-1 break-words text-left">{btn.name}</p>
         </DropdownItemWrapper>
       ))}
     </MyDropdownTwo>
