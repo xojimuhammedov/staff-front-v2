@@ -113,7 +113,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
               onClick={() => handleViewClick(item)}
             >
               <Eye className="h-3.5 w-3.5" />
-               {t("View")}
+              {t('View')}
             </button>
             <button
               className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
@@ -123,7 +123,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
               }}
             >
               <Pencil className="h-3.5 w-3.5" />
-               {t("Edit")}
+            { t('Edit')}
             </button>
             <button
               className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-destructive/70 transition-colors hover:text-destructive hover:bg-destructive/5 rounded-br-xl"
@@ -133,7 +133,7 @@ const DepartmentCard = ({ item, setOpen, setDepartmentId, setShow, setEditId }: 
               }}
             >
               <Trash2 className="h-3.5 w-3.5" />
-               {t("Delete")}
+              {t('Delete')}
             </button>
           </div>
         </div>

@@ -99,7 +99,7 @@ function DepartmentListItem({ item, setOpen, setDepartmentId, setShow, setEditId
           onClick={() => handleViewClick(item)}
         >
           <Eye className="h-3.5 w-3.5 text-gray-500 dark:text-white" />
-          View
+          {t('View')}
         </button>
         <button
           className="flex items-center gap-1.5 dark:border-[#2E3035] dark:text-text-title-dark px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
@@ -109,7 +109,7 @@ function DepartmentListItem({ item, setOpen, setDepartmentId, setShow, setEditId
           }}
         >
           <Pencil className="h-3.5 w-3.5 text-gray-500 dark:text-white" />
-          Edit
+          {t('Edit')}
         </button>
         <button
           className="flex items-center gap-1.5 px-3 dark:border-[#2E3035] dark:text-text-title-dark py-1.5 text-sm font-medium text-destructive/70 transition-colors hover:text-destructive hover:bg-destructive/5 rounded-r-lg"
@@ -119,7 +119,7 @@ function DepartmentListItem({ item, setOpen, setDepartmentId, setShow, setEditId
           }}
         >
           <Trash2 className="h-3.5 w-3.5 text-gray-500 dark:text-white" />
-          Delete
+          {t('Delete')}
         </button>
       </div>
     </div>

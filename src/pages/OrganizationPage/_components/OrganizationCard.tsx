@@ -96,7 +96,7 @@ function OrganizationCard({ item, setOpen, setOrganizationId, setShow }: any) {
               }
             >
               <Eye className="h-3.5 w-3.5" />
-              View
+              {t('View')}
             </button>
             <button
               className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
@@ -106,7 +106,7 @@ function OrganizationCard({ item, setOpen, setOrganizationId, setShow }: any) {
               }}
             >
               <Pencil className="h-3.5 w-3.5" />
-              Edit
+              {t('Edit')}
             </button>
             <button
               className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-destructive/70 transition-colors hover:text-destructive hover:bg-destructive/5 rounded-br-xl"
@@ -116,7 +116,7 @@ function OrganizationCard({ item, setOpen, setOrganizationId, setShow }: any) {
               }}
             >
               <Trash2 className="h-3.5 w-3.5" />
-              Delete
+              {t('Delete')}
             </button>
           </div>
         </div>
