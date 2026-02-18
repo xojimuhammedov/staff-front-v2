@@ -80,7 +80,7 @@ function ReasonModal({ row }: any) {
                           onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                           onBlur={field.onBlur}
                           error={!!fieldState.error}
-                          allowedRoles={['ADMIN']}
+                          allowedRoles={['ADMIN' , 'HR' , "DEPARTMENT_LEAD"]}
                           required
                         />
                       )}

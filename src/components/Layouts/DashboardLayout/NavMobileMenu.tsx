@@ -97,7 +97,7 @@ const NavMobileMenu = ({ setOpenModal }: any) => {
       label: t('Attendances'),
       to: '/attendances',
       isSubMenu: false,
-      allowedRoles: ['ADMIN', "HR"]
+      allowedRoles: ['ADMIN', "HR", "DEPARTMENT_LEAD"]
     },
     {
       label: t('Organization'),

@@ -51,7 +51,7 @@ export const PrivateRoutes = [
   {
     path: '/',
     element: <DashboardPage />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"], // kimlar ko‘ra oladi
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"], 
   },
   {
     path: '/profile/edit',
@@ -166,7 +166,7 @@ export const PrivateRoutes = [
   {
     path: "/attendances",
     element: <Attendances />,
-    roles: ["ADMIN", "HR"],
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
   },
   {
     path: '/workschedule',

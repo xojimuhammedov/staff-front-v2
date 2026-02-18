@@ -132,7 +132,7 @@ const NavbarMenu = () => {
           icon: 'AppWindow'
         },
       ],
-      allowedRoles: ['ADMIN', "HR"]
+      allowedRoles: ['ADMIN', "HR", "DEPARTMENT_LEAD"]
     },
     // {
     //   label: t('Attendances'),
