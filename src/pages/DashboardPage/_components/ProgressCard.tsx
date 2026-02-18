@@ -117,7 +117,7 @@ export function EmployeeCard({
           <div className="pagination-list w-[80px]">
             <MySelect
               allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
-              className="dark:text-text-title-dark bg-border-base dark:bg-dark-line"
+              className="dark:text-text-title-dark dark:bg-dark-line"
               options={limitOptions}
               onChange={(evt: any) => {
                 const nextLimit = evt?.value ?? evt;
