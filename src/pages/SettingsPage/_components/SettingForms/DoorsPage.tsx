@@ -71,7 +71,7 @@ const DoorsPage = () => {
             }}
             className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base shadow-sm transition hover:border-emerald-600 hover:shadow-md dark:border-emerald-400 dark:bg-bg-darkBg dark:text-text-title-dark dark:hover:border-emerald-300"
           >
-            <Building2 className="h-3.5 w-3.5 text-text-muted dark:text-white-600" />
+            <Building2 className="h-4.5 w-4.5 text-text-muted dark:text-white-600 " />
             {row?._count?.organizations ?? '--'}
           </button>
         ),
@@ -91,7 +91,7 @@ const DoorsPage = () => {
             }}
             className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base shadow-sm transition hover:border-emerald-600 hover:shadow-md dark:border-emerald-400 dark:bg-bg-darkBg dark:text-text-title-dark dark:hover:border-emerald-300"
             >
-            <Cpu className="h-3.5 w-3.5 text-text-muted dark:text-white-600" />
+            <Cpu className="h-4.5 w-4.5 text-text-muted dark:text-white-600" />
             {row?._count?.devices ?? '--'}
           </button>
         ),
