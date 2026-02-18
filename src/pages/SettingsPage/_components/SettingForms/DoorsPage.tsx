@@ -231,7 +231,7 @@ const DoorsPage = () => {
           dataColumn={dataColumn}
           isLoading={isLoading}
           rowActions={rowActions}
-          handleRowClick={(row: any) => navigate(`/settings/maingate/${row?.id}`)}
+          handleRowClick={(row: any) => navigate(`/settings/door/edit/${row?.id}`)}
         />
       </TableProvider>
       <ConfirmationModal
