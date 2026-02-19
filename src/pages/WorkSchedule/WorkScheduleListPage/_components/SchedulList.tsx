@@ -208,6 +208,7 @@ const WorkScheduleList = () => {
           dataColumn={dataColumn}
           rowActions={rowActions}
           pagination={data}
+          handleRowClick={(row: any) => navigate(`/workschedule/edit/${row?.id}`)}
         />
       </TableProvider>
       <ConfirmationModal
