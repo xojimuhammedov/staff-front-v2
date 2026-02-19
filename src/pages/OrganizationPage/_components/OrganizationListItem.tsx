@@ -80,8 +80,7 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
             navigate(`/view?organizationId=${item?.id}&current-setting=department`);
           }}
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-            bg-blue-50 text-blue-600 border border-blue-200
-            hover:bg-blue-600 hover:text-white hover:border-blue-600
+          text-blue-600 border border-blue-200
             active:scale-95 transition-all duration-150"
         >
           <Eye className="w-3.5 h-3.5" />
@@ -95,8 +94,8 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
             setOrganizationId(item?.id);
           }}
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-            bg-amber-50 text-amber-600 border border-amber-200
-            hover:bg-amber-500 hover:text-white hover:border-amber-500
+           text-amber-600 border border-amber-200
+         
             active:scale-95 transition-all duration-150"
         >
           <Pencil className="w-3.5 h-3.5" />
@@ -110,8 +109,8 @@ function OrganizationListItem({ item, setOpen, setOrganizationId, setShow }: any
             setOrganizationId(item?.id);
           }}
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-            bg-red-50 text-red-600 border border-red-200
-            hover:bg-red-600 hover:text-white hover:border-red-600
+          text-red-600 border border-red-200
+           
             active:scale-95 transition-all duration-150"
         >
           <Trash2 className="w-3.5 h-3.5" />
