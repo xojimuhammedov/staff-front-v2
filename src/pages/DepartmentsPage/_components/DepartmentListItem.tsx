@@ -93,51 +93,36 @@ function DepartmentListItem({ item, setOpen, setDepartmentId, setShow, setEditId
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-2 flex-shrink-0">
-        {/* View - Blue */}
+      <div className="flex items-center shrink-0 rounded-lg border dark:border-[#2E3035] border-border/60 divide-x divide-border/60 transition-opacity">
         <button
-          onClick={() => {
-            navigate(`/view?organizationId=${item?.id}&current-setting=department`);
-          }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-          text-blue-600 border border-blue-200
-            active:scale-95 transition-all duration-150"
+          className="flex items-center gap-1.5 dark:border-[#2E3035] dark:text-text-title-dark px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5 rounded-l-lg"
+          onClick={() => handleViewClick(item)}
         >
-          <Eye className="w-3.5 h-3.5" />
+          <Eye className="h-3.5 w-3.5 text-gray-500 dark:text-white" />
           {t('View')}
         </button>
-
-        {/* Edit - Amber */}
         <button
-          onClick={() => {
+          className="flex items-center gap-1.5 dark:border-[#2E3035] dark:text-text-title-dark px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
+          onClick={(e) => {
             setShow(true);
-            setDepartmentId(item?.id);
+            setEditId(item?.id);
           }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-           text-amber-600 border border-amber-200
-         
-            active:scale-95 transition-all duration-150"
         >
-          <Pencil className="w-3.5 h-3.5" />
+          <Pencil className="h-3.5 w-3.5 text-gray-500 dark:text-white" />
           {t('Edit')}
         </button>
-
-        {/* Delete - Red */}
         <button
-          onClick={() => {
+          className="flex items-center gap-1.5 px-3 dark:border-[#2E3035] dark:text-text-title-dark py-1.5 text-sm font-medium text-destructive/70 transition-colors hover:text-destructive hover:bg-destructive/5 rounded-r-lg"
+          onClick={(e) => {
             setOpen(true);
             setDepartmentId(item?.id);
           }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-          text-red-600 border border-red-200
-           
-            active:scale-95 transition-all duration-150"
         >
-          <Trash2 className="w-3.5 h-3.5" />
+          <Trash2 className="h-3.5 w-3.5 text-gray-500 dark:text-white" />
           {t('Delete')}
         </button>
       </div>
-    </div>
+        </div>
   );
 }
 
