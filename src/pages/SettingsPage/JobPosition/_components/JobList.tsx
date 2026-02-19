@@ -84,7 +84,7 @@ const JobList = ({ data, isLoading, refetch }: any) => {
                             <Users className="h-4 w-4" />
                         </span>
                         <span className="text-sm font-semibold">
-                            {row?._count?.employees ?? 0} {t('pcs')}
+                            {row?._count?.employees ?? 0} 
                         </span>
                     </div>
                 )
