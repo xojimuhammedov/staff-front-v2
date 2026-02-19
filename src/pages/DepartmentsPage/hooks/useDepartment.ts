@@ -15,7 +15,9 @@ export const useDepartment = () => {
             search: searchValue.search,
             organizationId: searchValue.organizationId,
             parentId: searchValue.subdepartmentId,
-            isSubDepartment: false
+            isSubDepartment: false,
+            page: searchValue?.page || 1,
+            limit: searchValue?.limit || 10,
         }
     })
 

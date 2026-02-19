@@ -41,6 +41,8 @@ const OrganizationPage = () => {
     params: {
       search: searchValue.search,
       gateId: searchValue.gateId,
+      page: searchValue?.page || 1,
+      limit: searchValue?.limit || 10,
     },
   });
 

@@ -69,9 +69,9 @@ const DoorsPage = () => {
               e.stopPropagation();
               navigate(`/organization?gateId=${row?.id}`);
             }}
-            className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base shadow-sm transition hover:border-emerald-600 hover:shadow-md dark:border-emerald-400 dark:bg-bg-darkBg dark:text-text-title-dark dark:hover:border-emerald-300"
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-bg-subtle px-3 py-1 text-base font-semibold text-text-base shadow-sm transition hover:border-emerald-600 hover:shadow-md dark:border-emerald-400 dark:bg-bg-darkBg dark:text-text-title-dark dark:hover:border-emerald-300"
           >
-            <Building2 className="h-4.5 w-4.5 text-text-muted dark:text-white-600 " />
+            <Building2 className="h-4 w-4 text-text-muted dark:text-white-600 " />
             {row?._count?.organizations ?? '--'}
           </button>
         ),
@@ -89,9 +89,9 @@ const DoorsPage = () => {
               searchParams.set('gateId', String(row?.id));
               setSearchParams(searchParams);
             }}
-            className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-bg-subtle px-3 py-1 text-xs font-semibold text-text-base shadow-sm transition hover:border-emerald-600 hover:shadow-md dark:border-emerald-400 dark:bg-bg-darkBg dark:text-text-title-dark dark:hover:border-emerald-300"
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-bg-subtle px-3 py-1 text-base font-semibold text-text-base shadow-sm transition hover:border-emerald-600 hover:shadow-md dark:border-emerald-400 dark:bg-bg-darkBg dark:text-text-title-dark dark:hover:border-emerald-300"
             >
-            <Cpu className="h-4.5 w-4.5 text-text-muted dark:text-white-600" />
+            <Cpu className="h-4 w-4 text-text-muted dark:text-white-600" />
             {row?._count?.devices ?? '--'}
           </button>
         ),
