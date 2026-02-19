@@ -87,39 +87,51 @@ function OrganizationCard({ item, setOpen, setOrganizationId, setShow }: any) {
         </div>
 
         {/* Action bar */}
-        <div className="mt-auto pt-3 -mx-4 -mb-3">
-          <div className="flex items-center border-t dark:border-[#2E3035] border-border/40 divide-x divide-border/40">
-            <button
-              className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
-              onClick={() =>
-                navigate(`/view?organizationId=${item?.id}&current-setting=department`)
-              }
-            >
-              <Eye className="h-3.5 w-3.5" />
-              {t('View')}
-            </button>
-            <button
-              className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
-              onClick={() => {
-                setShow(true);
-                setOrganizationId(item?.id);
-              }}
-            >
-              <Pencil className="h-3.5 w-3.5" />
-              {t('Edit')}
-            </button>
-            <button
-              className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-destructive/70 transition-colors hover:text-destructive hover:bg-destructive/5 rounded-br-xl"
-              onClick={() => {
-                setOpen(true);
-                setOrganizationId(item?.id);
-              }}
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-              {t('Delete')}
-            </button>
-          </div>
-        </div>
+        <div className="flex items-center gap-2 flex-shrink-0 mt-3">
+        {/* View - Blue */}
+        <button
+          onClick={() => {
+            navigate(`/view?organizationId=${item?.id}&current-setting=department`);
+          }}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+            bg-blue-50 text-blue-600 border border-blue-200
+            hover:bg-blue-600 hover:text-white hover:border-blue-600
+            active:scale-95 transition-all duration-150"
+        >
+          <Eye className="w-3.5 h-3.5" />
+          {t('View')}
+        </button>
+
+        {/* Edit - Amber */}
+        <button
+          onClick={() => {
+            setShow(true);
+            setOrganizationId(item?.id);
+          }}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+            bg-amber-50 text-amber-600 border border-amber-200
+            hover:bg-amber-500 hover:text-white hover:border-amber-500
+            active:scale-95 transition-all duration-150"
+        >
+          <Pencil className="w-3.5 h-3.5" />
+          {t('Edit')}
+        </button>
+
+        {/* Delete - Red */}
+        <button
+          onClick={() => {
+            setOpen(true);
+            setOrganizationId(item?.id);
+          }}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+            bg-red-50 text-red-600 border border-red-200
+            hover:bg-red-600 hover:text-white hover:border-red-600
+            active:scale-95 transition-all duration-150"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          {t('Delete')}
+        </button>
+      </div>
       </div>
     </div>
   );
