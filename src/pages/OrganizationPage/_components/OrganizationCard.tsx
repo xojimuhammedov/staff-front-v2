@@ -87,50 +87,39 @@ function OrganizationCard({ item, setOpen, setOrganizationId, setShow }: any) {
         </div>
 
         {/* Action bar */}
-        <div className="flex items-center justify-center gap-4 mt-3 w-full ml-auto">
-        {/* View - Blue */}
-        <button
-          onClick={() => {
-            navigate(`/view?organizationId=${item?.id}&current-setting=department`);
-          }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-         text-blue-600 border border-blue-200
-            active:scale-95 transition-all duration-150"
-        >
-          <Eye className="w-3.5 h-3.5" />
-          {t('View')}
-        </button>
-
-        {/* Edit - Amber */}
-        <button
-          onClick={() => {
-            setShow(true);
-            setOrganizationId(item?.id);
-          }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-       text-amber-600 border border-amber-200
-   
-            active:scale-95 transition-all duration-150"
-        >
-          <Pencil className="w-3.5 h-3.5" />
-          {t('Edit')}
-        </button>
-
-        {/* Delete - Red */}
-        <button
-          onClick={() => {
-            setOpen(true);
-            setOrganizationId(item?.id);
-          }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-         text-red-600 border border-red-200
-        
-            active:scale-95 transition-all duration-150"
-        >
-          <Trash2 className="w-3.5 h-3.5" />
-          {t('Delete')}
-        </button>
-      </div>
+        <div className="mt-auto pt-3 -mx-4 -mb-3">
+          <div className="flex items-center border-t dark:border-[#2E3035] border-border/40 divide-x divide-border/40">
+            <button
+              className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
+              onClick={() =>
+                navigate(`/view?organizationId=${item?.id}&current-setting=department`)
+              }
+            >
+              <Eye className="h-3.5 w-3.5" />
+              {t('View')}
+            </button>
+            <button
+              className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary hover:bg-primary/5"
+              onClick={() => {
+                setShow(true);
+                setOrganizationId(item?.id);
+              }}
+            >
+              <Pencil className="h-3.5 w-3.5" />
+              {t('Edit')}
+            </button>
+            <button
+              className="dark:text-text-title-dark dark:border-[#2E3035] flex flex-1 items-center justify-center gap-1.5 py-2 text-sm font-medium text-destructive/70 transition-colors hover:text-destructive hover:bg-destructive/5 rounded-br-xl"
+              onClick={() => {
+                setOpen(true);
+                setOrganizationId(item?.id);
+              }}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+              {t('Delete')}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
