@@ -4,7 +4,6 @@ import { DashboardCardProps, StatCardProps } from '../interface/dashboard.interf
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import storage from 'services/storage';
-import { paramsStrToObj } from 'utils/helper';
 
 const StatCard: React.FC<StatCardProps & { link?: string }> = ({
   icon,

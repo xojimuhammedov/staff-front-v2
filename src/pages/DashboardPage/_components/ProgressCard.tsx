@@ -22,7 +22,7 @@ interface EmployeeCardProps {
   employee: Employee[];
   rank?: number;
   title: string;
-  icon: string | React.ReactNode;
+  icon: string ;
   iconBgColor: string;
   iconColor: string;
   onRowClick?: (employeeId: number) => void;
@@ -98,7 +98,7 @@ export function EmployeeCard({
   function formatMinutes(minutes: number) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours} ${i18nT('hours')}, ${mins} ${i18nT('minutes')}`;
+    return `${hours} ${t('hours')}, ${mins} ${i18nT('minutes')}`;
   }
   return (
     <>
@@ -144,7 +144,7 @@ export function EmployeeCard({
               className="group flex items-center gap-3 rounded-lg border border-border dark:border-dark-line bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer dark:bg-dark-line"
               onClick={() => {
                 onRowClick?.(emp.id);
-                window.scrollTo({ top: 0 });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
               {/* Rank */}
@@ -158,7 +158,6 @@ export function EmployeeCard({
                   src={emp?.photo ? `${config.FILE_URL}api/storage/${emp?.photo}` : AvatarIcon}
                   alt={emp?.name}
                   className="h-full w-full object-cover"
-                  // crossOrigin="anonymous"
                 />
               </div>
 
