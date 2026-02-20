@@ -1,7 +1,6 @@
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
 import MyDivider from 'components/Atoms/MyDivider';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
-import React from 'react';
 import Form from './_components/Form';
 import { ArrowLeft } from 'lucide-react';
 import MyButton from 'components/Atoms/MyButton/MyButton';

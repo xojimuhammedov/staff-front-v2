@@ -6,7 +6,7 @@ import { useImageCropContext } from 'context/ImageCropProvider';
 import { readFile } from 'helpers/cropImage';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { get } from 'lodash';
-import { Plus, Trash2, UploadCloud } from 'lucide-react';
+import { UploadCloud } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
