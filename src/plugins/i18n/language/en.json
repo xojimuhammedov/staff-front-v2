@@ -724,5 +724,10 @@
   "Number": "Number",
   "IP address": "IP address",
   "Employee absences": "Employee absences",
-  "Back to devices list": "Back to devices list"
+  "Back to devices list": "Back to devices list",
+  "Yesterday": "Yesterday",
+  "This month": "This month" ,
+  "Last month": "Last month" ,
+  "Last 7 days":  "Last 7 days" ,
+  "Last 30 days": "Last 30 days"
 }

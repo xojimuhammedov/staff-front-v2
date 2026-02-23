@@ -1,8 +1,9 @@
-import { ReactNode, forwardRef } from 'react';
+import { ReactNode, forwardRef, useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import Datepicker from 'react-tailwindcss-datepicker';
 import { Controller, Control } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 interface MyTailwindPickerProps
   extends Omit<React.ComponentPropsWithoutRef<'input'>, 'size' | 'className'> {
@@ -28,6 +29,17 @@ interface MyTailwindPickerProps
   useRange?: boolean;
   asSingle?: boolean;
   showShortcuts?: boolean;
+  configs?: {
+    shortcuts?: Record<
+      string,
+      | string
+      | ((period: number) => string)
+      | Array<{
+          label: string;
+          atClick: () => { startDate: Date; endDate: Date };
+        }>
+    >;
+  };
 }
 
 /**
@@ -79,8 +91,36 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
     },
     ref
   ) => {
+    const { t, i18n } = useTranslation();
     const requiredLabelStyles = `before:absolute before:right-[-10px] before:top-0 before:text-text-error before:content-['*']`;
     const helperTextErrorStyles = 'text-text-error';
+
+    const defaultShortcutsConfig = useMemo(
+      () => ({
+        shortcuts: {
+          today: t('Today'),
+          yesterday: t('Yesterday'),
+          past: (period: number) => t(`Last ${period} days`),
+          currentMonth: t('This month'),
+          pastMonth: t('Last month'),
+        },
+      }),
+      [t, i18n.language]
+    );
+
+    const mergedConfigs = useMemo(() => {
+      if (!showShortcuts) return rest.configs;
+      return {
+        ...defaultShortcutsConfig,
+        ...rest.configs,
+        shortcuts: {
+          ...defaultShortcutsConfig.shortcuts,
+          ...rest.configs?.shortcuts,
+        },
+      };
+    }, [showShortcuts, defaultShortcutsConfig, rest.configs]);
+
+    const datepickerProps = { ...rest, configs: mergedConfigs };
 
     return (
       <div className="w-full">
@@ -116,7 +156,7 @@ const MyTailwindPicker = forwardRef<HTMLInputElement, MyTailwindPickerProps>(
                 )}
 
                 <Datepicker
-                  {...rest}
+                  {...datepickerProps}
                   containerClassName="form-datepicker w-full tailwind-datepicker-button z-[9999]"
                   popupClassName={(defaultClassName: string) =>
                     `${defaultClassName} z-[99999]`
