@@ -33,14 +33,14 @@ function EmployeeView() {
                 <PersonalInfoCard data={get(data, 'data')} />
                 <Productivity />
             </div>
-            <div className='grid grid-cols-2 gap-8 mt-4'>
+            {/* <div className='grid grid-cols-2 gap-8 mt-4'>
                 <PolicyInfo name={t("Useful Apps")} color='bg-[#FBC02D]' />
                 <PolicyInfo name={t("Unproductive Apps")} color="bg-[#E11D48]" />
             </div>
             <div className='grid grid-cols-2 gap-8 mt-4'>
                 <PolicyInfo name={t("Useful Websites")} color='bg-[#FBC02D]' />
                 <PolicyInfo name={t("Unproductive Sites")} color="bg-[#E11D48]" />
-            </div>
+            </div> */}
         </div>
     );
 }
