@@ -13,7 +13,9 @@ import {
     LogOut,
     ScanFace,
     User,
+    Car,
     UserRound,
+    QrCode,
 } from 'lucide-react';
 import { IAction } from 'interfaces/action.interface';
 import { useMemo } from 'react';
@@ -53,14 +55,26 @@ export const createColumns = () => {
             },
             CAR: {
                 label: t('CAR'),
-                Icon: DoorOpen,
+                Icon: Car,
                 classes:
                     'bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-300',
+            },
+            PERSONAL_CODE: {
+                label: t('PERSONAL_CODE'),
+                Icon: KeyRound,
+                classes:
+                    'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
+            },
+            QR: {
+                label: t('QR'),
+                Icon: QrCode,
+                classes:
+                    'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300',
             },
         };
         const cfg = configs[type] ?? {
             label: type,
-            Icon: CreditCard,
+            Icon: QrCode,
             classes:
                 'bg-gray-100 text-gray-600 dark:bg-gray-900/30 dark:text-gray-300',
         };
@@ -147,7 +161,7 @@ export const createColumns = () => {
                 key: 'actionType',
                 label: t('Credential type'),
                 headerClassName: 'w-1/4',
-                cellRender: (row) => renderCredentialType(row?.actionType),
+                cellRender: (row) => renderCredentialType(row?.credential?.type),
             },
             {
                 key: 'actionTime',
