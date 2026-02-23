@@ -731,5 +731,10 @@
   "Number": "Soni" ,
   "IP address": "IP manzil" ,
   "Employee absences": "Xodimlar yo'qligi",
-  "Back to devices list":"Qurilmalarga qaytish"
+  "Back to devices list":"Qurilmalarga qaytish" ,
+  "Yesterday": "Kecha",
+  "This month": "Shu oy",
+  "Last month": "O‘tgan oy",
+  "Last 7 days": "Oxirgi 7 kun" ,
+  "Last 30 days": "Oxirgi 30 kun"
  }

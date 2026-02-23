@@ -269,13 +269,33 @@ function FormTable() {
           <LabelledCaption title={t('Department list')} subtitle={t('')} />
         </div>
         <div className="flex items-center w-[50%]">
-          <MyTailwindPicker
+        <MyTailwindPicker
             useRange={true}
             name="date"
             asSingle={false}
             control={control}
             placeholder={t('Today')}
             showShortcuts={true}
+            configs={{
+              shortcuts: {
+                today: t('Today'),
+                yesterday: t('Yesterday'),
+                past: (period: number) => t(`Last ${period} days`),
+                currentMonth: t('This month'),
+                pastMonth: t('Last month'),
+                custom: [
+                  {
+                    label: t('Last 30 days'),
+                    atClick: () => {
+                      const end = new Date();
+                      const start = new Date();
+                      start.setDate(end.getDate() - 30);
+                      return { startDate: start, endDate: end };
+                    },
+                  },
+                ],
+              },
+            }}
             startIcon={<Calendar stroke="#9096A1" />}
           />
         </div>

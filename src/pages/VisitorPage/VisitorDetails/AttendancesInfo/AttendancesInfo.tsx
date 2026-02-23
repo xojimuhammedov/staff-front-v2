@@ -50,7 +50,7 @@ const AttendancesInfo = () => {
           <p className='dark:text-text-title-dark'>{t("Monitor visitor attendance patterns and punctuality")}</p>
         </div>
         <div className="flex items-center w-[240px]">
-          <MyTailwindPicker
+        <MyTailwindPicker
             useRange={true}
             name="date"
             asSingle={false}

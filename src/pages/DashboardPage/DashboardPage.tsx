@@ -1,14 +1,14 @@
-import MyBreadCrumb from "components/Atoms/MyBreadCrumb";
-import PageContentWrapper from "components/Layouts/PageContentWrapper";
-import { useTranslation } from "react-i18next";
-import DashboardCard from "./_components/DashboardCard";
-import AttendancesLine from "./_components/AttendancesLine";
-import MyTailwindPicker from "components/Atoms/Form/MyTailwindDatePicker";
-import { Calendar } from "lucide-react";
-import { useDashboard } from "./hooks/useDashboard";
-import AttendancesCard from "./_components/AttendancesCard";
-import { EmployeeCard } from "./_components/ProgressCard";
-import { useNavigate } from "react-router-dom";
+import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
+import PageContentWrapper from 'components/Layouts/PageContentWrapper';
+import { useTranslation } from 'react-i18next';
+import DashboardCard from './_components/DashboardCard';
+import AttendancesLine from './_components/AttendancesLine';
+import MyTailwindPicker from 'components/Atoms/Form/MyTailwindDatePicker';
+import { Calendar } from 'lucide-react';
+import { useDashboard } from './hooks/useDashboard';
+import AttendancesCard from './_components/AttendancesCard';
+import { EmployeeCard } from './_components/ProgressCard';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardPage = () => {
   const { t } = useTranslation();
@@ -16,11 +16,11 @@ const DashboardPage = () => {
   const breadCrumbs = [
     {
       label: t('Dashboard'),
-      url: '#'
-    }
+      url: '#',
+    },
   ];
 
-  const { data, control, lineChartData, todayData, topEmployee, bottomEmployee } = useDashboard()
+  const { data, control, lineChartData, todayData, topEmployee, bottomEmployee } = useDashboard();
 
   return (
     <PageContentWrapper className="dark:bg-bg-dark-bg">
@@ -34,7 +34,7 @@ const DashboardPage = () => {
         <div className="flex items-center w-[240px]">
           <MyTailwindPicker
             useRange={true}
-            name='date'
+            name="date"
             asSingle={false}
             control={control}
             placeholder={t('Today')}
