@@ -28,24 +28,24 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
                     path: 'details',
                     isSwitch: false
                 },
-                {
-                    icon: 'Laptop',
-                    name: t('Computers'),
-                    path: 'computer',
-                    isSwitch: false
-                },
+                // {
+                //     icon: 'Laptop',
+                //     name: t('Computers'),
+                //     path: 'computer',
+                //     isSwitch: false
+                // },
                 {
                     icon: 'CalendarClock',
                     name: t('Attendance'),
                     path: 'attendance',
                     isSwitch: false
                 },
-                {
-                    icon: 'TrendingUp',
-                    name: t('Productivity'),
-                    path: 'productivity',
-                    isSwitch: false
-                },
+                // {
+                //     icon: 'TrendingUp',
+                //     name: t('Productivity'),
+                //     path: 'productivity',
+                //     isSwitch: false
+                // },
                 {
                     icon: 'CalendarX',
                     name: t('Employee absences'),
