@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
-import * as yup from "yup";
+import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -43,31 +43,25 @@ const [imageKey, setImageKey] = useState<string | null>(null);
     key: KEYS.getAllListOrganization,
     url: URLS.getAllListOrganization,
     params: {},
-    hideErrorMsg: true
-  })
+    hideErrorMsg: true,
+  });
 
   const { data: jobData } = useGetAllQuery<any>({
     key: KEYS.employeeJobPosition,
     url: URLS.employeeJobPosition,
     params: {},
-    hideErrorMsg: true
-  })
+    hideErrorMsg: true,
+  });
 
   const schema = object().shape({
     name: string().required(),
-    email: yup
-      .string()
-      .transform(v => v === "" ? undefined : v),
-    phone: yup
-      .string()
-      .transform(v => v === "" ? undefined : v),
-    address: yup
-      .string()
-      .transform(v => v === "" ? undefined : v),
+    email: yup.string().transform((v) => (v === '' ? undefined : v)),
+    phone: yup.string().transform((v) => (v === '' ? undefined : v)),
+    address: yup.string().transform((v) => (v === '' ? undefined : v)),
     departmentId: yup
       .number()
       .when('$role', (role: any, schema) =>
-        role === 'ADMIN' || "HR" ? schema.required() : schema.optional()
+        role === 'ADMIN' || 'HR' ? schema.required() : schema.optional()
       ),
     organizationId: yup
       .number()
@@ -91,17 +85,17 @@ const [imageKey, setImageKey] = useState<string | null>(null);
     register,
     control,
     watch,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
     defaultValues: {},
     mode: 'onChange',
     resolver: yupResolver(schema),
-    context: { role: userRole }
+    context: { role: userRole },
   });
 
   const { mutate: create } = usePostQuery({
     listKeyId: KEYS.getEmployeeList,
-    hideSuccessToast: true
+    hideSuccessToast: true,
   });
 
   const onSubmit = (data: any) => {
@@ -110,87 +104,60 @@ const [imageKey, setImageKey] = useState<string | null>(null);
         url: URLS.getEmployeeList,
         attributes: {
           photo: imageKey,
-          // credentials: credentials,
-          ...data
-        }
+          ...data,
+        },
       },
       {
         onSuccess: () => {
           toast.success(t('Successfully created!'));
-          navigate('/employees')
+          navigate('/employees');
         },
         onError: (e: any) => {
-          toast.error(e?.response?.data?.error?.message)
-        }
+          toast.error(e?.response?.data?.error?.message);
+        },
       }
     );
   };
-
-  const addCredential = () => {
-    setCredentials([
-      ...credentials,
-      {
-        code: '',
-        type: 'QR',
-        additionalDetails: '',
-      },
-    ]);
-  };
-
-  const removeCredential = (index: number) => {
-    if (credentials.length === 1) {
-      alert("Kamida bitta hujjat qoldirish kerak!");
-      return;
-    }
-    setCredentials(credentials.filter((_, i) => i !== index));
-  };
-
-  const updateCredential = (index: number, field: keyof Credential, value: any) => {
-    const updated = [...credentials];
-    updated[index] = { ...updated[index], [field]: value };
-    setCredentials(updated);
-  };
-
 
   const { data: getDepartment } = useGetAllQuery<any>({
     key: KEYS.getAllListDepartment,
     url: URLS.getAllListDepartment,
     params: {
-      organizationId: watch("organizationId")
-    }
-  })
+      organizationId: watch('organizationId'),
+    },
+  });
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='sm:w-full lg:w-2/3 flex gap-6 justify-between'>
-          <div className='grid grid-cols-2 gap-4 w-3/4'>
+        <div className="sm:w-full lg:w-2/3 flex gap-6 justify-between">
+          <div className="grid grid-cols-2 gap-4 w-3/4">
             <MyInput
-              {...register("name")}
+              {...register('name')}
               error={Boolean(errors?.name?.message)}
               helperText={t(`${errors?.name?.message}`)}
               label={t('Employee name')}
             />
             <MyInput
-              {...register("address")}
+              {...register('address')}
               error={Boolean(errors?.address?.message)}
               helperText={t(`${errors?.address?.message}`)}
               label={t('Employee address')}
             />
             <MyInput
-              {...register("phone")}
+              {...register('phone')}
               error={Boolean(errors?.phone?.message)}
               helperText={t(`${errors?.phone?.message}`)}
               label={t('Employee phone number')}
             />
             <MyInput
-              {...register("email")}
+              {...register('email')}
               error={Boolean(errors?.email?.message)}
               helperText={t(`${errors?.email?.message}`)}
               label={t('Employee email')}
             />
             <MyInput
-              {...register("additionalDetails")}
+              {...register('additionalDetails')}
               error={Boolean(errors?.additionalDetails?.message)}
               helperText={t(`${errors?.additionalDetails?.message}`)}
               label={t('Employee details')}
@@ -224,7 +191,7 @@ const [imageKey, setImageKey] = useState<string | null>(null);
               control={control}
               render={({ field, fieldState }) => (
                 <MySelect
-                  label={t("Select organization")}
+                  label={t('Select organization')}
                   options={data?.data?.map((evt: any) => ({
                     label: evt.fullName,
                     value: evt.id,
@@ -233,7 +200,7 @@ const [imageKey, setImageKey] = useState<string | null>(null);
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
-                  allowedRoles={["ADMIN"]}
+                  allowedRoles={['ADMIN']}
                 />
               )}
             />
@@ -242,16 +209,16 @@ const [imageKey, setImageKey] = useState<string | null>(null);
               control={control}
               render={({ field, fieldState }) => (
                 <MySelect
-                  label={t("Select department")}
-                  options={get(getDepartment, "data")?.map((evt: Department) => ({
+                  label={t('Select department')}
+                  options={get(getDepartment, 'data')?.map((evt: Department) => ({
                     label: evt.fullName,
                     value: evt.id,
                   }))}
-                  value={field.value as any}  // 👈 cast to any
+                  value={field.value as any} // 👈 cast to any
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
-                  allowedRoles={["ADMIN", "HR"]}
+                  allowedRoles={['ADMIN', 'HR']}
                 />
               )}
             />
@@ -260,16 +227,16 @@ const [imageKey, setImageKey] = useState<string | null>(null);
               control={control}
               render={({ field, fieldState }) => (
                 <MySelect
-                  label={t("Select position")}
-                  options={get(jobData, "items")?.map((evt: any) => ({
+                  label={t('Select position')}
+                  options={get(jobData, 'items')?.map((evt: any) => ({
                     label: evt[`${currentLang}`],
                     value: evt.id,
                   }))}
-                  value={field.value as any}  // 👈 cast to any
+                  value={field.value as any} // 👈 cast to any
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
-                  allowedRoles={["ADMIN", "HR"]}
+                  allowedRoles={['ADMIN', 'HR']}
                 />
               )}
             />
@@ -277,10 +244,9 @@ const [imageKey, setImageKey] = useState<string | null>(null);
           <AvatarUpload onChangeImageKey={setImageKey} />
         </div>
         <MyDivider />
-        <MyButton
-          type='submit'
-          className={'mt-3'}
-          variant="primary">{t("Add & Save")}</MyButton>
+        <MyButton type="submit" className={'mt-3'} variant="primary">
+          {t('Add & Save')}
+        </MyButton>
       </form>
     </>
   );
