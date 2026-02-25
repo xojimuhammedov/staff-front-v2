@@ -736,5 +736,8 @@
   "This month": "Shu oy",
   "Last month": "O‘tgan oy",
   "Last 7 days": "Oxirgi 7 kun" ,
-  "Last 30 days": "Oxirgi 30 kun"
+  "Last 30 days": "Oxirgi 30 kun",
+  "Male": "Erkak" ,
+  "Female": "Ayol",
+  "Gender":"Jinsi" 
  }

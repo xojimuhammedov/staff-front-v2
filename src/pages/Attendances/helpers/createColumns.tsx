@@ -85,8 +85,17 @@ export const createColumns = ({ refetch }: any) => {
         key: 'arrivalStatus',
         label: t('Arrival status'),
         headerClassName: 'w-1/4',
-        cellRender: (row) =>
-          renderStatusBadge(row?.arrivalStatus, { LATE: 'orange', ABSENT: 'red' }),
+        cellRender: (row) => {
+          const isSaturday =
+          row?.startTime && dayjs(row?.startTime).isValid()
+            ? dayjs(row?.startTime).day() === 6
+            : false;
+        
+        if (!isSaturday && (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING')) {
+          return '--';
+        }
+          return renderStatusBadge(row?.arrivalStatus, { LATE: 'orange', ABSENT: 'red' });
+        },
       },
       {
         key: 'arrivalTime',
@@ -98,7 +107,20 @@ export const createColumns = ({ refetch }: any) => {
         key: 'goneStatus',
         label: t('Left status'),
         headerClassName: 'w-1/4',
-        cellRender: (row) => renderStatusBadge(row?.goneStatus, { EARLY: 'blue' }),
+        cellRender: (row) => {
+          const isSaturday =
+            row?.endTime && dayjs(row?.endTime).isValid()
+              ? dayjs(row?.endTime).day() === 6
+              : row?.startTime && dayjs(row?.startTime).isValid()
+                ? dayjs(row?.startTime).day() === 6
+                : false;
+
+          if (isSaturday && (row?.startTime || row?.endTime)) {
+            return renderBadge('green', t('ON_TIME'));
+          }
+
+          return renderStatusBadge(row?.goneStatus, { EARLY: 'blue' });
+        },
       },
       {
         key: 'goneTime',
@@ -127,10 +149,18 @@ export const createColumns = ({ refetch }: any) => {
               0,
               dayjs(effectiveEndTime).diff(dayjs(row?.startTime), 'minute')
             );
+            const isSaturday =
+              row?.startTime && dayjs(row?.startTime).isValid()
+                ? dayjs(row?.startTime).day() === 6
+                : false;
             const hours = Math.floor(minutes / 60);
             const mins = minutes % 60;
             const percent =
-              plannedMinutes > 0 ? Math.min(100, Math.round((minutes / plannedMinutes) * 100)) : 0;
+              isSaturday && minutes > 0
+                ? 100
+                : plannedMinutes > 0
+                  ? Math.min(100, Math.round((minutes / plannedMinutes) * 100))
+                  : 0;
 
             const progressBarColor = getProgressBarColor(percent);
 
