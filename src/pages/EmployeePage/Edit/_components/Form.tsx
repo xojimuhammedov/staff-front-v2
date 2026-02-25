@@ -24,9 +24,9 @@ function Form() {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.resolvedLanguage;
   const [openModal, setOpenModal] = useState(false);
-  const [imageKey, setImageKey] = useState(null)
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const [imageKey, setImageKey] = useState(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [preview, setPreview] = useState<any>();
   const { getProcessedImage, setImage, resetStates }: any = useImageCropContext();
   const handleDone = async (): Promise<void> => {
@@ -39,17 +39,16 @@ function Form() {
 
           const response = request.post(URLS.uploadPhotoByEmployee, formData, {
             headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          })
-          response.then((res) => setImageKey(res?.data?.key))
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          response.then((res) => setImageKey(res?.data?.key));
 
           const imageUrl = URL.createObjectURL(avatar);
           setPreview(imageUrl);
 
           resetStates();
           setOpenModal(false);
-
         } catch (error) {
           console.error('❌ Error uploading avatar:', error);
         }
@@ -71,22 +70,22 @@ function Form() {
     id: id,
     url: URLS.getEmployeeList,
     params: {},
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 
   const { data: jobData } = useGetAllQuery<any>({
     key: KEYS.employeeJobPosition,
     url: URLS.employeeJobPosition,
     params: {},
-    hideErrorMsg: true
-  })
+    hideErrorMsg: true,
+  });
 
   const {
     handleSubmit,
     register,
     control,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
     defaultValues: useMemo(() => {
       return {
@@ -100,6 +99,7 @@ function Form() {
         photo: get(data, 'data.photo'),
         gender: get(data, 'data.gender'),
         birthday: get(data, 'data.birthday'),
+        isActive: get(data, 'data.isActive'),
       };
     }, [data]),
     mode: 'onChange',
@@ -117,36 +117,39 @@ function Form() {
       jobId: get(data, 'data.jobId'),
       gender: get(data, 'data.gender'),
       birthday: get(data, 'data.birthday'),
+      isActive: get(data, 'data.isActive'),
     });
   }, [data]);
 
   const { mutate: update } = usePutQuery({
     listKeyId: KEYS.getEmployeeList,
-    hideSuccessToast: true
+    hideSuccessToast: true,
   });
 
   const onSubmit = (data: any) => {
-    const submitData = imageKey ? {
-      ...data,
-      photo: imageKey
-    } : {
-      ...data,
-    }
+    const submitData = imageKey
+      ? {
+          ...data,
+          photo: imageKey,
+        }
+      : {
+          ...data,
+        };
     update(
       {
         url: `${URLS.getEmployeeList}/${id}`,
-        attributes: submitData
+        attributes: submitData,
       },
       {
         onSuccess: () => {
           toast.success(t('Successfully edited!'));
           reset();
-          navigate('/employees')
+          navigate('/employees');
         },
         onError: (e: any) => {
           console.log(e);
-          toast.error(e?.response?.data?.error?.message)
-        }
+          toast.error(e?.response?.data?.error?.message);
+        },
       }
     );
   };
@@ -161,40 +164,40 @@ function Form() {
   const { data: getDepartment } = useGetAllQuery<any>({
     key: KEYS.getAllListDepartment,
     url: URLS.getAllListDepartment,
-    params: {}
-  })
+    params: {},
+  });
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='w-2/3 flex justify-between'>
-          <div className='grid grid-cols-2 gap-4 w-3/4'>
+        <div className="w-2/3 flex justify-between">
+          <div className="grid grid-cols-2 gap-4 w-3/4">
             <MyInput
-              {...register("name")}
+              {...register('name')}
               error={Boolean(errors?.name?.message)}
               helperText={t(`${errors?.name?.message}`)}
               label={t('Employee name')}
             />
             <MyInput
-              {...register("address")}
+              {...register('address')}
               error={Boolean(errors?.address?.message)}
               helperText={t(`${errors?.address?.message}`)}
               label={t('Employee address')}
             />
             <MyInput
-              {...register("phone")}
+              {...register('phone')}
               error={Boolean(errors?.phone?.message)}
               helperText={t(`${errors?.phone?.message}`)}
               label={t('Employee phone number')}
             />
             <MyInput
-              {...register("email")}
+              {...register('email')}
               error={Boolean(errors?.email?.message)}
               helperText={t(`${errors?.email?.message}`)}
               label={t('Employee email')}
             />
             <MyInput
-              {...register("additionalDetails")}
+              {...register('additionalDetails')}
               error={Boolean(errors?.additionalDetails?.message)}
               helperText={t(`${errors?.additionalDetails?.message}`)}
               label={t('Employee details')}
@@ -212,12 +215,29 @@ function Form() {
                   value={field.value as any}
                   onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                   onBlur={field.onBlur}
-                  allowedRoles={["ADMIN", "HR"]}
+                  allowedRoles={['ADMIN', 'HR']}
+                />
+              )}
+            />
+            <Controller
+              name="isActive"
+              control={control}
+              render={({ field }) => (
+                <MySelect
+                  label={t('Dismissal')}
+                  options={[
+                    { label: t('Yes'), value: 'ACTIVE' },
+                    { label: t('No'), value: 'FIRED' },
+                  ]}
+                  value={field.value as any}
+                  onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                  onBlur={field.onBlur}
+                  allowedRoles={['ADMIN', 'HR']}
                 />
               )}
             />
             <MyInput
-              {...register("birthday")}
+              {...register('birthday')}
               type="date"
               error={Boolean(errors?.birthday?.message)}
               helperText={t(`${errors?.birthday?.message}`)}
@@ -228,16 +248,16 @@ function Form() {
               control={control}
               render={({ field, fieldState }) => (
                 <MySelect
-                  label={t("Select department")}
-                  options={get(getDepartment, "data")?.map((evt: Department) => ({
+                  label={t('Select department')}
+                  options={get(getDepartment, 'data')?.map((evt: Department) => ({
                     label: evt.fullName,
                     value: evt.id,
                   }))}
-                  value={field.value as any}  // 👈 cast to any
+                  value={field.value as any} // 👈 cast to any
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
-                  allowedRoles={["ADMIN", "HR"]}
+                  allowedRoles={['ADMIN', 'HR']}
                 />
               )}
             />
@@ -246,16 +266,16 @@ function Form() {
               control={control}
               render={({ field, fieldState }) => (
                 <MySelect
-                  label={t("Select position")}
-                  options={get(jobData, "items")?.map((evt: any) => ({
+                  label={t('Select position')}
+                  options={get(jobData, 'items')?.map((evt: any) => ({
                     label: evt[`${currentLang}`],
                     value: evt.id,
                   }))}
-                  value={field.value as any}  // 👈 cast to any
+                  value={field.value as any} // 👈 cast to any
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
-                  allowedRoles={["ADMIN", "HR"]}
+                  allowedRoles={['ADMIN', 'HR']}
                 />
               )}
             />
@@ -266,7 +286,10 @@ function Form() {
             </p>
             <div className="mt-2 flex h-[160px] w-[150px] items-center justify-center border-2 bg-[#F9FAFB]">
               <label className="cursor-pointer">
-                <img className="h-[160px] w-[150px] object-cover" src={preview ?? `${config.FILE_URL}api/storage/${get(data, 'data.photo')}`} />
+                <img
+                  className="h-[160px] w-[150px] object-cover"
+                  src={preview ?? `${config.FILE_URL}api/storage/${get(data, 'data.photo')}`}
+                />
               </label>
             </div>
             <input
@@ -278,25 +301,25 @@ function Form() {
             />
             <label
               htmlFor="avatarInput"
-              className="mt-6 flex h-[32px] cursor-pointer items-center justify-center gap-2 rounded-md border border-solid border-gray-300 px-[6px] py-[6px]  text-xs font-medium text-gray-700 shadow-sm dark:text-text-title-dark">
+              className="mt-6 flex h-[32px] cursor-pointer items-center justify-center gap-2 rounded-md border border-solid border-gray-300 px-[6px] py-[6px]  text-xs font-medium text-gray-700 shadow-sm dark:text-text-title-dark"
+            >
               <UploadCloud /> {t('Upload image')}
             </label>
           </div>
         </div>
         <MyDivider />
-        <MyButton
-          type='submit'
-          className={'mt-3'}
-          variant="primary">{t("Add & Save")}</MyButton>
+        <MyButton type="submit" className={'mt-3'} variant="primary">
+          {t('Add & Save')}
+        </MyButton>
       </form>
       <MyModal
         modalProps={{
           show: Boolean(openModal),
           onClose: () => setOpenModal(false),
-          size: 'md'
+          size: 'md',
         }}
         headerProps={{
-          children: <h2 className="text-gray-800">{t('Edit profile picture')}</h2>
+          children: <h2 className="text-gray-800">{t('Edit profile picture')}</h2>,
         }}
         bodyProps={{
           children: (
@@ -306,12 +329,11 @@ function Form() {
                 handleClose={() => setOpenModal(false)}
               />
             </>
-          )
+          ),
         }}
       />
     </>
   );
 }
-
 
 export default Form;
