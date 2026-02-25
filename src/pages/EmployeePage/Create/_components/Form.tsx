@@ -253,7 +253,7 @@ const [imageKey, setImageKey] = useState<string | null>(null);
                 />
               )}
             />
-             <Controller
+            <Controller
               name="employeePlanId"
               control={control}
               render={({ field, fieldState }) => (
@@ -262,12 +262,6 @@ const [imageKey, setImageKey] = useState<string | null>(null);
                   options={get(scheduleData, 'data', [])?.map((row: any) => ({
                     label: row?.name,
                     value: row?.id,
-                  }))}
-                  value={field.value as any}
-                  label={t('Select position')}
-                  options={get(jobData, 'items')?.map((evt: any) => ({
-                    label: evt[`${currentLang}`],
-                    value: evt.id,
                   }))}
                   value={field.value as any} // 👈 cast to any
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
