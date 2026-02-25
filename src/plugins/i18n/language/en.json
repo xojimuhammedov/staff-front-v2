@@ -729,5 +729,8 @@
   "This month": "This month" ,
   "Last month": "Last month" ,
   "Last 7 days":  "Last 7 days" ,
-  "Last 30 days": "Last 30 days"
+  "Last 30 days": "Last 30 days",
+  "Male": "Male" ,
+  "Female": "Female" ,
+  "Gender": "Gender"
 }

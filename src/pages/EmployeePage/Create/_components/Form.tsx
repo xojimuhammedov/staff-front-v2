@@ -1,12 +1,8 @@
 import { MyInput, MySelect } from 'components/Atoms/Form';
-import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
-import { useImageCropContext } from 'context/ImageCropProvider';
-import { readFile } from 'helpers/cropImage';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
 import { get } from 'lodash';
-import { UploadCloud } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
@@ -16,12 +12,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Department } from 'pages/DepartmentsPage/interface/department.interface';
 import { ISelect } from 'interfaces/select.interface';
-import ImageCropModalContent from './ImageCropModalContent';
 import { toast } from 'react-toastify';
 import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
-import { request } from 'services/request';
 import storage from 'services/storage';
+import AvatarUpload from '../../_components/AvatarUpload';
 
 interface Credential {
   code: string;
@@ -32,51 +27,17 @@ interface Credential {
 function Form() {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.resolvedLanguage;
-  const userData: any = storage.get('userData');
-  const userRole = JSON.parse(userData)?.role;
-  const [openModal, setOpenModal] = useState(false);
-  const [imageKey, setImageKey] = useState(null);
-  const navigate = useNavigate();
-  const [preview, setPreview] = useState<any>();
-  const { getProcessedImage, setImage, resetStates }: any = useImageCropContext();
-  const handleDone = async (): Promise<void> => {
-    const avatar = await getProcessedImage();
-    if (avatar) {
-      if (avatar instanceof Blob) {
-        try {
-          const formData = new FormData();
-          formData.append('file', avatar);
-
-          // 🧩 2. API'ga yuboramiz
-          const response = request.post(URLS.uploadPhotoByEmployee, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-          response.then((res) => setImageKey(res?.data?.key));
-
-          const imageUrl = URL.createObjectURL(avatar);
-          setPreview(imageUrl);
-
-          resetStates();
-          setOpenModal(false);
-        } catch (error) {
-          console.error('❌ Error uploading avatar:', error);
-        }
-      } else {
-        console.error('Processed image is not a valid Blob.');
-      }
-    } else {
-      console.error('Processed image is not available.');
-    }
-  };
-
-  const handleFileChange = async ({ target: { files } }: any) => {
-    const file = files && files[0];
-    const imageDataUrl = await readFile(file);
-    setImage(imageDataUrl);
-    setOpenModal(true);
-  };
+  const userData: any = storage.get("userData")
+  const userRole = JSON.parse(userData)?.role
+const [imageKey, setImageKey] = useState<string | null>(null);
+  const [credentials, setCredentials] = useState<Credential[]>([
+    {
+      code: '',
+      type: 'QR',
+      additionalDetails: '',
+    },
+  ]);
+  const navigate = useNavigate()
 
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
@@ -107,8 +68,17 @@ function Form() {
       .when('$role', (role: any, schema) =>
         role === 'ADMIN' ? schema.required() : schema.optional()
       ),
-    additionalDetails: yup.string().transform((v) => (v === '' ? undefined : v)),
-    jobId: yup.number().required(),
+    additionalDetails: yup
+      .string()
+      .transform(v => v === "" ? undefined : v),
+    gender: yup
+      .string()
+      .oneOf(['MALE', 'FEMALE'])
+      .transform(v => v === "" ? undefined : v),
+    birthday: yup
+      .string()
+      .transform(v => v === "" ? undefined : v),
+    jobId: yup.number().required()
   });
   const {
     handleSubmit,
@@ -193,6 +163,30 @@ function Form() {
               label={t('Employee details')}
             />
             <Controller
+              name="gender"
+              control={control}
+              render={({ field }) => (
+                <MySelect
+                  label={t('Gender')}
+                  options={[
+                    { label: t('Male'), value: 'MALE' },
+                    { label: t('Female'), value: 'FEMALE' },
+                  ]}
+                  value={field.value as any}
+                  onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                  onBlur={field.onBlur}
+                  allowedRoles={["ADMIN", "HR"]}
+                />
+              )}
+            />
+            <MyInput
+              {...register("birthday")}
+              type="date"
+              error={Boolean(errors?.birthday?.message)}
+              helperText={t(`${errors?.birthday?.message}`)}
+              label={t('Birthday')}
+            />
+            <Controller
               name="organizationId"
               control={control}
               render={({ field, fieldState }) => (
@@ -202,7 +196,7 @@ function Form() {
                     label: evt.fullName,
                     value: evt.id,
                   }))}
-                  value={field.value as any} // 👈 cast to any
+                  value={field.value as any} 
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
@@ -247,56 +241,13 @@ function Form() {
               )}
             />
           </div>
-          <div className="cursor-pointer">
-            <p className="font-inter text-base font-medium leading-5 dark:text-text-title-dark">
-              {t('Avatar image')} <span className="text-red-500">{'*'}</span>
-            </p>
-            <div className="mt-2 flex h-[160px] w-[150px] items-center justify-center border-2 bg-[#F9FAFB]">
-              <label className="cursor-pointer">
-                <img className="h-[160px] w-[150px] object-cover" src={preview} />
-              </label>
-            </div>
-            <input
-              type="file"
-              onChange={handleFileChange}
-              className="hidden"
-              id="avatarInput"
-              accept="image/*"
-            />
-            <label
-              htmlFor="avatarInput"
-              className="mt-6 flex h-[32px] cursor-pointer items-center justify-center gap-2 rounded-md border border-solid border-gray-300 px-[6px] py-[6px]  text-xs font-medium text-gray-700 shadow-sm dark:text-text-title-dark"
-            >
-              <UploadCloud /> {t('Upload image')}
-            </label>
-          </div>
+          <AvatarUpload onChangeImageKey={setImageKey} />
         </div>
-
         <MyDivider />
         <MyButton type="submit" className={'mt-3'} variant="primary">
           {t('Add & Save')}
         </MyButton>
       </form>
-      <MyModal
-        modalProps={{
-          show: Boolean(openModal),
-          onClose: () => setOpenModal(false),
-          size: 'md',
-        }}
-        headerProps={{
-          children: <h2 className="text-gray-800">{t('Edit profile picture')}</h2>,
-        }}
-        bodyProps={{
-          children: (
-            <>
-              <ImageCropModalContent
-                handleDone={handleDone}
-                handleClose={() => setOpenModal(false)}
-              />
-            </>
-          ),
-        }}
-      />
     </>
   );
 }

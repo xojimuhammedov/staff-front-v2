@@ -98,6 +98,8 @@ function Form() {
         departmentId: get(data, 'data.departmentId'),
         jobId: get(data, 'data.jobId'),
         photo: get(data, 'data.photo'),
+        gender: get(data, 'data.gender'),
+        birthday: get(data, 'data.birthday'),
       };
     }, [data]),
     mode: 'onChange',
@@ -113,6 +115,8 @@ function Form() {
       departmentId: get(data, 'data.departmentId'),
       photo: get(data, 'data.photo'),
       jobId: get(data, 'data.jobId'),
+      gender: get(data, 'data.gender'),
+      birthday: get(data, 'data.birthday'),
     });
   }, [data]);
 
@@ -194,6 +198,30 @@ function Form() {
               error={Boolean(errors?.additionalDetails?.message)}
               helperText={t(`${errors?.additionalDetails?.message}`)}
               label={t('Employee details')}
+            />
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field }) => (
+                <MySelect
+                  label={t('Gender')}
+                  options={[
+                    { label: t('Male'), value: 'MALE' },
+                    { label: t('Female'), value: 'FEMALE' },
+                  ]}
+                  value={field.value as any}
+                  onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                  onBlur={field.onBlur}
+                  allowedRoles={["ADMIN", "HR"]}
+                />
+              )}
+            />
+            <MyInput
+              {...register("birthday")}
+              type="date"
+              error={Boolean(errors?.birthday?.message)}
+              helperText={t(`${errors?.birthday?.message}`)}
+              label={t('Birthday')}
             />
             <Controller
               name="departmentId"
