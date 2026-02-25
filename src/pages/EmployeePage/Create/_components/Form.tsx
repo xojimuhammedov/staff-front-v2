@@ -46,6 +46,16 @@ const [imageKey, setImageKey] = useState<string | null>(null);
     hideErrorMsg: true
   })
 
+  const { data: scheduleData } = useGetAllQuery<any>({
+    key: KEYS.employeeSchedulePlan,
+    url: URLS.employeeSchedulePlan,
+    params: {
+      page: 1,
+      limit: 100,
+    },
+    hideErrorMsg: true,
+  });
+
   const { data: jobData } = useGetAllQuery<any>({
     key: KEYS.employeeJobPosition,
     url: URLS.employeeJobPosition,
@@ -84,6 +94,9 @@ const [imageKey, setImageKey] = useState<string | null>(null);
     birthday: yup
       .string()
       .transform(v => v === "" ? undefined : v),
+      employeePlanId: yup
+      .number()
+      .transform((v) => (isNaN(v) ? undefined : v)),
     jobId: yup.number().required()
   });
   const {
@@ -163,8 +176,8 @@ const [imageKey, setImageKey] = useState<string | null>(null);
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='sm:w-full lg:w-2/3 flex gap-6 justify-between'>
-          <div className='grid grid-cols-2 gap-4 w-3/4'>
+        <div className="sm:w-full lg:w-2/3 flex gap-6 justify-between">
+          <div className="grid grid-cols-2 gap-4 w-3/4">
             <MyInput
               {...register("name")}
               error={Boolean(errors?.name?.message)}
@@ -219,6 +232,24 @@ const [imageKey, setImageKey] = useState<string | null>(null);
               helperText={t(`${errors?.birthday?.message}`)}
               label={t('Birthday')}
             />
+             <Controller
+              name="jobId"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MySelect
+                  label={t('Select position')}
+                  options={get(jobData, 'items')?.map((evt: any) => ({
+                    label: evt[`${currentLang}`],
+                    value: evt.id,
+                  }))}
+                  value={field.value as any} // 👈 cast to any
+                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                  onBlur={field.onBlur}
+                  error={!!fieldState.error}
+                  allowedRoles={['ADMIN', 'HR']}
+                />
+              )}
+            />
             <Controller
               name="organizationId"
               control={control}
@@ -255,21 +286,21 @@ const [imageKey, setImageKey] = useState<string | null>(null);
                 />
               )}
             />
-            <Controller
-              name="jobId"
+             <Controller
+              name="employeePlanId"
               control={control}
               render={({ field, fieldState }) => (
                 <MySelect
-                  label={t("Select position")}
-                  options={get(jobData, "items")?.map((evt: any) => ({
-                    label: evt[`${currentLang}`],
-                    value: evt.id,
+                  label={t('Select schedule')}
+                  options={get(scheduleData, 'data', [])?.map((row: any) => ({
+                    label: row?.name,
+                    value: row?.id,
                   }))}
-                  value={field.value as any}  // 👈 cast to any
+                  value={field.value as any}
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
-                  allowedRoles={["ADMIN", "HR"]}
+                  allowedRoles={['ADMIN', 'HR']}
                 />
               )}
             />
@@ -278,9 +309,12 @@ const [imageKey, setImageKey] = useState<string | null>(null);
         </div>
         <MyDivider />
         <MyButton
-          type='submit'
+          type="submit"
           className={'mt-3'}
-          variant="primary">{t("Add & Save")}</MyButton>
+          variant="primary"
+        >
+          {t('Add & Save')}
+        </MyButton>
       </form>
     </>
   );
