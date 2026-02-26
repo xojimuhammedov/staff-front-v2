@@ -139,7 +139,15 @@ export default function DeviceAssignModal({
                     options={options}
                     value={selectedOptions as any}
                     onChange={(
-                      vals: ISelect | ISelect[] | string | string[] | number | number[]
+                      vals:
+                        | ISelect
+                        | ISelect[]
+                        | string
+                        | string[]
+                        | number
+                        | number[]
+                        | boolean
+                        | boolean[]
                     ) => {
                       const selectedArray = Array.isArray(vals) ? vals : [];
                       const arr = selectedArray.map((v) =>
