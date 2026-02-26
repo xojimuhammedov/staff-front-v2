@@ -51,17 +51,6 @@ function WhiteList() {
             className="dark:bg-bg-input-dark"
             placeholder={t('Search...')}
           />
-
-          <MyButton
-            onClick={() => navigate('/employees/create')}
-            allowedRoles={['ADMIN', 'HR']}
-            startIcon={<Plus />}
-            variant="primary"
-            className="text-sm min-w-max [&_svg]:stroke-white-600 dark:[&_svg]:stroke-black-300"
-          >
-            {t('Create an employee')}
-          </MyButton>
-
           <MyButton
             onClick={() => navigate('/employees')}
             variant="primary"

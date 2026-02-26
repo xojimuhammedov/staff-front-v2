@@ -742,6 +742,10 @@
   "Gender": "Jinsi",
   "Dismissal": "Ishdan bo‘shatish",
   "Yes": "Ha",
-  "No": "Yo'q" ,
+  "No": "Yo'q",
+  "White list": "Oq ro'yxat",
+  "Terminated employees": "Ishdan bo'shatilgan xodimlar",
+  "Whitelist": "Oq ro'yxat",
+  "Add to whitelist": "Oq ro'yxatga qo'shish",
   "Select schedule": "Jadval tanlash"
 }

@@ -739,6 +739,10 @@
   "Gender": "Пол",
   "Dismissal": "Увольнение",
   "Yes": "Да",
-  "No": "Нет" ,
+  "No": "Нет",
+  "White list": "Белый список",
+  "Terminated employees": "Уволенные сотрудники",
+  "Whitelist": "Белый список",
+  "Add to whitelist": "Добавить в белый список",
   "Select schedule": "Выберите расписание"
 }
