@@ -123,6 +123,17 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
           </div>
         ),
       },
+      // {
+      //   key: 'joinDate',
+      //   label: t('Join Date'),
+      //   headerClassName: 'w-1/3',
+      //   cellRender: (row) => (
+      //     <div className="flex items-center gap-2 text-text-base dark:text-text-title-dark">
+      //       <Calendar size={16} className="text-text-muted" />
+      //       <DateText value={row?.createdAt} />
+      //     </div>
+      //   ),
+      // },
       {
         key: 'birthday',
         label: t('Birthday'),
@@ -146,7 +157,8 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       { id: 2, label: t('Department'), headerClassName: 'w-1/3' },
       { id: 3, label: t('Credentials'), headerClassName: 'w-1/3' },
       { id: 4, label: t('Phone number'), headerClassName: 'w-1/3' },
-      { id: 5, label: t('Birthday'), headerClassName: 'w-1/3' },
+      // { id: 5, label: t('Join Date'), headerClassName: 'w-1/3' },
+      { id: 6, label: t('Birthday'), headerClassName: 'w-1/3' },
     ];
 
     return isView ? base.filter((c) => ![3, 5].includes(c.id)) : base;
