@@ -3,12 +3,20 @@ import { useSearchParams } from 'react-router-dom';
 
 const DevicePage = lazy(() => import('../DevicePage'));
 const DoorsPage = lazy(() => import('./SettingForms/DoorsPage'));
-const ReasonType = lazy(() => import('../ReasonType'))
-const JobPosition = lazy(() => import('../JobPosition'))
-const WorkSchedule = lazy(() => import('../../WorkSchedule'))
-const Absence = lazy(() => import('../Absence'))
+const ReasonType = lazy(() => import('../ReasonType'));
+const JobPosition = lazy(() => import('../JobPosition'));
+const WorkSchedule = lazy(() => import('../../WorkSchedule'));
+const Absence = lazy(() => import('../Absence'));
+const ScheduleHistory = lazy(() => import('../ScheduleHistory/ScheduleHistory'));
 
-type RulesType = 'deviceControl' | 'doors' | 'reason_type' | 'job_position' | 'schedule' | 'absence';
+type RulesType =
+  | 'deviceControl'
+  | 'doors'
+  | 'reason_type'
+  | 'job_position'
+  | 'schedule'
+  | 'absence'
+  | 'scheduleHistory';
 
 const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
   deviceControl: DevicePage,
@@ -16,7 +24,8 @@ const contents: Record<RulesType, LazyExoticComponent<() => JSX.Element>> = {
   reason_type: ReasonType,
   job_position: JobPosition,
   schedule: WorkSchedule,
-  absence: Absence
+  absence: Absence,
+  scheduleHistory: ScheduleHistory
 };
 
 const MainContent = () => {
