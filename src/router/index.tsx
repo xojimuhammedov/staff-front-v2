@@ -11,6 +11,8 @@ const UserManagment = lazy(() => import('pages/UserManagment'))
 const EmployeePage = lazy(() => import('pages/EmployeePage'))
 const EmployeeCreate = lazy(() => import('pages/EmployeePage/Create'))
 const EditEmployee = lazy(() => import('pages/EmployeePage/Edit'))
+const WhiteListPage = lazy(() => import('pages/EmployeePage/WhiteList/WhiteList'))
+const TerminatedEmployeesPage = lazy(() => import('pages/EmployeePage/TerminatedEmployees/TerminatedEmployees'))
 const VisitorPage = lazy(() => import('pages/VisitorPage'))
 const VisitorCreate = lazy(() => import('pages/VisitorPage/VisitorCreate'))
 const VisitorEdit = lazy(() => import('pages/VisitorPage/Edit'))
@@ -92,6 +94,16 @@ export const PrivateRoutes = [
     path: '/employees/edit/:id',
     element: <EditEmployee />,
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
+  },
+  {
+    path: '/employees/whiteList',
+    element: <WhiteListPage />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
+  },
+  {
+    path: '/employees/terminatedEmployees',
+    element: <TerminatedEmployeesPage />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
   },
   {
     path: '/visitor',

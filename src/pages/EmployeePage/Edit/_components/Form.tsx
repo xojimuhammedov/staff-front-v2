@@ -1,4 +1,4 @@
-import { MyInput, MySelect } from 'components/Atoms/Form';
+import { MyCheckbox, MyInput, MySelect } from 'components/Atoms/Form';
 import MyModal from 'components/Atoms/MyModal';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
@@ -99,7 +99,8 @@ function Form() {
         photo: get(data, 'data.photo'),
         gender: get(data, 'data.gender'),
         birthday: get(data, 'data.birthday'),
-        isActive: get(data, 'data.isActive'),
+        isActive: get(data, 'data.isActive') === true ? 'ACTIVE' : 'FIRED',
+        isWhitelist: Boolean(get(data, 'data.isWhitelist')),
       };
     }, [data]),
     mode: 'onChange',
@@ -117,7 +118,8 @@ function Form() {
       jobId: get(data, 'data.jobId'),
       gender: get(data, 'data.gender'),
       birthday: get(data, 'data.birthday'),
-      isActive: get(data, 'data.isActive'),
+      isActive: get(data, 'data.isActive') === true ? 'ACTIVE' : 'FIRED',
+      isWhitelist: Boolean(get(data, 'data.isWhitelist')),
     });
   }, [data]);
 
@@ -127,13 +129,19 @@ function Form() {
   });
 
   const onSubmit = (data: any) => {
+    const isActiveBoolean = data.isActive === 'ACTIVE';
+    const isWhitelistBoolean = Boolean(data.isWhitelist);
     const submitData = imageKey
       ? {
           ...data,
           photo: imageKey,
+          isActive: isActiveBoolean,
+          isWhitelist: isWhitelistBoolean,
         }
       : {
           ...data,
+          isActive: isActiveBoolean,
+          isWhitelist: isWhitelistBoolean,
         };
     update(
       {
@@ -234,6 +242,22 @@ function Form() {
                   onBlur={field.onBlur}
                   allowedRoles={['ADMIN', 'HR']}
                 />
+              )}
+            />
+            <Controller
+              name="isWhitelist"
+              control={control}
+              render={({ field }) => (
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-c-m-p text-text-base dark:text-text-title-dark">
+                    {t('Whitelist')}
+                  </label>
+                  <MyCheckbox
+                    checked={Boolean(field.value)}
+                    onChange={(checked) => field.onChange(checked)}
+                    label={t('Add to whitelist')}
+                  />
+                </div>
               )}
             />
             <MyInput

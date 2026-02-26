@@ -1,4 +1,4 @@
-import { MyInput, MySelect } from 'components/Atoms/Form';
+import { MyCheckbox, MyInput, MySelect } from 'components/Atoms/Form';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery, usePostQuery } from 'hooks/api';
@@ -88,10 +88,11 @@ const [imageKey, setImageKey] = useState<string | null>(null);
     birthday: yup
       .string()
       .transform(v => v === "" ? undefined : v),
-      employeePlanId: yup
+    employeePlanId: yup
       .number()
       .transform((v) => (isNaN(v) ? undefined : v)),
-    jobId: yup.number().required()
+    jobId: yup.number().required(),
+    isWhitelist: yup.boolean().transform((v) => (v === undefined ? false : v)),
   });
   const {
     handleSubmit,
@@ -100,7 +101,7 @@ const [imageKey, setImageKey] = useState<string | null>(null);
     watch,
     formState: { errors },
   } = useForm({
-    defaultValues: {},
+    defaultValues: { isWhitelist: false },
     mode: 'onChange',
     resolver: yupResolver(schema),
     context: { role: userRole },
@@ -117,6 +118,8 @@ const [imageKey, setImageKey] = useState<string | null>(null);
         url: URLS.getEmployeeList,
         attributes: {
           photo: imageKey,
+          isActive: true,
+          isWhitelist: Boolean(data.isWhitelist),
           ...data,
         },
       },
@@ -269,6 +272,22 @@ const [imageKey, setImageKey] = useState<string | null>(null);
                   error={!!fieldState.error}
                   allowedRoles={['ADMIN', 'HR']}
                 />
+              )}
+            />
+            <Controller
+              name="isWhitelist"
+              control={control}
+              render={({ field }) => (
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-c-m-p text-text-base dark:text-text-title-dark">
+                    {t('Whitelist')}
+                  </label>
+                  <MyCheckbox
+                    checked={Boolean(field.value)}
+                    onChange={(checked) => field.onChange(checked)}
+                    label={t('Add to whitelist')}
+                  />
+                </div>
               )}
             />
           </div>
