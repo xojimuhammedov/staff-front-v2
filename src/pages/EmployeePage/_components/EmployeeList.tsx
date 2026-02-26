@@ -30,25 +30,39 @@ type EmployeeListProps = {
 const EmployeeList = ({ searchValue }: EmployeeListProps) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
   const isView = location.pathname === '/view';
+  const isWhitelistPage = location.pathname === '/employees/whiteList';
+  const isTerminatedPage = location.pathname === '/employees/terminatedEmployees';
+
   const userData: any = storage.get('userData');
   const userRole = JSON.parse(userData || '{}')?.role;
   const isGuard = userRole === 'GUARD';
   const currentLang: any = i18n.resolvedLanguage;
-  const [searchParams] = useSearchParams()
-  const [show, setShow] = useState(false)
-  const [employeeId, setEmployeeId] = useState<any | null>(null)
+  const [searchParams] = useSearchParams();
+  const [show, setShow] = useState(false);
+  const [employeeId, setEmployeeId] = useState<any | null>(null);
+
+  const listQueryKey = isWhitelistPage
+    ? `${KEYS.getEmployeeList}-whitelist`
+    : isTerminatedPage
+      ? `${KEYS.getEmployeeList}-terminated`
+      : KEYS.getEmployeeList;
 
   const { data, isLoading, refetch } = useGetAllQuery({
-    key: KEYS.getEmployeeList,
+    key: listQueryKey,
     url: URLS.getEmployeeList,
     params: {
       search: searchValue?.search,
-      departmentId: searchParams.get("current-setting") === "employee_list" ? searchValue?.parentDepartmentId : searchValue?.subdepartmentId,
+      departmentId:
+        searchParams.get('current-setting') === 'employee_list'
+          ? searchValue?.parentDepartmentId
+          : searchValue?.subdepartmentId,
       page: searchValue?.page || 1,
       limit: searchValue?.limit || 10,
-    }
+      ...(isWhitelistPage && { isWhitelist: true }),
+      ...(isTerminatedPage && { isActive: false }),
+    },
   });
   const columns: DataGridColumnType[] = useMemo(() => {
     const cols: DataGridColumnType[] = [

@@ -134,12 +134,7 @@ const NavbarMenu = () => {
       ],
       allowedRoles: ['ADMIN', "HR", "DEPARTMENT_LEAD"]
     },
-    // {
-    //   label: t('Attendances'),
-    //   to: '/attendances',
-    //   isSubMenu: false,
-    //   allowedRoles: ['ADMIN', "HR"]
-    // },
+
     {
       label: t('Organization'),
       to: '/organization',
@@ -155,7 +150,24 @@ const NavbarMenu = () => {
     {
       label: t('Employees'),
       to: '/employees',
-      isSubMenu: false,
+      isSubMenu: true,
+      subRoutes: [
+        {
+          label: t('Employees'),
+          to: '/employees',
+          icon: 'Users'
+        },
+        {
+          label: t('White list'),
+          to: '/employees/whiteList',
+          icon: 'Table'
+        },
+        {
+          label: t('Terminated employees'),
+          to: '/employees/terminatedEmployees',
+          icon: 'AppWindow'
+        },
+      ],
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
     },
     // {

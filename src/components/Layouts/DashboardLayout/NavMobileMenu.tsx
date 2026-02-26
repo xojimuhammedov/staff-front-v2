@@ -114,7 +114,24 @@ const NavMobileMenu = ({ setOpenModal }: any) => {
     {
       label: t('Employees'),
       to: '/employees',
-      isSubMenu: false,
+      isSubMenu: true,
+      subRoutes: [
+        {
+          label: t('Employees'),
+          to: '/employees',
+          icon: 'Users'
+        },
+        {
+          label: t('White list'),
+          to: '/employees/whiteList',
+          icon: 'Table'
+        },
+        {
+          label: t('Terminated employees'),
+          to: '/employees/terminatedEmployees',
+          icon: 'AppWindow'
+        },
+      ],
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
     },
     {
