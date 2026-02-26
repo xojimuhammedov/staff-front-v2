@@ -19,11 +19,11 @@ interface FormSelectProps {
   helperText?: string;
   options: Array<ISelect> | undefined;
   rootClassName?: string;
-  value?: ISelect | ISelect[] | string | string[] | number | number[];
+  value?: ISelect | ISelect[] | string | string[] | number | number[] | boolean | boolean[];
   labelExtractInfo?: ReactNode;
   isMulti?: boolean;
   isClearable?: boolean;
-  onChange?: (item: ISelect | ISelect[] | string | string[] | number | number[]) => void;
+  onChange?: (item: ISelect | ISelect[] | string | string[] | number | number[] | boolean | boolean[]) => void;
   onBlur?: () => void;
   allowedRoles: string[]
 }
@@ -109,7 +109,7 @@ function MySelect(props: FormSelectProps) {
     if (computedProps.value instanceof Array) {
       computedProps.value.forEach((value) => {
         let tmpOption: any = value;
-        if (['string', 'number'].includes(typeof value)) {
+        if (['string', 'number', 'boolean'].includes(typeof value)) {
           tmpOption = options?.find((option) => value === option.value) || null;
         }
         if (tmpOption) {
@@ -117,7 +117,7 @@ function MySelect(props: FormSelectProps) {
         }
       });
       setSelectedValue(values);
-    } else if (['string', 'number'].includes(typeof computedProps.value)) {
+    } else if (['string', 'number', 'boolean'].includes(typeof computedProps.value)) {
       setSelectedValue(options?.find((option) => computedProps.value === option.value) || null);
     } else {
       setSelectedValue(computedProps.value as ISelect);

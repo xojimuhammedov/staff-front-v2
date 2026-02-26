@@ -99,7 +99,7 @@ function Form() {
         photo: get(data, 'data.photo'),
         gender: get(data, 'data.gender'),
         birthday: get(data, 'data.birthday'),
-        isActive: get(data, 'data.isActive') === true ? 'ACTIVE' : 'FIRED',
+        isActive: get(data, 'data.isActive', true),
         isWhitelist: Boolean(get(data, 'data.isWhitelist')),
       };
     }, [data]),
@@ -118,7 +118,7 @@ function Form() {
       jobId: get(data, 'data.jobId'),
       gender: get(data, 'data.gender'),
       birthday: get(data, 'data.birthday'),
-      isActive: get(data, 'data.isActive') === true ? 'ACTIVE' : 'FIRED',
+      isActive: get(data, 'data.isActive', true),
       isWhitelist: Boolean(get(data, 'data.isWhitelist')),
     });
   }, [data]);
@@ -129,19 +129,17 @@ function Form() {
   });
 
   const onSubmit = (data: any) => {
-    const isActiveBoolean = data.isActive === 'ACTIVE';
-    const isWhitelistBoolean = Boolean(data.isWhitelist);
     const submitData = imageKey
       ? {
           ...data,
           photo: imageKey,
-          isActive: isActiveBoolean,
-          isWhitelist: isWhitelistBoolean,
+          isActive: Boolean(data.isActive),
+          isWhitelist: Boolean(data.isWhitelist),
         }
       : {
           ...data,
-          isActive: isActiveBoolean,
-          isWhitelist: isWhitelistBoolean,
+          isActive: Boolean(data.isActive),
+          isWhitelist: Boolean(data.isWhitelist),
         };
     update(
       {
@@ -234,8 +232,8 @@ function Form() {
                 <MySelect
                   label={t('Dismissal')}
                   options={[
-                    { label: t('Yes'), value: 'ACTIVE' },
-                    { label: t('No'), value: 'FIRED' },
+                    { label: t('Yes'), value: true },
+                    { label: t('No'), value: false },
                   ]}
                   value={field.value as any}
                   onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
