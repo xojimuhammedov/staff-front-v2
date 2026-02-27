@@ -17,6 +17,7 @@ import MyButton from 'components/Atoms/MyButton/MyButton';
 import MyDivider from 'components/Atoms/MyDivider';
 import storage from 'services/storage';
 import AvatarUpload from '../../_components/AvatarUpload';
+import MyToggle from 'components/Atoms/MyToggle/MyToggle';
 
 interface Credential {
   code: string;
@@ -27,9 +28,9 @@ interface Credential {
 function Form() {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.resolvedLanguage;
-  const userData: any = storage.get("userData")
-  const userRole = JSON.parse(userData)?.role
-const [imageKey, setImageKey] = useState<string | null>(null);
+  const userData: any = storage.get('userData');
+  const userRole = JSON.parse(userData)?.role;
+  const [imageKey, setImageKey] = useState<string | null>(null);
   const [credentials, setCredentials] = useState<Credential[]>([
     {
       code: '',
@@ -37,7 +38,7 @@ const [imageKey, setImageKey] = useState<string | null>(null);
       additionalDetails: '',
     },
   ]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { data } = useGetAllQuery<any>({
     key: KEYS.getAllListOrganization,
@@ -78,19 +79,13 @@ const [imageKey, setImageKey] = useState<string | null>(null);
       .when('$role', (role: any, schema) =>
         role === 'ADMIN' ? schema.required() : schema.optional()
       ),
-    additionalDetails: yup
-      .string()
-      .transform(v => v === "" ? undefined : v),
+    additionalDetails: yup.string().transform((v) => (v === '' ? undefined : v)),
     gender: yup
       .string()
       .oneOf(['MALE', 'FEMALE'])
-      .transform(v => v === "" ? undefined : v),
-    birthday: yup
-      .string()
-      .transform(v => v === "" ? undefined : v),
-    employeePlanId: yup
-      .number()
-      .transform((v) => (isNaN(v) ? undefined : v)),
+      .transform((v) => (v === '' ? undefined : v)),
+    birthday: yup.string().transform((v) => (v === '' ? undefined : v)),
+    employeePlanId: yup.number().transform((v) => (isNaN(v) ? undefined : v)),
     jobId: yup.number().required(),
     isWhitelist: yup.boolean().transform((v) => (v === undefined ? false : v)),
   });
@@ -191,18 +186,18 @@ const [imageKey, setImageKey] = useState<string | null>(null);
                   value={field.value as any}
                   onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
                   onBlur={field.onBlur}
-                  allowedRoles={["ADMIN", "HR"]}
+                  allowedRoles={['ADMIN', 'HR']}
                 />
               )}
             />
             <MyInput
-              {...register("birthday")}
+              {...register('birthday')}
               type="date"
               error={Boolean(errors?.birthday?.message)}
               helperText={t(`${errors?.birthday?.message}`)}
               label={t('Birthday')}
             />
-             <Controller
+            <Controller
               name="jobId"
               control={control}
               render={({ field, fieldState }) => (
@@ -230,7 +225,7 @@ const [imageKey, setImageKey] = useState<string | null>(null);
                     label: evt.fullName,
                     value: evt.id,
                   }))}
-                  value={field.value as any} 
+                  value={field.value as any}
                   onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
@@ -278,16 +273,12 @@ const [imageKey, setImageKey] = useState<string | null>(null);
               name="isWhitelist"
               control={control}
               render={({ field }) => (
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-c-m-p text-text-base dark:text-text-title-dark">
-                    {t('Whitelist')}
-                  </label>
-                  <MyCheckbox
-                    checked={Boolean(field.value)}
-                    onChange={(checked) => field.onChange(checked)}
-                    label={t('Add to whitelist')}
-                  />
-                </div>
+                <MyToggle
+                  checked={!!field.value}
+                  onChange={field.onChange}
+                  className="w-full"
+                  label={t('Add to whitelist')}
+                />
               )}
             />
           </div>

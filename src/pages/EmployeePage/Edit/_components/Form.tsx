@@ -19,6 +19,7 @@ import MyDivider from 'components/Atoms/MyDivider';
 import { request } from 'services/request';
 import ImageCropModalContent from 'pages/EmployeePage/Create/_components/ImageCropModalContent';
 import config from 'configs';
+import MyToggle from 'components/Atoms/MyToggle/MyToggle';
 
 function Form() {
   const { t, i18n } = useTranslation();
@@ -160,13 +161,6 @@ function Form() {
     );
   };
 
-  // const { data: getOrganization } = useGetAllQuery<any>({
-  //   key: KEYS.getAllListOrganization,
-  //   url: URLS.getAllListOrganization,
-  //   params: {},
-  //   hideErrorMsg: true
-  // })
-
   const { data: getDepartment } = useGetAllQuery<any>({
     key: KEYS.getAllListDepartment,
     url: URLS.getAllListDepartment,
@@ -225,39 +219,6 @@ function Form() {
                 />
               )}
             />
-            <Controller
-              name="isActive"
-              control={control}
-              render={({ field }) => (
-                <MySelect
-                  label={t('Dismissal')}
-                  options={[
-                    { label: t('Yes'), value: true },
-                    { label: t('No'), value: false },
-                  ]}
-                  value={field.value as any}
-                  onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
-                  onBlur={field.onBlur}
-                  allowedRoles={['ADMIN', 'HR']}
-                />
-              )}
-            />
-            <Controller
-              name="isWhitelist"
-              control={control}
-              render={({ field }) => (
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-c-m-p text-text-base dark:text-text-title-dark">
-                    {t('Whitelist')}
-                  </label>
-                  <MyCheckbox
-                    checked={Boolean(field.value)}
-                    onChange={(checked) => field.onChange(checked)}
-                    label={t('Add to whitelist')}
-                  />
-                </div>
-              )}
-            />
             <MyInput
               {...register('birthday')}
               type="date"
@@ -298,6 +259,30 @@ function Form() {
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
                   allowedRoles={['ADMIN', 'HR']}
+                />
+              )}
+            />
+            <Controller
+              name="isWhitelist"
+              control={control}
+              render={({ field }) => (
+                <MyToggle
+                  checked={field.value}
+                  onChange={field.onChange}
+                  className="w-full"
+                  label={t('Add to whitelist')}
+                />
+              )}
+            />
+            <Controller
+              name="isActive"
+              control={control}
+              render={({ field }) => (
+                <MyToggle
+                  checked={field.value}
+                  onChange={field.onChange}
+                  className="w-full"
+                  label={t('Dismissal')}
                 />
               )}
             />

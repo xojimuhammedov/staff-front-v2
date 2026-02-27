@@ -171,7 +171,7 @@ const Create = ({ refetch, employeeId }: CreateProps) => {
                     <MySelect
                       label={t('Absence')}
                       options={(absenceData?.data ?? absenceData?.items ?? []).map((item: any) => ({
-                        label: item?.[`shortLetter${langSuffix}`] ?? item?.name ?? '--',
+                        label: `${item?.[`shortLetter${langSuffix}`]} (${item?.[`description${langSuffix}`]})`,
                         value: item?.id,
                       }))}
                       value={field.value as any}

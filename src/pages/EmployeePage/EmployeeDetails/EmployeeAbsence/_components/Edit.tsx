@@ -179,7 +179,7 @@ const Edit = ({ open, setOpen, refetch, employeeId, item }: EditProps) => {
                   <MySelect
                     label={t('Absence')}
                     options={(absenceData?.data ?? absenceData?.items ?? []).map((absenceItem: any) => ({
-                      label: absenceItem?.[`shortLetter${langSuffix}`] ?? absenceItem?.name ?? '--',
+                      label: `${absenceItem?.[`shortLetter${langSuffix}`]} (${absenceItem?.[`description${langSuffix}`]})`,
                       value: absenceItem?.id,
                     }))}
                     value={field.value as any}
