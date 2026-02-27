@@ -137,7 +137,7 @@ export function EmployeeCard({
             />
           </div>
         </div>
-        <div className="mt-2 h-[400px] overflow-y-auto pr-1 space-y-2">
+        <div className="mt-2 h-[370px] overflow-y-auto pr-1 space-y-2">
           {visibleEmployees?.map((emp, index) => (
             <div
               key={emp.id}
