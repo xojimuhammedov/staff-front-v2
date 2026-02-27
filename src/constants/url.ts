@@ -47,11 +47,12 @@ export const URLS = {
   dashboardToday: "/api/v1/dashboard/today",
   employeeCredentialFileUpload: "/api/v1/credentials/upload-photo",
   oneTimeCodeExpire: "/api/v1/onetime-codes/validate",
-  dashboardTodayTop: "/api/v1/dashboard/top-employees/useful",
-  dashboardTodayBottom:'/api/v1/dashboard/top-employees/unuseful',
+  dashboardTodayTop: "/api/v1/dashboard/top-employees",
+  dashboardTodayBottom:'/api/v1/dashboard/top-employees',
   actionAllList: "/api/v1/action/all-actions",
   absences: "/api/v1/absences",
   employeePlanHistoryChangeSchedules: "/api/v1/employee-plans/history-change-schedules",
   employeeAbsences: "/api/v1/employee-absences",
-  employeeAssignDevice:"/api/v1/devices/device-employees"
+  employeeAssignDevice:"/api/v1/devices/device-employees",
+  birthdayEmployee:"/api/v1/dashboard/birthdays"
 };

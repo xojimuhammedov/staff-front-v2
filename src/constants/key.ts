@@ -53,5 +53,6 @@ export const KEYS = {
   absences: "absences",
   employeePlanHistoryChangeSchedules: "employeePlanHistoryChangeSchedules",
   employeeAbsences: "employeeAbsences",
-  employeeAssignDevice:"employeeAssignDevice"
+  employeeAssignDevice:"employeeAssignDevice",
+  birthdayEmployee:"birthdayEmployee"
 };

@@ -9,6 +9,7 @@ import { useDashboard } from './hooks/useDashboard';
 import AttendancesCard from './_components/AttendancesCard';
 import { EmployeeCard } from './_components/ProgressCard';
 import { useNavigate } from 'react-router-dom';
+import BirthdayList from './_components/BirthdayList';
 
 const DashboardPage = () => {
   const { t } = useTranslation();
@@ -87,6 +88,9 @@ const DashboardPage = () => {
           onRowClick={(id) => navigate(`/employees/about/${id}`)}
           paginationKey="ineffectiveEmployees"
         />
+      </div>
+      <div className='rounded-m bg-bg-base p-4 mt-8 shadow-base dark:bg-dark-dashboard-cards'>
+        <BirthdayList />
       </div>
     </PageContentWrapper>
   );
