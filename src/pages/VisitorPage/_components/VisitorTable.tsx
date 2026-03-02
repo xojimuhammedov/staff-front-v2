@@ -199,7 +199,7 @@ const VisitorTable = () => {
     <>
       <DynamicTable
         data={get(data, 'data', [])}
-        pagination={get(data, 'meta')}
+        pagination={data}
         columns={columns}
         rowActions={rowActions}
         hasIndex={true}

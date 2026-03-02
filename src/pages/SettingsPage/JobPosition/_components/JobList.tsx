@@ -119,7 +119,7 @@ const JobList = ({ data, isLoading, refetch }: any) => {
             <MyDivider />
             <DynamicTable
                 data={get(data, 'items', [])}
-                pagination={get(data, 'meta')}
+                pagination={data}
                 columns={columns}
                 rowActions={rowActions}
                 hasIndex={true}

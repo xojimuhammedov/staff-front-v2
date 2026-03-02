@@ -129,7 +129,7 @@ const AbsenseList = ({ data, isLoading, refetch }: any) => {
             <MyDivider />
             <DynamicTable
                 data={get(data, 'data', [])}
-                pagination={get(data, 'meta')}
+                pagination={data}
                 columns={columns}
                 rowActions={rowActions}
                 hasIndex={true}

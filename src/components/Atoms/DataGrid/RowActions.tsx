@@ -38,8 +38,6 @@ const RowActions = ({ actions = [], row, allowedRoles }: RowActionProps) => {
     );
   }, [actions, userRole]);
 
-  console.log(visibleActions)
-
   if (visibleActions?.length === 0) return null;
 
   return (

@@ -180,7 +180,7 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
     <>
       <DynamicTable
         data={get(data, 'data', [])}
-        pagination={get(data, 'meta')}
+        pagination={data}
         columns={columns}
         rowActions={rowActions}
         hasIndex={true}

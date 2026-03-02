@@ -29,7 +29,7 @@ const VisitorAttendanceList = ({ data, isLoading, highlightedId = null }: any) =
     <>
       <DynamicTable
         data={rows}
-        pagination={get(data, 'meta')}
+        pagination={data}
         columns={columns}
         hasIndex={true}
       />

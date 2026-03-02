@@ -94,7 +94,7 @@ const HistoryList = ({ data, isLoading }: any) => {
       <MyDivider />
       <DynamicTable
         data={get(data, 'data', [])}
-        pagination={get(data, 'meta')}
+        pagination={data}
         columns={columns}
         hasIndex={true}
       />

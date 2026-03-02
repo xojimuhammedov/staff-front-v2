@@ -102,7 +102,7 @@ const TypeList = ({ data, isLoading, refetch }: any) => {
         <div>
             <DynamicTable
                 data={get(data, 'items', [])}
-                pagination={get(data, 'meta')}
+                pagination={data}
                 columns={columns}
                 rowActions={rowActions}
                 hasIndex={true}

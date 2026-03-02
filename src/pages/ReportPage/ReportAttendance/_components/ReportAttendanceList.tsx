@@ -2,12 +2,10 @@
 import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
 import { createColumns } from '../helpers/createColumns';
-import { useNavigate } from 'react-router-dom';
 import { DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 const ReportAttendanceList = ({ data, isLoading }: any) => {
   const { columns } = createColumns()
-  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -21,7 +19,7 @@ const ReportAttendanceList = ({ data, isLoading }: any) => {
     <>
         <DynamicTable
             data={get(data, 'data', [])}
-            pagination={get(data, 'meta')}
+            pagination={data}
             columns={columns}
             hasIndex={true}
           />

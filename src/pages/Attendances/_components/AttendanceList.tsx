@@ -24,7 +24,7 @@ const AttendanceList = ({ data, isLoading, refetch }: any) => {
     <>
       <DynamicTable
         data={get(data, 'data', [])}
-        pagination={get(data, 'meta')}
+        pagination={data}
         columns={columns}
         hasIndex={true}
       />
