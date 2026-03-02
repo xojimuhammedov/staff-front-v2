@@ -37,9 +37,10 @@ const HistoryList = ({ data, isLoading }: any) => {
         key: 'oldEmployeePlan',
         label: t('Old schedule'),
         headerClassName: 'sm:w-1/4 lg:flex-1',
-        cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
+        cellRender: (row:any) => (
+          <div className="flex gap-2 flex-col dark:text-text-title-dark">
             {get(row, 'oldEmployeePlan.name', '--')}
+            <span className='text-text-muted dark:text-text-subtle'>{row?.oldEmployeePlan?.startTime + " - " + row?.oldEmployeePlan?.endTime}</span>
           </div>
         )
       },
@@ -48,8 +49,9 @@ const HistoryList = ({ data, isLoading }: any) => {
         label: t('New schedule'),
         headerClassName: 'sm:w-1/4 lg:flex-1',
         cellRender: (row) => (
-          <div className="flex items-center gap-4 dark:text-text-title-dark">
+          <div className="flex gap-2 flex-col dark:text-text-title-dark">
             {get(row, 'newEmployeePlan.name', '--')}
+            <span className='text-text-muted dark:text-text-subtle'>{row?.newEmployeePlan?.startTime + " - " + row?.newEmployeePlan?.endTime}</span>
           </div>
         )
       },
@@ -72,15 +74,15 @@ const HistoryList = ({ data, isLoading }: any) => {
           const hasDate = Boolean(dateValue);
           return (
             <div className="flex flex-col text-text-base dark:text-text-title-dark">
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-text-muted dark:text-white" />
-                <span>{hasDate ? dayjs(dateValue).format('HH:mm') : '--'}</span>
-              </div>
               <div className="flex items-center gap-2 text-sm text-text-muted dark:text-text-subtle">
                 <Calendar className="h-4 w-4 dark:text-white" />
                 <span className='dark:text-white'>
                   <DateText value={dateValue} />
                 </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-text-muted dark:text-white" />
+                <span>{hasDate ? dayjs(dateValue).format('HH:mm') : '--'}</span>
               </div>
             </div>
           );
