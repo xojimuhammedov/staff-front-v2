@@ -1,17 +1,12 @@
-import TableProvider from 'providers/TableProvider/TableProvider';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import DataGrid from 'components/Atoms/DataGrid';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { AreaChart, Edit3, Mail, Phone, Trash2, Calendar } from 'lucide-react';
-import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
-import { IFilter } from 'interfaces/filter.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
@@ -22,6 +17,7 @@ import AvatarIcon from '../../../assets/icons/avatar.jpg'
 import { searchValue } from 'types/search';
 import { CredentialIcons } from './CredentialTooltip';
 import DateText from 'components/Atoms/DateText';
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 type EmployeeListProps = {
   searchValue?: searchValue;
@@ -69,7 +65,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       {
         key: 'fullName',
         label: t('Employees'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex items-center w-full gap-4 dark:text-text-title-dark">
             <MyAvatar
@@ -86,9 +82,9 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       {
         key: 'department',
         label: t('Department'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
-          <div className="department-text">
+          <div className="department-text dark:text-text-title-dark">
             {row?.department?.shortName ?? '--'}
           </div>
         ),
@@ -96,7 +92,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       {
         key: 'credential',
         label: t('Credentials'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <CredentialIcons credentials={row?.credentials} />
         ),
@@ -104,17 +100,17 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       {
         key: 'phone',
         label: t('Phone number'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               {row?.phone && <Phone size={16} className="shrink-0" />}
-              <p className="text-sm">{row?.phone ?? '--'}</p>
+              <p className="text-sm dark:text-text-title-dark">{row?.phone ?? '--'}</p>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               {row?.email && <Mail size={16} className="shrink-0" />}
-              <p 
-                className="text-sm truncate max-w-[180px]" 
+              <p
+                className="text-sm truncate max-w-[180px] dark:text-text-title-dark"
                 title={row?.email}
               >
                 {row?.email ?? '--'}
@@ -123,22 +119,11 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
           </div>
         ),
       },
-      // {
-      //   key: 'joinDate',
-      //   label: t('Join Date'),
-      //   headerClassName: 'w-1/3',
-      //   cellRender: (row) => (
-      //     <div className="flex items-center gap-2 text-text-base dark:text-text-title-dark">
-      //       <Calendar size={16} className="text-text-muted" />
-      //       <DateText value={row?.createdAt} />
-      //     </div>
-      //   ),
-      // },
 
       {
         key: 'birthday',
         label: t('Birthday'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex items-center gap-2 text-text-base dark:text-text-title-dark">
             <Calendar size={16} className="text-text-muted" />
@@ -151,25 +136,6 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
     return isView ? cols.filter((col) => !['credential', 'joinDate'].includes(col.key)) : cols;
 
   }, [t, isView, currentLang]);
-
-  const dataColumn = useMemo(() => {
-    const base = [
-      { id: 1, label: t('Employees'), headerClassName: 'w-1/3' },
-      { id: 2, label: t('Department'), headerClassName: 'w-1/3' },
-      { id: 3, label: t('Credentials'), headerClassName: 'w-1/3' },
-      { id: 4, label: t('Phone number'), headerClassName: 'w-1/3' },
-      // { id: 5, label: t('Join Date'), headerClassName: 'w-1/3' },
-      { id: 6, label: t('Birthday'), headerClassName: 'w-1/3' },
-    ];
-
-    return isView ? base.filter((c) => ![3, 5].includes(c.id)) : base;
-  }, [t, isView]);
-
-  const filter: IFilter[] = useMemo(
-    () => [
-    ],
-    [t]
-  );
 
   const rowActions: IAction[] = useMemo(
     () => {
@@ -236,26 +202,13 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
 
   return (
     <>
-      <TableProvider<IEmployee, IFilter[]>
-        values={{
-          columns,
-          filter,
-          rows: get(data, 'data', []),
-          keyExtractor: 'id'
-        }}>
-        <DataGrid
-          isLoading={isLoading}
-          hasCustomizeColumns={true}
-          dataColumn={dataColumn}
-          rowActions={rowActions}
-          pagination={data}
-          handleRowClick={(row) => {
-            if (!isGuard) {
-              navigate(`/employees/about/${row.id}`);
-            }
-          }}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={get(data, 'data', [])}
+        pagination={get(data, 'meta')}
+        columns={columns}
+        rowActions={rowActions}
+        hasIndex={true}
+      />
       <ConfirmationModal
         title={t('Are you sure you want to delete this employee?')}
         subTitle={t("This action cannot be undone!")}

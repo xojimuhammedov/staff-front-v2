@@ -1,4 +1,3 @@
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import config from 'configs';
 import dayjs from 'dayjs';
@@ -22,6 +21,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
 import DateText from 'components/Atoms/DateText';
+import { DataGridColumnType } from '@/components/Atoms/DataGrid/NewTable';
 
 export const createColumns = () => {
     const { t } = useTranslation();
@@ -128,7 +128,7 @@ export const createColumns = () => {
             {
                 key: 'fullName',
                 label: t('Employee name'),
-                headerClassName: 'w-1/3',
+                headerClassName: 'dark:text-text-title-dark w-1/5',
                 cellRender: (row) => {
                     if (row.visitorType === 'EMPLOYEE') {
                         return (
@@ -160,13 +160,13 @@ export const createColumns = () => {
             {
                 key: 'actionType',
                 label: t('Credential type'),
-                headerClassName: 'w-1/4',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => renderCredentialType(row?.credential?.type),
             },
             {
                 key: 'actionTime',
                 label: t('Action time'),
-                headerClassName: 'w-1/4',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex flex-col text-text-base dark:text-text-title-dark">
                         <div className="flex items-center gap-2">
@@ -183,27 +183,27 @@ export const createColumns = () => {
             {
                 key: 'visitorType',
                 label: t('User type'),
-                headerClassName: 'w-1/4',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => renderUserType(row?.visitorType),
             },
             {
                 key: 'entryType',
                 label: t('Entry type'),
-                headerClassName: 'w-1/4',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => renderEntryType(row?.entryType),
             },
             {
                 key: 'gate',
                 label: t('Gate & device name'),
-                headerClassName: 'w-1/4',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex flex-col dark:text-text-title-dark">
                         <div className="flex items-center gap-2 text-base font-medium">
                             <DoorOpen className="h-4 w-4 text-indigo-500" />
                             {row?.gate?.name ?? '--'}
                         </div>
-                        <p className="text-xs text-text-muted dark:text-text-subtle">
-                            {row?.device?.name ?? '--'}
+                        <p className="text-xs text-text-muted dark:text-text-title-dark">
+                            {row?.device?.name ?? '--'} 
                         </p>
                     </div>
                 ),
@@ -212,46 +212,8 @@ export const createColumns = () => {
         [t]
     );
 
-    const dataColumn = [
-        {
-            id: 1,
-            label: t('Employee name'),
-            headerClassName: 'w-1/3',
-        },
-        {
-            id: 2,
-            label: t('Credential type'),
-            headerClassName: 'w-1/4',
-        },
-        {
-            id: 3,
-            label: t('Action time'),
-            headerClassName: 'w-1/4',
-        },
-        {
-            id: 4,
-            label: t('User type'),
-            headerClassName: 'w-1/4',
-        },
-        {
-            id: 5,
-            label: t('Entry type'),
-            headerClassName: 'w-1/4',
-        },
-        {
-            id: 6,
-            label: t('Gate & device name'),
-            headerClassName: 'w-1/4',
-        },
-    ];
-    const rowActions: IAction[] = useMemo(
-        () => [],
-        [t]
-    );
 
     return {
-        rowActions,
-        dataColumn,
         columns,
     };
 };
