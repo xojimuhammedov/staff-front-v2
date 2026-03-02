@@ -10,7 +10,7 @@ import { UploadCloud } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Department } from 'pages/DepartmentsPage/interface/department.interface';
 import { ISelect } from 'interfaces/select.interface';
 import { toast } from 'react-toastify';

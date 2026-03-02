@@ -1,10 +1,7 @@
 import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { useTranslation } from 'react-i18next';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useMemo, useState } from 'react';
-import TableProvider from 'providers/TableProvider/TableProvider';
-import DataGrid from 'components/Atoms/DataGrid';
 import { useDeleteQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
@@ -16,16 +13,7 @@ import { Edit3, Search, Trash2, Users } from 'lucide-react';
 import MyModal from 'components/Atoms/MyModal';
 import Edit from './Edit';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
-
-type FilterType = {
-    search: string;
-};
-
-type TItem = {
-    name: string;
-    type: string;
-    ipAddress: string;
-};
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 const JobList = ({ data, isLoading, refetch }: any) => {
     const { t, i18n } = useTranslation();
@@ -57,7 +45,7 @@ const JobList = ({ data, isLoading, refetch }: any) => {
             {
                 key: 'value',
                 label: t('Position'),
-                headerClassName: 'sm:w-1/4 lg:flex-1',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
                         {row?.[`${currentLang}`]}
@@ -67,7 +55,7 @@ const JobList = ({ data, isLoading, refetch }: any) => {
             {
                 key: 'OrganizationName',
                 label: t('Organization name'),
-                headerClassName: 'sm:w-1/4 lg:flex-1',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
                         {row?.organization?.fullName}
@@ -77,14 +65,14 @@ const JobList = ({ data, isLoading, refetch }: any) => {
             {
                 key: 'employeesCount',
                 label: t('Employees count'),
-                headerClassName: 'sm:w-1/4 lg:flex-1 justify-center text-center',
+                headerClassName: 'dark:text-text-title-dark justify-center text-center',
                 cellRender: (row) => (
                     <div className="flex items-center justify-center gap-2 text-text-base dark:text-text-title-dark">
                         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-300">
                             <Users className="h-4 w-4" />
                         </span>
                         <span className="text-sm font-semibold">
-                            {row?._count?.employees ?? 0} 
+                            {row?._count?.employees ?? 0}
                         </span>
                     </div>
                 )
@@ -92,24 +80,6 @@ const JobList = ({ data, isLoading, refetch }: any) => {
         ],
         [t]
     );
-
-    const dataColumn = [
-        {
-            id: 1,
-            label: t('Position'),
-            headerClassName: 'sm:w-1/4 lg:flex-1'
-        },
-        {
-            id: 2,
-            label: t('Organization name'),
-            headerClassName: 'sm:w-1/4 lg:flex-1'
-        },
-        {
-            id: 3,
-            label: t('Employees count'),
-            headerClassName: 'sm:w-1/4 lg:flex-1 justify-center text-center'
-        }
-    ];
 
     const rowActions: IAction[] = useMemo(
         () => [
@@ -147,23 +117,13 @@ const JobList = ({ data, isLoading, refetch }: any) => {
     return (
         <div>
             <MyDivider />
-            <TableProvider<TItem, FilterType>
-                values={{
-                    columns,
-                    filter: { search: '' },
-                    rows: get(data, 'items', []),
-                    keyExtractor: 'id'
-                }}>
-                <DataGrid
-                    hasCustomizeColumns={false}
-                    hasExport={false}
-                    hasSearch={false}
-                    rowActions={rowActions}
-                    dataColumn={dataColumn}
-                    hasCheckbox={false}
-                    isLoading={isLoading}
-                />
-            </TableProvider>
+            <DynamicTable
+                data={get(data, 'items', [])}
+                pagination={get(data, 'meta')}
+                columns={columns}
+                rowActions={rowActions}
+                hasIndex={true}
+            />
             <MyModal
                 modalProps={{
                     show: Boolean(open),

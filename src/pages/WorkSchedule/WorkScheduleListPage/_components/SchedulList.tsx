@@ -1,16 +1,11 @@
-import TableProvider from 'providers/TableProvider/TableProvider';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import DataGrid from 'components/Atoms/DataGrid';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
-import { IFilter } from 'interfaces/filter.interface';
 import { IAction } from 'interfaces/action.interface';
 import { paramsStrToObj } from 'utils/helper';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
@@ -18,6 +13,7 @@ import { Clock, Edit3, Plus, Trash2 } from 'lucide-react';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { searchValue } from 'types/search';
 import { twMerge } from 'tailwind-merge';
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 
 const WorkScheduleList = () => {
@@ -42,13 +38,13 @@ const WorkScheduleList = () => {
       {
         key: 'name',
         label: t('Schedule name'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-text-base dark:text-text-title-dark">
               {row?.name ?? "--"}
             </span>
-            <span className="text-xs text-text-muted dark:text-text-subtle">
+            <span className="text-xs text-text-muted dark:text-text-title-dark">
               {row?.organization?.shortName ?? row?.organization?.fullName ?? "--"}
             </span>
           </div>
@@ -57,7 +53,7 @@ const WorkScheduleList = () => {
       {
         key: 'weekdays',
         label: t('Weekdays'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => {
           const selected = Array.isArray(row?.weekdays) ? row.weekdays : [];
           const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -86,7 +82,7 @@ const WorkScheduleList = () => {
       {
         key: 'workTime',
         label: t('Time'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex items-center gap-2 text-text-base dark:text-text-title-dark">
             <span className="font-medium">{row?.startTime ?? '--'}</span>
@@ -98,7 +94,7 @@ const WorkScheduleList = () => {
       {
         key: 'extraTime',
         label: t('Extra time'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 dark:border-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/70 dark:bg-white/10">
@@ -114,33 +110,6 @@ const WorkScheduleList = () => {
     [t]
   );
 
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Schedule name'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 2,
-      label: t('Weekdays'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 3,
-      label: t('Time'),
-      headerClassName: 'w-1/3'
-    },
-    {
-      id: 4,
-      label: t('Extra time'),
-      headerClassName: 'w-1/3'
-    }
-  ];
-
-  const filter: IFilter[] = useMemo(
-    () => [],
-    [t]
-  );
 
   const rowActions: IAction[] = useMemo(
     () => [
@@ -195,22 +164,13 @@ const WorkScheduleList = () => {
 
   return (
     <>
-      <TableProvider<IEmployee, IFilter[]>
-        values={{
-          columns,
-          filter,
-          rows: get(data, 'data', []),
-          keyExtractor: 'id'
-        }}>
-        <DataGrid
-          isLoading={isLoading}
-          hasCustomizeColumns={true}
-          dataColumn={dataColumn}
-          rowActions={rowActions}
-          pagination={data}
-          handleRowClick={(row: any) => navigate(`/workschedule/edit/${row?.id}`)}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={get(data, 'data', [])}
+        pagination={get(data, 'meta')}
+        columns={columns}
+        rowActions={rowActions}
+        hasIndex={true}
+      />
       <ConfirmationModal
         title={t("Are you sure you want to delete this schedule?")}
         subTitle={t("This action cannot be undone!")}

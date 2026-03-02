@@ -1,13 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useMemo, useState } from 'react';
-import TableProvider from 'providers/TableProvider/TableProvider';
-import DataGrid from 'components/Atoms/DataGrid';
 import { useDeleteQuery, usePostQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
-import MyBadge from 'components/Atoms/MyBadge';
 import Loading from 'assets/icons/Loading';
 import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
@@ -15,18 +11,8 @@ import { ArrowLeftRight, Edit, ExternalLink, Eye, LogIn, LogOut, Trash2 } from '
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
-type FilterType = {
-  search: string;
-};
-
-type TItem = {
-  employeeName: string;
-  status: string;
-  timeline: string;
-  action: string;
-  id: string;
-};
 
 const DeviceList = ({ data, isLoading, refetch }: any) => {
   const { t } = useTranslation();
@@ -75,12 +61,13 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
       {
         key: 'name',
         label: t('Device name'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
+        headerClassName: 'dark:text-text-title-dark',
+        cellRender: (row) => <div className='dark:text-text-title-dark'>{row.name}</div>,
       },
       {
         key: 'deviceType',
         label: t('IP address / Model'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-amber-600 dark:text-amber-400">
@@ -95,13 +82,13 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
       {
         key: 'gateName',
         label: t('Gate'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
-        cellRender: (row) => <>{row.gate?.name}</>,
+        headerClassName: 'dark:text-text-title-dark',
+        cellRender: (row) => <div className='dark:text-text-title-dark'>{row.gate?.name}</div>,
       },
       {
         key: 'entryType',
         label: t('Entry type'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => {
           const entryType = row.entryType as 'ENTER' | 'EXIT' | 'BOTH' | undefined;
           const config = {
@@ -152,29 +139,6 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
     [t]
   );
 
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Device name'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-    {
-      id: 2,
-      label: t('IP address / Model'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-    {
-      id: 3,
-      label: t('Gate'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-    {
-      id: 4,
-      label: t('Entry type'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-  ];
-
   const rowActions: IAction[] = useMemo(
     () => [
       {
@@ -223,25 +187,13 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
   }
   return (
     <>
-      <TableProvider<TItem, FilterType>
-        values={{
-          columns,
-          filter: { search: '' },
-          rows: get(data, 'data', []),
-          keyExtractor: 'id',
-        }}
-      >
-        <DataGrid
-          hasCustomizeColumns={false}
-          hasExport={false}
-          hasSearch={false}
-          rowActions={rowActions}
-          dataColumn={dataColumn}
-          hasCheckbox={false}
-          isLoading={isLoading}
-          handleRowClick={(row: any) => navigate(`/device/edit/${row?.id}`)}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={get(data, 'data', [])}
+        pagination={get(data, 'meta')}
+        columns={columns}
+        rowActions={rowActions}
+        hasIndex={true}
+      />
 
       <ConfirmationModal
         title={t('Are you sure you want to delete this device?')}

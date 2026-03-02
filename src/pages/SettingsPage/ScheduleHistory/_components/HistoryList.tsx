@@ -1,22 +1,13 @@
 import MyDivider from 'components/Atoms/MyDivider';
 import { useTranslation } from 'react-i18next';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useMemo } from 'react';
-import TableProvider from 'providers/TableProvider/TableProvider';
-import DataGrid from 'components/Atoms/DataGrid';
 import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
 import { Clock, Calendar } from 'lucide-react';
 import DateText from 'components/Atoms/DateText';
 import dayjs from 'dayjs';
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
-type FilterType = {
-  search: string;
-};
-
-type TItem = {
-  id: number;
-};
 
 const HistoryList = ({ data, isLoading }: any) => {
   const { t } = useTranslation();
@@ -26,7 +17,7 @@ const HistoryList = ({ data, isLoading }: any) => {
       {
         key: 'employee',
         label: t('Employee'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
             {get(row, 'employee.name', '--')}
@@ -36,7 +27,7 @@ const HistoryList = ({ data, isLoading }: any) => {
       {
         key: 'oldEmployeePlan',
         label: t('Old schedule'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
             {get(row, 'oldEmployeePlan.name', '--')}
@@ -46,7 +37,7 @@ const HistoryList = ({ data, isLoading }: any) => {
       {
         key: 'newEmployeePlan',
         label: t('New schedule'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
             {get(row, 'newEmployeePlan.name', '--')}
@@ -56,7 +47,7 @@ const HistoryList = ({ data, isLoading }: any) => {
       {
         key: 'organization',
         label: t('Organization'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
             {get(row, 'organization.shortName', get(row, 'organization.fullName', '--'))}
@@ -66,7 +57,7 @@ const HistoryList = ({ data, isLoading }: any) => {
       {
         key: 'createdAt',
         label: t('Changed at'),
-        headerClassName: 'sm:w-1/4 lg:flex-1',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => {
           const dateValue = get(row, 'actionTime', get(row, 'createdAt'));
           const hasDate = Boolean(dateValue);
@@ -90,14 +81,6 @@ const HistoryList = ({ data, isLoading }: any) => {
     [t]
   );
 
-  const dataColumn = [
-    { id: 1, label: t('Employee'), headerClassName: 'sm:w-1/4 lg:flex-1' },
-    { id: 2, label: t('Old schedule'), headerClassName: 'sm:w-1/4 lg:flex-1' },
-    { id: 3, label: t('New schedule'), headerClassName: 'sm:w-1/4 lg:flex-1' },
-    { id: 4, label: t('Organization'), headerClassName: 'sm:w-1/4 lg:flex-1' },
-    { id: 5, label: t('Changed at'), headerClassName: 'sm:w-1/4 lg:flex-1' }
-  ];
-
   if (isLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -109,23 +92,12 @@ const HistoryList = ({ data, isLoading }: any) => {
   return (
     <div>
       <MyDivider />
-      <TableProvider<TItem, FilterType>
-        values={{
-          columns,
-          filter: { search: '' },
-          rows: get(data, 'data', get(data, 'items', [])),
-          keyExtractor: 'id'
-        }}>
-        <DataGrid
-          hasCustomizeColumns={false}
-          hasExport={false}
-          hasSearch={false}
-          hasCheckbox={false}
-          isLoading={isLoading}
-          dataColumn={dataColumn}
-          pagination={data}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={get(data, 'data', [])}
+        pagination={get(data, 'meta')}
+        columns={columns}
+        hasIndex={true}
+      />
     </div>
   );
 };

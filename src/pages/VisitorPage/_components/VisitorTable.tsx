@@ -1,15 +1,10 @@
-import TableProvider from 'providers/TableProvider/TableProvider';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import DataGrid from 'components/Atoms/DataGrid';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { Edit3, AreaChart, Trash2, Briefcase, Clock } from 'lucide-react';
-import { IEmployee } from 'interfaces/employee/employee.interface';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
-import { IFilter } from 'interfaces/filter.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { IAction } from 'interfaces/action.interface';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
@@ -19,6 +14,7 @@ import dayjs from 'dayjs';
 import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
 import DateText from 'components/Atoms/DateText';
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 
 const VisitorTable = () => {
@@ -85,7 +81,7 @@ const VisitorTable = () => {
       {
         key: 'firstName',
         label: t('Full Name'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-white',
         cellRender: (row) => (
           <div className="flex flex-col gap-1">
             <div className="dark:text-text-title-dark">
@@ -98,13 +94,13 @@ const VisitorTable = () => {
       {
         key: 'creator',
         label: t('Creator'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.creator?.name || row?.creator?.username || '--'}</>,
+        headerClassName: 'dark:text-white',
+        cellRender: (row) => <div className='dark:text-white'>{row?.creator?.name || row?.creator?.username || '--'}</div>,
       },
       {
         key: 'createdAt',
         label: t('Created Time'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-white',
         cellRender: (row) => (
           <div className='flex items-center gap-1'>
             <Clock size={16} className="dark:text-white" />
@@ -124,13 +120,13 @@ const VisitorTable = () => {
       {
         key: 'visiting',
         label: t('Visiting'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => <>{row?.attached?.name ?? '--'}</>,
+        headerClassName: 'dark:text-white',
+        cellRender: (row) => <div className='dark:text-white'>{row?.attached?.name ?? '--'}</div>,
       },
       {
         key: 'workPlace',
         label: t('Work Place'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-white',
         cellRender: (row) => (
           <div className='flex items-center gap-1'>
             {row?.workPlace ? <Briefcase size={16} className="dark:text-white" /> : null}
@@ -141,52 +137,13 @@ const VisitorTable = () => {
       {
         key: 'status',
         label: t('Status'),
-        headerClassName: 'w-1/5',
+        headerClassName: 'dark:text-white',
         cellRender: renderStatus,
       },
     ],
     [t]
   );
 
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Full Name'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 2,
-      label: t('Creator'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 3,
-      label: t('Created Time'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 4,
-      label: t('Visiting'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 5,
-      label: t('Work Place'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 6,
-      label: t('Status'),
-      headerClassName: 'w-1/5',
-    },
-    // {
-    //   id: 6,
-    //   label: t('Using type'),
-    //   headerClassName: 'w-1/3',
-    // },
-  ];
-
-  const filter: IFilter[] = useMemo(() => [], [t]);
 
   const rowActions: IAction[] = useMemo(
     () => [
@@ -242,23 +199,13 @@ const VisitorTable = () => {
 
   return (
     <>
-      <TableProvider<IEmployee, IFilter[]>
-        values={{
-          columns,
-          filter,
-          rows: get(data, 'data', []),
-          keyExtractor: 'id',
-        }}
-      >
-        <DataGrid
-          isLoading={isLoading}
-          hasCustomizeColumns={true}
-          dataColumn={dataColumn}
-          rowActions={rowActions}
-          pagination={data}
-          handleRowClick={(row: any) => navigate(`/visitor/about/${row?.id}`)}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={get(data, 'data', [])}
+        pagination={get(data, 'meta')}
+        columns={columns}
+        rowActions={rowActions}
+        hasIndex={true}
+      />
       <ConfirmationModal
         title={t('Are you sure you want to delete this visitor?')}
         subTitle={t('This action cannot be undone!')}
