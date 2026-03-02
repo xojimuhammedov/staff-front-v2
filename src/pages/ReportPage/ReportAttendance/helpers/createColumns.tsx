@@ -158,9 +158,6 @@ export const createColumns = () => {
     [t]
   );
 
-
-
-
   return {
     columns,
   };

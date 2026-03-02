@@ -67,7 +67,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         label: t('Employees'),
         headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
-          <div className="flex items-center w-full gap-4 dark:text-text-title-dark">
+          <div className="flex items-center w-full gap-4 dark:text-text-title-dark min-w-max">
             <MyAvatar
               size="medium"
               imageUrl={row?.photo ? `${config.FILE_URL}api/storage/${row?.photo}` : AvatarIcon}
@@ -84,7 +84,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         label: t('Department'),
         headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => (
-          <div className="department-text dark:text-text-title-dark">
+          <div className="department-text dark:text-text-title-dark min-w-max">
             {row?.department?.shortName ?? '--'}
           </div>
         ),
@@ -92,7 +92,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       {
         key: 'credential',
         label: t('Credentials'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => (
           <CredentialIcons credentials={row?.credentials} />
         ),
@@ -100,9 +100,9 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
       {
         key: 'phone',
         label: t('Phone number'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 min-w-max">
             <div className="flex items-center gap-1.5">
               {row?.phone && <Phone size={16} className="shrink-0 dark:text-white" />}
               <p className="text-sm dark:text-text-title-dark">{row?.phone ?? '--'}</p>
