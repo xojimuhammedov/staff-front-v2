@@ -16,7 +16,7 @@ export function BirthdayCard({ employee }: any) {
   return (
     <div
       className={twMerge(
-        'group relative flex items-start gap-4 rounded-lg border p-4 transition-all duration-200 hover:shadow-md',
+        'group flex items-center gap-3 rounded-lg border border-border dark:border-dark-line bg-card px-3 py-2.5 transition-all hover:shadow-md hover:border-primary/30 cursor-pointer dark:bg-dark-line',
       )}
     >
       {/* Main content */}
@@ -30,9 +30,9 @@ export function BirthdayCard({ employee }: any) {
                   employee?.photo ? `${config.FILE_URL}api/storage/${employee?.photo}` : AvatarIcon
                 }
               />
-              <span className="truncate text-sm font-semibold flex flex-col text-foreground">
+              <span className="truncate text-sm dark:text-white font-semibold flex flex-col text-foreground">
                 {employee?.name}
-                <span className="text-xs text-muted-foreground">{employee?.job?.uz}</span>
+                <span className="text-xs text-muted-foreground dark:text-white">{employee?.job?.uz}</span>
               </span>
             </div>
           </div>
@@ -40,31 +40,31 @@ export function BirthdayCard({ employee }: any) {
           <div className="col-span-8">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                <Briefcase className="size-3.5 shrink-0 text-primary/60" />
-                <span>{employee?.department?.fullName}</span>
+                <Briefcase className="size-3.5 shrink-0 dark:text-white" />
+                <span className="dark:text-white">{employee?.department?.fullName}</span>
               </div>
 
               {/* Phone */}
               {employee?.phone && (
                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Phone className="size-3.5 shrink-0 text-primary/60" />
-                  <span>{employee?.phone}</span>
+                  <Phone className="size-3.5 shrink-0 dark:text-white" />
+                  <span className="dark:text-white">{employee?.phone}</span>
                 </div>
               )}
 
               {/* Email */}
               {employee?.email && (
                 <div className="hidden items-center gap-1.5 text-xs text-muted-foreground sm:flex">
-                  <Mail className="size-3.5 shrink-0 text-primary/60" />
-                  <span className="truncate">{employee?.email}</span>
+                  <Mail className="size-3.5 shrink-0 dark:text-white" />
+                  <span className="truncate dark:text-white">{employee?.email}</span>
                 </div>
               )}
 
               {/* Address */}
               {employee?.address && (
                 <div className="hidden items-center gap-1.5 text-xs text-muted-foreground md:flex">
-                  <MapPin className="size-3.5 shrink-0 text-primary/60" />
-                  <span className="truncate">{employee?.address}</span>
+                  <MapPin className="size-3.5 shrink-0 dark:text-white" />
+                  <span className="truncate dark:text-white">{employee?.address}</span>
                 </div>
               )}
             </div>
@@ -72,7 +72,7 @@ export function BirthdayCard({ employee }: any) {
 
           {/* Days badge */}
           <div className="col-span-1">
-            <MyBadge variant="orange">{getDaysUntilBirthday(employee?.birthday)} kun</MyBadge>
+            <MyBadge variant="orange" className="dark:text-white">{getDaysUntilBirthday(employee?.birthday)} kun</MyBadge>
           </div>
         </div>
       </div>

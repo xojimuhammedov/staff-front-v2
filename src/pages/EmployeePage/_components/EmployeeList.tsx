@@ -104,11 +104,11 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         cellRender: (row) => (
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1.5">
-              {row?.phone && <Phone size={16} className="shrink-0" />}
+              {row?.phone && <Phone size={16} className="shrink-0 dark:text-white" />}
               <p className="text-sm dark:text-text-title-dark">{row?.phone ?? '--'}</p>
             </div>
             <div className="flex items-center gap-1.5">
-              {row?.email && <Mail size={16} className="shrink-0" />}
+              {row?.email && <Mail size={16} className="shrink-0 dark:text-white" />}
               <p
                 className="text-sm truncate max-w-[180px] dark:text-text-title-dark"
                 title={row?.email}
