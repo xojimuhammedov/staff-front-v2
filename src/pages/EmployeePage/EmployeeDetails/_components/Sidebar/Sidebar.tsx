@@ -51,6 +51,12 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
                     name: t('Employee absences'),
                     path: 'absences',
                     isSwitch: false
+                },
+                {
+                    icon: 'CalendarX',
+                    name: t('Schedule history'),
+                    path: 'schedule-history',
+                    isSwitch: false
                 }
             ]
         }

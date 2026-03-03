@@ -747,5 +747,7 @@
   "Terminated employees": "Ishdan bo'shatilgan xodimlar",
   "Whitelist": "Oq ro'yxat",
   "Add to whitelist": "Oq ro'yxatga qo'shish",
-  "Select schedule": "Jadval tanlash"
+  "Select schedule": "Jadval tanlash",
+  "Default": "Standart",
+  "Schedule history": "Jadval tarixi"
 }

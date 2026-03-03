@@ -736,5 +736,7 @@
   "Dismissal": "Dismissal",
   "Yes": "Yes",
   "No": "No",
-  "Select schedule": "Jadval tanlash"
+  "Select schedule": "Select schedule",
+  "Default": "Default",
+  "Schedule history":"Schedule history"
 }
