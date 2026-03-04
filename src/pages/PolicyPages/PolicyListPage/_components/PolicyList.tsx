@@ -3,7 +3,7 @@ import { URLS } from 'constants/url';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
 import { useMemo, useState } from 'react';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
+import { DataGridColumnType } from 'components/Atoms/DataGrid/NewTable';
 import { useTranslation } from 'react-i18next';
 import NoDataCard from './NoDataCard';
 import { IAction } from '../../../../interfaces/action.interface';
