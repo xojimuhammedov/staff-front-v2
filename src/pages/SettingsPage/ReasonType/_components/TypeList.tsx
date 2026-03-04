@@ -1,11 +1,6 @@
-import MyDivider from 'components/Atoms/MyDivider';
-import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { useTranslation } from 'react-i18next';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useMemo, useState } from 'react';
-import TableProvider from 'providers/TableProvider/TableProvider';
-import DataGrid from 'components/Atoms/DataGrid';
-import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
+import { useDeleteQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
@@ -13,20 +8,11 @@ import Loading from 'assets/icons/Loading';
 import { IAction } from 'interfaces/action.interface';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { Edit3, Search, Trash2 } from 'lucide-react';
-import Create from './Create';
 import Edit from './Edit';
 import MyModal from 'components/Atoms/MyModal';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
-type FilterType = {
-    search: string;
-};
-
-type TItem = {
-    name: string;
-    type: string;
-    ipAddress: string;
-};
 
 const TypeList = ({ data, isLoading, refetch }: any) => {
     const { t, i18n } = useTranslation();
@@ -57,17 +43,17 @@ const TypeList = ({ data, isLoading, refetch }: any) => {
             {
                 key: 'value',
                 label: t('Reason value'),
-                headerClassName: 'sm:w-1/4 lg:flex-1',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
                         {row?.[`${currentLang}`]}
                     </div>
-                )  
+                )
             },
             {
-                key: 'OrganizationName',             
+                key: 'OrganizationName',
                 label: t('Organization name'),
-                headerClassName: 'sm:w-1/4 lg:flex-1',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
                         {row?.organization?.fullName}
@@ -78,18 +64,6 @@ const TypeList = ({ data, isLoading, refetch }: any) => {
         [t]
     );
 
-    const dataColumn = [
-        {
-            id: 1,
-            label: t('Reason value'),
-            headerClassName: 'sm:w-1/4 lg:flex-1'
-        },
-        {
-            id: 2,
-            label: t('Organization name'),
-            headerClassName: 'sm:w-1/4 lg:flex-1'
-        },
-    ];
 
     const rowActions: IAction[] = useMemo(
         () => [
@@ -126,23 +100,13 @@ const TypeList = ({ data, isLoading, refetch }: any) => {
 
     return (
         <div>
-            <TableProvider<TItem, FilterType>
-                values={{
-                    columns,
-                    filter: { search: '' },
-                    rows: get(data, 'items', []),
-                    keyExtractor: 'id'
-                }}>
-                <DataGrid
-                    hasCustomizeColumns={false}
-                    hasExport={false}
-                    hasSearch={false}
-                    rowActions={rowActions}
-                    dataColumn={dataColumn}
-                    hasCheckbox={false}
-                    isLoading={isLoading}
-                />
-            </TableProvider>
+            <DynamicTable
+                data={get(data, 'items', [])}
+                pagination={data}
+                columns={columns}
+                rowActions={rowActions}
+                hasIndex={true}
+            />
             <MyModal
                 modalProps={{
                     show: Boolean(open),

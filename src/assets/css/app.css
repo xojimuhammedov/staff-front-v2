@@ -66,7 +66,7 @@
 @import './components/_raze.css';
 @import './components/_exort.css';
 @import './components/_viper.css';
-@import './components/_zoom-in.css';
+/* @import './components/_zoom-in.css'; */
 @import './components/_image-fit.css';
 @import './components/_typing-dots.css';
 @import './components/_scrollbar-hidden.css';
@@ -77,8 +77,6 @@
 @import './components/_tom-select.css';
 @import './components/_ckeditor.css';
 @import './components/_litepicker.css';
-@import './components/_full-calendar.css';
-@import './components/_tabulator.css';
 @import './components/_swet-alert.css';
 
 @import './components/_button.css';

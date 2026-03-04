@@ -1,18 +1,12 @@
-import DataGrid from 'components/Atoms/DataGrid';
 import { KEYS } from 'constants/key';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import { URLS } from 'constants/url';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
-import { IAction } from 'interfaces/action.interface';
-import { IEmployee } from 'interfaces/employee/employee.interface';
-import { IFilter } from 'interfaces/filter.interface';
 import { get } from 'lodash';
-import { AreaChart, Edit3, Trash2 } from 'lucide-react';
-import TableProvider from 'providers/TableProvider/TableProvider';
+import { Edit3, Trash2 } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Loading from 'assets/icons/Loading'
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import Form from './Form';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import EditForm from './EditForm';
@@ -20,6 +14,16 @@ import { paramsStrToObj } from 'utils/helper';
 import { searchValue } from 'types/search';
 import { useLocation } from 'react-router-dom';
 import MyBadge from 'components/Atoms/MyBadge';
+import { DataGridColumnType, DynamicTable } from 'components/Atoms/DataGrid/NewTable';
+import { IAction } from '@/interfaces/action.interface';
+
+interface Users {
+  id: string;
+  name: string;
+  username: string;
+  organization: { fullName: string };
+  role: string;
+}
 
 const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { t } = useTranslation()
@@ -33,7 +37,9 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
     key: KEYS.getListUsersManagment,
     url: URLS.getListUsersManagment,
     params: {
-      search: searchValue?.search
+      search: searchValue?.search,
+      page: searchValue?.page || 1,
+      limit: searchValue?.limit || 10,
     }
   })
 
@@ -65,13 +71,13 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
     }
   };
 
-  const columns: DataGridColumnType[] = useMemo(
+  const columns: DataGridColumnType<Users>[] = useMemo(
     () => [
       {
         key: 'name',
         label: t('Employees'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => (
+        headerClassName: 'dark:text-text-title-dark',
+        cellRender: (row: any) => (
           <div className="flex items-center gap-4">
             <span className="text-text-base dark:text-text-title-dark">
               {row?.name ?? '--'}
@@ -82,8 +88,8 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
       {
         key: 'username',
         label: t('Username'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => (
+        headerClassName: 'dark:text-text-title-dark',
+        cellRender: (row: any) => (
           <span className="text-sm text-text-base dark:text-text-title-dark">
             {row?.username ?? '--'}
           </span>
@@ -92,8 +98,8 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
       {
         key: 'organization',
         label: t('Organization name'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => (
+        headerClassName: 'dark:text-text-title-dark',
+        cellRender: (row: any) => (
           <span className="text-sm text-text-base dark:text-text-title-dark">
             {row?.organization?.fullName ?? '--'}
           </span>
@@ -102,8 +108,8 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
       {
         key: 'role',
         label: t('Role'),
-        headerClassName: 'w-1/3',
-        cellRender: (row) => {
+        headerClassName: 'dark:text-text-title-dark',
+        cellRender: (row: any) => {
           const variant = roleBadgeVariant(row?.role);
           return (
             <MyBadge variant={variant} className={`${BADGE_CLASSES[variant]} min-w-max`}>
@@ -115,29 +121,6 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
     ],
     [t]
   );
-
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Name'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 2,
-      label: t('Username'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 3,
-      label: t('Organization name'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 4,
-      label: t('Role'),
-      headerClassName: 'w-1/3',
-    }
-  ];
 
   const handleDeleteModal = (row: string | number | null) => {
     setDeleteModal(true)
@@ -151,14 +134,6 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
 
   const rowActions: IAction[] = useMemo(
     () => [
-      // {
-      //   icon: <AreaChart size={DEFAULT_ICON_SIZE} />,
-      //   type: 'primary',
-      //   name: t('Deactive'),
-      //   action: (row, $e) => {
-      //     //   navigate(`/employees/${row.id}`);
-      //   }
-      // },
       {
         icon: <Edit3 size={DEFAULT_ICON_SIZE} />,
         type: 'secondary',
@@ -203,21 +178,13 @@ const UserTable = ({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<R
   }
   return (
     <>
-      <TableProvider<IEmployee, IFilter[]>
-        values={{
-          columns,
-          filter: [],
-          rows: get(data, 'data', []),
-          keyExtractor: 'id'
-        }}>
-        <DataGrid
-          isLoading={isLoading}
-          hasCustomizeColumns={true}
-          dataColumn={dataColumn}
-          rowActions={rowActions}
-          pagination={get(data, 'meta')}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={get(data, 'data', [])}
+        pagination={data}
+        columns={columns}
+        rowActions={rowActions}
+        hasIndex={true}
+      />
       <Form refetch={refetch} open={open} setOpen={setOpen} />
       <EditForm refetch={refetch} setOpen={setShow} open={show} userId={editUserId} />
 

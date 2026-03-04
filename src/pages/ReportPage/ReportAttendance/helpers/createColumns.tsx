@@ -1,4 +1,3 @@
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import MyAvatar from 'components/Atoms/MyAvatar';
 import MyBadge from 'components/Atoms/MyBadge';
 import config from 'configs';
@@ -8,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import AvatarIcon from '../../../../assets/icons/avatar.jpg';
 import DateText from 'components/Atoms/DateText';
 import ReasonModal from 'pages/Attendances/_components/ReasonModal';
+import { DataGridColumnType } from '@/components/Atoms/DataGrid/NewTable';
 
 export const createColumns = () => {
   const { t } = useTranslation();
@@ -59,7 +59,7 @@ export const createColumns = () => {
       {
         key: 'fullName',
         label: t('Employee name'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark w-1/5',
         cellRender: (row) => (
           <div className="flex items-center gap-4 dark:text-text-title-dark">
             <MyAvatar
@@ -77,27 +77,27 @@ export const createColumns = () => {
       {
         key: 'arrivalStatus',
         label: t('Arrival status'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) =>
           renderStatusBadge(row?.arrivalStatus, { LATE: 'orange', ABSENT: 'red' }),
       },
       {
         key: 'arrivalTime',
         label: t('Arrival time'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => renderTimeCell(row?.startTime, 'HH:mm'),
       },
       {
         key: 'goneStatus',
         label: t('Left status'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) =>
           renderStatusBadge(row?.goneStatus, { EARLY: 'blue' }),
       },
       {
         key: 'goneTime',
         label: t('Gone time'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => {
           if (row?.endTime) return renderTimeCell(row?.endTime, 'HH:mm');
           if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
@@ -109,7 +109,7 @@ export const createColumns = () => {
       {
         key: 'workonTime',
         label: t('Work on time'),
-        headerClassName: 'w-1/4',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => {
           if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
             return '--';
@@ -122,21 +122,23 @@ export const createColumns = () => {
             const mins = minutes % 60;
             const percent =
               plannedMinutes > 0 ? Math.min(100, Math.round((minutes / plannedMinutes) * 100)) : 0;
-            
+
             const progressBarColor = getProgressBarColor(percent);
-            
+
             return (
               <div className="flex flex-col gap-1">
                 <div className="text-sm text-text-base dark:text-text-title-dark">
                   {t('work_time_format', { hours, minutes: mins })}
                 </div>
-                <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
-                  <div
-                    className={`h-2 rounded-full ${progressBarColor}`}
-                    style={{ width: `${percent}%` }}
-                  />
+                <div className='flex items-center gap-1'>
+                  <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                    <div
+                      className={`h-2 rounded-full ${progressBarColor}`}
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                  <div className="text-xs text-text-muted">{percent}%</div>
                 </div>
-                <div className="text-xs text-text-muted">{percent}%</div>
               </div>
             );
           } else return '--';
@@ -145,65 +147,20 @@ export const createColumns = () => {
       {
         key: 'arrivalDate',
         label: t('Arrival date'),
-        headerClassName: 'w-1/4',
-        cellRender: (row) => <DateText value={row?.startTime} />,
+        headerClassName: 'dark:text-text-title-dark',
+        cellRender: (row) => <DateText className='dark:text-text-title-dark' value={row?.startTime} />,
       },
       {
         key: 'reason',
         label: t('Reason'),
-        headerClassName: 'w-28',
+        headerClassName: 'dark:text-text-title-dark',
         cellRender: (row) => <ReasonModal row={row} />,
       },
     ],
     [t]
   );
 
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Employee name'),
-      headerClassName: 'w-1/3',
-    },
-    {
-      id: 2,
-      label: t('Arrival status'),
-      headerClassName: 'w-1/4',
-    },
-    {
-      id: 3,
-      label: t('Arrival time'),
-      headerClassName: 'w-1/4',
-    },
-    {
-      id: 4,
-      label: t('Left status'),
-      headerClassName: 'w-1/4',
-    },
-    {
-      id: 5,
-      label: t('Gone time'),
-      headerClassName: 'w-1/4',
-    },
-    {
-      id: 6,
-      label: t('Work on time'),
-      headerClassName: 'w-1/4',
-    },
-    {
-      id: 7,
-      label: t('Arrival date'),
-      headerClassName: 'w-1/4',
-    },
-    {
-      id: 8,
-      label: t('Reason'),
-      headerClassName: 'w-28',
-    },
-  ];
-
-
   return {
-    dataColumn,
     columns,
   };
 };

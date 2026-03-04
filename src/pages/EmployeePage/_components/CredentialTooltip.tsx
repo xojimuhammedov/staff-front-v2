@@ -41,7 +41,7 @@ export function CredentialIcons({ credentials }: { credentials: Credential[] }) 
     const totalCount = (credentials || []).length;
 
     return (
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5 min-w-max">
             {items.map(({ type, anyActive }) => {
                 const meta = TYPE_META[type];
                 if (!meta) return null;

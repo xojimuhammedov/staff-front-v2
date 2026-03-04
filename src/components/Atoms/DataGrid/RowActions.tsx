@@ -50,15 +50,15 @@ const RowActions = ({ actions = [], row, allowedRoles }: RowActionProps) => {
         startIcon: <EllipsisVertical />
       }}>
       {visibleActions?.map((btn, i) => (
-       <DropdownItemWrapper
-       className={`flex w-full items-center gap-2 text-${btn.type}`}
-       onClick={(e: React.MouseEvent) => {
-         e.stopPropagation();
-         btn.action(row, e);
-       }}
-     >
-          <span className="shrink-0 [&_svg]:shrink-0">{btn.icon}</span>
-          <p className="min-w-0 flex-1 break-words text-left">{btn.name}</p>
+        <DropdownItemWrapper
+          className={`flex w-full items-center gap-2 text-${btn.type}`}
+          onClick={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            btn.action(row, e);
+          }}
+        >
+          <span className="shrink-0 dark:text-white [&_svg]:shrink-0">{btn.icon}</span>
+          <p className="min-w-0 flex-1 break-words dark:text-white text-left">{btn.name}</p>
         </DropdownItemWrapper>
       ))}
     </MyDropdownTwo>

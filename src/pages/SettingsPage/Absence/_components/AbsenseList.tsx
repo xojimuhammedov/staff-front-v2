@@ -1,10 +1,7 @@
 import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { useTranslation } from 'react-i18next';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useMemo, useState } from 'react';
-import TableProvider from 'providers/TableProvider/TableProvider';
-import DataGrid from 'components/Atoms/DataGrid';
 import { useDeleteQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
@@ -16,6 +13,7 @@ import { Edit3, Search, Trash2 } from 'lucide-react';
 import MyModal from 'components/Atoms/MyModal';
 import Edit from './Edit';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 type FilterType = {
     search: string;
@@ -62,7 +60,7 @@ const AbsenseList = ({ data, isLoading, refetch }: any) => {
             {
                 key: 'shortLetter',
                 label: t('Short letter'),
-                headerClassName: 'sm:w-1/4 lg:flex-1',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
                         {row?.[`shortLetter${langSuffix}`] ?? '--'}
@@ -72,7 +70,7 @@ const AbsenseList = ({ data, isLoading, refetch }: any) => {
             {
                 key: 'description',
                 label: t('Description'),
-                headerClassName: 'sm:w-1/2 lg:flex-1',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
                         {row?.[`description${langSuffix}`] ?? '--'}
@@ -82,7 +80,7 @@ const AbsenseList = ({ data, isLoading, refetch }: any) => {
             {
                 key: 'OrganizationName',
                 label: t('Organization name'),
-                headerClassName: 'sm:w-1/4 lg:flex-1',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => (
                     <div className="flex items-center gap-4 dark:text-text-title-dark">
                         {row?.organization?.fullName ?? '--'}
@@ -92,24 +90,6 @@ const AbsenseList = ({ data, isLoading, refetch }: any) => {
         ],
         [t]
     );
-
-    const dataColumn = [
-        {
-            id: 1,
-            label: t('Short letter'),
-            headerClassName: 'sm:w-1/4 lg:flex-1'
-        },
-        {
-            id: 2,
-            label: t('Description'),
-            headerClassName: 'sm:w-1/2 lg:flex-1'
-        },
-        {
-            id: 3,
-            label: t('Organization name'),
-            headerClassName: 'sm:w-1/4 lg:flex-1'
-        }
-    ];
 
     const rowActions: IAction[] = useMemo(
         () => [
@@ -147,23 +127,13 @@ const AbsenseList = ({ data, isLoading, refetch }: any) => {
     return (
         <div>
             <MyDivider />
-            <TableProvider<TItem, FilterType>
-                values={{
-                    columns,
-                    filter: { search: '' },
-                    rows: get(data, 'data', get(data, 'items', [])),
-                    keyExtractor: 'id'
-                }}>
-                <DataGrid
-                    hasCustomizeColumns={false}
-                    hasExport={false}
-                    hasSearch={false}
-                    rowActions={rowActions}
-                    dataColumn={dataColumn}
-                    hasCheckbox={false}
-                    isLoading={isLoading}
-                />
-            </TableProvider>
+            <DynamicTable
+                data={get(data, 'data', [])}
+                pagination={data}
+                columns={columns}
+                rowActions={rowActions}
+                hasIndex={true}
+            />
             <MyModal
                 modalProps={{
                     show: Boolean(open),

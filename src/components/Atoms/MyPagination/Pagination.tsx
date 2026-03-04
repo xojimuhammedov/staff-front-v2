@@ -52,6 +52,8 @@ const MyPagination: FC<PaginationProps> = ({ total = 0, className = [] }) => {
   const limit: number = Number(searchParams.get('limit')) || DEFAULT_LIMIT;
   const totalNumber = total === 0 ? 1 : total;
 
+  console.log(totalNumber);
+
   return (
     <div
       className={twMerge([

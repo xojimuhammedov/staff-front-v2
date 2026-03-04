@@ -5,9 +5,10 @@ import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
 import { IFilter } from 'interfaces/filter.interface';
 import { createColumns } from '../helpers/createColumns';
+import { DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 const VisitorAttendanceList = ({ data, isLoading, highlightedId = null }: any) => {
-  const { columns, dataColumn, rowActions } = createColumns()
+  const { columns } = createColumns()
   const rows = (get(data, 'data', []) || []).map((row: any) => ({
     ...row,
     rowClassName:
@@ -26,22 +27,12 @@ const VisitorAttendanceList = ({ data, isLoading, highlightedId = null }: any) =
 
   return (
     <>
-      <TableProvider<IEmployee, IFilter[]>
-        values={{
-          columns,
-          filter: [],
-          rows,
-          keyExtractor: 'id'
-        }}>
-        <DataGrid
-          isLoading={isLoading}
-          hasAction={false}
-          hasCustomizeColumns={true}
-          dataColumn={dataColumn}
-          rowActions={rowActions}
-          pagination={data}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={rows}
+        pagination={data}
+        columns={columns}
+        hasIndex={true}
+      />
     </>
   );
 };
