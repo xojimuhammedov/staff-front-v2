@@ -208,6 +208,7 @@ const EmployeeList = ({ searchValue }: EmployeeListProps) => {
         columns={columns}
         rowActions={rowActions}
         hasIndex={true}
+        onRowClick={(row) => navigate(`/employees/about/${row?.id}`)} 
       />
       <ConfirmationModal
         title={t('Are you sure you want to delete this employee?')}

@@ -122,21 +122,23 @@ export const createColumns = () => {
             const mins = minutes % 60;
             const percent =
               plannedMinutes > 0 ? Math.min(100, Math.round((minutes / plannedMinutes) * 100)) : 0;
-            
+
             const progressBarColor = getProgressBarColor(percent);
-            
+
             return (
               <div className="flex flex-col gap-1">
                 <div className="text-sm text-text-base dark:text-text-title-dark">
                   {t('work_time_format', { hours, minutes: mins })}
                 </div>
-                <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
-                  <div
-                    className={`h-2 rounded-full ${progressBarColor}`}
-                    style={{ width: `${percent}%` }}
-                  />
+                <div className='flex items-center gap-1'>
+                  <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                    <div
+                      className={`h-2 rounded-full ${progressBarColor}`}
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                  <div className="text-xs text-text-muted">{percent}%</div>
                 </div>
-                <div className="text-xs text-text-muted">{percent}%</div>
               </div>
             );
           } else return '--';

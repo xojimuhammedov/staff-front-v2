@@ -193,6 +193,7 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
         columns={columns}
         rowActions={rowActions}
         hasIndex={true}
+        onRowClick={(row) => navigate(`/device/edit/${row?.id}`)}
       />
 
       <ConfirmationModal

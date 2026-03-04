@@ -169,6 +169,7 @@ const WorkScheduleList = () => {
         pagination={data}
         columns={columns}
         rowActions={rowActions}
+        onRowClick={(row) => navigate(`/workschedule/edit/${row?.id}`)}
         hasIndex={true}
       />
       <ConfirmationModal

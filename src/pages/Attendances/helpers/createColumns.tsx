@@ -58,7 +58,7 @@ export const createColumns = ({ refetch }: any) => {
       {
         key: 'fullName',
         label: t('Employee name'),
-        headerClassName: 'dark:text-text-title-dark w-1/5',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => (
           <div className="flex items-center gap-2 dark:text-text-title-dark">
             <button
@@ -84,26 +84,26 @@ export const createColumns = ({ refetch }: any) => {
       {
         key: 'arrivalStatus',
         label: t('Arrival status'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) =>
           renderStatusBadge(row?.arrivalStatus, { LATE: 'orange', ABSENT: 'red' }),
       },
       {
         key: 'arrivalTime',
         label: t('Arrival time'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => renderTimeCell(row?.startTime, 'HH:mm'),
       },
       {
         key: 'goneStatus',
         label: t('Left status'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => renderStatusBadge(row?.goneStatus, { EARLY: 'blue' }),
       },
       {
         key: 'goneTime',
         label: t('Gone time'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => {
           if (row?.endTime) return renderTimeCell(row?.endTime, 'HH:mm');
           if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
@@ -115,7 +115,7 @@ export const createColumns = ({ refetch }: any) => {
       {
         key: 'workonTime',
         label: t('Work on time'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => {
           if (row?.arrivalStatus === 'ABSENT' || row?.arrivalStatus === 'PENDING') {
             return '--';
@@ -141,13 +141,15 @@ export const createColumns = ({ refetch }: any) => {
                 <div className="text-sm text-text-base dark:text-text-title-dark">
                   {t('work_time_format', { hours, minutes: mins })}
                 </div>
-                <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                <div className='flex items-center gap-1'>
+                  <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
                   <div
                     className={`h-2 rounded-full ${progressBarColor}`}
                     style={{ width: `${percent}%` }}
                   />
                 </div>
                 <div className="text-xs text-text-muted">{percent}%</div>
+                </div>
               </div>
             );
           }
@@ -157,13 +159,13 @@ export const createColumns = ({ refetch }: any) => {
       {
         key: 'arrivalDate',
         label: t('Arrival date'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => <DateText className='dark:text-text-title-dark' value={row?.startTime} />,
       },
       {
         key: 'reason',
         label: t('Reason'),
-        headerClassName: 'dark:text-text-title-dark',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => <ReasonModal row={row} refetch={refetch} />,
       },
     ],

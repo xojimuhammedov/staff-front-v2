@@ -203,6 +203,7 @@ const VisitorTable = () => {
         columns={columns}
         rowActions={rowActions}
         hasIndex={true}
+        onRowClick={(row) => navigate(`/visitor/about/${row?.id}`)}
       />
       <ConfirmationModal
         title={t('Are you sure you want to delete this visitor?')}

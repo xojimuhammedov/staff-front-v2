@@ -7,10 +7,12 @@ import { Clock, Calendar } from 'lucide-react';
 import DateText from 'components/Atoms/DateText';
 import dayjs from 'dayjs';
 import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
+import { useNavigate } from 'react-router-dom';
 
 
 const HistoryList = ({ data, isLoading }: any) => {
   const { t } = useTranslation();
+  const navigate = useNavigate()
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -97,6 +99,7 @@ const HistoryList = ({ data, isLoading }: any) => {
         pagination={data}
         columns={columns}
         hasIndex={true}
+        onRowClick={(row) => navigate(`/employees/about/${row?.employeeId}?current-setting=schedule-history`)}
       />
     </div>
   );

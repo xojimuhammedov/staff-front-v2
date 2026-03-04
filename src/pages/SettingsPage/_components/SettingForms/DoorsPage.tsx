@@ -183,6 +183,7 @@ const DoorsPage = () => {
         columns={columns}
         rowActions={rowActions}
         hasIndex={true}
+        onRowClick={(row) => navigate(`/settings/door/edit/${row?.id}`)}
       />
       <ConfirmationModal
         title={t('Are you sure you want to delete this door?')}
