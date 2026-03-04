@@ -750,5 +750,7 @@
   "Select schedule": "Jadval tanlash",
   "Default": "Standart",
   "Schedule history": "Jadval tarixi",
-  "Birthdays":"Tug'ilgan kunlar"
+  "Birthdays":"Tug'ilgan kunlar",
+  "Previous Schedule":"Oldingi jadval",
+  "New Schedule":"Yangi jadval"
 }

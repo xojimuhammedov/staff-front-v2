@@ -747,5 +747,7 @@
   "Select schedule": "Выберите расписание",
   "Default": "Стандартный",
   "Schedule history":"История расписаний",
-  "Birthdays":"Дни рождения"
+  "Birthdays":"Дни рождения",
+  "Previous Schedule":"Предыдущее расписание",
+  "New Schedule":"Новое расписание"
 }

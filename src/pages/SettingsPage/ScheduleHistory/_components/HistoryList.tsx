@@ -9,6 +9,7 @@ import Loading from 'assets/icons/Loading';
 import { Clock, Calendar } from 'lucide-react';
 import DateText from 'components/Atoms/DateText';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 type FilterType = {
   search: string;
@@ -20,6 +21,7 @@ type TItem = {
 
 const HistoryList = ({ data, isLoading }: any) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const columns: DataGridColumnType[] = useMemo(
     () => [
@@ -126,6 +128,7 @@ const HistoryList = ({ data, isLoading }: any) => {
           isLoading={isLoading}
           dataColumn={dataColumn}
           pagination={data}
+          handleRowClick={(row: any) => navigate(`/employees/about/${row?.employeeId}?current-setting=schedule-history`)}
         />
       </TableProvider>
     </div>

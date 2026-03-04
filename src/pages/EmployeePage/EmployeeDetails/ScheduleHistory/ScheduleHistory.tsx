@@ -26,14 +26,14 @@ const ScheduleHistory = () => {
                 {data?.data?.map((item: any) => (
                     <SchedulePlanCard
                         plan={item?.oldEmployeePlan}
-                        label="Previous Schedule"
+                        label={t("Previous Schedule")}
                         variant="old"
                     />
                 ))}
                 {data?.data?.map((item: any) => (
                     <SchedulePlanCard
                         plan={item?.newEmployeePlan}
-                        label="New Schedule"
+                        label={t("New Schedule")}
                         variant="new"
                     />
                 ))}

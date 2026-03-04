@@ -739,5 +739,7 @@
   "Select schedule": "Select schedule",
   "Default": "Default",
   "Schedule history":"Schedule history",
-  "Birthdays":"Birthdays"
+  "Birthdays":"Birthdays",
+  "Previous Schedule":"Previous Schedule",
+  "New Schedule":"New Schedule"
 }
