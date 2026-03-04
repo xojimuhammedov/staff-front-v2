@@ -10,8 +10,11 @@ import {
 import { twMerge } from 'tailwind-merge';
 import { getDaysUntilBirthday } from 'utils/birthday';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
+import { useTranslation } from 'react-i18next';
 
 export function BirthdayCard({ employee }: any) {
+  const { t, i18n } = useTranslation();
+  const currentLang: any = i18n.resolvedLanguage;
 
   return (
     <div
@@ -32,7 +35,7 @@ export function BirthdayCard({ employee }: any) {
               />
               <span className="truncate text-sm dark:text-white font-semibold flex flex-col text-foreground">
                 {employee?.name}
-                <span className="text-xs text-muted-foreground dark:text-white">{employee?.job?.uz}</span>
+                <span className="text-xs text-muted-foreground">{employee?.job?.[currentLang]}</span>
               </span>
             </div>
           </div>
@@ -72,7 +75,7 @@ export function BirthdayCard({ employee }: any) {
 
           {/* Days badge */}
           <div className="col-span-1">
-            <MyBadge variant="orange" className="dark:text-white">{getDaysUntilBirthday(employee?.birthday)} kun</MyBadge>
+            <MyBadge variant="orange">{getDaysUntilBirthday(employee?.birthday)} {t('days')}</MyBadge>
           </div>
         </div>
       </div>
