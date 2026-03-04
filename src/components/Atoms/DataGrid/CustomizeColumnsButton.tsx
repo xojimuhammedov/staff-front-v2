@@ -1,11 +1,9 @@
 import MyButton from '../MyButton/MyButton';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Columns, ChevronDown, ChevronUp, Users } from 'lucide-react';
+import { ChevronDown, ChevronUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import MyDropdown, { DropdownItemWrapper } from '../MyDropdown';
-import useTableContext from 'providers/TableProvider/useTableContext';
 import { MyCheckbox } from '../Form';
-import { TABLE_ACTION_TYPES } from 'providers/TableProvider/useTableProvider';
 
 /**
  * `CustomizeColumnsButton` provides an interface for users to customize the visibility of columns in a data grid. It uses a dropdown menu to list all available columns with checkboxes, allowing users to select which columns they want to display. The component's open state is managed locally, while the columns' visibility states are managed both locally and globally via the table context. This allows for immediate feedback in the UI and persistent changes across the application. The component integrates with `react-i18next` for internationalization, supporting dynamic translations for the button text and other UI elements.

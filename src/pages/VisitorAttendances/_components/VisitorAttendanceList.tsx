@@ -1,9 +1,6 @@
-import TableProvider from 'providers/TableProvider/TableProvider';
-import DataGrid from 'components/Atoms/DataGrid';
-import { IEmployee } from 'interfaces/employee/employee.interface';
+
 import { get } from 'lodash';
 import Loading from 'assets/icons/Loading';
-import { IFilter } from 'interfaces/filter.interface';
 import { createColumns } from '../helpers/createColumns';
 import { DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 

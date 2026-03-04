@@ -1,22 +1,18 @@
-import DataGrid from 'components/Atoms/DataGrid';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useDeleteQuery, useGetAllQuery } from 'hooks/api';
-import { IFilter } from './../../../../interfaces/filter.interface';
 import { get } from 'lodash';
-import TableProvider from 'providers/TableProvider/TableProvider';
 import { useMemo, useState } from 'react';
 import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useTranslation } from 'react-i18next';
-import { IEmployee } from 'interfaces/employee/employee.interface';
 import NoDataCard from './NoDataCard';
 import { IAction } from '../../../../interfaces/action.interface';
-import { Edit3, Plus, Trash2 } from 'lucide-react';
+import { Edit3, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import Loading from 'assets/icons/Loading';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
+import { DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 const PolicyList = () => {
   const navigate = useNavigate();
@@ -44,24 +40,6 @@ const PolicyList = () => {
       },
       { key: 'description', headerClassName: 'w-1/2', label: t('Organization Name'), cellRender: (row) => <div className="dark:text-text-title-dark">{row?.organization?.fullName ?? '--'}</div> },
     ],
-    [t]
-  );
-
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Name'),
-      headerClassName: 'w-1/2'
-    },
-    {
-      id: 2,
-      label: t('Organization Name'),
-      headerClassName: 'w-1/2'
-    },
-  ];
-
-  const filter: IFilter[] = useMemo(
-    () => [],
     [t]
   );
 
@@ -117,20 +95,13 @@ const PolicyList = () => {
   return (
     <>
       {get(data, 'data')?.length > 0 ? (
-        <TableProvider<IEmployee, IFilter[]>
-          values={{
-            columns,
-            filter,
-            rows: get(data, 'data', []),
-            keyExtractor: 'id'
-          }}>
-          <DataGrid
-            isLoading={isLoading}
-            rowActions={rowActions}
-            dataColumn={dataColumn}
-            pagination={data}
-          />
-        </TableProvider>
+        <DynamicTable
+          data={get(data, 'data', [])}
+          pagination={data}
+          columns={columns}
+          rowActions={rowActions}
+          hasIndex={true}
+        />
       ) : (
         <NoDataCard />
       )}

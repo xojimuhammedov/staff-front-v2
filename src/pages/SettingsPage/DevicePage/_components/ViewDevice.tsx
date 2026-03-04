@@ -1,13 +1,9 @@
-import DataGrid from 'components/Atoms/DataGrid';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import MyBadge from 'components/Atoms/MyBadge';
 import MyDivider from 'components/Atoms/MyDivider';
 import LabelledCaption from 'components/Molecules/LabelledCaption';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { useGetAllQuery } from 'hooks/api';
 import { get } from 'lodash';
-import TableProvider from 'providers/TableProvider/TableProvider';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
@@ -20,18 +16,8 @@ import { useSearch } from 'hooks/useSearch';
 import FixIssueModal from 'pages/SettingsPage/_components/SettingForms/FixIssueModal';
 import { MyInput } from 'components/Atoms/Form';
 import { KeyTypeEnum } from 'enums/key-type.enum';
-
-type FilterType = {
-  search: string;
-};
-
-type TItem = {
-  employeeName: string;
-  status: string;
-  timeline: string;
-  action: string;
-  id: string;
-};
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
+import MyBadge from '@/components/Atoms/MyBadge';
 
 function ViewDevice() {
   const { t } = useTranslation();
@@ -112,33 +98,6 @@ function ViewDevice() {
     [t]
   );
 
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Employee name'),
-      headerClassName: 'flex-1',
-    },
-    {
-      id: 2,
-      label: t('Organization name'),
-      headerClassName: 'flex-1',
-    },
-    {
-      id: 3,
-      label: t('Type'),
-      headerClassName: 'flex-1',
-    },
-    {
-      id: 4,
-      label: t('Status'),
-      headerClassName: 'flex-1',
-    },
-    {
-      id: 5,
-      label: t('Check error'),
-      headerClassName: 'flex-1',
-    },
-  ];
   const filteredRows = useMemo(() => {
     const rows = get(data, 'data', []);
     const keyword = (searchValue?.search || '').toString().trim().toLowerCase();
@@ -179,23 +138,12 @@ function ViewDevice() {
         </div>
       </div>
       <MyDivider />
-      <TableProvider<TItem, FilterType>
-        values={{
-          columns,
-          filter: { search: '' },
-          rows: filteredRows,
-          keyExtractor: 'id',
-        }}
-      >
-        <DataGrid
-          hasCustomizeColumns={false}
-          hasExport={false}
-          hasCheckbox={false}
-          isLoading={isLoading}
-          dataColumn={dataColumn}
-          pagination={data}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={filteredRows}
+        pagination={data}
+        columns={columns}
+        hasIndex={true}
+      />
     </PageContentWrapper>
   );
 }

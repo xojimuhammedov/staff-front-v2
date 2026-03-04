@@ -1,19 +1,11 @@
-import TableProvider from 'providers/TableProvider/TableProvider';
+
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import DataGrid from 'components/Atoms/DataGrid';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
 import { useLocation } from 'react-router-dom';
 import { Monitor } from 'lucide-react';
-import { searchValue } from 'types/search';
-import { IFilter } from 'interfaces/filter.interface';
 import { MOCK_COMPUTER_TRACKING, MOCK_PAGINATION } from './mockComputerTracking';
-import type { IComputerTrackingItem } from './mockComputerTracking';
 import MyBadge from 'components/Atoms/MyBadge';
-
-type ComputerTrackingListProps = {
-  searchValue?: searchValue;
-};
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 const BADGE_CLASSES = {
   red: 'border border-tag-red-icon [&_p]:text-tag-red-text dark:border-tag-red-icon dark:[&_p]:text-tag-red-text',
@@ -21,12 +13,11 @@ const BADGE_CLASSES = {
     'border border-tag-green-icon [&_p]:text-tag-green-text dark:border-tag-green-icon dark:[&_p]:text-tag-green-text',
 } as const;
 
-const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
+const ComputerTrackingList = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const isView = location.pathname === '/view';
   const currentLang: any = i18n.resolvedLanguage;
-  const isLoading = false;
   const columns: DataGridColumnType[] = useMemo(() => {
     const cols: DataGridColumnType[] = [
       {
@@ -95,8 +86,8 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
         headerClassName: 'w-1/3',
         cellRender: (row) => (
           <div className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 font-mono text-sm font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-          {row?.inventoryNumber ?? '--'}
-        </div>
+            {row?.inventoryNumber ?? '--'}
+          </div>
         ),
       },
     ];
@@ -104,38 +95,14 @@ const ComputerTrackingList = ({ searchValue }: ComputerTrackingListProps) => {
     return isView ? cols.filter((col) => !['status', 'employee'].includes(col.key)) : cols;
   }, [t, isView, currentLang]);
 
-  const dataColumn = useMemo(() => {
-    const base = [
-      { id: 1, label: t('Computer'), headerClassName: 'w-1/3' },
-      { id: 2, label: t('Model'), headerClassName: 'w-1/3' },
-      { id: 3, label: t('Status'), headerClassName: 'w-1/3' },
-      { id: 4, label: t('IP address'), headerClassName: 'w-1/3' },
-      { id: 5, label: t('Employees'), headerClassName: 'w-1/3' },
-      { id: 6, label: t('Number'), headerClassName: 'w-1/3' },
-    ];
-
-    return isView ? base.filter((c) => ![3, 5].includes(c.id)) : base;
-  }, [t, isView]);
-
-  const filter: IFilter[] = useMemo(() => [], [t]);
 
   return (
-    <TableProvider<IComputerTrackingItem, IFilter[]>
-      values={{
-        columns,
-        filter,
-        rows: MOCK_COMPUTER_TRACKING,
-        keyExtractor: 'id',
-      }}
-    >
-      <DataGrid
-        isLoading={isLoading}
-        hasOrderColumn={false}
-        hasCustomizeColumns={true}
-        dataColumn={dataColumn}
-        pagination={MOCK_PAGINATION}
-      />
-    </TableProvider>
+    <DynamicTable
+      data={MOCK_COMPUTER_TRACKING}
+      pagination={MOCK_PAGINATION}
+      columns={columns}
+      hasIndex={true}
+    />
   );
 };
 

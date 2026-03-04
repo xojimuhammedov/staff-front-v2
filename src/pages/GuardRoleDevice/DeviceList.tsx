@@ -1,53 +1,16 @@
 import { useTranslation } from 'react-i18next';
-import { DataGridColumnType } from 'components/Atoms/DataGrid/DataGridCell.types';
-import { useMemo, useState } from 'react';
-import TableProvider from 'providers/TableProvider/TableProvider';
-import DataGrid from 'components/Atoms/DataGrid';
-import { useDeleteQuery, usePostQuery } from 'hooks/api';
+import { useMemo } from 'react';
+import { usePostQuery } from 'hooks/api';
 import { KEYS } from 'constants/key';
 import { URLS } from 'constants/url';
 import { get } from 'lodash';
-import MyBadge from 'components/Atoms/MyBadge';
 import Loading from 'assets/icons/Loading';
 import { ArrowLeftRight, ExternalLink, LogIn, LogOut } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-
-type FilterType = {
-  search: string;
-};
-
-type TItem = {
-  employeeName: string;
-  status: string;
-  timeline: string;
-  action: string;
-  id: string;
-};
+import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 
 const DeviceList = ({ data, isLoading, refetch }: any) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [deviceId, setDeviceId] = useState('');
-  const [show, setShow] = useState(false);
-
-  const { mutate: deleteRequest } = useDeleteQuery({
-    listKeyId: KEYS.getDoorForDevices,
-  });
-
-  const deleteItem = () => {
-    if (!deviceId) return;
-    deleteRequest(
-      {
-        url: `${URLS.getDoorForDevices}/${deviceId}`,
-      },
-      {
-        onSuccess: () => {
-          refetch();
-        },
-      }
-    );
-  };
 
   const { mutate } = usePostQuery({
     listKeyId: KEYS.deviceForDoor,
@@ -164,34 +127,6 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
     [t]
   );
 
-  const dataColumn = [
-    {
-      id: 1,
-      label: t('Device name'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-    {
-      id: 2,
-      label: t('IP address / Model'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-    {
-      id: 3,
-      label: t('Gate'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-    {
-      id: 4,
-      label: t('Entry type'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-    {
-      id: 5,
-      label: t('Actions'),
-      headerClassName: 'sm:w-1/4 lg:flex-1',
-    },
-  ];
-
   if (isLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -201,23 +136,12 @@ const DeviceList = ({ data, isLoading, refetch }: any) => {
   }
   return (
     <>
-      <TableProvider<TItem, FilterType>
-        values={{
-          columns,
-          filter: { search: '' },
-          rows: get(data, 'data', []),
-          keyExtractor: 'id',
-        }}
-      >
-        <DataGrid
-          hasCustomizeColumns={false}
-          hasExport={false}
-          hasSearch={false}
-          dataColumn={dataColumn}
-          hasCheckbox={false}
-          isLoading={isLoading}
-        />
-      </TableProvider>
+      <DynamicTable
+        data={get(data, 'data', [])}
+        pagination={data}
+        columns={columns}
+        hasIndex={true}
+      />
     </>
   );
 };
