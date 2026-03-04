@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import { useSearchParams } from 'react-router-dom';
 import { readDraftFromSearchParams, toPickerRange, uniqSorted } from 'pages/ReportPage/helper/report';
 import { ISelect } from 'interfaces/select.interface';
+import { toast } from 'react-toastify';
 
 type FormValues = {
   departmentId: number;
@@ -139,6 +140,10 @@ function FormTable() {
   }, []);
 
   const handleSaveClick = () => {
+    if(!watch("organizationId")) {
+      toast.error("Please select an organization");
+      return;
+    }
     const date = watch("date"); // ✅ shu yerda object keladi
     const startDate: any = dayjs(date?.startDate).format("YYYY-MM-DD") ?? dayjs(defaultDate.startDate).format("YYYY-MM-DD");
     const endDate: any = dayjs(date?.endDate).format("YYYY-MM-DD") ?? dayjs(defaultDate.endDate).format("YYYY-MM-DD");
