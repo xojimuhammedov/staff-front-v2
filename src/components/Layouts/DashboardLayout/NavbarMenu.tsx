@@ -200,24 +200,24 @@ const NavbarMenu = () => {
       isSubMenu: false,
       allowedRoles: ['ADMIN']
     },
-    // {
-    //   label: t('Policy'),
-    //   to: '/policy',
-    //   isSubMenu: true,
-    //   subRoutes: [
-    //     {
-    //       label: t('Policy list'),
-    //       to: '/policy',
-    //       icon: 'AppWindow'
-    //     },
-    //     {
-    //       label: t('Policy groups'),
-    //       to: '/policy/groups',
-    //       icon: 'AppWindow'
-    //     },
-    //   ],
-    //   allowedRoles: ['ADMIN']
-    // },
+    {
+      label: t('Policy'),
+      to: '/policy',
+      isSubMenu: true,
+      subRoutes: [
+        {
+          label: t('Policy list'),
+          to: '/policy',
+          icon: 'AppWindow'
+        },
+        {
+          label: t('Policy groups'),
+          to: '/policy/groups',
+          icon: 'AppWindow'
+        },
+      ],
+      allowedRoles: ['ADMIN']
+    },
     {
       label: t('Settings'),
       to: '/settings',

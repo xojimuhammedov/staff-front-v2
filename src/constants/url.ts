@@ -54,5 +54,6 @@ export const URLS = {
   employeePlanHistoryChangeSchedules: "/api/v1/employee-plans/history-change-schedules",
   employeeAbsences: "/api/v1/employee-absences",
   employeeAssignDevice:"/api/v1/devices/device-employees",
-  birthdayEmployee:"/api/v1/dashboard/birthdays"
+  birthdayEmployee:"/api/v1/dashboard/birthdays",
+  getComputerList:"/api/v1/computers"
 };
