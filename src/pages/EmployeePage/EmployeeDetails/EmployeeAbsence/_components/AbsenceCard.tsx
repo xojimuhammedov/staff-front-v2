@@ -114,7 +114,7 @@ const AbsenceCard = ({ item, onEdit, onDelete }: AbsenceCardProps) => {
   const name = item.employee?.name ?? '--';
   // const jobTitle = item.employee?.jobTitle ?? item.employee?.position?.name ?? '--';
   const imageUrl = item.employee?.photo
-    ? `${config.FILE_URL}api/storage/${item.employee.photo}`
+    ? `${config.FILE_URL}/storage/${item.employee.photo}`
     : AvatarIcon;
   const statusMeta = getStatusMeta(item.status, item.startTime, item.endTime);
   const absenceLabel =
