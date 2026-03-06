@@ -168,7 +168,7 @@ const Credentials = () => {
         {data?.data?.map((item: any) => {
           const imageUrl =
             item?.type === "PHOTO"
-              ? `${config.FILE_URL}/storage/${item?.additionalDetails}`
+              ? `${config.FILE_URL}/api/storage/${item?.additionalDetails}`
               : undefined;
           const qrImageUrl = undefined;
           return (

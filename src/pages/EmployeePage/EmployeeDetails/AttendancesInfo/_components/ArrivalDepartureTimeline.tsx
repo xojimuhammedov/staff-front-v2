@@ -35,7 +35,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                             {
                                 event.image ? <MyAvatar
                                     className="w-8 h-8 rounded-full object-cover"
-                                    imageUrl={`${config.FILE_URL}/storage/${event?.image}`}
+                                    imageUrl={`${config.FILE_URL}/api/storage/${event?.image}`}
                                     alt="User photo"
                                 /> : <UserRound size={20} />
                             }
@@ -44,7 +44,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                             {
                                 event.image ? <MyAvatar
                                     className="w-8 h-8 rounded-full object-cover"
-                                    imageUrl={`${config.FILE_URL}/storage/${event?.image}`}
+                                    imageUrl={`${config.FILE_URL}/api/storage/${event?.image}`}
                                     alt="User photo"
                                 /> : <CarFront size={20} />
                             }
