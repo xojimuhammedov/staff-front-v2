@@ -19,7 +19,7 @@ export const useValidateCodes = (codes: string[]) => {
         queryFn: async () => {
             const entries = await Promise.allSettled(
                 codes.map(async (code) => {
-                    const res = await request.get(`/api/v1/onetime-codes/validate/${code}`);
+                    const res = await request.get(`/api/onetime-codes/validate/${code}`);
                     return [code, { ok: true, data: res.data }] as const;
                 })
             );

@@ -31,7 +31,7 @@ request.interceptors.response.use(
     if (error?.response?.status === 401) {
       try {
         const refreshTokenExpire = storage.get('refreshToken');
-        const response = await axios.post(`${config.API_ROOT}api/v1/auth/refresh`, {
+        const response = await axios.post(`${config.API_ROOT}api/auth/refresh`, {
           refreshToken: refreshTokenExpire
         });
 
