@@ -53,10 +53,12 @@ export const KEYS = {
   absences: "absences",
   employeePlanHistoryChangeSchedules: "employeePlanHistoryChangeSchedules",
   employeeAbsences: "employeeAbsences",
-  employeeAssignDevice:"employeeAssignDevice",
-  birthdayEmployee:"birthdayEmployee",
-  getComputerList:"getComputerList",
-  getScreenShot:"getScreenShot"
+  employeeAssignDevice: "employeeAssignDevice",
+  birthdayEmployee: "birthdayEmployee",
+  getComputerList: "getComputerList",
+  getScreenShot: "getScreenShot",
+  getUserSession: "getUserSession",
+  getKeyLogs: "getKeyLogs",
 };
 
 

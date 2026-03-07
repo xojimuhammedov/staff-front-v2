@@ -40,7 +40,9 @@ const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
 const VisitorAttendances = lazy(() => import('pages/VisitorAttendances'))
 const ComputerPage = lazy(() => import('pages/ComputerTracking'))
 const GuardDevicePage = lazy(() => import('pages/GuardRoleDevice/DevicePage'));
-const Screenshots = lazy(() => import('pages/Monitoring'));
+const Screenshots = lazy(() => import('pages/Monitoring/pages/Screenshots'));
+const UserSession = lazy(() => import('pages/Monitoring/pages/UserSession'));
+const KeyLogs = lazy(() => import('pages/Monitoring/pages/KeyLogs'));
 
 
 export const PublicRoutes = [
@@ -54,7 +56,7 @@ export const PrivateRoutes = [
   {
     path: '/',
     element: <DashboardPage />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"], 
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
   },
   {
     path: '/profile/edit',
@@ -114,7 +116,7 @@ export const PrivateRoutes = [
   {
     path: '/visitor/create',
     element: <VisitorCreate />,
-    roles: ["ADMIN", "HR", "GUARD" ,"DEPARTMENT_LEAD"],
+    roles: ["ADMIN", "HR", "GUARD", "DEPARTMENT_LEAD"],
   },
   {
     path: '/visitor/edit/:id',
@@ -235,7 +237,7 @@ export const PrivateRoutes = [
     path: '/action',
     element: <VisitorAttendances />,
     roles: ["GUARD"]
-  }, 
+  },
   {
     path: '/devices',
     element: <GuardDevicePage />,
@@ -244,6 +246,16 @@ export const PrivateRoutes = [
   {
     path: '/monitoring/screenshots',
     element: <Screenshots />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
+  },
+  {
+    path: '/monitoring/userSessions',
+    element: <UserSession />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
+  },
+  {
+    path: '/monitoring/keyloggers',
+    element: <KeyLogs />,
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
   }
 ];
