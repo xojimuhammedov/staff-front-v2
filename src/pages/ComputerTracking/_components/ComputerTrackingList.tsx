@@ -1,9 +1,8 @@
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { Monitor } from 'lucide-react';
-import { MOCK_COMPUTER_TRACKING, MOCK_PAGINATION } from './mockComputerTracking';
 import MyBadge from 'components/Atoms/MyBadge';
 import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 import { useGetAllQuery } from '@/hooks/api';
@@ -24,7 +23,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
   const isView = location.pathname === '/view';
   const currentLang: any = i18n.resolvedLanguage;
 
-  const { data, isLoading } = useGetAllQuery<any>({
+  const { data } = useGetAllQuery<any>({
     key: KEYS.getComputerList,
     url: URLS.getComputerList,
     params: {

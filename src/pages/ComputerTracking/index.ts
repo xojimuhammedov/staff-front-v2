@@ -1,1 +1,4 @@
-export { default } from './computerTracking';
+import ComputerPage from './ComputerPage';
+
+export default ComputerPage;
+

@@ -76,7 +76,7 @@ const CustomDropdownMenu: React.FC<CustomDropdownMenuProps> = ({ menuItem }) => 
       </NavLink>
 
       {isOpen && (
-        <ul className="shadow-gray-150 absolute w-72 rounded-lg bg-white shadow-md dark:bg-bg-dark-bg">
+        <ul className="shadow-gray-150 absolute w-72 rounded-lg bg-white shadow-md dark:bg-bg-dark-bg z-[9999999]">
           {get(menuItem, 'subRoutes', []).map((i: SubItem, index: number) => {
             return (
               <li key={index} onClick={() => handleOptionClick()}>
@@ -171,9 +171,41 @@ const NavbarMenu = () => {
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
     },
     {
-      label: t('Computer tracking'),
-      to: '/computer-tracking',
-      isSubMenu: false,
+      label: t('Monitoring'),
+      to: '/monitoring',
+      isSubMenu: true,
+      subRoutes: [
+        {
+          label: t('Active Windows'),
+          to: '/monitoring/activeWindows',
+          icon: 'Users'
+        },
+        {
+          label: t('Visited sites'),
+          to: '/monitoring/visitedSites',
+          icon: 'Table'
+        },
+        {
+          label: t('Screenshots'),
+          to: '/monitoring/screenshots',
+          icon: 'AppWindow'
+        },
+        {
+          label: t('User sessions'),
+          to: '/monitoring/userSessions',
+          icon: 'AppWindow'
+        },
+        {
+          label: t('Keyloggers'),
+          to: '/monitoring/keyloggers',
+          icon: 'AppWindow'
+        },
+        {
+          label: t('Computer tracking'),
+          to: '/monitoring/computerTracking',
+          icon: 'AppWindow'
+        },
+      ],
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
     },
     {

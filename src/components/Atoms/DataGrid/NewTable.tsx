@@ -61,7 +61,7 @@ export function DynamicTable<T>({ data, columns, actionsRender, rowActions, hasI
         <>
             <div ref={ref} className="mt-8">
                 <Table wrapperClassName="h-[calc(100vh-280px)]" className="w-full text-sm">
-                    <TableHeader className="sticky top-0 z-20 bg-white dark:bg-[rgb(var(--color-bg-bgblack-dark))]">
+                    <TableHeader className="sticky top-0 -z-20 bg-white dark:bg-[rgb(var(--color-bg-bgblack-dark))]">
                         <TableRow className="border-b border-border-base dark:border-[rgb(var(--color-dark-line))]">
                             {hasIndex && (
                                 <TableHead className="w-[50px] px-4 whitespace-nowrap text-center dark:text-text-title-dark">#</TableHead>

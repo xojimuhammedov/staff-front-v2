@@ -55,5 +55,6 @@ export const URLS = {
   employeeAbsences: "/api/employee-absences",
   employeeAssignDevice:"/api/devices/device-employees",
   birthdayEmployee:"/api/dashboard/birthdays",
-  getComputerList:"/api/computers"
+  getComputerList:"/api/computers",
+  getScreenShot:"/api/monitoring/screenshots"
 };

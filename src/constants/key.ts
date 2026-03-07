@@ -55,7 +55,8 @@ export const KEYS = {
   employeeAbsences: "employeeAbsences",
   employeeAssignDevice:"employeeAssignDevice",
   birthdayEmployee:"birthdayEmployee",
-  getComputerList:"getComputerList"
+  getComputerList:"getComputerList",
+  getScreenShot:"getScreenShot"
 };
 
 
