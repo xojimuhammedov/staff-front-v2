@@ -1,7 +1,6 @@
 
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import { Monitor } from 'lucide-react';
 import MyBadge from 'components/Atoms/MyBadge';
 import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
@@ -19,8 +18,6 @@ const BADGE_CLASSES = {
 
 const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
-  const isView = location.pathname === '/view';
   const currentLang: any = i18n.resolvedLanguage;
 
   const { data } = useGetAllQuery<any>({
@@ -33,8 +30,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
     }
   })
 
-  const columns: DataGridColumnType[] = useMemo(() => {
-    const cols: DataGridColumnType[] = [
+  const columns: DataGridColumnType[] = useMemo(() => [
       {
         key: 'computer',
         label: t('Computer'),
@@ -105,10 +101,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
           </div>
         ),
       },
-    ];
-
-    return isView ? cols.filter((col) => !['status', 'employee'].includes(col.key)) : cols;
-  }, [t, isView, currentLang]);
+    ], [t, currentLang]);
 
 
   return (
