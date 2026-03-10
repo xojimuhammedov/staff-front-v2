@@ -33,7 +33,7 @@ export const createColumnsKeyLogs = () => {
                 label: t('Datetime'),
                 headerClassName: 'dark:text-text-title-dark min-w-max',
                 cellRender: (row) =>
-                    dayjs(row?.datetime).format('DD/MM/YYYY HH:mm:ss'),
+                    <div className="dark:text-text-title-dark">{dayjs(row?.datetime).format('DD/MM/YYYY HH:mm:ss') || '-'}</div>
             },
             {
                 key: 'processName',

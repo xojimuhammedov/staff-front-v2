@@ -38,7 +38,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       {
         key: 'computer',
         label: t('Computer'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => (
           <div className="flex items-center gap-3 dark:text-text-title-dark">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 dark:bg-gray-800/50">
@@ -56,7 +56,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       {
         key: 'pcName',
         label: t('Pc name'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => (
           <div className="text-text-base dark:text-text-title-dark">{row?.pcName ?? '--'}</div>
         ),
@@ -64,7 +64,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       {
         key: 'isActive',
         label: t('Status'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => {
           const isOnline = row?.isActive;
           return (
@@ -80,7 +80,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       {
         key: 'ipAddress',
         label: t('IP address'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => (
           <div className="text-text-base dark:text-text-title-dark">{row?.ipAddress ?? '--'}</div>
         ),
@@ -88,7 +88,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       {
         key: 'hostname',
         label: t('Hostname'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => (
           <div className="text-sm dark:text-text-title-dark">
             <p className="text-sm">{row?.hostname ?? '--'}</p>
@@ -98,7 +98,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       {
         key: '_count',
         label: t('Count for computer users'),
-        headerClassName: 'w-1/3',
+        headerClassName: 'dark:text-text-title-dark min-w-max',
         cellRender: (row) => (
           <div className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 font-mono text-sm font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
             {row?._count?.computerUsers ?? '--'}
