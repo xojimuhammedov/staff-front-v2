@@ -31,77 +31,109 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
   })
 
   const columns: DataGridColumnType[] = useMemo(() => [
-      {
-        key: 'computer',
-        label: t('Computer'),
-        headerClassName: 'dark:text-text-title-dark min-w-max',
-        cellRender: (row) => (
-          <div className="flex items-center gap-3 dark:text-text-title-dark">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 dark:bg-gray-800/50">
-              <Monitor className="h-5 w-5 text-blue-600 dark:text-gray-400" />
-            </div>
-            <div className="flex flex-col">
-              <p className="font-medium text-xs">{row?.os ?? '--'}</p>
-              {row?.version && (
-                <p className="text-xs text-text-muted dark:text-text-muted">{row.version}</p>
-              )}
-            </div>
+    {
+      key: 'computer',
+      label: t('Computer'),
+      headerClassName: 'dark:text-text-title-dark min-w-max',
+      cellRender: (row) => (
+        <div className="flex items-center gap-3 dark:text-text-title-dark">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 dark:bg-gray-800/50">
+            <Monitor className="h-5 w-5 text-blue-600 dark:text-gray-400" />
           </div>
-        ),
-      },
-      {
-        key: 'pcName',
-        label: t('Pc name'),
-        headerClassName: 'dark:text-text-title-dark min-w-max',
-        cellRender: (row) => (
-          <div className="text-text-base dark:text-text-title-dark">{row?.pcName ?? '--'}</div>
-        ),
-      },
-      {
-        key: 'isActive',
-        label: t('Status'),
-        headerClassName: 'dark:text-text-title-dark min-w-max',
-        cellRender: (row) => {
-          const isOnline = row?.isActive;
-          return (
-            <MyBadge
-              className={BADGE_CLASSES[isOnline ? 'green' : 'red']}
-              variant={isOnline ? 'green' : 'red'}
-            >
-              {isOnline ? t('Online') : t('Offline')}
-            </MyBadge>
-          );
-        },
-      },
-      {
-        key: 'ipAddress',
-        label: t('IP address'),
-        headerClassName: 'dark:text-text-title-dark min-w-max',
-        cellRender: (row) => (
-          <div className="text-text-base dark:text-text-title-dark">{row?.ipAddress ?? '--'}</div>
-        ),
-      },
-      {
-        key: 'hostname',
-        label: t('Hostname'),
-        headerClassName: 'dark:text-text-title-dark min-w-max',
-        cellRender: (row) => (
-          <div className="text-sm dark:text-text-title-dark">
-            <p className="text-sm">{row?.hostname ?? '--'}</p>
+          <div className="flex flex-col">
+            <p className="font-medium text-xs">{row?.os ?? '--'}</p>
+            {row?.version && (
+              <p className="text-xs text-text-muted dark:text-text-muted">{row.version}</p>
+            )}
           </div>
-        ),
+        </div>
+      ),
+    },
+    {
+      key: 'pcName',
+      label: t('Pc name'),
+      headerClassName: 'dark:text-text-title-dark min-w-max',
+      cellRender: (row) => (
+        <div className="text-text-base dark:text-text-title-dark">{row?.pcName ?? '--'}</div>
+      ),
+    },
+    {
+      key: 'ipAddress',
+      label: t('IP address'),
+      headerClassName: 'dark:text-text-title-dark min-w-max',
+      cellRender: (row) => (
+        <div className="text-text-base dark:text-text-title-dark">{row?.ipAddress ?? '--'}</div>
+      ),
+    },
+    {
+      key: 'hostname',
+      label: t('Hostname'),
+      headerClassName: 'dark:text-text-title-dark min-w-max',
+      cellRender: (row) => (
+        <div className="text-sm dark:text-text-title-dark">
+          <p className="text-sm">{row?.hostname ?? '--'}</p>
+        </div>
+      ),
+    },
+    {
+      key: 'isActive',
+      label: t('Status'),
+      headerClassName: 'dark:text-text-title-dark min-w-max',
+      cellRender: (row) => {
+        const isOnline = row?.isActive;
+        return (
+          <MyBadge
+            className={BADGE_CLASSES[isOnline ? 'green' : 'red']}
+            variant={isOnline ? 'green' : 'red'}
+          >
+            {isOnline ? t('Online') : t('Offline')}
+          </MyBadge>
+        );
       },
-      {
-        key: '_count',
-        label: t('Count for computer users'),
-        headerClassName: 'dark:text-text-title-dark min-w-max',
-        cellRender: (row) => (
-          <div className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 font-mono text-sm font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-            {row?._count?.computerUsers ?? '--'}
-          </div>
-        ),
+    },
+    {
+      key: 'isOnline',
+      label: t('Online'),
+      headerClassName: 'dark:text-text-title-dark min-w-max',
+      cellRender: (row) => {
+        const isOnline = row?.isOnline;
+        return (
+          <MyBadge
+            className={BADGE_CLASSES[isOnline ? 'green' : 'red']}
+            variant={isOnline ? 'green' : 'red'}
+          >
+            {isOnline ? t('Online') : t('Offline')}
+          </MyBadge>
+        );
       },
-    ], [t, currentLang]);
+    },
+    {
+      key: 'isUninstall',
+      label: t('Uninstall'),
+      headerClassName: 'dark:text-text-title-dark min-w-max',
+      cellRender: (row) => {
+        const isUninstall = row?.isUninstall;
+        return (
+          <MyBadge
+            className={BADGE_CLASSES[isUninstall ? 'green' : 'red']}
+            variant={isUninstall ? 'green' : 'red'}
+          >
+            {isUninstall ? t('Uninstall') : t('Install')}
+          </MyBadge>
+        );
+      },
+    },
+    // {
+    //   key: '_count',
+    //   label: t('Count for computer users'),
+    //   headerClassName: 'dark:text-text-title-dark min-w-max',
+    //   cellRender: (row) => (
+    //     <div className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 font-mono text-sm font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+    //       {row?._count?.computerUsers ?? '--'}
+    //     </div>
+    //   ),
+    // },
+  ], [t, currentLang]);
 
 
   return (
