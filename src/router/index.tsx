@@ -229,7 +229,7 @@ export const PrivateRoutes = [
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"]
   },
   {
-    path: '/computerTracking',
+    path: '/monitoring/computerTracking',
     element: <ComputerPage />,
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
   },

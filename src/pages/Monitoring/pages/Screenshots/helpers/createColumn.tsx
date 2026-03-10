@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DataGridColumnType } from '@/components/Atoms/DataGrid/NewTable';
 import dayjs from 'dayjs';
 import config from '@/configs';
+import { Tooltip } from 'flowbite-react';
 
 export const createColumnsScreenshots = () => {
   const { t } = useTranslation();
@@ -13,11 +14,20 @@ export const createColumnsScreenshots = () => {
         key: 'title',
         label: t('Title'),
         headerClassName: 'dark:text-text-title-dark min-w-max',
-        cellRender: (row) => (
-          <div className="flex items-center gap-2 dark:text-text-title-dark">
-            {row?.title ?? '-'}
-          </div>
-        ),
+        cellRender: (row) => {
+          const text = row?.title || '-';
+          return (
+            <div className="flex items-center gap-2 dark:text-text-title-dark">
+              {text.length > 30 ? (
+                <Tooltip content={text} placement="bottom">
+                  <span className="cursor-pointer">{text.substring(0, 20)}...</span>
+                </Tooltip>
+              ) : (
+                <span>{text}</span>
+              )}
+            </div>
+          );
+        },
       },
       {
         key: 'datetime',
@@ -33,6 +43,16 @@ export const createColumnsScreenshots = () => {
         cellRender: (row) => (
           <div className="dark:text-text-title-dark">
             {row?.processName || '-'}
+          </div>
+        ),
+      },
+      {
+        key: 'filePath',
+        label: t('File Path'),
+        headerClassName: '',
+        cellRender: (row) => (
+          <div className="">
+            <img className='w-24 h-12 object-cover' src={`${config.FILE_URL}api/storage/${row?.filePath}`} alt="" />
           </div>
         ),
       },
