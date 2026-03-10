@@ -61,6 +61,5 @@ export const KEYS = {
   getKeyLogs: "getKeyLogs",
   getVisitedSites: "getVisitedSites",
   getActiveWindows: "getActiveWindows",
+  getPolicyEnum:"getPolicyEnum"
 };
-
-

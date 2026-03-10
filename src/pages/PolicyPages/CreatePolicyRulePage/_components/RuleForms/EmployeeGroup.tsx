@@ -23,7 +23,9 @@ const EmployeeGroup = () => {
     const { data } = useGetAllQuery<any>({
         key: KEYS.getEmployeeList,
         url: URLS.getEmployeeList,
-        params: {}
+        params: {
+            limit: 100
+        }
     });
 
 

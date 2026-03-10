@@ -47,22 +47,6 @@ function Form() {
     hideErrorMsg: true,
   });
 
-  const { data: scheduleData } = useGetAllQuery<any>({
-    key: KEYS.employeeSchedulePlan,
-    url: URLS.employeeSchedulePlan,
-    params: {
-      page: 1,
-      limit: 100,
-    },
-    hideErrorMsg: true,
-  });
-
-  const { data: jobData } = useGetAllQuery<any>({
-    key: KEYS.employeeJobPosition,
-    url: URLS.employeeJobPosition,
-    params: {},
-    hideErrorMsg: true,
-  });
 
   const schema = object().shape({
     name: string().required(),
@@ -85,7 +69,7 @@ function Form() {
       .oneOf(['MALE', 'FEMALE'])
       .transform((v) => (v === '' ? undefined : v)),
     birthday: yup.string().transform((v) => (v === '' ? undefined : v)),
-    employeePlanId: yup.number().transform((v) => (isNaN(v) ? undefined : v)),
+    employeePlanId: yup.number().transform((v) => (isNaN(v) ? undefined : v)).required(),
     jobId: yup.number().required(),
     isWhitelist: yup.boolean().transform((v) => (v === undefined ? false : v)),
   });
@@ -136,6 +120,26 @@ function Form() {
     params: {
       organizationId: watch('organizationId'),
     },
+  });
+
+  const { data: jobData } = useGetAllQuery<any>({
+    key: KEYS.employeeJobPosition,
+    url: URLS.employeeJobPosition,
+    params: {
+      organizationId: watch('organizationId'),
+    },
+    hideErrorMsg: true,
+  });
+
+  const { data: scheduleData } = useGetAllQuery<any>({
+    key: KEYS.employeeSchedulePlan,
+    url: URLS.employeeSchedulePlan,
+    params: {
+      page: 1,
+      limit: 100,
+      organizationId: watch('organizationId'),
+    },
+    hideErrorMsg: true,
   });
 
   return (
@@ -197,6 +201,24 @@ function Form() {
               helperText={t(`${errors?.birthday?.message}`)}
               label={t('Birthday')}
             />
+             <Controller
+              name="organizationId"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MySelect
+                  label={t('Select organization')}
+                  options={data?.data?.map((evt: any) => ({
+                    label: evt.fullName,
+                    value: evt.id,
+                  }))}
+                  value={field.value as any}
+                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
+                  onBlur={field.onBlur}
+                  error={!!fieldState.error}
+                  allowedRoles={['ADMIN']}
+                />
+              )}
+            />
             <Controller
               name="jobId"
               control={control}
@@ -212,24 +234,6 @@ function Form() {
                   onBlur={field.onBlur}
                   error={!!fieldState.error}
                   allowedRoles={['ADMIN', 'HR']}
-                />
-              )}
-            />
-            <Controller
-              name="organizationId"
-              control={control}
-              render={({ field, fieldState }) => (
-                <MySelect
-                  label={t('Select organization')}
-                  options={data?.data?.map((evt: any) => ({
-                    label: evt.fullName,
-                    value: evt.id,
-                  }))}
-                  value={field.value as any}
-                  onChange={(val) => field.onChange(Number((val as ISelect)?.value ?? val))}
-                  onBlur={field.onBlur}
-                  error={!!fieldState.error}
-                  allowedRoles={['ADMIN']}
                 />
               )}
             />

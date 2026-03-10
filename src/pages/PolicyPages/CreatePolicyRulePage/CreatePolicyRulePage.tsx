@@ -1,8 +1,6 @@
 import MyBreadCrumb from 'components/Atoms/MyBreadCrumb';
-import MyButton from 'components/Atoms/MyButton/MyButton';
 import PageContentWrapper from 'components/Layouts/PageContentWrapper';
 import { useTranslation } from 'react-i18next';
-import { Save } from 'lucide-react';
 import MyDivider from 'components/Atoms/MyDivider';
 import Sidebar from './_components/Sidebar/Sidebar';
 import MainContent from './_components/MainContent';
@@ -52,12 +50,6 @@ const CreatePolicyRulePage = () => {
     <PageContentWrapper>
       <div className="flex items-center justify-between">
         <MyBreadCrumb pageTitle={t('Create policy rule')} items={breadCrumbs} />
-        {/* <div className="flex items-center gap-4">
-          <MyButton variant="secondary">{t('Reset default settings')}</MyButton>
-          <MyButton variant="secondary" disabled startIcon={<Save />}>
-            {t('Save changes')}
-          </MyButton>
-        </div> */}
       </div>
       <MyDivider />
       <div className="flex gap-6">
