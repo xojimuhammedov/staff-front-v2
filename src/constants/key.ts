@@ -59,6 +59,8 @@ export const KEYS = {
   getScreenShot: "getScreenShot",
   getUserSession: "getUserSession",
   getKeyLogs: "getKeyLogs",
+  getVisitedSites: "getVisitedSites",
+  getActiveWindows: "getActiveWindows",
 };
 
 

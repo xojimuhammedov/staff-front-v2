@@ -40,9 +40,11 @@ const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
 const VisitorAttendances = lazy(() => import('pages/VisitorAttendances'))
 const ComputerPage = lazy(() => import('pages/ComputerTracking'))
 const GuardDevicePage = lazy(() => import('pages/GuardRoleDevice/DevicePage'));
-const Screenshots = lazy(() => import('pages/Monitoring/pages/Screenshots'));
-const UserSession = lazy(() => import('pages/Monitoring/pages/UserSession'));
-const KeyLogs = lazy(() => import('pages/Monitoring/pages/KeyLogs'));
+const Screenshots = lazy(() => import('@/pages/Monitoring/Screenshots'));
+const UserSession = lazy(() => import('@/pages/Monitoring/UserSession'));
+const KeyLogs = lazy(() => import('@/pages/Monitoring/KeyLogs'));
+const VisitedSites = lazy(() => import('@/pages/Monitoring/VisitedSites'));
+const ActiveWindow = lazy(() => import('@/pages/Monitoring/ActiveWindow'));
 
 
 export const PublicRoutes = [
@@ -256,6 +258,16 @@ export const PrivateRoutes = [
   {
     path: '/monitoring/keyloggers',
     element: <KeyLogs />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
+  },
+  {
+    path: '/monitoring/visitedSites',
+    element: <VisitedSites />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
+  },
+  {
+    path: '/monitoring/activeWindows',
+    element: <ActiveWindow />,
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
   }
 ];

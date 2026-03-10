@@ -59,4 +59,6 @@ export const URLS = {
   getScreenShot: "/api/monitoring/screenshots",
   getUserSession: "/api/monitoring/user-sessions",
   getKeyLogs: "/api/monitoring/keylogs",
+  getVisitedSites: "/api/monitoring/visited-sites",
+  getActiveWindows: "/api/monitoring/active-windows",
 };
