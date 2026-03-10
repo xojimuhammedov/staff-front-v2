@@ -38,7 +38,7 @@ const ViewDevice = lazy(() => import('pages/SettingsPage/DevicePage/_components/
 const TablePage = lazy(() => import('pages/ReportPage/TablePage'))
 const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
 const VisitorAttendances = lazy(() => import('pages/VisitorAttendances'))
-const ComputerPage = lazy(() => import('pages/ComputerTracking'))
+const ComputerPage = lazy(() => import('@/pages/Monitoring/ComputerTracking'))
 const GuardDevicePage = lazy(() => import('pages/GuardRoleDevice/DevicePage'));
 const Screenshots = lazy(() => import('@/pages/Monitoring/Screenshots'));
 const UserSession = lazy(() => import('@/pages/Monitoring/UserSession'));
