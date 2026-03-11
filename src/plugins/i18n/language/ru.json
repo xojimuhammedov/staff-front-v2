@@ -749,5 +749,21 @@
   "Schedule history":"История расписаний",
   "Birthdays":"Дни рождения",
   "Previous Schedule":"Предыдущее расписание",
-  "New Schedule":"Новое расписание"
+  "New Schedule":"Новое расписание",
+  "Key Logs": "Журналы клавиатуры",
+  "Title": "Заголовок",
+  "Datetime": "Дата и время",
+  "Process Name": "Имя процесса",
+  "Content": "Содержание",
+  "User Session": "Сессия пользователя",
+  "Visited Sites": "Посещенные сайты",
+  "URL": "URL-адрес",
+  "Pc name": "Имя ПК",
+  "Hostname": "Имя хоста",
+  "Uninstall": "Удалить",
+  "Install": "Установить",
+  "Icon": "Иконка",
+  "Active Windows": "Активные окна",
+  "Screenshots": "Скриншоты",
+  "File Path": "Путь к файлу"
 }

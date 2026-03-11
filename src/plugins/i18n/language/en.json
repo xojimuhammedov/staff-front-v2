@@ -741,5 +741,21 @@
   "Schedule history":"Schedule history",
   "Birthdays":"Birthdays",
   "Previous Schedule":"Previous Schedule",
-  "New Schedule":"New Schedule"
+  "New Schedule":"New Schedule",
+  "Key Logs": "Key Logs",
+  "Title": "Title",
+  "Datetime": "Datetime",
+  "Process Name": "Process Name",
+  "Content": "Content",
+  "User Session": "User Session",
+  "Visited Sites": "Visited Sites",
+  "URL": "URL",
+  "Pc name": "Pc name",
+  "Hostname": "Hostname",
+  "Uninstall": "Uninstall",
+  "Install": "Install",
+  "Icon": "Icon",
+  "Active Windows": "Active Windows",
+  "Screenshots": "Screenshots",
+  "File Path": "File Path"
 }

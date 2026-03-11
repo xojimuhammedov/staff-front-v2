@@ -752,5 +752,21 @@
   "Schedule history": "Jadval tarixi",
   "Birthdays":"Tug'ilgan kunlar",
   "Previous Schedule":"Oldingi jadval",
-  "New Schedule":"Yangi jadval"
+  "New Schedule":"Yangi jadval",
+  "Key Logs": "Klaviatura yozuvlari",
+  "Title": "Sarlavha",
+  "Datetime": "Sana va vaqt",
+  "Process Name": "Jarayon nomi",
+  "Content": "Kontent",
+  "User Session": "Foydalanuvchi sessiyasi",
+  "Visited Sites": "Tashrif buyurilgan saytlar",
+  "URL": "URL",
+  "Pc name": "Shaxsiy kompyuter nomi",
+  "Hostname": "Xost nomi",
+  "Uninstall": "O'chirish",
+  "Install": "O'rnatish",
+  "Icon": "Ikonka",
+  "Active Windows": "Faol oynalar",
+  "Screenshots": "Skrinshotlar",
+  "File Path": "Fayl yo'li"
 }
