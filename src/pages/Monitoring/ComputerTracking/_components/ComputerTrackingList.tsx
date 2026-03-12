@@ -80,13 +80,13 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       label: t('Status'),
       headerClassName: 'dark:text-text-title-dark min-w-max',
       cellRender: (row) => {
-        const isOnline = row?.isActive;
+        const isActive = row?.isActive;
         return (
           <MyBadge
-            className={BADGE_CLASSES[isOnline ? 'green' : 'red']}
-            variant={isOnline ? 'green' : 'red'}
+            className={BADGE_CLASSES[isActive ? 'green' : 'red']}
+            variant={isActive ? 'green' : 'red'}
           >
-            {isOnline ? t('Online') : t('Offline')}
+            {isActive ? t('Active') : t('Inactive')}
           </MyBadge>
         );
       },
