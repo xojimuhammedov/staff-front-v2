@@ -45,6 +45,7 @@ const UserSession = lazy(() => import('@/pages/Monitoring/UserSession'));
 const KeyLogs = lazy(() => import('@/pages/Monitoring/KeyLogs'));
 const VisitedSites = lazy(() => import('@/pages/Monitoring/VisitedSites'));
 const ActiveWindow = lazy(() => import('@/pages/Monitoring/ActiveWindow'));
+const ComputerUsers = lazy(() => import('@/pages/Monitoring/ComputerUsers'));
 
 
 export const PublicRoutes = [
@@ -233,6 +234,11 @@ export const PrivateRoutes = [
   {
     path: '/monitoring/computerTracking',
     element: <ComputerPage />,
+    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
+  },
+  {
+    path: '/monitoring/computerUsers',
+    element: <ComputerUsers />,
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
   },
   {

@@ -12,9 +12,9 @@ export default function ConfirmationModal({
   const { t } = useTranslation();
   return (
     <div>
-      <Dialog open={open} onClose={setOpen} className="relative z-10">
+      <Dialog open={open} onClose={setOpen} className="relative z-50">
         <div className="fixed inset-0 bg-gray-500/75" aria-hidden="true" />
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <Dialog.Panel className="relative overflow-hidden rounded-lg bg-white dark:bg-bg-dark-bg text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg">
               <div className="bg-white dark:bg-bg-dark-bg px-4 pt-5 pb-4 sm:p-6 sm:pb-4">

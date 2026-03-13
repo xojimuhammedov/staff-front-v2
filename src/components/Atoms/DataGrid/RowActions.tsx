@@ -34,9 +34,13 @@ const RowActions = ({ actions = [], row, allowedRoles }: RowActionProps) => {
   // 🔍 Har bir actionni filtrlash
   const visibleActions = useMemo(() => {
     return actions.filter(
-      (a) => !a.allowedRoles || a.allowedRoles.includes(userRole)
+      (a) => {
+        if (a.allowedRoles && !a.allowedRoles.includes(userRole)) return false;
+        if (a.hidden && a.hidden(row)) return false;
+        return true;
+      }
     );
-  }, [actions, userRole]);
+  }, [actions, userRole, row]);
 
   if (visibleActions?.length === 0) return null;
 

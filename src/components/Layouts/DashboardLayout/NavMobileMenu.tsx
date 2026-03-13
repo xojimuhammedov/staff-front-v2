@@ -136,7 +136,13 @@ const NavMobileMenu = ({ setOpenModal }: any) => {
     },
     {
       label: t('Computer tracking'),
-      to: '/computer-tracking',
+      to: '/monitoring/computerTracking',
+      isSubMenu: false,
+      allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
+    },
+    {
+      label: t('Computer users'),
+      to: '/monitoring/computerUsers',
       isSubMenu: false,
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
     },

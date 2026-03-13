@@ -25,7 +25,7 @@ const postRequest: (
 const usePostQuery = ({ hideSuccessToast = false, listKeyId = null }: PostQueryProps) => {
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading, isError, error, } = useMutation<
+  const { mutate, isLoading, isError, error, isPending } = useMutation<
     any,
     AxiosError,
     { url: string; attributes: PostRequestAttributes; config?: PostRequestConfig }
@@ -49,7 +49,8 @@ const usePostQuery = ({ hideSuccessToast = false, listKeyId = null }: PostQueryP
     mutate,
     isLoading,
     isError,
-    error
+    error,
+    isPending
   };
 };
 

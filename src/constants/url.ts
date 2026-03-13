@@ -61,5 +61,6 @@ export const URLS = {
   getKeyLogs: "/api/monitoring/keylogs",
   getVisitedSites: "/api/monitoring/visited-sites",
   getActiveWindows: "/api/monitoring/active-windows",
-  getPolicyEnum:"/api/policies/enum"
+  getPolicyEnum:"/api/policies/enum",
+  getComputerUserList: "/api/computer-users"
 };

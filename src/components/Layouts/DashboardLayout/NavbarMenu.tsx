@@ -205,6 +205,11 @@ const NavbarMenu = () => {
           to: '/monitoring/computerTracking',
           icon: 'AppWindow'
         },
+        {
+          label: t('Computer users'),
+          to: '/monitoring/computerUsers',
+          icon: 'Users'
+        },
       ],
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
     },

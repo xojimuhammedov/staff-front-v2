@@ -5,6 +5,7 @@ import { Monitor } from 'lucide-react';
 import MyBadge from 'components/Atoms/MyBadge';
 import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
 import { useGetAllQuery } from '@/hooks/api';
+import { useNavigate } from 'react-router-dom';
 import { KEYS } from '@/constants/key';
 import { URLS } from '@/constants/url';
 import { searchValue } from '@/types/search';
@@ -134,7 +135,6 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
     //   ),
     // },
   ], [t, currentLang]);
-
 
   return (
     <DynamicTable
