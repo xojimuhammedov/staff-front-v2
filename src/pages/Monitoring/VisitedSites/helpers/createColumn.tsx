@@ -12,7 +12,7 @@ export const createColumnsVisitedSites = () => {
             {
                 key: 'title',
                 label: t('Title'),
-                headerClassName: 'dark:text-text-title-dark min-w-max',
+                headerClassName: 'dark:text-text-title-dark ',
                 cellRender: (row) => {
                     const text = row?.title || '-';
                     return (
@@ -31,14 +31,14 @@ export const createColumnsVisitedSites = () => {
             {
                 key: 'datetime',
                 label: t('Datetime'),
-                headerClassName: 'dark:text-text-title-dark min-w-max',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) =>
                     <div className="dark:text-text-title-dark">{dayjs(row?.datetime).format('DD/MM/YYYY HH:mm:ss') || '-'}</div>
             },
             {
                 key: 'processName',
                 label: t('Process Name'),
-                headerClassName: 'dark:text-text-title-dark min-w-max',
+                headerClassName: 'dark:text-text-title-dark ',
                 cellRender: (row) => (
                     <div className="dark:text-text-title-dark">
                         {row?.processName || '-'}
@@ -48,12 +48,12 @@ export const createColumnsVisitedSites = () => {
             {
                 key: 'url',
                 label: t('URL'),
-                headerClassName: 'dark:text-text-title-dark min-w-max',
+                headerClassName: 'dark:text-text-title-dark',
                 cellRender: (row) => {
                     const text = row?.url || '-';
                     return (
                         <div className="dark:text-text-title-dark text-blue-500 hover:underline">
-                            {text.length > 20 && text !== '-' ? (
+                            {text.length > 10 && text !== '-' ? (
                                 <Tooltip content={<div className="max-w-[300px] break-words whitespace-pre-wrap">{text}</div>} placement="bottom">
                                     <a href={text.startsWith('http') ? text : `http://${text}`} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
                                         {text.substring(0, 20)}...

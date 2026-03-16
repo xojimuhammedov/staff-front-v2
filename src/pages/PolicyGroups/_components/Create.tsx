@@ -48,6 +48,12 @@ const Create = () => {
         params: {}
     })
 
+    const { data: policyEnum } = useGetAllQuery<any>({
+        key: KEYS.getPolicyEnum,
+        url: URLS.getPolicyEnum,
+        params: {}
+    })
+
     const handleCheckboxChange = (id: number, checked: boolean) => {
         if (checked) {
             // ✅ Agar check bo'lsa, id ni qo'shamiz (lekin dublikat bo'lmasin)
@@ -129,12 +135,26 @@ const Create = () => {
                             error={Boolean(errors?.name?.message)}
                             helperText={t(`${errors?.name?.message}`)}
                             placeholder={t("Group name")} />
-                        <MyInput
-                            label={t("Group type")}
-                            {...register("type")}
-                            error={Boolean(errors?.type?.message)}
-                            helperText={t(`${errors?.type?.message}`)}
-                            placeholder={t("Group type")} />
+                        <Controller
+                            name="type"
+                            control={control}
+                            render={({ field, fieldState }) => (
+                                <MySelect
+                                    label={t("Group type")}
+                                    options={Object.keys(policyEnum || {}).map((key) => ({
+                                        label: policyEnum[key],
+                                        value: key,
+                                    }))}
+                                    value={field.value as any}
+                                    onChange={(val) => field.onChange((val as ISelect)?.value ?? val)}
+                                    onBlur={field.onBlur}
+                                    error={!!fieldState.error}
+                                    helperText={fieldState.error ? t(`${fieldState.error.message}`) : undefined}
+                                    allowedRoles={["ADMIN"]}
+                                    required
+                                />
+                            )}
+                        />
                         <Controller
                             name="organizationId"
                             control={control}
