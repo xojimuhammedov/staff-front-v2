@@ -8,21 +8,29 @@ import { useTranslation } from 'react-i18next';
 import NoDataCard from './NoDataCard';
 import { IAction } from '../../../../interfaces/action.interface';
 import { Edit3, Trash2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { DEFAULT_ICON_SIZE } from 'constants/ui.constants';
 import Loading from 'assets/icons/Loading';
 import ConfirmationModal from 'components/Atoms/Confirmation/Modal';
 import { DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
+import { searchValue } from '@/types/search';
+import { paramsStrToObj } from '@/utils/helper';
 
 const PolicyList = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
   const [policyId, setPolicyId] = useState();
   const [open, setOpen] = useState(false);
+  const searchValue: searchValue = paramsStrToObj(location.search);
   const { data, isLoading, refetch } = useGetAllQuery<any>({
     key: KEYS.getPolicyList,
     url: URLS.getPolicyList,
-    params: {}
+    params: {
+      search: searchValue.search,
+      page: searchValue.page || 1,
+      limit: searchValue.limit || 10,
+    }
   });
 
   const handClickOpen = (row: any) => {

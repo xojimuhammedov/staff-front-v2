@@ -174,16 +174,9 @@ const Create = () => {
                             )}
                         />
                     </div>
-                    <div className='h-[600px] w-1/2 overflow-y-auto rounded-md border-2 border-solid border-gray-300 bg-gray-100 p-4'>
+                    <div className='h-[600px] w-1/2 overflow-y-auto rounded-md border-2 border-solid border-gray-300 dark:border-dark-line bg-gray-100 dark:bg-bg-dark-theme p-4'>
                         <div className='flex items-center gap-4'>
                             <MyInput
-                                // onKeyUp={(event) => {
-                                //     if (event.key === KeyTypeEnum.enter) {
-                                //         handleSearch();
-                                //     } else {
-                                //         setSearch(get(event, 'target.value', ''));
-                                //     }
-                                // }}
                                 startIcon={<Search className="stroke-text-muted" />}
                                 placeholder={t('Search')}
                             />
