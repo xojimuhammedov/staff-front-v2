@@ -51,6 +51,7 @@ export const useDepartment = () => {
         url: URLS.dashboardTodayTop,
         params: {
             departmentId: Number(searchValue?.parentDepartmentId) || Number(searchValue.subdepartmentId),
+            type: 'USEFUL',
             ...paramsValue
         },
     });
@@ -60,6 +61,7 @@ export const useDepartment = () => {
         url: URLS.dashboardTodayBottom,
         params: {
             departmentId: Number(searchValue?.parentDepartmentId) || Number(searchValue.subdepartmentId),
+            type: 'UNUSEFUL',
             ...paramsValue
         }
     });

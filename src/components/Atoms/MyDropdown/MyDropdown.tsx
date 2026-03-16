@@ -79,7 +79,7 @@ const MyDropdown: FC<MyDropdownProps> = ({ buttonProps, children, ...rest }: any
           aria-orientation="vertical"
           aria-labelledby="menu-button"
           tabIndex={1}>
-          <div className="py-1 " role="none">
+          <div className="py-1" role="none">
             {children}
           </div>
         </div>
