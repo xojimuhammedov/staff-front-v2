@@ -21,6 +21,11 @@ import { toast } from 'react-toastify';
 import { object, string } from 'yup';
 import * as yup from "yup";
 
+const groupEnum = {
+    "WEBSITE":"WEBSITE",
+    "APPLICATION":"APPLICATION"
+}
+
 const Create = () => {
     const navigate = useNavigate()
     const { t } = useTranslation();
@@ -45,12 +50,6 @@ const Create = () => {
     const { data: policyResources } = useGetAllQuery<any>({
         key: KEYS.getPolicyResources,
         url: URLS.getPolicyResources,
-        params: {}
-    })
-
-    const { data: policyEnum } = useGetAllQuery<any>({
-        key: KEYS.getPolicyEnum,
-        url: URLS.getPolicyEnum,
         params: {}
     })
 
@@ -141,8 +140,8 @@ const Create = () => {
                             render={({ field, fieldState }) => (
                                 <MySelect
                                     label={t("Group type")}
-                                    options={Object.keys(policyEnum || {}).map((key) => ({
-                                        label: policyEnum[key],
+                                    options={Object.keys(groupEnum || {}).map((key) => ({
+                                        label: groupEnum[key as keyof typeof groupEnum],
                                         value: key,
                                     }))}
                                     value={field.value as any}
