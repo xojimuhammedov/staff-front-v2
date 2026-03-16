@@ -61,6 +61,11 @@ export const KEYS = {
   getKeyLogs: "getKeyLogs",
   getVisitedSites: "getVisitedSites",
   getActiveWindows: "getActiveWindows",
-  getPolicyEnum:"getPolicyEnum",
-  getComputerUserList: "getComputerUserList"
+  getPolicyEnum: "getPolicyEnum",
+  getComputerUserList: "getComputerUserList",
+  getUsefulApps: "getUsefulApps",
+  getUnproductiveApps: "getUnproductiveApps",
+  getUsefulSites: "getUsefulSites",
+  getUnproductiveSites: "getUnproductiveSites",
+  getUsageDetails: "getUsageDetails"
 };

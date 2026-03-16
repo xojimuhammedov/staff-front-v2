@@ -62,5 +62,10 @@ export const URLS = {
   getVisitedSites: "/api/monitoring/visited-sites",
   getActiveWindows: "/api/monitoring/active-windows",
   getPolicyEnum:"/api/policies/enum",
-  getComputerUserList: "/api/computer-users"
+  getComputerUserList: "/api/computer-users",
+  getUsefulApps:"/api/monitoring/statistics/useful-apps",
+  getUnproductiveApps:"/api/monitoring/statistics/unproductive-apps",
+  getUsefulSites:"/api/monitoring/statistics/useful-sites",
+  getUnproductiveSites:"/api/monitoring/statistics/unproductive-sites",
+  getUsageDetails:"/api/monitoring/statistics/usage-details"
 };

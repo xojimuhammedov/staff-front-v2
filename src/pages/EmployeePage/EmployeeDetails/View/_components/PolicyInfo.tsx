@@ -1,12 +1,46 @@
-import policyEmployeeData from 'configs/policy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Globe, AppWindow } from 'lucide-react';
+import { Tooltip } from 'flowbite-react';
 
-const PolicyInfo = ({ name, color }: { name: string, color: string }) => {
-    const {t} = useTranslation()
+interface AppData {
+    name?: string;
+    domain?: string;
+    title?: string;
+    icon?: string | null;
+    totalActiveTime?: number;
+    totalUsageTime?: number;
+    percentage?: number;
+    type?: string;
+    category?: string;
+}
+
+interface PolicyInfoProps {
+    name: string;
+    color: string;
+    data?: AppData[];
+    showFullList?: boolean;
+}
+
+const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+
+    const hDisplay = h > 0 ? h + "h " : "";
+    const mDisplay = m > 0 ? m + "m " : "";
+    const sDisplay = s > 0 && h === 0 ? s + "s" : "";
+    return hDisplay + mDisplay + sDisplay || "0s";
+}
+
+const PolicyInfo = ({ name, color, data, showFullList }: PolicyInfoProps) => {
+    const { t } = useTranslation()
+    
+    const displayData = showFullList ? (data || []) : (data || []);
+
     return (
-        <div className="w-full bg-bg-base dark:bg-dark-dashboard-cards rounded-lg shadow-lg p-6 font-sans">
+        <div className="w-full bg-bg-base dark:bg-dark-dashboard-cards rounded-lg border border-gray-200 dark:border-gray-700 p-6 font-sans">
             {/* Header */}
             <div className="flex items-center gap-3 mb-4">
                 <div className="w-6 h-6 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
@@ -18,33 +52,60 @@ const PolicyInfo = ({ name, color }: { name: string, color: string }) => {
             </div>
 
             {/* App List */}
-            <div className="space-y-4">
-                {policyEmployeeData?.slice(0, 3)?.map((app) => (
-                    <div key={app?.title} className="flex items-center gap-4">
-                        <div className="flex-1">
+            <div className={`space-y-4 ${showFullList ? 'max-h-[400px] overflow-y-auto pr-2' : ''}`}>
+                {displayData?.map((app, index) => (
+                    <div key={index} className="flex items-center gap-4">
+                        {app?.icon ? (
+                            <img
+                                src={`data:image/png;base64,${app?.icon}`}
+                                alt={app?.name || app?.domain || app?.title}
+                                className="w-8 h-8 rounded"
+                            />
+                        ) : (
+                            <div className="w-8 h-8 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                                {app?.type === 'APPLICATION' ? <AppWindow className="w-5 h-5" /> : <Globe className="w-5 h-5" />}
+                            </div>
+                        )}
+                        <div className="flex-1 min-w-0">
                             <div className="flex justify-between items-baseline mb-1">
-                                <span className="text-gray-700 dark:text-text-title-dark font-medium text-sm">{app?.title}</span>
-                                <span className="text-gray-600 dark:text-text-muted font-semibold">{app?.percent}%</span>
+                                <div className="flex items-center gap-2 truncate pr-2">
+                                    <Tooltip content={app?.title || app?.name || app?.domain || ''} placement="bottom">
+                                        <span className="text-gray-700 dark:text-text-title-dark font-medium text-sm truncate cursor-pointer block max-w-[150px]">
+                                            {app?.name || app?.domain || app?.title}
+                                        </span>
+                                    </Tooltip>
+                                    
+                                    {app?.type && (
+                                        <span className="text-[10px] font-semibold tracking-wider text-gray-500 bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
+                                            {app.type}
+                                        </span>
+                                    )}
+                                    {app?.category && (
+                                        <span className={`text-[10px] font-semibold tracking-wider px-1.5 py-0.5 rounded ${app.category === 'USEFUL' ? 'text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30' : 'text-rose-600 bg-rose-100 dark:bg-rose-900/30'}`}>
+                                            {app.category}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {app?.percentage !== undefined ? (
+                                    <span className="text-gray-600 dark:text-text-muted font-semibold shrink-0">{app.percentage}%</span>
+                                ) : app?.totalUsageTime !== undefined ? (
+                                    <span className="text-gray-600 dark:text-text-muted font-semibold shrink-0">{formatTime(app.totalUsageTime)}</span>
+                                ) : null}
                             </div>
 
-                            {/* Progress Bar */}
-                            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-                                <div
-                                    className={`h-full ${color} rounded-full transition-all duration-1000 ease-out`}
-                                    style={{ width: `${app.percent}%` }}
-                                />
-                            </div>
+                            {/* Progress Bar (if percentage exists) */}
+                            {app?.percentage !== undefined && (
+                                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden mt-1">
+                                    <div
+                                        className={`h-full ${color} rounded-full transition-all duration-1000 ease-out`}
+                                        style={{ width: `${app.percentage}%` }}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
-            </div>
-
-            {/* Total Useful Time */}
-            <div className="mt-4 pt-2 border-t border-gray-200 dark:border-gray-700">
-                <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-text-muted font-medium">{t("Total Useful Time")}</span>
-                    <span className="text-lg font-bold text-gray-800 dark:text-text-title-dark">100%</span>
-                </div>
             </div>
         </div>
     );
