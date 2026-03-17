@@ -31,11 +31,6 @@ function EmployeeView() {
         url: URLS.getUnproductiveSites,
         params: { employeeId: id }
     })
-    const { data: usageDetails } = useGetAllQuery({
-        key: KEYS.getUsageDetails,
-        url: URLS.getUsageDetails,
-        params: { employeeId: id }
-    })
     const { data } = useGetOneQuery({
         id: id,
         url: URLS.getEmployeeList,
@@ -61,9 +56,6 @@ function EmployeeView() {
             <div className='grid grid-cols-2 gap-8 mt-4'>
                 <PolicyInfo name={t("Useful Websites")} color='bg-[#FBC02D]' data={get(usefulSites, 'data')} />
                 <PolicyInfo name={t("Unproductive Sites")} color="bg-[#E11D48]" data={get(unproductiveSites, 'data')} />
-            </div>
-            <div className='grid grid-cols-1 gap-8 mt-4'>
-                <PolicyInfo name={t("Usage Details")} color='bg-[#3b82f6]' data={get(usageDetails, 'data')} showFullList />
             </div>
         </div>
     );

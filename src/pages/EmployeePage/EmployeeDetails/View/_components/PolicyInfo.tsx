@@ -20,7 +20,6 @@ interface PolicyInfoProps {
     name: string;
     color: string;
     data?: AppData[];
-    showFullList?: boolean;
 }
 
 const formatTime = (seconds: number) => {
@@ -34,10 +33,10 @@ const formatTime = (seconds: number) => {
     return hDisplay + mDisplay + sDisplay || "0s";
 }
 
-const PolicyInfo = ({ name, color, data, showFullList }: PolicyInfoProps) => {
+const PolicyInfo = ({ name, color, data }: PolicyInfoProps) => {
     const { t } = useTranslation()
     
-    const displayData = showFullList ? (data || []) : (data || []);
+    const displayData = data || [];
 
     return (
         <div className="w-full bg-bg-base dark:bg-dark-dashboard-cards rounded-lg border border-gray-200 dark:border-gray-700 p-6 font-sans">
@@ -52,7 +51,7 @@ const PolicyInfo = ({ name, color, data, showFullList }: PolicyInfoProps) => {
             </div>
 
             {/* App List */}
-            <div className={`space-y-4 ${showFullList ? 'max-h-[400px] overflow-y-auto pr-2' : ''}`}>
+            <div className={`space-y-4`}>
                 {displayData?.map((app, index) => (
                     <div key={index} className="flex items-center gap-4">
                         {app?.icon ? (
