@@ -9,8 +9,6 @@ interface AppData {
     domain?: string;
     title?: string;
     icon?: string | null;
-    totalActiveTime?: number;
-    totalUsageTime?: number;
     percentage?: number;
     type?: string;
     category?: string;
@@ -22,20 +20,9 @@ interface PolicyInfoProps {
     data?: AppData[];
 }
 
-const formatTime = (seconds: number) => {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = Math.floor(seconds % 60);
-
-    const hDisplay = h > 0 ? h + "h " : "";
-    const mDisplay = m > 0 ? m + "m " : "";
-    const sDisplay = s > 0 && h === 0 ? s + "s" : "";
-    return hDisplay + mDisplay + sDisplay || "0s";
-}
-
 const PolicyInfo = ({ name, color, data }: PolicyInfoProps) => {
     const { t } = useTranslation()
-    
+
     const displayData = data || [];
 
     return (
@@ -73,7 +60,7 @@ const PolicyInfo = ({ name, color, data }: PolicyInfoProps) => {
                                             {app?.name || app?.domain || app?.title}
                                         </span>
                                     </Tooltip>
-                                    
+
                                     {app?.type && (
                                         <span className="text-[10px] font-semibold tracking-wider text-gray-500 bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
                                             {app.type}
@@ -86,15 +73,13 @@ const PolicyInfo = ({ name, color, data }: PolicyInfoProps) => {
                                     )}
                                 </div>
 
-                                {app?.percentage !== undefined ? (
+                                {app?.percentage && (
                                     <span className="text-gray-600 dark:text-text-muted font-semibold shrink-0">{app.percentage}%</span>
-                                ) : app?.totalUsageTime !== undefined ? (
-                                    <span className="text-gray-600 dark:text-text-muted font-semibold shrink-0">{formatTime(app.totalUsageTime)}</span>
-                                ) : null}
+                                )}
                             </div>
 
                             {/* Progress Bar (if percentage exists) */}
-                            {app?.percentage !== undefined && (
+                            {app?.percentage && (
                                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden mt-1">
                                     <div
                                         className={`h-full ${color} rounded-full transition-all duration-1000 ease-out`}

@@ -6,7 +6,7 @@ export interface UsageDetail {
     name: string;
     category: 'USEFUL' | 'UNUSEFUL' | 'NEUTRAL';
     type: 'APPLICATION' | 'WEBSITE';
-    totalUsageTime: string;
+    totalUsageTime: number;
 }
 
 const getCategoryStyles = (category: UsageDetail['category']) => {
@@ -17,6 +17,17 @@ const getCategoryStyles = (category: UsageDetail['category']) => {
             return 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-300 dark:border-red-700';
     }
 };
+
+const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+
+    const hDisplay = h > 0 ? h + "h " : "";
+    const mDisplay = m > 0 ? m + "m " : "";
+    const sDisplay = s > 0 && h === 0 ? s + "s" : "";
+    return hDisplay + mDisplay + sDisplay || "0s";
+}
 
 
 const UsageDetailsTable: React.FC<{ data?: UsageDetail[] }> = ({ data }) => {
@@ -56,7 +67,7 @@ const UsageDetailsTable: React.FC<{ data?: UsageDetail[] }> = ({ data }) => {
                         </div>
 
                         <div className="text-sm px-4">
-                            <span className="text-gray-600 dark:text-text-title-dark font-medium lg:font-normal">{detail.totalUsageTime}</span>
+                            <span className="text-gray-600 dark:text-text-title-dark font-medium lg:font-normal">{formatTime(detail.totalUsageTime)}</span>
                         </div>
 
                     </div>
