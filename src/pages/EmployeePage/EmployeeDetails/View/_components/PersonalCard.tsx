@@ -77,7 +77,7 @@ const PersonalInfoCard: React.FC<PersonalInfoProps> = ({ data }) => {
     ];
 
     return (
-        <div className="bg-[#FFF8E1] dark:bg-dark-dashboard-cards p-6 shadow-lg w-2/5 rounded-lg border border-gray-100 dark:border-dark-line">
+        <div className="bg-[#FFF8E1] dark:bg-dark-dashboard-cards p-6 w-2/5 rounded-lg border border-gray-100 dark:border-dark-line">
             <h2 className="text-lg font-semibold mb-6 text-gray-800 dark:text-text-title-dark">
                 {t("Personal Information")}
             </h2>

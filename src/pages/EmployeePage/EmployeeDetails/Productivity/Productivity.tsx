@@ -23,7 +23,7 @@ const Productivity = () => {
         <>
             <h1 className='headers-core dark:text-text-title-dark text-text-base'>{t("Attendance & Arrival/Leave Tracking")}</h1>
             <MyDivider />
-            <div className='flex items-center gap-4'>
+            {/* <div className='flex items-center gap-4'>
                 <ProductivityScoreCard
                     score={85}
                     description={t("Total Productivity Score")}
@@ -33,7 +33,7 @@ const Productivity = () => {
                     productiveTime="33h 10m"
                     unproductiveTime="9h 20m" />
             </div>
-            <PolicyCard name={t("Useful Apps")} color='bg-[#FBC02D]' />
+            <PolicyCard name={t("Useful Apps")} color='bg-[#FBC02D]' /> */}
             <UsageDetailsTable data={get(usageDetails, 'data')} />
         </>
     );

@@ -7,7 +7,7 @@ const Productivity = () => {
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const labels = weekdays.map((day) => t(day).slice(0, 3));
     return (
-        <div className="w-3/5 bg-bg-base dark:bg-dark-dashboard-cards p-6 shadow-lg rounded-lg">
+        <div className="w-3/5 bg-bg-base dark:bg-dark-dashboard-cards p-6 rounded-lg border dark:border-gray-700">
             <h2 className="text-lg font-semibold mb-6 text-gray-800 dark:text-text-title-dark">
                 {t("Weekly Activity")}
             </h2>

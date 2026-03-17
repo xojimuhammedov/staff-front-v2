@@ -33,7 +33,7 @@ const formatTime = (seconds: number) => {
 const UsageDetailsTable: React.FC<{ data?: UsageDetail[] }> = ({ data }) => {
     const { t } = useTranslation();
     return (
-        <div className="bg-white dark:bg-bg-dark-bg p-4 mt-6 sm:p-6 rounded-[12px] border dark:border-gray-700 shadow-lg w-full max-w-7xl mx-auto">
+        <div className="bg-white dark:bg-bg-dark-bg p-4 mt-6 sm:p-6 rounded-[12px] border dark:border-gray-700 w-full max-w-7xl mx-auto">
             <h2 className="text-xl font-semibold text-gray-800 dark:text-text-title-dark mb-6">{t('Usage Details')}</h2>
 
             <div className="grid grid-cols-4 border-b border-gray-200 dark:border-gray-700 py-3 text-sm font-medium text-gray-500 dark:text-text-subtle">
