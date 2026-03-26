@@ -42,20 +42,9 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
             <Monitor className="h-5 w-5 text-blue-600 dark:text-gray-400" />
           </div>
           <div className="flex flex-col">
-            <p className="font-medium text-xs">{row?.os ?? '--'}</p>
-            {row?.version && (
-              <p className="text-xs text-text-muted dark:text-text-muted">{row.version}</p>
-            )}
+            <p className="font-medium text-xs">{row?.pcName ?? '--'}</p>
           </div>
         </div>
-      ),
-    },
-    {
-      key: 'pcName',
-      label: t('Pc name'),
-      headerClassName: 'dark:text-text-title-dark min-w-max',
-      cellRender: (row) => (
-        <div className="text-text-base dark:text-text-title-dark">{row?.pcName ?? '--'}</div>
       ),
     },
     {
@@ -64,16 +53,6 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       headerClassName: 'dark:text-text-title-dark min-w-max',
       cellRender: (row) => (
         <div className="text-text-base dark:text-text-title-dark">{row?.ipAddress ?? '--'}</div>
-      ),
-    },
-    {
-      key: 'hostname',
-      label: t('Hostname'),
-      headerClassName: 'dark:text-text-title-dark min-w-max',
-      cellRender: (row) => (
-        <div className="text-sm dark:text-text-title-dark">
-          <p className="text-sm">{row?.hostname ?? '--'}</p>
-        </div>
       ),
     },
     {
@@ -93,47 +72,33 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       },
     },
     {
-      key: 'isOnline',
-      label: t('Online'),
+      key: 'pcName',
+      label: t('Pc name'),
       headerClassName: 'dark:text-text-title-dark min-w-max',
-      cellRender: (row) => {
-        const isOnline = row?.isOnline;
-        return (
-          <MyBadge
-            className={BADGE_CLASSES[isOnline ? 'green' : 'red']}
-            variant={isOnline ? 'green' : 'red'}
-          >
-            {isOnline ? t('Online') : t('Offline')}
-          </MyBadge>
-        );
-      },
+      cellRender: (row) => (
+        <div className="text-text-base dark:text-text-title-dark">{row?.pcName ?? '--'}</div>
+      ),
     },
     {
-      key: 'isUninstall',
-      label: t('Uninstall'),
+      key: 'hostname',
+      label: t('Hostname'),
       headerClassName: 'dark:text-text-title-dark min-w-max',
-      cellRender: (row) => {
-        const isUninstall = row?.isUninstall;
-        return (
-          <MyBadge
-            className={BADGE_CLASSES[isUninstall ? 'green' : 'red']}
-            variant={isUninstall ? 'green' : 'red'}
-          >
-            {isUninstall ? t('Uninstall') : t('Install')}
-          </MyBadge>
-        );
-      },
+      cellRender: (row) => (
+        <div className="text-sm dark:text-text-title-dark">
+          <p className="text-sm">{row?.hostname ?? '--'}</p>
+        </div>
+      ),
     },
-    // {
-    //   key: '_count',
-    //   label: t('Count for computer users'),
-    //   headerClassName: 'dark:text-text-title-dark min-w-max',
-    //   cellRender: (row) => (
-    //     <div className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 font-mono text-sm font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-    //       {row?._count?.computerUsers ?? '--'}
-    //     </div>
-    //   ),
-    // },
+    {
+      key: '_count',
+      label: t('Users'),
+      headerClassName: 'dark:text-text-title-dark min-w-max',
+      cellRender: (row) => (
+        <div className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 font-mono text-sm font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+          {row?._count?.computerUsers ?? '--'}
+        </div>
+      ),
+    },
   ], [t, currentLang]);
 
   return (

@@ -176,32 +176,7 @@ const NavbarMenu = () => {
       isSubMenu: true,
       subRoutes: [
         {
-          label: t('Active Windows'),
-          to: '/monitoring/activeWindows',
-          icon: 'Users'
-        },
-        {
-          label: t('Visited sites'),
-          to: '/monitoring/visitedSites',
-          icon: 'Table'
-        },
-        {
-          label: t('Screenshots'),
-          to: '/monitoring/screenshots',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('User sessions'),
-          to: '/monitoring/userSessions',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Keyloggers'),
-          to: '/monitoring/keyloggers',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Computer tracking'),
+          label: t('Computers'),
           to: '/monitoring/computerTracking',
           icon: 'AppWindow'
         },

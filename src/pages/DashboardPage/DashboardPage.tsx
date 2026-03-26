@@ -69,6 +69,9 @@ const DashboardPage = () => {
           onTime={lineChartData.onTimes}
         />
       </div>
+      <div className='rounded-m bg-bg-base p-4 mt-8 shadow-base dark:bg-dark-dashboard-cards'>
+        <BirthdayList />
+      </div>
       <div className="mt-8 grid grid-cols-2 w-full gap-6">
         <EmployeeCard
           employee={topEmployee}
@@ -88,9 +91,6 @@ const DashboardPage = () => {
           onRowClick={(id) => navigate(`/employees/about/${id}`)}
           paginationKey="ineffectiveEmployees"
         />
-      </div>
-      <div className='rounded-m bg-bg-base p-4 mt-8 shadow-base dark:bg-dark-dashboard-cards'>
-        <BirthdayList />
       </div>
     </PageContentWrapper>
   );
