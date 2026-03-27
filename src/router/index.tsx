@@ -1,5 +1,4 @@
 import EmployeeDetails from 'pages/EmployeePage/EmployeeDetails';
-import DevicePage from 'pages/SettingsPage/DevicePage';
 import VisitorDetails from 'pages/VisitorPage/VisitorDetails';
 import { lazy } from 'react';
 
@@ -40,12 +39,6 @@ const ReportAttendance = lazy(() => import('pages/ReportPage/ReportAttendance'))
 const VisitorAttendances = lazy(() => import('pages/VisitorAttendances'))
 const ComputerPage = lazy(() => import('@/pages/Monitoring/ComputerTracking'))
 const GuardDevicePage = lazy(() => import('pages/GuardRoleDevice/DevicePage'));
-const Screenshots = lazy(() => import('@/pages/Monitoring/Screenshots'));
-const UserSession = lazy(() => import('@/pages/Monitoring/UserSession'));
-const KeyLogs = lazy(() => import('@/pages/Monitoring/KeyLogs'));
-const VisitedSites = lazy(() => import('@/pages/Monitoring/VisitedSites'));
-const ActiveWindow = lazy(() => import('@/pages/Monitoring/ActiveWindow'));
-const ComputerUsers = lazy(() => import('@/pages/Monitoring/ComputerUsers'));
 
 
 export const PublicRoutes = [
@@ -237,11 +230,6 @@ export const PrivateRoutes = [
     roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
   },
   {
-    path: '/monitoring/computerUsers',
-    element: <ComputerUsers />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
-  },
-  {
     path: '/action',
     element: <VisitorAttendances />,
     roles: ["GUARD"]
@@ -251,29 +239,4 @@ export const PrivateRoutes = [
     element: <GuardDevicePage />,
     roles: ["GUARD"]
   },
-  {
-    path: '/monitoring/screenshots',
-    element: <Screenshots />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
-  },
-  {
-    path: '/monitoring/userSessions',
-    element: <UserSession />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
-  },
-  {
-    path: '/monitoring/keyloggers',
-    element: <KeyLogs />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
-  },
-  {
-    path: '/monitoring/visitedSites',
-    element: <VisitedSites />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
-  },
-  {
-    path: '/monitoring/activeWindows',
-    element: <ActiveWindow />,
-    roles: ["ADMIN", "HR", "DEPARTMENT_LEAD"]
-  }
 ];
