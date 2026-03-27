@@ -67,5 +67,7 @@ export const URLS = {
   getUnproductiveApps:"/api/monitoring/statistics/unproductive-apps",
   getUsefulSites:"/api/monitoring/statistics/useful-sites",
   getUnproductiveSites:"/api/monitoring/statistics/unproductive-sites",
-  getUsageDetails:"/api/monitoring/statistics/usage-details"
+  getUsageDetails:"/api/monitoring/statistics/usage-details",
+  dashboardEmployeeProductivityRanking: "/api/dashboard/employee-productivity-ranking",
+  dashboardOverallEmployeeRanking: "/api/dashboard/overall-employee-ranking"
 };

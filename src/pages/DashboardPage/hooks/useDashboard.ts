@@ -109,5 +109,6 @@ export const useDashboard = () => {
     topEmployee,
     bottomEmployee,
     birthdayData,
+    paramsValue,
   };
 };

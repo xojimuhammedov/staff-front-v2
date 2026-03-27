@@ -10,6 +10,8 @@ import AttendancesCard from './_components/AttendancesCard';
 import { EmployeeCard } from './_components/ProgressCard';
 import { useNavigate } from 'react-router-dom';
 import BirthdayList from './_components/BirthdayList';
+import EmployeeProductivityRanking from './_components/EmployeeProductivityRanking';
+import OverallEmployeeRanking from './_components/OverallEmployeeRanking';
 
 const DashboardPage = () => {
   const { t } = useTranslation();
@@ -21,7 +23,7 @@ const DashboardPage = () => {
     },
   ];
 
-  const { data, control, lineChartData, todayData, topEmployee, bottomEmployee } = useDashboard();
+  const { data, control, lineChartData, todayData, topEmployee, bottomEmployee, paramsValue } = useDashboard();
 
   return (
     <PageContentWrapper className="dark:bg-bg-dark-bg">
@@ -91,6 +93,10 @@ const DashboardPage = () => {
           onRowClick={(id) => navigate(`/employees/about/${id}`)}
           paginationKey="ineffectiveEmployees"
         />
+      </div>
+      <div className="w-full flex flex-col xl:flex-row gap-6 ">
+        <EmployeeProductivityRanking paramsValue={paramsValue} limit={5} />
+        <OverallEmployeeRanking paramsValue={paramsValue} limit={5} />
       </div>
     </PageContentWrapper>
   );

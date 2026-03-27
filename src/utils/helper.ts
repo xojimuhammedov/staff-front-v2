@@ -37,6 +37,20 @@ const onlyNumber = (string: string) => {
   }
 };
 
+function formatSecondsDetailed(seconds: number): string {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  if (hours > 0) {
+    return `${hours} soat ${minutes} daqiqa`;
+  }
+  if (minutes > 0) {
+    return `${minutes} daqiqa ${secs} soniya`;
+  }
+  return `${secs} soniya`;
+}
+
 const formatCurrency = (number: number) => {
   if (number) {
     const formattedNumber = number.toString().replace(/\D/g, '');
@@ -303,5 +317,6 @@ export {
   timeLine,
   getTimeDifference,
   toHHmm,
-  addHours
+  addHours,
+  formatSecondsDetailed
 };

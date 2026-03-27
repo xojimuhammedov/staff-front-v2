@@ -67,5 +67,7 @@ export const KEYS = {
   getUnproductiveApps: "getUnproductiveApps",
   getUsefulSites: "getUsefulSites",
   getUnproductiveSites: "getUnproductiveSites",
-  getUsageDetails: "getUsageDetails"
+  getUsageDetails: "getUsageDetails",
+  dashboardEmployeeProductivityRanking: "dashboardEmployeeProductivityRanking",
+  dashboardOverallEmployeeRanking: "dashboardOverallEmployeeRanking"
 };
