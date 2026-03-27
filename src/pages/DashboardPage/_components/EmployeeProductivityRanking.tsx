@@ -115,15 +115,15 @@ const EmployeeProductivityRanking = ({ paramsValue, limit = 10 }: { paramsValue:
           <div className="flex items-center gap-2">
             <div className="w-24 h-2 bg-muted rounded-full overflow-hidden flex">
               <div
-                className="h-full bg-tag-green-text dark:bg-[rgb(74,222,128)]"
+                className="h-full bg-[rgb(74,222,128)] dark:bg-[rgb(74,222,128)]"
                 style={{ width: `${usefulPercent}%` }}
               />
               <div
-                className="h-full bg-tag-red-text dark:bg-[rgb(248,113,113)]"
+                className="h-full bg-[rgb(248,113,113)] dark:bg-[rgb(248,113,113)]"
                 style={{ width: `${unusefulPercent}%` }}
               />
               <div
-                className="h-full bg-gray-500 dark:bg-gray-400"
+                className="h-full bg-gray-400 dark:bg-gray-400"
                 style={{ width: `${otherPercent}%` }}
               />
             </div>
