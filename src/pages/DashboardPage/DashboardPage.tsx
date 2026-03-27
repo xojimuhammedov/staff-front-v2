@@ -23,7 +23,7 @@ const DashboardPage = () => {
     },
   ];
 
-  const { data, control, lineChartData, todayData, topEmployee, bottomEmployee, paramsValue } = useDashboard();
+  const { data, control, lineChartData, todayData, topEmployee, bottomEmployee, paramsValue, effectiveType } = useDashboard();
 
   return (
     <PageContentWrapper className="dark:bg-bg-dark-bg">
@@ -71,28 +71,20 @@ const DashboardPage = () => {
           onTime={lineChartData.onTimes}
         />
       </div>
-      <div className='rounded-m bg-bg-base p-4 mt-8 shadow-base dark:bg-dark-dashboard-cards'>
-        <BirthdayList />
-      </div>
-      <div className="mt-8 grid grid-cols-2 w-full gap-6">
+      <div className="mt-8 grid grid-cols-1 xl:grid-cols-2 w-full gap-6">
         <EmployeeCard
           employee={topEmployee}
-          title="Effective employees"
-          icon={'CheckCircle2'}
-          iconBgColor="bg-green-100 dark:bg-green-900/30"
-          iconColor="text-green-600 dark:text-green-300"
+          title={effectiveType === 'USEFUL' ? 'Effective employees' : 'Ineffective employees'}
+          icon={effectiveType === 'USEFUL' ? 'CheckCircle2' : 'XCircle'}
+          iconBgColor={effectiveType === 'USEFUL' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}
+          iconColor={effectiveType === 'USEFUL' ? 'text-green-600 dark:text-green-300' : 'text-red-600 dark:text-red-300'}
           onRowClick={(id) => navigate(`/employees/about/${id}`)}
           paginationKey="effectiveEmployees"
+          showTypeFilter={true}
         />
-        <EmployeeCard
-          employee={bottomEmployee}
-          iconBgColor="bg-red-100 dark:bg-red-900/30"
-          iconColor="text-red-600 dark:text-red-300"
-          icon={'XCircle'}
-          title="Ineffective employees"
-          onRowClick={(id) => navigate(`/employees/about/${id}`)}
-          paginationKey="ineffectiveEmployees"
-        />
+        <div className='rounded-m bg-bg-base p-4 shadow-base dark:bg-dark-dashboard-cards h-full'>
+          <BirthdayList />
+        </div>
       </div>
       <div className="w-full flex flex-col xl:flex-row gap-6 ">
         <EmployeeProductivityRanking paramsValue={paramsValue} limit={10} />

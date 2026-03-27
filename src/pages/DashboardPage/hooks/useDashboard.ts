@@ -21,6 +21,7 @@ export const useDashboard = () => {
 
   const defaultLimit = 5;
   const effectiveLimit = Number(searchParams.get('effectiveEmployeesLimit') ?? '') || defaultLimit;
+  const effectiveType = searchParams.get('effectiveEmployeesType') || 'USEFUL';
   const ineffectiveLimit =
     Number(searchParams.get('ineffectiveEmployeesLimit') ?? '') || defaultLimit;
 
@@ -54,7 +55,7 @@ export const useDashboard = () => {
     params: {
       ...paramsValue,
       limit: effectiveLimit,
-      type: 'USEFUL',
+      type: effectiveType,
     },
   });
   const { data: bottomEmployee } = useGetAllQuery<any>({
@@ -110,5 +111,6 @@ export const useDashboard = () => {
     bottomEmployee,
     birthdayData,
     paramsValue,
+    effectiveType,
   };
 };

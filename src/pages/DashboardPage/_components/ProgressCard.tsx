@@ -27,6 +27,7 @@ interface EmployeeCardProps {
   iconColor: string;
   onRowClick?: (employeeId: number) => void;
   paginationKey?: string;
+  showTypeFilter?: boolean;
 }
 
 function getRingColor(percentage: number) {
@@ -78,6 +79,7 @@ export function EmployeeCard({
   iconColor,
   onRowClick,
   paginationKey = 'employees',
+  showTypeFilter = false,
 }: EmployeeCardProps) {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -93,6 +95,15 @@ export function EmployeeCard({
     { label: '25', value: 25 },
     { label: '50', value: 50 },
     { label: '100', value: 100 },
+  ];
+
+  const typeKey = `${paginationKey}Type`;
+  const typeParam = searchParams.get(typeKey);
+  const currentType = typeParam || 'USEFUL';
+
+  const typeOptions = [
+    { label: t('Useful'), value: 'USEFUL' },
+    { label: t('Unuseful'), value: 'UNUSEFUL' },
   ];
 
   function formatMinutes(minutes: number) {
@@ -114,27 +125,53 @@ export function EmployeeCard({
               <h1 className="headers-core text-base dark:text-text-title-dark">{t(title)}</h1>
             </div>
           </div>
-          <div className="pagination-list w-[80px]">
-            <MySelect
-              allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
-              className="dark:text-text-title-dark dark:bg-dark-line"
-              options={limitOptions}
-              onChange={(evt: any) => {
-                const nextLimit = evt?.value ?? evt;
-                if (nextLimit) {
-                  setSearchParams(
-                    (prev) => {
-                      const next = new URLSearchParams(prev);
-                      next.set(limitKey, String(nextLimit));
-                      next.delete(`${paginationKey}Page`);
-                      return next;
-                    },
-                    { replace: true }
-                  );
-                }
-              }}
-              value={limit}
-            />
+          <div className="flex items-center gap-2">
+            {showTypeFilter && (
+              <div className="w-[120px]">
+                <MySelect
+                  allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
+                  className="dark:text-text-title-dark dark:bg-dark-line"
+                  options={typeOptions}
+                  onChange={(evt: any) => {
+                    const nextType = evt?.value ?? evt;
+                    if (nextType) {
+                      setSearchParams(
+                        (prev) => {
+                          const next = new URLSearchParams(prev);
+                          next.set(typeKey, String(nextType));
+                          next.delete(`${paginationKey}Page`); // optional reset page
+                          return next;
+                        },
+                        { replace: true }
+                      );
+                    }
+                  }}
+                  value={currentType}
+                />
+              </div>
+            )}
+            <div className="pagination-list w-[80px]">
+              <MySelect
+                allowedRoles={['ADMIN', 'HR', 'GUARD', 'DEPARTMENT_LEAD']}
+                className="dark:text-text-title-dark dark:bg-dark-line"
+                options={limitOptions}
+                onChange={(evt: any) => {
+                  const nextLimit = evt?.value ?? evt;
+                  if (nextLimit) {
+                    setSearchParams(
+                      (prev) => {
+                        const next = new URLSearchParams(prev);
+                        next.set(limitKey, String(nextLimit));
+                        next.delete(`${paginationKey}Page`);
+                        return next;
+                      },
+                      { replace: true }
+                    );
+                  }
+                }}
+                value={limit}
+              />
+            </div>
           </div>
         </div>
         <div className="mt-2 h-[370px] overflow-y-auto pr-1 space-y-2">
