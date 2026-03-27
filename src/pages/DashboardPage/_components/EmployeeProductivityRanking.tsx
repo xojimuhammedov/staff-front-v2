@@ -32,7 +32,7 @@ function getTimePercentage(part: number, total: number): number {
 
 const EmployeeProductivityRanking = ({ paramsValue, limit = 10 }: { paramsValue: any, limit?: number }) => {
   const { t } = useTranslation();
-  const [type, setType] = useState<string>('');
+  const [type, setType] = useState<string>('TOP_PRODUCTIVE');
 
   const { data, isLoading } = useGetAllQuery<any>({
     key: KEYS.dashboardEmployeeProductivityRanking,
@@ -115,15 +115,15 @@ const EmployeeProductivityRanking = ({ paramsValue, limit = 10 }: { paramsValue:
           <div className="flex items-center gap-2">
             <div className="w-24 h-2 bg-muted rounded-full overflow-hidden flex">
               <div
-                className="h-full bg-[oklch(0.488_0.243_264.376)]"
+                className="h-full bg-tag-green-text dark:bg-[rgb(74,222,128)]"
                 style={{ width: `${usefulPercent}%` }}
               />
               <div
-                className="h-full bg-[oklch(0.696_0.17_162.48)]"
+                className="h-full bg-tag-red-text dark:bg-[rgb(248,113,113)]"
                 style={{ width: `${unusefulPercent}%` }}
               />
               <div
-                className="h-full bg-[oklch(0.769_0.188_70.08)]"
+                className="h-full bg-gray-500 dark:bg-gray-400"
                 style={{ width: `${otherPercent}%` }}
               />
             </div>
@@ -140,7 +140,6 @@ const EmployeeProductivityRanking = ({ paramsValue, limit = 10 }: { paramsValue:
   const tableData = Array.isArray(data) ? data : get(data, 'data', []);
 
   const filterOptions = [
-    { label: t('All'), value: '' },
     { label: t('Top Productive'), value: 'TOP_PRODUCTIVE' },
     { label: t('Least Productive'), value: 'LEAST_PRODUCTIVE' },
   ];

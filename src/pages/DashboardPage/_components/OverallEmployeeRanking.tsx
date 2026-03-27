@@ -19,7 +19,7 @@ function getScoreColor(score: number): string {
 
 const OverallEmployeeRanking = ({ paramsValue, limit = 5 }: { paramsValue: any, limit?: number }) => {
   const { t } = useTranslation();
-  const [type, setType] = useState<string>('');
+  const [type, setType] = useState<string>('TOP');
 
   const { data, isLoading } = useGetAllQuery<any>({
     key: KEYS.dashboardOverallEmployeeRanking,
@@ -90,7 +90,6 @@ const OverallEmployeeRanking = ({ paramsValue, limit = 5 }: { paramsValue: any, 
   const tableData = Array.isArray(data) ? data : get(data, 'data', []);
 
   const filterOptions = [
-    { label: t('All'), value: '' },
     { label: t('Top'), value: 'TOP' },
     { label: t('Least'), value: 'LEAST' },
   ];
