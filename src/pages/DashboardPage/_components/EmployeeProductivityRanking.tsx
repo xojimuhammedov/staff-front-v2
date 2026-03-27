@@ -2,12 +2,14 @@ import { useGetAllQuery } from '@/hooks/api';
 import { URLS } from '@/constants/url';
 import { KEYS } from '@/constants/key';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
+import { MySelect } from '@/components/Atoms/Form';
 import { get } from 'lodash';
 import MyAvatar from '@/components/Atoms/MyAvatar';
 import config from '@/configs';
 import AvatarIcon from '../../../assets/icons/avatar.jpg';
+import Loading from '@/assets/icons/Loading';
 
 // Helper to format time in seconds to readable format
 const formatTime = (seconds: number | undefined | null) => {
@@ -28,15 +30,17 @@ function getTimePercentage(part: number, total: number): number {
   return Math.round((part / total) * 100);
 }
 
-const EmployeeProductivityRanking = ({ paramsValue, limit = 5 }: { paramsValue: any, limit?: number }) => {
+const EmployeeProductivityRanking = ({ paramsValue, limit = 10 }: { paramsValue: any, limit?: number }) => {
   const { t } = useTranslation();
+  const [type, setType] = useState<string>('');
 
-  const { data } = useGetAllQuery<any>({
+  const { data, isLoading } = useGetAllQuery<any>({
     key: KEYS.dashboardEmployeeProductivityRanking,
     url: URLS.dashboardEmployeeProductivityRanking,
     params: {
       ...paramsValue,
-      limit
+      limit,
+      ...(type ? { type } : {})
     },
   });
 
@@ -135,15 +139,37 @@ const EmployeeProductivityRanking = ({ paramsValue, limit = 5 }: { paramsValue: 
   // Handle case where data is directly an array vs paginated response
   const tableData = Array.isArray(data) ? data : get(data, 'data', []);
 
+  const filterOptions = [
+    { label: t('All'), value: '' },
+    { label: t('Top Productive'), value: 'TOP_PRODUCTIVE' },
+    { label: t('Least Productive'), value: 'LEAST_PRODUCTIVE' },
+  ];
+
   return (
     <div className="bg-bg-base dark:bg-dark-dashboard-cards rounded-m p-4 mt-8 shadow-base flex-1 min-w-0 overflow-x-auto min-h-[430px]">
-      <h2 className="text-lg font-semibold dark:text-text-title-dark mb-4 text-text-base">{t('Employee Productivity Ranking')}</h2>
-      <DynamicTable
-        data={tableData}
-        columns={columns}
-        hasIndex={true}
-        hasPagination={false}
-      />
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold dark:text-text-title-dark text-text-base">{t('Employee Productivity Ranking')}</h2>
+        <div className="w-[180px]">
+          <MySelect
+            options={filterOptions}
+            value={type}
+            onChange={(selected: any) => setType(selected?.value || '')}
+            allowedRoles={undefined as any}
+          />
+        </div>
+      </div>
+      {isLoading ? (
+        <div className="flex w-full items-center justify-center min-h-[300px]">
+          <Loading />
+        </div>
+      ) : (
+        <DynamicTable
+          data={tableData}
+          columns={columns}
+          hasIndex={true}
+          hasPagination={false}
+        />
+      )}
     </div>
   );
 };

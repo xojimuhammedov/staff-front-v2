@@ -95,8 +95,8 @@ const DashboardPage = () => {
         />
       </div>
       <div className="w-full flex flex-col xl:flex-row gap-6 ">
-        <EmployeeProductivityRanking paramsValue={paramsValue} limit={5} />
-        <OverallEmployeeRanking paramsValue={paramsValue} limit={5} />
+        <EmployeeProductivityRanking paramsValue={paramsValue} limit={10} />
+        <OverallEmployeeRanking paramsValue={paramsValue} limit={10} />
       </div>
     </PageContentWrapper>
   );
