@@ -12,10 +12,11 @@ const formatTime = (seconds: number) => {
     return `${m} d`;
 };
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 
 const ProductivityStats = ({ user }: { user?: any }) => {
+    const { id } = useParams();
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
 
@@ -29,7 +30,7 @@ const ProductivityStats = ({ user }: { user?: any }) => {
             startDate: searchValue?.startDate,
             endDate: searchValue?.endDate,
         },
-        enabled: !!user?.employee?.id,
+        enabled: !!id,
     });
 
     const { data: usageData } = useGetAllQuery<any>({
@@ -37,13 +38,14 @@ const ProductivityStats = ({ user }: { user?: any }) => {
         url: URLS.getUsageDetails,
         params: {
             employeeId: user?.employee?.id,
+            computerId: id,
             startDate: searchValue?.startDate,
             endDate: searchValue?.endDate,
             resourceType: "APPLICATION",
             page: 1,
             limit: 5,
         },
-        enabled: !!user?.employee?.id,
+        enabled: !!id,
     });
 
     const employeeData = rankingData?.data?.[0] || rankingData?.[0] || null;

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useGetAllQuery } from "@/hooks/api";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import dayjs from 'dayjs';
 import {
@@ -49,6 +49,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const SitesCharts = ({ user }: { user?: any }) => {
+    const { id } = useParams();
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
 
@@ -66,6 +67,7 @@ const SitesCharts = ({ user }: { user?: any }) => {
             ...commonParams,
             page: 1,
             limit: 100,
+            computerId: id,
             resourceType: 'WEBSITE'
         },
         enabled: !!user?.employee?.id,
@@ -86,8 +88,9 @@ const SitesCharts = ({ user }: { user?: any }) => {
             ...commonParams,
             page: 1,
             limit: 100, 
+            computerId: id,
         },
-        enabled: !!user?.employee?.id,
+        enabled: !!id,
     });
 
     const visitedSitesChart = useMemo(() => {
@@ -134,7 +137,7 @@ const SitesCharts = ({ user }: { user?: any }) => {
         ].filter(d => d.value > 0);
     }, [productivityData]);
 
-    if (!user?.employee?.id) return null;
+    if (!id) return null;
 
     return (
         <div className="space-y-6 mb-6">

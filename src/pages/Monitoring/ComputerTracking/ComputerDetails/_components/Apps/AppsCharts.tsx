@@ -3,7 +3,7 @@ import { LayoutGrid, TrendingUp } from "lucide-react";
 import { useGetAllQuery } from "@/hooks/api";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import dayjs from 'dayjs';
 import {
@@ -46,6 +46,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const AppsCharts = ({ user }: { user?: any }) => {
+    const { id } = useParams();
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
 
@@ -63,9 +64,10 @@ const AppsCharts = ({ user }: { user?: any }) => {
             ...commonParams,
             page: 1,
             limit: 5,
+            computerId: id,
             resourceType: "APPLICATION",
         },
-        enabled: !!user?.employee?.id,
+        enabled: !!id,
     });
 
     const topAppsChart = useMemo(() => {
@@ -82,9 +84,10 @@ const AppsCharts = ({ user }: { user?: any }) => {
         params: {
             ...commonParams,
             page: 1,
+            computerId: id,
             limit: 100, 
         },
-        enabled: !!user?.employee?.id,
+        enabled: !!id,
     });
 
     const activeWindowsChart = useMemo(() => {
@@ -115,7 +118,7 @@ const AppsCharts = ({ user }: { user?: any }) => {
             resourceType: "APPLICATION",
             type: 'TOP_PRODUCTIVE',
         },
-        enabled: !!user?.employee?.id,
+        enabled: !!id,
     });
 
     const productivityData = rankingData?.data?.[0] || rankingData?.[0] || null;

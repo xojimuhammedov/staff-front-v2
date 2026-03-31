@@ -12,12 +12,13 @@ const formatTime = (seconds: number) => {
     return `${m} d`;
 };
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 
 const SitesProductivityStats = ({ user }: { user?: any }) => {
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
+    const { id } = useParams();
 
     const { data: rankingData, isLoading } = useGetAllQuery<any>({
         key: KEYS.dashboardEmployeeProductivityRanking + '_sites',
@@ -41,6 +42,7 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
             endDate: searchValue?.endDate,
             page: 1,
             limit: 5,
+            computerId: id,
             sort: 'name',
             order: 'asc',
             resourceType: 'WEBSITE'

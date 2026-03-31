@@ -6,11 +6,12 @@ import { useGetAllQuery } from '@/hooks/api';
 import { KEYS } from '@/constants/key';
 import { URLS } from '@/constants/url';
 import { get } from 'lodash';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import { MyInput } from '@/components/Atoms/Form';
 import { useSearch } from '@/hooks/useSearch';
 import { KeyTypeEnum } from '@/enums/key-type.enum';
+import MyBadge from '@/components/Atoms/MyBadge';
 
 interface SitesTableProps {
     user?: any;
@@ -26,33 +27,35 @@ const formatTime = (seconds: number) => {
 
 const SitesTable = ({ user }: SitesTableProps) => {
     const { t, i18n } = useTranslation();
+    const { id } = useParams();
     const currentLang: any = i18n.resolvedLanguage;
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
     const { search, setSearch, handleSearch } = useSearch();
 
     const { data, isLoading } = useGetAllQuery<any>({
-        key: KEYS.getUsefulSites,
-        url: URLS.getUsefulSites,
+        key: KEYS.getUsageDetails,
+        url: URLS.getUsageDetails,
         params: {
             page: searchValue?.page || 1,
             limit: searchValue?.limit || 10,
             search: searchValue?.search,
-            isActive: false,
             employeeId: user?.employee?.id,
             startDate: searchValue?.startDate,
             endDate: searchValue?.endDate,
+            resourceType: "WEBSITE",
+            computerId: id,
         },
         enabled: !!user?.employee?.id,
     });
-    
+
     const columns: DataGridColumnType[] = useMemo(() => [
         {
-            key: 'domain',
+            key: 'name',
             label: "Domen",
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
-                <div className="text-text-base dark:text-text-title-dark font-medium">{row?.domain ?? '--'}</div>
+                <div className="text-text-base dark:text-text-title-dark font-medium">{row?.name ?? '--'}</div>
             ),
         },
         {
@@ -66,22 +69,44 @@ const SitesTable = ({ user }: SitesTableProps) => {
             ),
         },
         {
-            key: 'percentage',
-            label: "Foiz",
+            key: 'category',
+            label: "Kategoriya",
             headerClassName: 'dark:text-text-title-dark min-w-max',
-            cellRender: (row) => (
-                <div className="text-sm dark:text-text-title-dark font-medium text-blue-500">
-                    {row?.percentage ?? 0}%
-                </div>
-            ),
+            cellRender: (row) => {
+                const category = row?.category;
+                let variant = 'gray';
+                let label = category;
+
+                if (category === 'UNUSEFUL') {
+                    variant = 'red';
+                    label = 'Foydasiz';
+                } else if (category === 'USEFUL') {
+                    variant = 'green';
+                    label = 'Foydali';
+                } else if (category === 'OTHER') {
+                    variant = 'gray';
+                    label = 'Boshqa';
+                }
+
+                return (
+                    <MyBadge
+                        className={`border ` + (variant === 'red' ? 'border-tag-red-icon [&_p]:text-tag-red-text dark:border-tag-red-icon dark:[&_p]:text-tag-red-text' :
+                            variant === 'green' ? 'border-tag-green-icon [&_p]:text-tag-green-text dark:border-tag-green-icon dark:[&_p]:text-tag-green-text' :
+                                'border-gray-300 [&_p]:text-gray-600 dark:border-gray-600 dark:[&_p]:text-gray-400')}
+                        variant={variant as any}
+                    >
+                        {label || '--'}
+                    </MyBadge>
+                );
+            },
         },
         {
-            key: 'totalActiveTime',
+            key: 'totalUsageTime',
             label: "Faol vaqt",
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark font-mono">
-                    {formatTime(row?.totalActiveTime)}
+                    {formatTime(row?.totalUsageTime)}
                 </div>
             ),
         },

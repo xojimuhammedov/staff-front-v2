@@ -6,7 +6,7 @@ import { useGetAllQuery } from '@/hooks/api';
 import { KEYS } from '@/constants/key';
 import { URLS } from '@/constants/url';
 import { get } from 'lodash';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 import MyBadge from '@/components/Atoms/MyBadge';
 import { MyInput } from '@/components/Atoms/Form';
@@ -28,6 +28,7 @@ const formatTime = (seconds: number) => {
 const UsageDetailsTable = ({ user }: UsageDetailsTableProps) => {
     const { t, i18n } = useTranslation();
     const currentLang: any = i18n.resolvedLanguage;
+    const { id } = useParams();
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
     const { search, setSearch, handleSearch } = useSearch();
@@ -39,12 +40,13 @@ const UsageDetailsTable = ({ user }: UsageDetailsTableProps) => {
             page: searchValue?.page || 1,
             limit: searchValue?.limit || 10,
             search: searchValue?.search,
+            computerId: id,
             employeeId: user?.employee?.id,
             startDate: searchValue?.startDate,
             endDate: searchValue?.endDate,
             resourceType: "APPLICATION",
         },
-        enabled: !!user?.employee?.id,
+        enabled: !!id,
     });
 
     const columns: DataGridColumnType[] = useMemo(() => [
