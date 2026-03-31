@@ -21,6 +21,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
   const { t, i18n } = useTranslation();
   const currentLang: any = i18n.resolvedLanguage;
 
+  const navigate = useNavigate();
   const { data } = useGetAllQuery<any>({
     key: KEYS.getComputerList,
     url: URLS.getComputerList,
@@ -107,6 +108,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       pagination={data}
       columns={columns}
       hasIndex={true}
+      onRowClick={(row) => navigate(`/monitoring/computerTracking/${row.id}`, { state: { computer: row } })}
     />
   );
 };

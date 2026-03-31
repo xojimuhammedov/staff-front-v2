@@ -69,5 +69,6 @@ export const URLS = {
   getUnproductiveSites:"/api/monitoring/statistics/unproductive-sites",
   getUsageDetails:"/api/monitoring/statistics/usage-details",
   dashboardEmployeeProductivityRanking: "/api/dashboard/employee-productivity-ranking",
-  dashboardOverallEmployeeRanking: "/api/dashboard/overall-employee-ranking"
+  dashboardOverallEmployeeRanking: "/api/dashboard/overall-employee-ranking",
+  
 };

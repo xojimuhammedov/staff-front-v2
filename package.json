@@ -103,6 +103,7 @@
     "react-toastify": "^10.0.4",
     "react-tooltip": "^5.26.4",
     "react-transition-group": "^4.4.5",
+    "recharts": "^3.8.1",
     "socket.io-client": "^4.7.4",
     "tailwindcss-animate": "^1.0.7",
     "toastify-js": "^1.12.0",

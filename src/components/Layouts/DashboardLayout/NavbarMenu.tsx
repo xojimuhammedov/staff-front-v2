@@ -171,22 +171,10 @@ const NavbarMenu = () => {
       allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD", "GUARD"],
     },
     {
-      label: t('Monitoring'),
-      to: '/monitoring',
-      isSubMenu: true,
-      subRoutes: [
-        {
-          label: t('Computers'),
-          to: '/monitoring/computerTracking',
-          icon: 'AppWindow'
-        },
-        {
-          label: t('Computer users'),
-          to: '/monitoring/computerUsers',
-          icon: 'Users'
-        },
-      ],
-      allowedRoles: ["ADMIN", "HR", "DEPARTMENT_LEAD"],
+      label: t('Computers'),
+      to: '/monitoring/computerTracking',
+      isSubMenu: false,
+      allowedRoles: ['ADMIN']
     },
     {
       label: t('Reports'),

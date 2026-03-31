@@ -23,7 +23,7 @@ const DashboardPage = () => {
     },
   ];
 
-  const { data, control, lineChartData, todayData, topEmployee, bottomEmployee, paramsValue, effectiveType } = useDashboard();
+  const { data, control, lineChartData, todayData, topEmployee, paramsValue, effectiveType } = useDashboard();
 
   return (
     <PageContentWrapper className="dark:bg-bg-dark-bg">
