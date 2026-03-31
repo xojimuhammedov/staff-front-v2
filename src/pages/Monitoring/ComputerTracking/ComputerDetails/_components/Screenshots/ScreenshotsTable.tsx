@@ -10,6 +10,10 @@ import { paramsStrToObj } from 'utils/helper';
 import config from '@/configs';
 import MyModal from '@/components/Atoms/MyModal/MyModal';
 import dayjs from 'dayjs';
+import { Search } from 'lucide-react';
+import { MyInput } from '@/components/Atoms/Form';
+import { useSearch } from '@/hooks/useSearch';
+import { KeyTypeEnum } from '@/enums/key-type.enum';
 
 interface ScreenshotsTableProps {
     user?: any;
@@ -20,6 +24,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
     const currentLang: any = i18n.resolvedLanguage;
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
+    const { search, setSearch, handleSearch } = useSearch();
 
     const [selectedData, setSelectedData] = useState<any>(null);
 
@@ -29,6 +34,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
         params: {
             page: searchValue?.page || 1,
             limit: searchValue?.limit || 10,
+            search: searchValue?.search,
             employeeId: user?.employee?.id,
             startDate: searchValue?.startDate,
             endDate: searchValue?.endDate,
@@ -110,6 +116,23 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
     return (
         <>
             <div className="rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-[rgb(var(--color-bg-base-dark))] shadow-sm overflow-hidden mb-6">
+                <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                    <div className="w-full max-w-sm">
+                        <MyInput
+                            onKeyUp={(event) => {
+                                if (event.key === KeyTypeEnum.enter) {
+                                    handleSearch();
+                                } else {
+                                    setSearch((event.target as HTMLInputElement).value);
+                                }
+                            }}
+                            defaultValue={search}
+                            startIcon={<Search className="stroke-text-muted cursor-pointer" onClick={handleSearch} />}
+                            className="dark:bg-bg-input-dark"
+                            placeholder={t('Search...')}
+                        />
+                    </div>
+                </div>
                 <DynamicTable
                     data={get(data, 'data')}
                     pagination={{

@@ -10,6 +10,10 @@ import { paramsStrToObj } from 'utils/helper';
 import MyModal from '@/components/Atoms/MyModal/MyModal';
 import MyBadge from '@/components/Atoms/MyBadge';
 import dayjs from 'dayjs';
+import { Search } from 'lucide-react';
+import { MyInput } from '@/components/Atoms/Form';
+import { useSearch } from '@/hooks/useSearch';
+import { KeyTypeEnum } from '@/enums/key-type.enum';
 
 interface KeylogsTableProps {
     user?: any;
@@ -20,6 +24,7 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
     const currentLang: any = i18n.resolvedLanguage;
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
+    const { search, setSearch, handleSearch } = useSearch();
 
     const [selectedData, setSelectedData] = useState<any>(null);
 
@@ -29,6 +34,7 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
         params: {
             page: searchValue?.page || 1,
             limit: searchValue?.limit || 10,
+            search: searchValue?.search,
             employeeId: user?.employee?.id,
             startDate: searchValue?.startDate,
             endDate: searchValue?.endDate,
@@ -99,6 +105,23 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
     return (
         <>
             <div className="rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-[rgb(var(--color-bg-base-dark))] shadow-sm overflow-hidden mb-6">
+                <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                    <div className="w-full max-w-sm">
+                        <MyInput
+                            onKeyUp={(event) => {
+                                if (event.key === KeyTypeEnum.enter) {
+                                    handleSearch();
+                                } else {
+                                    setSearch((event.target as HTMLInputElement).value);
+                                }
+                            }}
+                            defaultValue={search}
+                            startIcon={<Search className="stroke-text-muted cursor-pointer" onClick={handleSearch} />}
+                            className="dark:bg-bg-input-dark"
+                            placeholder={t('Search...')}
+                        />
+                    </div>
+                </div>
                 <DynamicTable
                     data={get(data, 'data')}
                     pagination={{
