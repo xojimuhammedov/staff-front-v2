@@ -1,6 +1,7 @@
 import React from 'react';
 import { KeyboardIcon } from "lucide-react";
 import KeylogsTable from './KeylogsTable';
+import KeylogCharts from './KeylogCharts';
 
 const Keylogs = ({ user }: { user?: any }) => {
     if (!user?.employee?.id) {
@@ -18,6 +19,8 @@ const Keylogs = ({ user }: { user?: any }) => {
                     Kompyuterda kiritilgan matnlar va jarayonlar haqida batafsil ma'lumot
                 </p>
             </div>
+
+            <KeylogCharts user={user} />
             
             <KeylogsTable user={user} />
         </div>

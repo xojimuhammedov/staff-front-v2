@@ -810,6 +810,10 @@
   "Unknown computer": "Noma'lum kompyuter",
   "Data not found": "Ma'lumot topilmadi",
   "No data available because an employee is not assigned.": "Xodim biriktirilmaganligi sababli ma'lumotlar mavjud emas.",
+  "Daily Activity": "Kunlik faollik",
+  "Process Distribution": "Jarayon taqsimoti",
+  "Daily Activity (Keylogs count)": "Kunlik faollik (Klaviatura yozuvlari soni)",
+  "Process Distribution (Keylogs)": "Jarayon taqsimoti (Klaviatura yozuvlari)",
   "Most visited sites (in minutes)": "Eng ko‘p tashrif buyurilgan saytlar (daqiqalarda)",
   "Number of sites": "Saytlar soni",
   "Most visited": "Eng ko'p tashrif"

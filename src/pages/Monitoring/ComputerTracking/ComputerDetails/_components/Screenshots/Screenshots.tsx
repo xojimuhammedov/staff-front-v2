@@ -1,6 +1,7 @@
 import React from 'react';
 import { ImageIcon } from "lucide-react";
 import ScreenshotsTable from './ScreenshotsTable';
+import ScreenshotCharts from './ScreenshotCharts';
 
 const Screenshots = ({ user }: { user?: any }) => {
     if (!user?.employee?.id) {
@@ -18,6 +19,8 @@ const Screenshots = ({ user }: { user?: any }) => {
                     Xodim kompyuteridan olingan skrinshotlar ro'yxati
                 </p>
             </div>
+
+            <ScreenshotCharts user={user} />
             
             <ScreenshotsTable user={user} />
         </div>

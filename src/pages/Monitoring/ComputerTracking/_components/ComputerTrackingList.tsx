@@ -27,6 +27,8 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       page: searchValue?.page,
       limit: searchValue?.limit,
       search: searchValue?.search,
+      startDate: searchValue?.startDate,
+      endDate: searchValue?.endDate,
     }
   });
 
@@ -46,7 +48,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
   const columns: DataGridColumnType[] = useMemo(() => [
     {
       key: 'computer',
-      label: t('Kompyuter'),
+      label: t('Computer'),
       headerClassName: 'dark:text-text-title-dark min-w-max',
       cellRender: (row) => (
         <div className="flex items-center gap-2 font-medium text-gray-900 dark:text-white">
@@ -57,7 +59,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
     },
     {
       key: 'ipAddress',
-      label: t('IP Manzil'),
+      label: t('IP address'),
       headerClassName: 'dark:text-text-title-dark min-w-max',
       cellRender: (row) => (
         <div className="text-gray-500 dark:text-gray-400 font-mono text-sm">{row?.ipAddress ?? '--'}</div>
@@ -65,7 +67,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
     },
     {
       key: 'status',
-      label: t('Holati'),
+      label: t('Status'),
       headerClassName: 'dark:text-text-title-dark min-w-max',
       cellRender: (row) => {
         if (row?.isOnline) {
@@ -77,13 +79,13 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
         } else if (row?.isActive) {
           return (
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800/50">
-              <WifiOff className="h-3 w-3" /> Offline
+              <WifiOff className="h-3 w-3" /> {t('Offline')}
             </div>
           );
         } else {
           return (
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50">
-              Noaktiv
+              {t('Inactive')}
             </div>
           );
         }
@@ -101,7 +103,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
     },
     {
       key: '_count',
-      label: t('Foydalanuvchilar'),
+      label: t('Users'),
       headerClassName: 'dark:text-text-title-dark min-w-max',
       cellRender: (row) => (
         <div className="flex items-center gap-2">
@@ -156,10 +158,10 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
           children: (
             <div className="flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Foydalanuvchini Tanlang
+                {t('Select user')}
               </h3>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                <span className="font-semibold text-gray-700 dark:text-gray-300">{selectedComputer?.pcName}</span> kompyuterida {selectedUsers.length} ta foydalanuvchi mavjud. Qaysi foydalanuvchi ma'lumotlarini ko'rmoqchisiz?
+                <span className="font-semibold text-gray-700 dark:text-gray-300">{selectedComputer?.pcName}</span> {t('on computer')} {selectedUsers.length} {t("users exist. Which user's data do you want to see?")}
               </p>
             </div>
           )
@@ -167,7 +169,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       >
         <div className="grid gap-2 py-4 max-h-[60vh] overflow-y-auto px-1">
           {isUsersLoading ? (
-            <div className="py-8 text-center text-gray-400">Yuklanmoqda...</div>
+            <div className="py-8 text-center text-gray-400">{t('Loading...')}</div>
           ) : selectedUsers.map((user: any) => (
             <div
               key={user.id}
@@ -205,7 +207,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
                 </div>
                 
                 {/* Employee status indicator */}
-                <div className="flex-shrink-0" title={user.employee ? 'Xodimga biriktirilgan' : 'Xodimga biriktirilmagan'}>
+                <div className="flex-shrink-0" title={user.employee ? t('Assigned to employee') : t('Not assigned to employee')}>
                   {user.employee ? (
                     <UserCheck className="h-5 w-5 text-green-500" />
                   ) : (

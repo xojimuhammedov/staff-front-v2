@@ -809,5 +809,9 @@
   "No data available because an employee is not assigned.": "Нет данных, так как сотрудник не прикреплен.",
   "Most visited sites (in minutes)": "Самые посещаемые сайты (в минутах)",
   "Number of sites": "Количество сайтов",
-  "Most visited": "Часто посещаемые"
+  "Most visited": "Часто посещаемые",
+  "Daily Activity": "Дневная активность",
+  "Process Distribution": "Распределение по приложениям",
+  "Daily Activity (Keylogs count)": "Дневная активность (кол-во нажатий)",
+  "Process Distribution (Keylogs)": "Распределение по приложениям (Keylogs)"
 }

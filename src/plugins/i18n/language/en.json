@@ -801,5 +801,9 @@
   "No data available because an employee is not assigned.": "No data available because an employee is not assigned.",
   "Most visited sites (in minutes)": "Most visited sites (in minutes)",
   "Number of sites": "Number of sites",
-  "Most visited": "Most visited"
+  "Most visited": "Most visited",
+  "Daily Activity": "Daily Activity",
+  "Process Distribution": "Process Distribution",
+  "Daily Activity (Keylogs count)": "Daily Activity (Keylogs count)",
+  "Process Distribution (Keylogs)": "Process Distribution (Keylogs)"
 }
