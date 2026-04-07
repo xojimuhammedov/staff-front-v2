@@ -9,6 +9,7 @@ export type JobEvents = {
   "job:failed": (data: any) => void;
   "events"?: (data: any) => void;
   "action:created": (data: any) => void;
+  "computer:status": (data: any) => void;
 };
 
 let socket: Socket<JobEvents> | null = null;
@@ -27,7 +28,7 @@ export function connectEventsSocket() {
     socket = null;
   }
 
-  socket = io("http://192.168.100.115:3000/events", {
+  socket = io("http://139.28.47.17:3703/events", {
     transports: ["websocket", "polling"],
     upgrade: true,
     reconnection: true,
