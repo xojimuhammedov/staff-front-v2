@@ -13,6 +13,10 @@ import {
   Link2 as LinkIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ConfirmationModal from "@/components/Atoms/Confirmation/Modal";
+import { useDeleteQuery } from "@/hooks/api";
+import { KEYS } from "@/constants/key";
+import { AssignEmployeeModal } from "./AssignEmployeeModal";
 
 // Popover component
 function SimplePopover({ open, onOpenChange, trigger, children }: any) {
@@ -72,6 +76,20 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
     const [userSwitcherOpen, setUserSwitcherOpen] = useState(false);
     const [showUnassignDialog, setShowUnassignDialog] = useState(false);
     const [showAssignDialog, setShowAssignDialog] = useState(false);
+
+    const { mutate: unlinkEmployee } = useDeleteQuery({
+        listKeyId: KEYS.getComputerUserList,
+    });
+
+    const handleUnlink = () => {
+        unlinkEmployee({
+            url: `/api/computer-users/${user.id}/unlink-employee`,
+        }, {
+            onSuccess: () => {
+                setShowUnassignDialog(false);
+            }
+        });
+    };
 
     const handleUserSwitch = (uId: number) => {
         onUserSwitch(uId);
@@ -244,6 +262,15 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                     )}
                 </div>
             )}
+
+            {user && <AssignEmployeeModal open={showAssignDialog} setOpen={setShowAssignDialog} userId={user.id} />}
+            <ConfirmationModal
+                open={showUnassignDialog}
+                setOpen={setShowUnassignDialog}
+                title="Xodimni uzish"
+                subTitle="Haqiqatan ham ushbu xodimni kompyuterdan uzmoqchimisiz?"
+                confirmationDelete={handleUnlink}
+            />
         </>
     );
 };
