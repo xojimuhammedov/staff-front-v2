@@ -34,7 +34,7 @@ const UserSessions = ({ user }: { user?: any }) => {
     const groupedSessions = useMemo(() => {
         const groups: Record<string, any[]> = {};
         sessions.forEach((session: any) => {
-            const dateStr = dayjs(session.dateTime).format('YYYY-MM-DD');
+            const dateStr = dayjs(session.datetime).format('YYYY-MM-DD');
             if (!groups[dateStr]) {
                 groups[dateStr] = [];
             }
@@ -45,7 +45,7 @@ const UserSessions = ({ user }: { user?: any }) => {
         const sortedDates = Object.keys(groups).sort((a, b) => (dayjs(a).isBefore(dayjs(b)) ? 1 : -1));
         return sortedDates.map(date => ({
             date,
-            items: groups[date].sort((a: any, b: any) => (dayjs(a.dateTime).isBefore(dayjs(b.dateTime)) ? 1 : -1))
+            items: groups[date].sort((a: any, b: any) => (dayjs(a.datetime).isBefore(dayjs(b.datetime)) ? 1 : -1))
         }));
     }, [sessions]);
 
@@ -81,7 +81,7 @@ const UserSessions = ({ user }: { user?: any }) => {
                                 <div className="h-3 w-3 rounded-full bg-yellow-500 flex-shrink-0" />
                                 
                                 {group.items.map((session: any, index: number) => {
-                                    const timeStr = dayjs(session.dateTime).format('HH:mm');
+                                    const timeStr = dayjs(session.datetime).format('HH:mm');
                                     const isLocked = session.sessionType === 'LOCKED';
                                     const isUnlocked = session.sessionType === 'UNLOCKED';
                                     
