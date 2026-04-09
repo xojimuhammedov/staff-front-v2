@@ -56,8 +56,8 @@ const CommandHistory = ({ user }: { user?: any }) => {
             computerId: id,
             action: searchValue?.action || undefined,
             status: searchValue?.status || undefined,
-            // startDate: searchValue?.startDate,
-            // endDate: searchValue?.endDate,
+            startDate: searchValue?.startDate,
+            endDate: searchValue?.endDate,
         },
         enabled: !!id,
     });

@@ -19,12 +19,12 @@ const UserSessions = ({ user }: { user?: any }) => {
         key: KEYS.getUserSession,
         url: URLS.getUserSession,
         params: {
-            page: 1, // To emulate a full timeline, usually we fetch a larger limit or handle pagination. We'll use 1 and a large limit or use from searchValue
+            page: 1,
             limit: 100,
             computerId: id,
             employeeId: user?.employee?.id,
-            // startDate: searchValue?.startDate,
-            // endDate: searchValue?.endDate,
+            startDate: searchValue?.startDate,
+            endDate: searchValue?.endDate,
         },
         enabled: !!id,
     });
