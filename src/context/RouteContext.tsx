@@ -7,8 +7,7 @@ export const SearchParamsProvider = ({ children }: any) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClick = (value: string) => {
-    searchParams.set('current-setting', value);
-    setSearchParams(searchParams);
+    setSearchParams({ 'current-setting': value });
   };
 
   return (

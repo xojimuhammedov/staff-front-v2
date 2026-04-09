@@ -107,10 +107,39 @@ export function useEventsSocket(params: {
 
         return () => {
             // component unmount bo‘lsa
-            socket.off();
             // socket.off("action:created", handleActionCreated);
             disconnectEventsSocket();
             socketRef.current = null;
         };
     }, [jobId, onDone, onProgress, onStart, onError]);
+}
+
+export function useSocket(
+    eventName: keyof JobEvents,
+    callback: (data: any) => void
+) {
+    const callbackRef = useRef(callback);
+
+    useEffect(() => {
+        callbackRef.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+        const socket = connectEventsSocket();
+        console.log(`[useSocket] Registering listener for:`, eventName);
+        
+        const handler = (data: any) => {
+            console.log(`[useSocket] Received ${eventName}:`, data);
+            if (callbackRef.current) {
+                callbackRef.current(data);
+            }
+        };
+
+        socket.on(eventName, handler as any);
+
+        return () => {
+             console.log(`[useSocket] Unregistering listener for:`, eventName);
+             socket.off(eventName, handler as any);
+        };
+    }, [eventName]);
 }

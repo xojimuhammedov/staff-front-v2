@@ -10,6 +10,7 @@ import { URLS } from '@/constants/url';
 import { searchValue } from '@/types/search';
 import { get } from 'lodash';
 import dayjs from 'dayjs';
+import { useSocket } from '@/hooks/useSocket';
 
 
 const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => {
@@ -19,6 +20,31 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
   const navigate = useNavigate();
   const [showUserDialog, setShowUserDialog] = useState(false);
   const [selectedComputer, setSelectedComputer] = useState<any>(null);
+  const [liveStatuses, setLiveStatuses] = useState<Record<string, boolean>>({});
+
+  useSocket('computer:initial_state', (data) => {
+    if (Array.isArray(data)) {
+      setLiveStatuses(prev => {
+        const newStatuses = { ...prev };
+        data.forEach((item: any) => {
+          if (item?.computerUid) {
+            newStatuses[item.computerUid] = item.isOnline;
+          }
+        });
+        return newStatuses;
+      });
+    }
+  });
+
+  useSocket('computer:status', (data) => {
+    if (data?.computerUid) {
+      setLiveStatuses(prev => ({
+        ...prev,
+        [data.computerUid]: data.isOnline
+      }));
+    }
+  });
+
 
   const { data } = useGetAllQuery<any>({
     key: KEYS.getComputerList,
@@ -70,7 +96,11 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
       label: t('Status'),
       headerClassName: 'dark:text-text-title-dark min-w-max',
       cellRender: (row) => {
-        if (row?.isOnline) {
+        const isOnline = liveStatuses[row?.computerUid] !== undefined 
+          ? liveStatuses[row?.computerUid] 
+          : row?.isOnline;
+
+        if (isOnline) {
           return (
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700 border border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800/50">
               <Wifi className="h-3 w-3" /> Online
@@ -125,7 +155,7 @@ const ComputerTrackingList = ({ searchValue }: { searchValue: searchValue }) => 
         </div>
       ),
     },
-  ], [t, currentLang]);
+  ], [t, currentLang, liveStatuses]);
 
   return (
     <>

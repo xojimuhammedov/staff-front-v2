@@ -25,7 +25,7 @@ interface FormSelectProps {
   isClearable?: boolean;
   onChange?: (item: ISelect | ISelect[] | string | string[] | number | number[] | boolean | boolean[]) => void;
   onBlur?: () => void;
-  allowedRoles: string[]
+  allowedRoles?: string[]
 }
 
 const ICON_SIZE = 20;

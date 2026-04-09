@@ -40,6 +40,18 @@ const Sidebar: FC<SidebarProps> = ({ sidebar_menu_type = 'simple' }) => {
                     path: 'keylogs',
                     isSwitch: false
                 },
+                {
+                    icon: 'Users',
+                    name: t('User Sessions'),
+                    path: 'user-sessions',
+                    isSwitch: false
+                },
+                {
+                    icon: 'Terminal',
+                    name: t('Command History'),
+                    path: 'command-history',
+                    isSwitch: false
+                },
             ]
         }
     ];

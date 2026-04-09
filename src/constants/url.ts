@@ -58,6 +58,7 @@ export const URLS = {
   getComputerList: "/api/computers",
   getScreenShot: "/api/monitoring/screenshots",
   getUserSession: "/api/monitoring/user-sessions",
+  getCommandHistory: "/api/monitoring/command-history",
   getKeyLogs: "/api/monitoring/keylogs",
   getVisitedSites: "/api/monitoring/visited-sites",
   getActiveWindows: "/api/monitoring/active-windows",

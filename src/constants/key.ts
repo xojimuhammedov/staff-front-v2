@@ -58,6 +58,7 @@ export const KEYS = {
   getComputerList: "getComputerList",
   getScreenShot: "getScreenShot",
   getUserSession: "getUserSession",
+  getCommandHistory: "getCommandHistory",
   getKeyLogs: "getKeyLogs",
   getVisitedSites: "getVisitedSites",
   getActiveWindows: "getActiveWindows",
