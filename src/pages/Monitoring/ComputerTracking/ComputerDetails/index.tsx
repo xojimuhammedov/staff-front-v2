@@ -19,10 +19,11 @@ import { useSearchParams } from "react-router-dom";
 export default function ComputerDetailsPage() {
   const { id } = useParams();
   const location = useLocation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const computer = location.state?.computer || {
-    pcName: "Noma'lum kompyuter",
-    ipAddress: "Noma'lum IP",
+    pcName: t("Unknown computer"),
+    ipAddress: t("Unknown IP"),
     version: "",
     os: ""
   };
@@ -52,8 +53,6 @@ export default function ComputerDetailsPage() {
   const handleUserSwitch = (uId: number) => {
     setSelectedUserId(uId);
   };
-
-  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { control, watch } = useForm({
     defaultValues: {
@@ -79,7 +78,7 @@ export default function ComputerDetailsPage() {
   }, [watch('date'), searchParams, setSearchParams]);
 
 
-  if (isLoading) return <div className="p-8 text-center text-sm">Yuklanmoqda...</div>;
+  if (isLoading) return <div className="p-8 text-center text-sm">{t('Loading...')}</div>;
 
   return (
     <PageContentWrapper>
@@ -90,7 +89,7 @@ export default function ComputerDetailsPage() {
           <div className="p-4 border-b border-gray-200 dark:border-[rgb(var(--color-dark-line))]">
             <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-700 dark:text-neutral-300 hover:text-blue-600 transition-colors">
               <ArrowLeftIcon className="h-4 w-4" />
-              <span className="text-sm">Orqaga</span>
+              <span className="text-sm">{t('Back')}</span>
             </button>
           </div>
 

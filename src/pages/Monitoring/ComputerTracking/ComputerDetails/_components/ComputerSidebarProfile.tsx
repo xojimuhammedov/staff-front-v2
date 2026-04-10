@@ -17,6 +17,7 @@ import ConfirmationModal from "@/components/Atoms/Confirmation/Modal";
 import { useDeleteQuery } from "@/hooks/api";
 import { KEYS } from "@/constants/key";
 import { AssignEmployeeModal } from "./AssignEmployeeModal";
+import { useTranslation } from "react-i18next";
 
 // Popover component
 function SimplePopover({ open, onOpenChange, trigger, children }: any) {
@@ -73,6 +74,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
     selectedUserId, 
     onUserSwitch 
 }) => {
+    const { t } = useTranslation();
     const [userSwitcherOpen, setUserSwitcherOpen] = useState(false);
     const [showUnassignDialog, setShowUnassignDialog] = useState(false);
     const [showAssignDialog, setShowAssignDialog] = useState(false);
@@ -130,7 +132,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                                             </p>
                                             {user.isActive && (
                                                 <Badge className="bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 text-xs h-5">
-                                                    Online
+                                                    {t('Online')}
                                                 </Badge>
                                             )}
                                         </div>
@@ -141,7 +143,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                                     )}
                                 </div>
                                 {user.isAdmin && (
-                                    <Badge variant="secondary" className="text-xs mt-2 self-start">Administrator</Badge>
+                                    <Badge variant="secondary" className="text-xs mt-2 self-start">{t('Administrator')}</Badge>
                                 )}
                             </button>
                         }
@@ -149,7 +151,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                         {allUsers.length > 1 && (
                             <div>
                                 <div className="mb-2 px-2 py-1">
-                                    <p className="text-xs font-medium text-gray-500">Foydalanuvchini almashtirish</p>
+                                    <p className="text-xs font-medium text-gray-500">{t('Switch User')}</p>
                                 </div>
                                 <div className="space-y-1">
                                     {allUsers.map((u: any) => (
@@ -196,7 +198,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                 <div className="p-4 border-b border-gray-200 dark:border-[rgb(var(--color-dark-line))]">
                     <div className="flex items-center justify-between mb-3">
                         <span className="text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">
-                            Xodim
+                            {t('Employee Info')}
                         </span>
                     </div>
 
@@ -205,7 +207,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                             <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/30">
                                 <div className="flex items-center gap-2 mb-2">
                                     <UserCheckIcon className="h-4 w-4 text-green-600 dark:text-green-500" />
-                                    <span className="text-sm font-medium text-green-600 dark:text-green-500">Biriktirilgan</span>
+                                    <span className="text-sm font-medium text-green-600 dark:text-green-500">{t('Linked')}</span>
                                 </div>
                                 <p className="text-sm font-medium text-[rgb(var(--color-text-base))] dark:text-text-title-dark mb-1">
                                     {user.employee.name}
@@ -239,7 +241,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                                 onClick={() => setShowUnassignDialog(true)}
                             >
                                 <UnlinkIcon className="h-3.5 w-3.5 mr-2" />
-                                Bog'lanishni bekor qilish
+                                {t('Unlink')}
                             </button>
                         </div>
                     ) : (
@@ -247,7 +249,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                             <div className="p-3 rounded-lg bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-900/30">
                                 <div className="flex items-center gap-2">
                                     <UserXIcon className="h-4 w-4 text-orange-500" />
-                                    <span className="text-sm text-orange-600 dark:text-orange-400">Biriktirilmagan</span>
+                                    <span className="text-sm text-orange-600 dark:text-orange-400">{t('Not Linked')}</span>
                                 </div>
                             </div>
                             <button
@@ -256,7 +258,7 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
                                 onClick={() => setShowAssignDialog(true)}
                             >
                                 <LinkIcon className="h-3.5 w-3.5 mr-2" />
-                                Xodimga biriktirish
+                                {t('Assign to Employee')}
                             </button>
                         </div>
                     )}
@@ -267,8 +269,8 @@ export const ComputerSidebarProfile: React.FC<ComputerSidebarProfileProps> = ({
             <ConfirmationModal
                 open={showUnassignDialog}
                 setOpen={setShowUnassignDialog}
-                title="Xodimni uzish"
-                subTitle="Haqiqatan ham ushbu xodimni kompyuterdan uzmoqchimisiz?"
+                title={t('Unlink Employee title')}
+                subTitle={t('Unlink confirmation')}
                 confirmationDelete={handleUnlink}
             />
         </>

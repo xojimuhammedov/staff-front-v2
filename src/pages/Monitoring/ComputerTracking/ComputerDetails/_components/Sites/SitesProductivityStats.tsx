@@ -1,21 +1,24 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useGetAllQuery } from "@/hooks/api";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import { TrendingUp, CheckCircle, XCircle, Circle, Clock, Calendar, LayoutGrid } from "lucide-react";
 
-const formatTime = (seconds: number) => {
-    if (!seconds) return "0s";
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    if (h > 0) return `${h} s ${m} d`;
-    return `${m} d`;
-};
+
 
 import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 
 const SitesProductivityStats = ({ user }: { user?: any }) => {
+    const { t } = useTranslation();
+    const formatTimeLocal = (seconds: number) => {
+        if (!seconds) return "0s";
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        if (h > 0) return `${h} ${t('h')} ${m} ${t('m')}`;
+        return `${m} ${t('m')}`;
+    };
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
     const { id } = useParams();
@@ -55,15 +58,15 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
     const sitesCount = usageData?.total || 0;
 
     if (isLoading) {
-        return <div className="p-4">Yuklanmoqda...</div>;
+        return <div className="p-4">{t('Loading...')}</div>;
     }
 
     if (!user?.employee?.id) {
-        return <div className="p-4 text-gray-500 dark:text-gray-400">Xodim biriktirilmaganligi sababli ma'lumotlar mavjud emas.</div>;
+        return <div className="p-4 text-gray-500 dark:text-gray-400">{t("No data available because an employee is not assigned.")}</div>;
     }
 
     if (!employeeData) {
-        return <div className="p-4 text-gray-500 dark:text-gray-400">Ma'lumot topilmadi</div>;
+        return <div className="p-4 text-gray-500 dark:text-gray-400">{t("Data not found")}</div>;
     }
 
     const {
@@ -82,7 +85,7 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Samaradorlik</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Productivity')}</p>
                                 <p className="text-2xl font-bold text-green-500">{productivityScore}%</p>
                             </div>
                             <div className="h-12 w-12 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -96,8 +99,8 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Foydali</p>
-                                <p className="text-2xl font-bold text-green-500">{formatTime(usefulTime)}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Useful')}</p>
+                                <p className="text-2xl font-bold text-green-500">{formatTimeLocal(usefulTime)}</p>
                             </div>
                             <CheckCircle className="h-8 w-8 text-green-500 opacity-50" />
                         </div>
@@ -108,8 +111,8 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Foydasiz</p>
-                                <p className="text-2xl font-bold text-red-500">{formatTime(unusefulTime)}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Unuseful')}</p>
+                                <p className="text-2xl font-bold text-red-500">{formatTimeLocal(unusefulTime)}</p>
                             </div>
                             <XCircle className="h-8 w-8 text-red-500 opacity-50" />
                         </div>
@@ -120,8 +123,8 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Boshqa</p>
-                                <p className="text-2xl font-bold text-gray-500">{formatTime(otherTime)}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Other')}</p>
+                                <p className="text-2xl font-bold text-gray-500">{formatTimeLocal(otherTime)}</p>
                             </div>
                             <Circle className="h-8 w-8 text-gray-500 opacity-50" />
                         </div>
@@ -134,8 +137,8 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Umumiy vaqti</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatTime(totalActiveTime)}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Total Time')}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatTimeLocal(totalActiveTime)}</p>
                             </div>
                             <div className="h-12 w-12 rounded-full bg-blue-500/10 flex items-center justify-center">
                                 <Clock className="h-6 w-6 text-blue-500" />
@@ -148,8 +151,8 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Faol kunlar</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{activeDays} kun</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Active Days')}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{activeDays} {t('day')}</p>
                             </div>
                             <div className="h-12 w-12 rounded-full bg-purple-500/10 flex items-center justify-center">
                                 <Calendar className="h-6 w-6 text-purple-500" />
@@ -162,7 +165,7 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Saytlar soni</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Number of sites')}</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{sitesCount}</p>
                             </div>
                             <div className="h-12 w-12 rounded-full bg-yellow-500/10 flex items-center justify-center">
@@ -176,7 +179,7 @@ const SitesProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Eng ko'p tashrif</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Most visited')}</p>
                                 <p className="text-xl font-bold text-gray-900 dark:text-white truncate max-w-[150px]" title={topSiteName}>
                                     {topSiteName}
                                 </p>

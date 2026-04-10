@@ -17,16 +17,17 @@ interface UsageDetailsTableProps {
     user?: any;
 }
 
-const formatTime = (seconds: number) => {
-    if (!seconds) return "0s";
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    if (h > 0) return `${h} s ${m} d`;
-    return `${m} d`;
-};
+
 
 const UsageDetailsTable = ({ user }: UsageDetailsTableProps) => {
     const { t, i18n } = useTranslation();
+    const formatTimeLocal = (seconds: number) => {
+        if (!seconds) return "0s";
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        if (h > 0) return `${h} ${t('h_short')} ${m} ${t('m_short')}`;
+        return `${m} ${t('m_short')}`;
+    };
     const currentLang: any = i18n.resolvedLanguage;
     const { id } = useParams();
     const location = useLocation();
@@ -52,17 +53,17 @@ const UsageDetailsTable = ({ user }: UsageDetailsTableProps) => {
     const columns: DataGridColumnType[] = useMemo(() => [
         {
             key: 'type',
-            label: "Turi",
+            label: t("Type"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="flex items-center gap-3 dark:text-text-title-dark">
-                    <p className="font-medium text-xs">{row?.type === 'APPLICATION' ? 'Ilova' : row?.type === 'WEBSITE' ? 'Veb-sayt' : row?.type}</p>
+                    <p className="font-medium text-xs">{row?.type === 'APPLICATION' ? t('Application') : row?.type === 'WEBSITE' ? t('Website') : row?.type}</p>
                 </div>
             ),
         },
         {
             key: 'name',
-            label: "Nomi",
+            label: t("Name"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-text-base dark:text-text-title-dark font-medium">{row?.name ?? '--'}</div>
@@ -70,7 +71,7 @@ const UsageDetailsTable = ({ user }: UsageDetailsTableProps) => {
         },
         {
             key: 'title',
-            label: "Sarlavha",
+            label: t("Title"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => {
                 return (
@@ -82,7 +83,7 @@ const UsageDetailsTable = ({ user }: UsageDetailsTableProps) => {
         },
         {
             key: 'category',
-            label: "Kategoriya",
+            label: t("Category"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => {
                 const category = row?.category;
@@ -91,13 +92,13 @@ const UsageDetailsTable = ({ user }: UsageDetailsTableProps) => {
                 
                 if (category === 'UNUSEFUL') {
                     variant = 'red';
-                    label = 'Foydasiz';
+                    label = t('Unuseful');
                 } else if (category === 'USEFUL') {
                     variant = 'green';
-                    label = 'Foydali';
+                    label = t('Useful');
                 } else if (category === 'OTHER') {
                     variant = 'gray';
-                    label = 'Boshqa';
+                    label = t('Other');
                 }
 
                 return (
@@ -114,11 +115,11 @@ const UsageDetailsTable = ({ user }: UsageDetailsTableProps) => {
         },
         {
             key: 'totalUsageTime',
-            label: "Foydalanilgan vaqt",
+            label: t("Used time"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark font-mono">
-                    {formatTime(row?.totalUsageTime)}
+                    {formatTimeLocal(row?.totalUsageTime)}
                 </div>
             ),
         },

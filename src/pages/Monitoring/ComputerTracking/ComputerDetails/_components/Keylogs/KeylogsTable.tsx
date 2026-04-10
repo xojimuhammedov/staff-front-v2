@@ -45,7 +45,7 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
     const columns: DataGridColumnType[] = useMemo(() => [
         {
             key: 'title',
-            label: "Dastur / Oyna nomi",
+            label: t("Dastur / Oyna nomi"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="flex items-center gap-3 max-w-[350px]">
@@ -68,7 +68,7 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
         },
         {
             key: 'content',
-            label: "Kiritilgan matn",
+            label: t("Kiritilgan matn"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-gray-300 font-mono bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded truncate max-w-[400px]" title={row?.content}>
@@ -78,7 +78,7 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
         },
         {
             key: 'processName',
-            label: "Jarayon",
+            label: t("Jarayon"),
             headerClassName: 'dark:text-text-title-dark min-w-max w-[120px]',
             cellRender: (row) => (
                 <MyBadge variant="neutral" className="border-gray-300 [&_p]:text-gray-600 dark:border-gray-600 dark:[&_p]:text-gray-400">
@@ -88,7 +88,7 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
         },
         {
             key: 'datetime',
-            label: "Vaqt",
+            label: t("Vaqt"),
             headerClassName: 'dark:text-text-title-dark min-w-max w-[150px]',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark font-mono text-gray-500 whitespace-nowrap">
@@ -153,7 +153,7 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
                                 />
                             )}
                             <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                                {selectedData?.title || 'Noma\'lum oyna'}
+                                {selectedData?.title || t('Unknown window')}
                             </h3>
                         </div>
                     )
@@ -161,7 +161,7 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
                 footerProps={{
                     children: (
                         <div className="w-full flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                            <span>Belgilar soni: <span className="font-semibold text-gray-700 dark:text-gray-300">{selectedData?.content?.length || 0}</span></span>
+                            <span>{t('Character count')}: <span className="font-semibold text-gray-700 dark:text-gray-300">{selectedData?.content?.length || 0}</span></span>
                             <span>{selectedData?.datetime ? dayjs(selectedData.datetime).format('YYYY-MM-DD HH:mm') : ''}</span>
                         </div>
                     )
@@ -176,9 +176,9 @@ const KeylogsTable = ({ user }: KeylogsTableProps) => {
                     </div>
 
                     <div>
-                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Kiritilgan Matn</p>
+                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{t('Kiritilgan matn')}</p>
                         <div className="w-full min-h-[100px] max-h-[300px] overflow-y-auto bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 rounded-lg border border-gray-200 dark:border-gray-700 font-mono text-sm leading-relaxed whitespace-pre-wrap break-words">
-                            {selectedData?.content || 'Matn yo\'q'}
+                            {selectedData?.content || t('Matn yo\'q')}
                         </div>
                     </div>
                 </div>

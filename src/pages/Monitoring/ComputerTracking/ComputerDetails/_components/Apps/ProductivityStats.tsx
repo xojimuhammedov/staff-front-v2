@@ -3,6 +3,7 @@ import { useGetAllQuery } from "@/hooks/api";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import { TrendingUp, CheckCircle, XCircle, Circle, Clock, Calendar, LayoutGrid } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const formatTime = (seconds: number) => {
     if (!seconds) return "0s";
@@ -16,6 +17,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { paramsStrToObj } from 'utils/helper';
 
 const ProductivityStats = ({ user }: { user?: any }) => {
+    const { t } = useTranslation();
     const { id } = useParams();
     const location = useLocation();
     const searchValue: any = paramsStrToObj(location.search);
@@ -53,15 +55,15 @@ const ProductivityStats = ({ user }: { user?: any }) => {
     const appsCount = usageData?.total || 0;
 
     if (isLoading) {
-        return <div className="p-4">Yuklanmoqda...</div>;
+        return <div className="p-4">{t('Loading...')}</div>;
     }
 
     if (!user?.employee?.id) {
-        return <div className="p-4 text-gray-500 dark:text-gray-400">Xodim biriktirilmaganligi sababli ma'lumotlar mavjud emas.</div>;
+        return <div className="p-4 text-gray-500 dark:text-gray-400">{t("No data available because an employee is not assigned.")}</div>;
     }
 
     if (!employeeData) {
-        return <div className="p-4 text-gray-500 dark:text-gray-400">Ma'lumot topilmadi</div>;
+        return <div className="p-4 text-gray-500 dark:text-gray-400">{t("Data not found")}</div>;
     }
 
     const {
@@ -80,7 +82,7 @@ const ProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Samaradorlik</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Productivity')}</p>
                                 <p className="text-2xl font-bold text-green-500">{productivityScore}%</p>
                             </div>
                             <div className="h-12 w-12 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -94,7 +96,7 @@ const ProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Foydali</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Useful')}</p>
                                 <p className="text-2xl font-bold text-green-500">{formatTime(usefulTime)}</p>
                             </div>
                             <CheckCircle className="h-8 w-8 text-green-500 opacity-50" />
@@ -106,7 +108,7 @@ const ProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Foydasiz</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Unuseful')}</p>
                                 <p className="text-2xl font-bold text-red-500">{formatTime(unusefulTime)}</p>
                             </div>
                             <XCircle className="h-8 w-8 text-red-500 opacity-50" />
@@ -118,7 +120,7 @@ const ProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Boshqa</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Other')}</p>
                                 <p className="text-2xl font-bold text-gray-500">{formatTime(otherTime)}</p>
                             </div>
                             <Circle className="h-8 w-8 text-gray-500 opacity-50" />
@@ -132,7 +134,7 @@ const ProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Umumiy vaqti</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Total Time')}</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatTime(totalActiveTime)}</p>
                             </div>
                             <div className="h-12 w-12 rounded-full bg-blue-500/10 flex items-center justify-center">
@@ -146,8 +148,8 @@ const ProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Faol kunlar</p>
-                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{activeDays} kun</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Active Days')}</p>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-white">{activeDays} {t('day')}</p>
                             </div>
                             <div className="h-12 w-12 rounded-full bg-blue-500/10 flex items-center justify-center">
                                 <Calendar className="h-6 w-6 text-blue-500" />
@@ -160,7 +162,7 @@ const ProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Ilovalar Soni</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Apps Count')}</p>
                                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{appsCount}</p>
                             </div>
                             <div className="h-12 w-12 rounded-full bg-yellow-500/10 flex items-center justify-center">
@@ -174,7 +176,7 @@ const ProductivityStats = ({ user }: { user?: any }) => {
                     <div className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">Eng Ko‘p Ishlatilgan</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('Most Used')}</p>
                                 <p className="text-xl font-bold text-gray-900 dark:text-white truncate max-w-[150px]" title={topAppName}>
                                     {topAppName}
                                 </p>

@@ -17,16 +17,17 @@ interface SitesTableProps {
     user?: any;
 }
 
-const formatTime = (seconds: number) => {
-    if (!seconds) return "0s";
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    if (h > 0) return `${h} s ${m} d`;
-    return `${m} d`;
-};
+
 
 const SitesTable = ({ user }: SitesTableProps) => {
     const { t, i18n } = useTranslation();
+    const formatTimeLocal = (seconds: number) => {
+        if (!seconds) return "0s";
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        if (h > 0) return `${h} ${t('h_short')} ${m} ${t('m_short')}`;
+        return `${m} ${t('m_short')}`;
+    };
     const { id } = useParams();
     const currentLang: any = i18n.resolvedLanguage;
     const location = useLocation();
@@ -52,7 +53,7 @@ const SitesTable = ({ user }: SitesTableProps) => {
     const columns: DataGridColumnType[] = useMemo(() => [
         {
             key: 'name',
-            label: "Domen",
+            label: t("Domain"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-text-base dark:text-text-title-dark font-medium">{row?.name ?? '--'}</div>
@@ -60,7 +61,7 @@ const SitesTable = ({ user }: SitesTableProps) => {
         },
         {
             key: 'title',
-            label: "Sarlavha",
+            label: t("Sarlavha"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark truncate max-w-[400px]" title={row?.title}>
@@ -70,7 +71,7 @@ const SitesTable = ({ user }: SitesTableProps) => {
         },
         {
             key: 'category',
-            label: "Kategoriya",
+            label: t("Category"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => {
                 const category = row?.category;
@@ -79,13 +80,13 @@ const SitesTable = ({ user }: SitesTableProps) => {
 
                 if (category === 'UNUSEFUL') {
                     variant = 'red';
-                    label = 'Foydasiz';
+                    label = t('Unuseful');
                 } else if (category === 'USEFUL') {
                     variant = 'green';
-                    label = 'Foydali';
+                    label = t('Useful');
                 } else if (category === 'OTHER') {
                     variant = 'gray';
-                    label = 'Boshqa';
+                    label = t('Other');
                 }
 
                 return (
@@ -102,11 +103,11 @@ const SitesTable = ({ user }: SitesTableProps) => {
         },
         {
             key: 'totalUsageTime',
-            label: "Faol vaqt",
+            label: t("Active time"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark font-mono">
-                    {formatTime(row?.totalUsageTime)}
+                    {formatTimeLocal(row?.totalUsageTime)}
                 </div>
             ),
         },

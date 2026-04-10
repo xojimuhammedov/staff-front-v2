@@ -45,7 +45,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
     const columns: DataGridColumnType[] = useMemo(() => [
         {
             key: 'filePath',
-            label: "Skrinshot",
+            label: t("Screenshot"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => {
                 const imgUrl = `${config.FILE_URL}api/storage/${row?.filePath}`;
@@ -61,7 +61,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
                         {row?.filePath ? (
                             <img src={imgUrl} alt="screenshot" className="object-cover h-full w-full hover:scale-110 transition-transform" />
                         ) : (
-                             <span className="text-xs text-gray-400">Rasm yo'q</span>
+                             <span className="text-xs text-gray-400">{t("Image missing")}</span>
                         )}
                     </div>
                 )
@@ -69,7 +69,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
         },
         {
             key: 'title',
-            label: "Sarlavha",
+            label: t("Title"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark truncate max-w-[300px]" title={row?.title}>
@@ -79,7 +79,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
         },
         {
             key: 'processName',
-            label: "Jarayon nomi",
+            label: t("Process name"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark">
@@ -89,7 +89,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
         },
         {
             key: 'createdAt',
-            label: "Yaratilgan vaqt",
+            label: t("Created time"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark">
@@ -99,7 +99,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
         },
         {
             key: 'datetime',
-            label: "Olingan vaqti",
+            label: t("Taken time"),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm dark:text-text-title-dark font-mono">
@@ -161,7 +161,7 @@ const ScreenshotsTable = ({ user }: ScreenshotsTableProps) => {
                     children: (
                         <div className="flex flex-col">
                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                                {selectedData?.title || 'Sarlavha yo\'q'}
+                                {selectedData?.title || t('Title missing')}
                             </h3>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                                 {selectedData?.datetime ? dayjs(selectedData.datetime).format('DD.MM.YYYY HH:mm:ss') : '--'}

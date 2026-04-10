@@ -57,14 +57,14 @@ const UserSessions = ({ user }: { user?: any }) => {
                     <h1 className="text-2xl font-semibold text-foreground">{t('User Sessions')}</h1>
                 </div>
                 <p className="text-muted-foreground">
-                    {t('Foydalanuvchining kompyuterdagi sessiya tarixi (Qulflangan va Qulfdan chiqarilgan)')}
+                    {t('User Sessions Desc')}
                 </p>
             </div>
 
             {isLoading ? (
-                <div className="py-8 text-center text-gray-500">{t('Yuklanmoqda...')}</div>
+                <div className="py-8 text-center text-gray-500">{t('Loading...')}</div>
             ) : groupedSessions.length === 0 ? (
-                <div className="py-8 text-center text-gray-500">{t('Ma\'lumot topilmadi')}</div>
+                <div className="py-8 text-center text-gray-500">{t('Data not found')}</div>
             ) : (
                 <div className="space-y-8">
                     {groupedSessions.map((group) => (

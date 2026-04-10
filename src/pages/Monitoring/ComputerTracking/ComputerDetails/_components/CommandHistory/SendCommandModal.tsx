@@ -9,15 +9,16 @@ import { Terminal, Send } from "lucide-react";
 import MyButton from "@/components/Atoms/MyButton/MyButton";
 import { URLS } from "@/constants/url";
 import { useGetOneQuery } from "@/hooks/api";
+import { useTranslation } from "react-i18next";
 
 export const ACTION_UI_MAP: Record<string, { label: string }> = {
-    REMOVE: { label: "O'chirish (Remove)" },
-    CLEAN: { label: "Tozalash (Clean)" },
-    RESTART: { label: "Dasturni yoqish (Restart)" },
-    RESTART_PC: { label: "Kompyuterni yoqish (Restart PC)" },
-    POWER_OFF_PC: { label: "Kompyuterni o'chirish (Power Off)" },
-    STOP: { label: "To'xtatish (Stop)" },
-    START: { label: "Boshlash (Start)" }
+    REMOVE: { label: "ACTION_REMOVE" },
+    CLEAN: { label: "ACTION_CLEAN" },
+    RESTART: { label: "ACTION_RESTART" },
+    RESTART_PC: { label: "ACTION_RESTART_PC" },
+    POWER_OFF_PC: { label: "ACTION_POWER_OFF_PC" },
+    STOP: { label: "ACTION_STOP" },
+    START: { label: "ACTION_START" }
 };
 
 interface SendCommandModalProps {
@@ -27,6 +28,7 @@ interface SendCommandModalProps {
 }
 
 export const SendCommandModal: React.FC<SendCommandModalProps> = ({ open, setOpen, user }) => {
+    const { t } = useTranslation();
     const { id } = useParams();
     const queryClient = useQueryClient();
     const [selectedAction, setSelectedAction] = useState<any>(null);
@@ -40,7 +42,7 @@ export const SendCommandModal: React.FC<SendCommandModalProps> = ({ open, setOpe
 
 
     const commandOptions = Object.entries(ACTION_UI_MAP).map(([key, { label }]) => ({
-        label,
+        label: t(label),
         value: key
     }));
 
@@ -75,7 +77,7 @@ export const SendCommandModal: React.FC<SendCommandModalProps> = ({ open, setOpe
                 children: (
                     <div className="flex items-center gap-2">
                         <Terminal className="w-5 h-5 text-blue-500" />
-                        <span>Komanda yuborish</span>
+                        <span className="dark:text-gray-100">{t('Send Command')}</span>
                     </div>
                 ),
             }}
@@ -83,13 +85,13 @@ export const SendCommandModal: React.FC<SendCommandModalProps> = ({ open, setOpe
                 className: "pb-4 pt-2"
             }}
         >
-            <div className="space-y-4">
-                <p className="text-sm text-gray-500 mb-2">
-                    Kompyuterga (yoki dasturga) yubormoqchi bo'lgan buyruqni tanlang:
+            <div className="space-y-4 font-sans">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    {t('Select Command Desc')}
                 </p>
                 <div className="relative">
                     <MySelect
-                        placeholder="Buyruqni tanlang"
+                        placeholder={t('Select a command')}
                         options={commandOptions}
                         value={selectedAction}
                         onChange={(val: any) => setSelectedAction(val)}
@@ -102,7 +104,7 @@ export const SendCommandModal: React.FC<SendCommandModalProps> = ({ open, setOpe
                         onClick={() => setOpen(false)}
                         className="px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors"
                     >
-                        Bekor qilish
+                        {t('Cancel')}
                     </MyButton>
                     <MyButton
                         onClick={handleSend}
@@ -115,12 +117,12 @@ export const SendCommandModal: React.FC<SendCommandModalProps> = ({ open, setOpe
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                Yuborilmoqda...
+                                {t('Sending...')}
                             </span>
                         ) : (
                             <>
                                 <Send className="w-4 h-4" />
-                                Yuborish
+                                {t('Send')}
                             </>
                         )}
                     </MyButton>

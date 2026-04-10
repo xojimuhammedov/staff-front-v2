@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import MyModal from "@/components/Atoms/MyModal/MyModal";
 import MySelect from "@/components/Atoms/Form/MySelect";
-import { useGetAllQuery } from "@/hooks/api";
-import usePostQuery from "@/hooks/api/usePostQuery";
-import { KEYS } from "@/constants/key";
+import { useGetAllQuery, usePostQuery } from "@/hooks/api";
 import { URLS } from "@/constants/url";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { KEYS } from "@/constants/key";
 
 interface AssignEmployeeModalProps {
     open: boolean;
@@ -14,6 +14,7 @@ interface AssignEmployeeModalProps {
 }
 
 export const AssignEmployeeModal: React.FC<AssignEmployeeModalProps> = ({ open, setOpen, userId }) => {
+    const { t } = useTranslation();
     const queryClient = useQueryClient();
     const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
 
@@ -59,16 +60,16 @@ export const AssignEmployeeModal: React.FC<AssignEmployeeModalProps> = ({ open, 
                 size: "md",
             }}
             headerProps={{
-                children: "Xodimga biriktirish",
+                children: t("Assign to Employee"),
             }}
             bodyProps={{
                  className: "pb-6 pt-2"
             }}
         >
             <div className="space-y-4">
-                 <p className="text-sm text-gray-500 mb-2">Quyidagi ro'yxatdan xodimni tanlang:</p>
+                 <p className="text-sm text-gray-500 mb-2">{t('Select employee from list')}</p>
                 <MySelect
-                    placeholder="Xodimni tanlang"
+                    placeholder={t("Select employee")}
                     options={employeeOptions}
                     value={selectedEmployee}
                     onChange={(val) => setSelectedEmployee(val)}
@@ -80,14 +81,14 @@ export const AssignEmployeeModal: React.FC<AssignEmployeeModalProps> = ({ open, 
                         onClick={() => setOpen(false)}
                         className="px-4 py-2 border rounded-md text-sm font-medium dark:border-gray-600 dark:text-gray-300"
                     >
-                        Bekor qilish
+                        {t('Cancel')}
                     </button>
                     <button 
                         onClick={handleAssign}
                         disabled={isLinking || !selectedEmployee}
                         className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium disabled:opacity-50"
                     >
-                        {isLinking ? "Saqlanmoqda..." : "Saqlash"}
+                        {isLinking ? t("Saving...") : t("Save")}
                     </button>
                 </div>
             </div>
