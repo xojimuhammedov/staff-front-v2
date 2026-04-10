@@ -84,7 +84,7 @@ const CommandHistory = ({ user }: { user?: any }) => {
         },
         {
             key: 'action',
-            label: t('Amal'),
+            label: t('Action'),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => {
                 const actionData = ACTION_UI_MAP[row?.action];
@@ -106,7 +106,7 @@ const CommandHistory = ({ user }: { user?: any }) => {
         },
         {
             key: 'status',
-            label: t('Holat'),
+            label: t('Status'),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => {
                 const statusData = STATUS_UI_MAP[row?.status];
@@ -128,7 +128,7 @@ const CommandHistory = ({ user }: { user?: any }) => {
         },
         {
             key: 'user',
-            label: t('Foydalanuvchi'),
+            label: t('User'),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div>
@@ -145,7 +145,7 @@ const CommandHistory = ({ user }: { user?: any }) => {
         },
         {
             key: 'createdAt',
-            label: t('Vaqti'),
+            label: t('Time'),
             headerClassName: 'dark:text-text-title-dark min-w-max',
             cellRender: (row) => (
                 <div className="text-sm text-gray-500 dark:text-gray-400 font-mono">
@@ -157,7 +157,7 @@ const CommandHistory = ({ user }: { user?: any }) => {
 
     return (
         <div>
-            <div className="flex justify-between items-start mb-6">
+            <div className="flex justify-between items-start mb-6 pr-[260px]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
                         <Terminal className="h-5 w-5 text-primary" />
