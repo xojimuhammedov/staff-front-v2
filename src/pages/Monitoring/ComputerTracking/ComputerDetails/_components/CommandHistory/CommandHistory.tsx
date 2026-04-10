@@ -1,15 +1,19 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useLocation, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { get } from 'lodash';
-import { Terminal, Trash2, Eraser, RefreshCw, Power, Square, Play, CheckCircle2, Send, XCircle, Ban, Clock } from 'lucide-react';
+import { Terminal, Trash2, Eraser, RefreshCw, Power, Square, Play, CheckCircle2, Send, XCircle, Ban, Clock, Search } from 'lucide-react';
 import { useGetAllQuery } from '@/hooks/api';
 import { KEYS } from '@/constants/key';
 import { URLS } from '@/constants/url';
 import { paramsStrToObj } from 'utils/helper';
 import { DataGridColumnType, DynamicTable } from '@/components/Atoms/DataGrid/NewTable';
-import { MySelect } from '@/components/Atoms/Form';
+import { MyInput, MySelect } from '@/components/Atoms/Form';
+import { useSearch } from '@/hooks/useSearch';
+import { KeyTypeEnum } from '@/enums/key-type.enum';
+import { SendCommandModal } from './SendCommandModal';
+import MyButton from '@/components/Atoms/MyButton/MyButton';
 
 const ACTION_UI_MAP: Record<string, { label: string, Icon: any, colors: string }> = {
     REMOVE: { label: "O'chirish", Icon: Trash2, colors: "bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/30" },
@@ -46,6 +50,8 @@ const CommandHistory = ({ user }: { user?: any }) => {
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const searchValue: any = paramsStrToObj(location.search);
+    const [isCommandModalOpen, setIsCommandModalOpen] = useState(false);
+    const { search, setSearch, handleSearch } = useSearch();
 
     const { data, isLoading } = useGetAllQuery<any>({
         key: KEYS.getCommandHistory,
@@ -56,6 +62,7 @@ const CommandHistory = ({ user }: { user?: any }) => {
             computerId: id,
             action: searchValue?.action || undefined,
             status: searchValue?.status || undefined,
+            search: searchValue?.search,
             startDate: searchValue?.startDate,
             endDate: searchValue?.endDate,
         },
@@ -148,50 +155,74 @@ const CommandHistory = ({ user }: { user?: any }) => {
 
     return (
         <div>
-            <div className="mb-6">
-                <div className="flex items-center gap-2 mb-1">
-                    <Terminal className="h-5 w-5 text-primary" />
-                    <h1 className="text-2xl font-semibold text-foreground">{t('Command History')}</h1>
+            <div className="flex justify-between items-start mb-6 pr-[260px]">
+                <div>
+                    <div className="flex items-center gap-2 mb-1">
+                        <Terminal className="h-5 w-5 text-primary" />
+                        <h1 className="text-2xl font-semibold text-foreground">{t('Command History')}</h1>
+                    </div>
+                    <p className="text-muted-foreground">
+                        {t('Kompyuterga yuborilgan buyruqlar va ularning bajarilish holati')}
+                    </p>
                 </div>
-                <p className="text-muted-foreground">
-                    {t('Kompyuterga yuborilgan buyruqlar va ularning bajarilish holati')}
-                </p>
-            </div>
-
-            <div className="flex justify-end items-center gap-4 mb-4">
-                <div className="w-[200px]">
-                    <MySelect
-                        options={ACTION_OPTIONS}
-                        value={searchValue?.action || ""}
-                        onChange={(val: any) => {
-                            if (val?.value) {
-                                searchParams.set('action', val.value);
-                            } else {
-                                searchParams.delete('action');
-                            }
-                            searchParams.set('page', '1');
-                            setSearchParams(searchParams);
-                        }}
-                    />
-                </div>
-                <div className="w-[200px]">
-                    <MySelect
-                        options={STATUS_OPTIONS}
-                        value={searchValue?.status || ""}
-                        onChange={(val: any) => {
-                            if (val?.value) {
-                                searchParams.set('status', val.value);
-                            } else {
-                                searchParams.delete('status');
-                            }
-                            searchParams.set('page', '1');
-                            setSearchParams(searchParams);
-                        }}
-                    />
-                </div>
+                <MyButton
+                    onClick={() => setIsCommandModalOpen(true)}
+                    variant='secondary'
+                    startIcon={<Terminal className="h-4 w-4" />}
+                >
+                    Komanda berish
+                </MyButton>
             </div>
 
             <div className="rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-[rgb(var(--color-bg-base-dark))] shadow-sm overflow-hidden min-h-[400px]">
+                <div className="flex p-4 justify-between items-center gap-4">
+                    <div className="w-full max-w-sm">
+                        <MyInput
+                            onKeyUp={(event) => {
+                                if (event.key === KeyTypeEnum.enter) {
+                                    handleSearch();
+                                } else {
+                                    setSearch((event.target as HTMLInputElement).value);
+                                }
+                            }}
+                            defaultValue={search}
+                            startIcon={<Search className="stroke-text-muted cursor-pointer" onClick={handleSearch} />}
+                            placeholder={t('Search...')}
+                        />
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <div className="w-[200px]">
+                            <MySelect
+                                options={ACTION_OPTIONS}
+                                value={searchValue?.action || ""}
+                                onChange={(val: any) => {
+                                    if (val?.value) {
+                                        searchParams.set('action', val.value);
+                                    } else {
+                                        searchParams.delete('action');
+                                    }
+                                    searchParams.set('page', '1');
+                                    setSearchParams(searchParams);
+                                }}
+                            />
+                        </div>
+                        <div className="w-[200px]">
+                            <MySelect
+                                options={STATUS_OPTIONS}
+                                value={searchValue?.status || ""}
+                                onChange={(val: any) => {
+                                    if (val?.value) {
+                                        searchParams.set('status', val.value);
+                                    } else {
+                                        searchParams.delete('status');
+                                    }
+                                    searchParams.set('page', '1');
+                                    setSearchParams(searchParams);
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
                 <DynamicTable
                     data={get(data, 'data')}
                     pagination={{
@@ -203,6 +234,12 @@ const CommandHistory = ({ user }: { user?: any }) => {
                     hasIndex={true}
                 />
             </div>
+
+            <SendCommandModal
+                open={isCommandModalOpen}
+                setOpen={setIsCommandModalOpen}
+                user={user}
+            />
         </div>
     );
 };
